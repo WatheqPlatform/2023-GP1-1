@@ -1,6 +1,6 @@
 # Watheq Platform Developers
 - Shouq Alyousef
-- Sarah ALhamdi
+- Sarah Alhamdi
 - Ragad Alhindi
 - Alhanouf Alsaif
 - Dana Alshathri

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:get/get.dart';
+import 'package:watheq_app/Authentication/login_screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 
 class OffersScreen extends StatefulWidget {
@@ -14,6 +15,44 @@ class OffersScreen extends StatefulWidget {
 class _OffersScreenState extends State<OffersScreen> {
   List allOffers = [];
   List foundOffers = [];
+
+  // logout container
+  Widget logoutButton() {
+    return Container(
+      margin: const EdgeInsets.all(10.0),
+      child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Logout Confirmation'),
+                content: Text('Are you sure you want to log out?'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('No'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Dismiss the dialog
+                    },
+                  ),
+                  TextButton(
+                    child: Text('Yes'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Dismiss the dialog
+                      // Perform the logout action here
+                      Get.offAll(
+                          LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: Text('Logout'),
+      ),
+    );
+  }
 
   Future<void> getdata() async {
     var res = await http.get(Uri.parse(Connection.jobOffersData));
@@ -66,6 +105,7 @@ class _OffersScreenState extends State<OffersScreen> {
     return Scaffold(
       body: Column(
         children: [
+          logoutButton(),
           const SizedBox(
             height: 50,
           ),

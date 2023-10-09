@@ -8,7 +8,7 @@ class User {
       this.user_password);
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        json["JobSeekerEmail"],
+        json["KobSeekerEmail"],
         json["FirstName"],
         json["LastName"],
         json["Password"],
@@ -17,7 +17,7 @@ class User {
   // convert to json
   Map<String, dynamic> toJson() => {
         "email": user_email,
-        "first_name": user_fisrtName,
+        "fisrt_name": user_fisrtName,
         "last_name": user_LastName,
         "password": user_password
       };

@@ -8,4 +8,5 @@ class Connection {
   static const logIn = "$hostConnect/authentication/log_in.php";
 
   static const jobOffersData = "$hostConnect/getdata.php";
+  static const jobSeekerData = "$hostConnect/jobseeker_data.php";
 }

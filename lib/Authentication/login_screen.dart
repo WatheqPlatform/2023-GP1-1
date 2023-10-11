@@ -39,7 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
         if (resBodyOfLogin == 1) {
           //true
           Fluttertoast.showToast(msg: "Loged in successfully");
-          Get.to(OffersScreen());
+          Get.to(OffersScreen(
+            email: emailController.text,
+          ));
         } else {
           Fluttertoast.showToast(
               msg: "The email or password is incorrect, please try again");

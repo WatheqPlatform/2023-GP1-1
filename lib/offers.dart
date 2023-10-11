@@ -3,10 +3,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:watheq_app/Authentication/login_screen.dart';
+import 'package:watheq_app/profile.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 
 class OffersScreen extends StatefulWidget {
-  const OffersScreen({Key? key});
+  //const OffersScreen({Key? key});
+
+  final String email;
+
+  OffersScreen({required this.email});
 
   @override
   State<OffersScreen> createState() => _OffersScreenState();
@@ -50,6 +55,23 @@ class _OffersScreenState extends State<OffersScreen> {
           );
         },
         child: Text('Logout'),
+      ),
+    );
+  }
+
+// profile button
+  Widget profileButton() {
+    return Container(
+      margin: const EdgeInsets.all(10.0),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => ProfileScreen(email: widget.email),
+            ),
+          );
+        },
+        child: Text('Profile'),
       ),
     );
   }
@@ -155,6 +177,7 @@ class _OffersScreenState extends State<OffersScreen> {
                     },
                   ),
                 ),
+          profileButton(), // Pass the BuildContext to the profileButton
         ],
       ),
     );

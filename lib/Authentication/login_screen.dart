@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
-import 'package:watheq_app/Authentication/reset_password_screen.dart';
+//import 'package:watheq_app/Authentication/reset_password_screen.dart';
 import 'package:watheq_app/Authentication/signup-screen.dart';
-import 'package:watheq_app/Authentication/resetpassword_screen.dart';
+//import 'package:watheq_app/Authentication/resetpassword_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq_app/Authentication/verification_Screen.dart';
+//import 'package:watheq_app/Authentication/verification_Screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
@@ -279,7 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const Text("Forget password?"),
                                 TextButton(
                                   onPressed: () {
-                                    Get.to(ForgetPasswordScreen());
+                                    //Get.to(ForgetPasswordScreen());
                                   },
                                   child: const Text(
                                     "Click here",

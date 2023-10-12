@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:get/get.dart';
-import 'package:watheq_app/Authentication/login_screen.dart';
 import 'package:watheq_app/profile.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 
@@ -20,44 +18,6 @@ class OffersScreen extends StatefulWidget {
 class _OffersScreenState extends State<OffersScreen> {
   List allOffers = [];
   List foundOffers = [];
-
-  // logout container
-  Widget logoutButton() {
-    return Container(
-      margin: const EdgeInsets.all(10.0),
-      child: ElevatedButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Logout Confirmation'),
-                content: Text('Are you sure you want to log out?'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('No'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Dismiss the dialog
-                    },
-                  ),
-                  TextButton(
-                    child: Text('Yes'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Dismiss the dialog
-                      // Perform the logout action here
-                      Get.offAll(
-                          LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: Text('Logout'),
-      ),
-    );
-  }
 
 // profile button
   Widget profileButton() {
@@ -110,7 +70,7 @@ class _OffersScreenState extends State<OffersScreen> {
               (element["CompanyName"]
                   .toLowerCase()
                   .contains(searchedWord.toLowerCase())) ||
-              (element["Field"]
+              (element["Category"]
                   .toLowerCase()
                   .contains(searchedWord.toLowerCase())))
           .toList();
@@ -127,8 +87,7 @@ class _OffersScreenState extends State<OffersScreen> {
     return Scaffold(
       body: Column(
         children: [
-          logoutButton(),
-          const SizedBox(
+          SizedBox(
             height: 50,
           ),
           Padding(
@@ -151,12 +110,12 @@ class _OffersScreenState extends State<OffersScreen> {
                     itemCount: foundOffers.length,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(18.0),
                         child: Container(
                           decoration: const BoxDecoration(
                             color: Color.fromARGB(241, 246, 245, 245),
                             borderRadius: BorderRadius.all(
-                              Radius.circular(30),
+                              Radius.circular(20),
                             ),
                             boxShadow: [
                               BoxShadow(
@@ -167,7 +126,8 @@ class _OffersScreenState extends State<OffersScreen> {
                             ],
                           ),
                           child: ListTile(
-                            title: Text("${foundOffers[index]["JobTitle"]}"),
+                            title: Text("${foundOffers[index]["JobTitle"]}" +
+                                "\n ${foundOffers[index]["Category"]}"),
                             subtitle:
                                 Text("${foundOffers[index]["CompanyName"]}"),
                             trailing: Text("${foundOffers[index]["Date"]}"),

@@ -39,7 +39,8 @@ dependencies:
   http: ^1.1.0
   fluttertoast: ^8.2.2
   email_validator: ^2.1.17
-
+  flutter_countdown_timer: ^4.1.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

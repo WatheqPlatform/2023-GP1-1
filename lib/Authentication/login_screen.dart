@@ -1,7 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
-import 'package:watheq_app/Authentication/signup_screen.dart';
+import 'package:watheq_app/Authentication/reset_password_screen.dart';
+import 'package:watheq_app/Authentication/signup-screen.dart';
+import 'package:watheq_app/Authentication/resetpassword_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:watheq_app/Authentication/verification_Screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
@@ -34,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (response.statusCode == 200) {
         // communication is succefull
-        var resBodyOfLogin = jsonDecode(response.body.trim());
+        var resBodyOfLogin = jsonDecode(response.body);
 
         if (resBodyOfLogin == 1) {
           //true
@@ -275,7 +278,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 const Text("Forget password?"),
                                 TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Get.to(ForgetPasswordScreen());
+                                  },
                                   child: const Text(
                                     "Click here",
                                     style: TextStyle(

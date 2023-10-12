@@ -8,7 +8,7 @@ class User {
       this.user_password);
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        json["JobSeekerEmail"],
+        json["KobSeekerEmail"],
         json["FirstName"],
         json["LastName"],
         json["Password"],

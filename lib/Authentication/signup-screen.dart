@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "email": emailController.text.trim(),
         },
       );
-
+      print(response.body);
       if (response.statusCode == 200) {
         // communication is succefull
         var resBodyOfEmail = jsonDecode(response.body.trim());
@@ -73,6 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Uri.parse(Connection.signUp),
         body: userModel.toJson(),
       );
+      print(response.body);
 
       if (response.statusCode == 200) {
         var resBodyOfSignUp = jsonDecode(response.body.trim());

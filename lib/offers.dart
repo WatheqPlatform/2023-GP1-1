@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:watheq_app/JobOffer.model.dart';
 import 'dart:convert';
 import 'package:watheq_app/profile.dart';
 import 'package:watheq_app/database_connection/connection.dart';
+import 'package:get/get.dart';
+
+import 'offer_details.dart';
 
 class OffersScreen extends StatefulWidget {
   //const OffersScreen({Key? key});
@@ -44,6 +48,7 @@ class _OffersScreenState extends State<OffersScreen> {
 
       // Update the allOffers
       setState(() {
+        print(red);
         allOffers.addAll(red);
         foundOffers.addAll(red);
       });
@@ -111,26 +116,32 @@ class _OffersScreenState extends State<OffersScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(18.0),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(241, 246, 245, 245),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 8,
-                                color: Colors.black26,
-                                offset: Offset(0, -3),
+                        child: GestureDetector(
+                          onTap: () {
+                            JobOffer x = JobOffer.fromJson(foundOffers[index]);
+                            Get.to(()=>JobOfferDetailScreen(jobOffer: x,));
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(241, 246, 245, 245),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(20),
                               ),
-                            ],
-                          ),
-                          child: ListTile(
-                            title: Text("${foundOffers[index]["JobTitle"]}" +
-                                "\n ${foundOffers[index]["Category"]}"),
-                            subtitle:
-                                Text("${foundOffers[index]["CompanyName"]}"),
-                            trailing: Text("${foundOffers[index]["Date"]}"),
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 8,
+                                  color: Colors.black26,
+                                  offset: Offset(0, -3),
+                                ),
+                              ],
+                            ),
+                            child: ListTile(
+                              title: Text("${foundOffers[index]["JobTitle"]}" +
+                                  "\n ${foundOffers[index]["Category"]}"),
+                              subtitle:
+                                  Text("${foundOffers[index]["CompanyName"]}"),
+                              trailing: Text("${foundOffers[index]["Date"]}"),
+                            ),
                           ),
                         ),
                       );

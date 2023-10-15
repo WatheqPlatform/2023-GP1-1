@@ -8,6 +8,7 @@ import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:watheq_app/Authentication/user.dart';
+import 'package:watheq_app/offers.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -40,6 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
         if (resBodyOfLogin == 1) {
           //true
           Fluttertoast.showToast(msg: "Loged in successfully");
+          Get.to(OffersScreen(
+            email: emailController.text,
+          ));
         } else {
           Fluttertoast.showToast(
               msg: "The email or password is incorrect, please try again");

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'JobOffer.model.dart';
+import 'jobOffer.model.dart';
 
 class JobOfferDetailScreen extends StatelessWidget {
   final JobOffer jobOffer;
 
   JobOfferDetailScreen({required this.jobOffer});
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

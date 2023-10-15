@@ -167,7 +167,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                     height: 22,
                                   ),
 
-                                  //log in button
+                                  
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.white,

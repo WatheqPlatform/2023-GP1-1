@@ -1,6 +1,6 @@
 class Connection {
   static const hostConnect =
-      "http://192.168.100.11/watheq_api"; // ip of the host devise
+      "http://192.168.100.120:8888/job-provider/watheq_api"; // ip of the host devise
 
   static const signUp = "$hostConnect/authentication/sign_up.php";
 

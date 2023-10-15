@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq_app/JobOffer.model.dart';
+import 'package:watheq_app/jobOffer.model.dart';
 import 'dart:convert';
 import 'package:watheq_app/profile.dart';
 import 'package:watheq_app/database_connection/connection.dart';

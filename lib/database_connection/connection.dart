@@ -9,4 +9,7 @@ class Connection {
 
   static const jobOffersData = "$hostConnect/getdata.php";
   static const jobSeekerData = "$hostConnect/jobseeker_data.php";
+  static const forgetPassword = "$hostConnect/forget_password.php";
+  static const verifyToken = "$hostConnect/verify_code.php";
+  static const resetPassword = "$hostConnect/reset_password.php";
 }

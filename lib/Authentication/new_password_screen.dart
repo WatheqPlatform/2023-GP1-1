@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
+import 'package:watheq_app/Authentication/login_screen.dart';
 import 'package:watheq_app/Authentication/reset_password_screen.dart';
 import 'package:watheq_app/Authentication/signup-screen.dart';
 import 'package:http/http.dart' as http;
@@ -9,37 +10,37 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:watheq_app/Authentication/user.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
+class NewPasswordScreen extends StatefulWidget {
+  NewPasswordScreen({super.key, required this.email});
+  final String email;
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<NewPasswordScreen> createState() => _NewPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _NewPasswordScreenState extends State<NewPasswordScreen> {
   var formKey = GlobalKey<FormState>();
-  var emailController = TextEditingController(); // users inputs
   var passwordController = TextEditingController();
   var isObsecure = true.obs;
 
   //log in function
   logInUser() async {
     try {
-      var response = await http.post(
-        Uri.parse(Connection.logIn),
-        body: {
-          "email": emailController.text.trim(),
+      var response = await http.put(
+        Uri.parse(Connection.resetPassword),
+        body: json.encode({
+          "email": widget.email,
           "password": passwordController.text.trim(),
-        },
+        }),
       );
-
+      print(response.body);
       if (response.statusCode == 200) {
         // communication is succefull
         var resBodyOfLogin = jsonDecode(response.body.trim());
 
-        if (resBodyOfLogin == 1) {
+        if (resBodyOfLogin.containsKey('message')) {
           //true
-          Fluttertoast.showToast(msg: "Loged in successfully");
+          Fluttertoast.showToast(msg: "Retested successfully");
+          Get.to(() => LoginScreen());
         } else {
           Fluttertoast.showToast(
               msg: "The email or password is incorrect, please try again");
@@ -95,55 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               key: formKey,
                               child: Column(
                                 children: [
-                                  //email field
-                                  TextFormField(
-                                    controller: emailController,
-                                    validator: (value) =>
-                                    value == "" ? "Enter the email" : null,
-                                    decoration: InputDecoration(
-                                      prefixIcon: const Icon(
-                                        Icons.email,
-                                        color: Colors.black,
-                                      ),
-                                      hintText: "Email",
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        borderSide: const BorderSide(
-                                          color: Colors.white60,
-                                        ),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        borderSide: const BorderSide(
-                                          color: Colors.white60,
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        borderSide: const BorderSide(
-                                          color: Colors.white60,
-                                        ),
-                                      ),
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                        borderSide: const BorderSide(
-                                          color: Colors.white60,
-                                        ),
-                                      ),
-                                      contentPadding:
-                                      const EdgeInsets.symmetric(
-                                        horizontal: 14,
-                                        vertical: 6,
-                                      ),
-                                      fillColor: Colors.white,
-                                      filled: true,
-                                    ),
-                                  ),
-
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-
                                   //password field
                                   Obx(
                                         () => TextFormField(
@@ -233,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       }
                                     },
                                     child: const Text(
-                                      "Log in",
+                                      "Reset Password",
                                       style: TextStyle(
                                         fontSize: 17,
                                       ),
@@ -248,44 +200,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             // sign up button
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text("Don't have an account?"),
-                                TextButton(
-                                  onPressed: () {
-                                    Get.to(SignUpScreen());
-                                  },
-                                  child: const Text(
-                                    "Sign up",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
 
                             // forget pass button
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text("Forget password?"),
-                                TextButton(
-                                  onPressed: () {
-                                    Get.to(ForgetPasswordScreen());
-                                  },
-                                  child: const Text(
-                                    "Click here",
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
                       ),

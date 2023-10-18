@@ -1,14 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:watheq_app/Authentication/login_screen.dart';
-import 'package:watheq_app/Authentication/reset_password_screen.dart';
-import 'package:watheq_app/Authentication/signup-screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq_app/Authentication/verification_Screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
-import 'package:watheq_app/Authentication/user.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   NewPasswordScreen({super.key, required this.email});
@@ -22,8 +18,16 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   var passwordController = TextEditingController();
   var isObsecure = true.obs;
 
-  //log in function
-  logInUser() async {
+  //validate password
+  bool validateStructure(String value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = new RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
+
+  //resetting functionfunction
+  resetPassword() async {
     try {
       var response = await http.put(
         Uri.parse(Connection.resetPassword),
@@ -32,7 +36,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
           "password": passwordController.text.trim(),
         }),
       );
-      print(response.body);
+
       if (response.statusCode == 200) {
         // communication is succefull
         var resBodyOfLogin = jsonDecode(response.body.trim());
@@ -72,7 +76,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Container(
-                      //container of the form
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(241, 246, 245, 245),
                         borderRadius: BorderRadius.all(
@@ -86,8 +89,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                           ),
                         ],
                       ),
-
-                      //log in form
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(30, 30, 30, 8.0),
                         child: Column(
@@ -98,22 +99,29 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                 children: [
                                   //password field
                                   Obx(
-                                        () => TextFormField(
+                                    () => TextFormField(
                                       controller: passwordController,
                                       obscureText: isObsecure.value,
-                                      validator: (value) => value == ""
-                                          ? "Enter the password"
-                                          : null,
+                                      validator: (value) {
+                                        if (value == "") {
+                                          return "Enter the password";
+                                        }
+                                        if (!validateStructure(
+                                            value.toString())) {
+                                          return "Enter valid Password  \n 8 characters \n one uppercase letter \n one lowercase letter \n one digit \n one special character";
+                                        }
+                                        return null;
+                                      },
                                       decoration: InputDecoration(
                                         prefixIcon: const Icon(
                                           Icons.key,
                                           color: Colors.black,
                                         ),
                                         suffixIcon: Obx(
-                                              () => GestureDetector(
+                                          () => GestureDetector(
                                             onTap: () {
                                               isObsecure.value =
-                                              !isObsecure.value;
+                                                  !isObsecure.value;
                                             },
                                             child: Icon(
                                               isObsecure.value
@@ -126,34 +134,34 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                         hintText: "Password",
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                           borderSide: const BorderSide(
                                             color: Colors.white60,
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                           borderSide: const BorderSide(
                                             color: Colors.white60,
                                           ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                           borderSide: const BorderSide(
                                             color: Colors.white60,
                                           ),
                                         ),
                                         disabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                           borderSide: const BorderSide(
                                             color: Colors.white60,
                                           ),
                                         ),
                                         contentPadding:
-                                        const EdgeInsets.symmetric(
+                                            const EdgeInsets.symmetric(
                                           horizontal: 14,
                                           vertical: 6,
                                         ),
@@ -167,7 +175,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                     height: 22,
                                   ),
 
-                                  
+                                  //Reset button
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.white,
@@ -175,13 +183,13 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                           255, 11, 15, 121),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(40)),
+                                              BorderRadius.circular(40)),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 40),
                                     ),
                                     onPressed: () {
                                       if (formKey.currentState!.validate()) {
-                                        logInUser();
+                                        resetPassword();
                                       }
                                     },
                                     child: const Text(
@@ -194,14 +202,6 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                 ],
                               ),
                             ),
-
-                            const SizedBox(
-                              height: 10,
-                            ),
-
-                            // sign up button
-
-                            // forget pass button
                           ],
                         ),
                       ),

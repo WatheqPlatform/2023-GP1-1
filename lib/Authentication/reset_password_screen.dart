@@ -5,7 +5,6 @@ import 'package:watheq_app/Authentication/verification_Screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
-import 'package:watheq_app/Authentication/user.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -19,7 +18,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   var emailController = TextEditingController(); // users inputs
   var isObsecure = true.obs;
 
-  //log in function
   forgetPassword() async {
     try {
       var response = await http.post(
@@ -37,10 +35,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         if (res.containsKey('message')) {
           //true
           Fluttertoast.showToast(msg: "Email sent successfully");
-          Get.to( VerificationScreen(email: emailController.text.trim()));
+          Get.to(VerificationScreen(email: emailController.text.trim()));
         } else {
           Fluttertoast.showToast(
-              msg: "The email is incorrect, please try again");
+              msg: "The email is incorrect, please try again" + res);
         }
       }
     } catch (e) {
@@ -96,9 +94,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                   //email field
                                   TextFormField(
                                     controller: emailController,
-                                    validator: (value) => value == ""
-                                        ? "Enter your Email"
-                                        : null,
+                                    validator: (value) =>
+                                        value == "" ? "Enter your Email" : null,
                                     decoration: InputDecoration(
                                       prefixIcon: const Icon(
                                         Icons.email,
@@ -130,7 +127,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                         ),
                                       ),
                                       contentPadding:
-                                      const EdgeInsets.symmetric(
+                                          const EdgeInsets.symmetric(
                                         horizontal: 14,
                                         vertical: 6,
                                       ),
@@ -143,7 +140,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                     height: 20,
                                   ),
 
-                                  //log in button
+                                  //Verfication button
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.white,
@@ -151,7 +148,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                           255, 11, 15, 121),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(40)),
+                                              BorderRadius.circular(40)),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 40),
                                     ),
@@ -169,9 +166,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                   ),
                                 ],
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
                             ),
                           ],
                         ),

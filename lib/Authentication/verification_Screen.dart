@@ -7,8 +7,7 @@ import 'package:watheq_app/Authentication/reset_password_screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
-import 'package:watheq_app/Authentication/user.dart';
-import 'package:get/get.dart';
+
 class VerificationScreen extends StatefulWidget {
   VerificationScreen({super.key, required this.email});
   final String email;
@@ -21,19 +20,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
   var codeController = TextEditingController(); // users inputs
   var isObsecure = true.obs;
 
-  //log in function
+  //Verify token function
   verify() async {
     try {
-      var response = await http.post(
-          Uri.parse(Connection.verifyToken),
-          body: json.encode({
-            "email": widget.email,
-            "code": codeController.text.trim()
-          }),
-          headers: {
-            "Content-type": "application/json"
-          }
-      );
+      var response = await http.post(Uri.parse(Connection.verifyToken),
+          body: json.encode(
+              {"email": widget.email, "code": codeController.text.trim()}),
+          headers: {"Content-type": "application/json"});
       print(response.body);
       if (response.statusCode == 200) {
         // communication is succefull
@@ -42,7 +35,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
         if (res.containsKey('message')) {
           Get.to(() => NewPasswordScreen(email: widget.email));
 
-          Fluttertoast.showToast(msg: "Code Is Correct Please add your new password");
+          Fluttertoast.showToast(
+              msg: "Code Is Correct Please add your new password");
         } else {
           Fluttertoast.showToast(msg: res['error']);
         }
@@ -51,6 +45,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       Fluttertoast.showToast(msg: e.toString());
     }
   }
+
   forgetPassword() async {
     try {
       var response = await http.post(
@@ -60,7 +55,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         }),
         headers: {"Content-Type": "application/json"},
       );
-      print(response);
+
       if (response.statusCode == 200) {
         // communication is succefull
         var res = jsonDecode(response.body.trim());
@@ -76,7 +71,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int endTime = DateTime.now().millisecondsSinceEpoch + 5 * 60 * 1000; // 5 minutes
+    int endTime =
+        DateTime.now().millisecondsSinceEpoch + 5 * 60 * 1000; // 5 minutes
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -112,14 +108,15 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         ],
                       ),
 
-                      //reset password form
+                      //verify code  form
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(30, 30, 30, 8.0),
                         child: Column(
                           children: [
                             CountdownTimer(
                               endTime: endTime,
-                              textStyle: TextStyle(fontSize: 30, color: Colors.black),
+                              textStyle:
+                                  TextStyle(fontSize: 30, color: Colors.black),
                               onEnd: () {
                                 Get.to(ForgetPasswordScreen());
                               },
@@ -165,7 +162,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                         ),
                                       ),
                                       contentPadding:
-                                      const EdgeInsets.symmetric(
+                                          const EdgeInsets.symmetric(
                                         horizontal: 14,
                                         vertical: 6,
                                       ),
@@ -178,7 +175,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                     height: 20,
                                   ),
 
-                                  //log in button
+                                  //Verify button
                                   Row(
                                     children: [
                                       ElevatedButton(
@@ -188,9 +185,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                               255, 11, 15, 121),
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(40)),
+                                                  BorderRadius.circular(40)),
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 40),
+                                              vertical: 10, horizontal: 30),
                                         ),
                                         onPressed: () {
                                           verify();
@@ -202,16 +199,20 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                           ),
                                         ),
                                       ),
+
+                                      //Resending button
+
                                       ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           foregroundColor: Colors.white,
                                           backgroundColor: const Color.fromARGB(
                                               255, 11, 15, 121),
                                           shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                              BorderRadius.circular(40)),
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                          ),
                                           padding: const EdgeInsets.symmetric(
-                                              vertical: 10, horizontal: 40),
+                                              vertical: 10, horizontal: 30),
                                         ),
                                         onPressed: () {
                                           forgetPassword();

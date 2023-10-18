@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import "package:flutter/material.dart";
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -23,11 +22,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var emailController = TextEditingController(); // users inputs
   var passwordController = TextEditingController();
   var isObsecure = true.obs;
+  bool isChecked = false;
 
 //validate password
   bool validateStructure(String value) {
     String pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*_\-/?~,`]).{8,}$';
     RegExp regExp = new RegExp(pattern);
     return regExp.hasMatch(value);
   }
@@ -41,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "email": emailController.text.trim(),
         },
       );
-      print(response);
+      print(response.body);
       if (response.statusCode == 200) {
         // communication is succefull
         var resBodyOfEmail = jsonDecode(response.body.trim());
@@ -75,7 +75,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       print(response.body);
 
       if (response.statusCode == 200) {
-        var resBodyOfSignUp = jsonDecode(response.body);
+        var resBodyOfSignUp = jsonDecode(response.body.trim());
+        print(resBodyOfSignUp);
 
         if (resBodyOfSignUp == 1) {
           Fluttertoast.showToast(msg: "Sign up successfully");
@@ -89,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
           // Get.to(LoginScreen());
         } else {
-          Fluttertoast.showToast(msg: "Error Occurred");
+          Fluttertoast.showToast(msg: "Error Occurred" + resBodyOfSignUp);
         }
       }
     } catch (e) {
@@ -310,7 +311,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         }
                                         if (!validateStructure(
                                             value.toString())) {
-                                          return "Enter valid password";
+                                          return "Enter valid Password  \n 8 characters \n one uppercase letter \n one lowercase letter \n one digit \n one special character";
                                         }
                                         return null;
                                       },
@@ -373,27 +374,104 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                   ),
 
-                                  const SizedBox(
-                                    height: 22,
+                                  Row(
+                                    children: [
+                                      Checkbox(
+                                        value: isChecked,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            isChecked = !isChecked;
+                                          });
+                                        },
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                    "Conditions And Terms",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              255, 11, 15, 121),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  content: const Text(
+                                                    "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \n" +
+                                                        "a. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \n" +
+                                                        "b. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \n" +
+                                                        "c. The third-party company may use the shared information for learning purposes and to enhance their services.\n \n" +
+                                                        "d.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        color: Colors.black,
+                                                        letterSpacing: 1.15),
+                                                  ),
+                                                  scrollable: true,
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text(
+                                                        'Ok',
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                          color: const Color
+                                                              .fromARGB(
+                                                              255, 11, 15, 121),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              });
+                                        },
+                                        child: const Text(
+                                          "I agree on conditions and terms",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
 
-                                  //log in button
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
+
+                                  //sign up button
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       foregroundColor: Colors.white,
                                       backgroundColor: const Color.fromARGB(
                                           255, 11, 15, 121),
+                                      onSurface:
+                                          const Color.fromARGB(255, 8, 10, 93),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(40)),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 40),
                                     ),
-                                    onPressed: () {
-                                      if (formKey.currentState!.validate()) {
-                                        validateEmail();
-                                      }
-                                    },
+                                    onPressed: isChecked
+                                        ? () {
+                                            if (formKey.currentState!
+                                                .validate()) {
+                                              validateEmail();
+                                            }
+                                          }
+                                        : null,
                                     child: const Text(
                                       "Sign up",
                                       style: TextStyle(
@@ -409,7 +487,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               height: 10,
                             ),
 
-                            // sign up button
+                            // sign in button
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

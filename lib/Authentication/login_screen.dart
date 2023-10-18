@@ -1,13 +1,11 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:watheq_app/Authentication/reset_password_screen.dart';
-import 'package:watheq_app/Authentication/signup-screen.dart';
+import 'package:watheq_app/Authentication/signup_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq_app/Authentication/verification_Screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
-import 'package:watheq_app/Authentication/user.dart';
 import 'package:watheq_app/offers.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -103,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   TextFormField(
                                     controller: emailController,
                                     validator: (value) =>
-                                    value == "" ? "Enter the email" : null,
+                                        value == "" ? "Enter the email" : null,
                                     decoration: InputDecoration(
                                       prefixIcon: const Icon(
                                         Icons.email,
@@ -135,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                       contentPadding:
-                                      const EdgeInsets.symmetric(
+                                          const EdgeInsets.symmetric(
                                         horizontal: 14,
                                         vertical: 6,
                                       ),
@@ -150,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                   //password field
                                   Obx(
-                                        () => TextFormField(
+                                    () => TextFormField(
                                       controller: passwordController,
                                       obscureText: isObsecure.value,
                                       validator: (value) => value == ""
@@ -162,10 +160,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: Colors.black,
                                         ),
                                         suffixIcon: Obx(
-                                              () => GestureDetector(
+                                          () => GestureDetector(
                                             onTap: () {
                                               isObsecure.value =
-                                              !isObsecure.value;
+                                                  !isObsecure.value;
                                             },
                                             child: Icon(
                                               isObsecure.value
@@ -178,34 +176,34 @@ class _LoginScreenState extends State<LoginScreen> {
                                         hintText: "Password",
                                         border: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                           borderSide: const BorderSide(
                                             color: Colors.white60,
                                           ),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                           borderSide: const BorderSide(
                                             color: Colors.white60,
                                           ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                           borderSide: const BorderSide(
                                             color: Colors.white60,
                                           ),
                                         ),
                                         disabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                          BorderRadius.circular(30),
+                                              BorderRadius.circular(30),
                                           borderSide: const BorderSide(
                                             color: Colors.white60,
                                           ),
                                         ),
                                         contentPadding:
-                                        const EdgeInsets.symmetric(
+                                            const EdgeInsets.symmetric(
                                           horizontal: 14,
                                           vertical: 6,
                                         ),
@@ -227,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           255, 11, 15, 121),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(40)),
+                                              BorderRadius.circular(40)),
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 40),
                                     ),

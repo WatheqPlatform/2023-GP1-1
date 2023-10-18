@@ -12,7 +12,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      // others
       title: 'Watheq',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

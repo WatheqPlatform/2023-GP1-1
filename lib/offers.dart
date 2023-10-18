@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq_app/jobOffer.model.dart';
 import 'dart:convert';
 import 'package:watheq_app/profile.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:get/get.dart';
-
 import 'offer_details.dart';
 
 class OffersScreen extends StatefulWidget {
@@ -116,32 +114,32 @@ class _OffersScreenState extends State<OffersScreen> {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(18.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            JobOffer x = JobOffer.fromJson(foundOffers[index]);
-                            Get.to(()=>JobOfferDetailScreen(jobOffer: x,));
-                          },
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Color.fromARGB(241, 246, 245, 245),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(20),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(241, 246, 245, 245),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 8,
+                                color: Colors.black26,
+                                offset: Offset(0, -3),
                               ),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 8,
-                                  color: Colors.black26,
-                                  offset: Offset(0, -3),
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              title: Text("${foundOffers[index]["JobTitle"]}" +
-                                  "\n ${foundOffers[index]["Category"]}"),
-                              subtitle:
-                                  Text("${foundOffers[index]["CompanyName"]}"),
-                              trailing: Text("${foundOffers[index]["Date"]}"),
-                            ),
+                            ],
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              Get.to(() => JobOfferDetailScreen(
+                                    Offer: foundOffers,
+                                    index: index,
+                                  ));
+                            },
+                            title: Text("${foundOffers[index]["JobTitle"]}" +
+                                "\n ${foundOffers[index]["Category"]}"),
+                            subtitle:
+                                Text("${foundOffers[index]["CompanyName"]}"),
+                            trailing: Text("${foundOffers[index]["Date"]}"),
                           ),
                         ),
                       );

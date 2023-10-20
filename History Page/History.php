@@ -13,7 +13,7 @@ include('HistoryLogic.php');
     <link rel="stylesheet" href="History.css">
     <link rel="icon" href="../Images/Icon.png">
     <title>History - Watheq</title>
-    <script src="../Functions/logout.js"></script>
+    <script src="../Functions/Logout.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->        
@@ -31,7 +31,7 @@ include('HistoryLogic.php');
                 <a href="../Home Page/Home.php"> Home </a>
                 <a href=""> Profile </a>
                 <a href="../History Page/History.php" id="CurrentPage"> History </a>
-                <a href="../AddOffer Page/AddOffer.html"> Add Offer </a> 
+                <a href="../AddOffer Page/AddOfferPage.php"> Add Offer </a> 
             </div>
 
             <div id="HeaderEnd">

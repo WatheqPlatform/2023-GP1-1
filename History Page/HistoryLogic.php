@@ -4,16 +4,11 @@ if (!isset($_SESSION['JPEmail'])) {
     header("Location: ../index.php"); 
 }
 
-// Include this logic file in job-offers-history.php using require_once
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "watheqdb";
+include("../dbConnection.php");
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
+// Include this logic file in job-offers-history.php using require_once
+
 
 // Retrieve the job provider's email from the session
 $jobProviderEmail = $_SESSION['JPEmail'];

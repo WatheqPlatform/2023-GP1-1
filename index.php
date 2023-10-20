@@ -71,7 +71,7 @@ if (isset($_SESSION['JPEmail'])) {
 
     <div id="FeaturesSection">
         <h1>
-            Jop Providers Services
+            Job Providers Services
         </h1>
         <div id="Features">
             <div>

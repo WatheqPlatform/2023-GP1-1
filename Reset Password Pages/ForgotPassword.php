@@ -1,15 +1,6 @@
+
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "WatheqDB";
-
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include("../dbConnection.php");
 
 // Form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -68,7 +59,7 @@ function sendPasswordResetEmail($email, $token) {
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
     $headers .= 'From: watheq.ksu@gmail.com'  . "\r\n";
 
-    $resetLink = "http://www.watheqplatform.com/ResetPassword.php?token=" . urlencode($token);
+    $resetLink = "https://www.watheqplatform.com/Reset%20Password%20Pages/ResetPassword.php?token=" . urlencode($token);
 
     ob_start();
     include("messageTamplate.php");

@@ -1,14 +1,6 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "WatheqDB";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+ include("../dbConnection.php");
 
 // Check if the token is provided in the URL parameter
 if (isset($_GET["token"])) {
@@ -68,8 +60,7 @@ if (isset($_GET["token"])) {
 
                 echo "<script>alert('Password reset successful. You can now login with your new password.');</script>";
                 
-                 echo '<script>window.location.href="../index.php";</script>';
-                 exit();
+                echo '<script>window.location.href = "../LogIn Page/LogIn.html?email=' . urlencode($email) . '";</script>';
             }
         } else {
             echo "<script>alert('The password reset link has expired. Please request a new one.');</script>";

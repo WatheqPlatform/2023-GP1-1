@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = date("Y-m-d");
     $jpEmail = $_SESSION['JPEmail'];
     // Prepare and execute a query to retrieve the CategoryID based on the CategoryName
-    $stmtC = $conn->prepare("SELECT CategoryID FROM Category WHERE CategoryName = ?");
+    $stmtC = $conn->prepare("SELECT CategoryID FROM category WHERE CategoryName = ?");
     $stmtC->bind_param("s", $jobCategories);
     $stmtC->execute();
     $stmtC->bind_result($categoryID);

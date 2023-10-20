@@ -39,15 +39,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
       if (response.statusCode == 200) {
         // communication is succefull
-        var resBodyOfLogin = jsonDecode(response.body.trim());
+        var resBody = jsonDecode(response.body.trim());
 
-        if (resBodyOfLogin.containsKey('message')) {
+        if (resBody.containsKey('message')) {
           //true
           Fluttertoast.showToast(msg: "Retested successfully");
           Get.to(() => LoginScreen());
         } else {
-          Fluttertoast.showToast(
-              msg: "The email or password is incorrect, please try again");
+          Fluttertoast.showToast(msg: resBody['error']);
         }
       }
     } catch (e) {

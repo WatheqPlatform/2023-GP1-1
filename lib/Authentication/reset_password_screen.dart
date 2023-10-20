@@ -27,7 +27,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         }),
         headers: {"Content-Type": "application/json"},
       );
-      print(response);
+
       if (response.statusCode == 200) {
         // communication is succefull
         var res = jsonDecode(response.body.trim());

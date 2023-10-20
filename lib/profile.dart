@@ -19,19 +19,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String lastName = '';
   String email = '';
 
-// logout container
-  Widget logoutButton() {
-    return Container(
-        margin: const EdgeInsets.all(10.0),
-        child: ElevatedButton(
-          child: Text("Log out"),
-          onPressed: () {
-            Get.offAll(
-                LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
-          },
-        ));
-  }
-
   Future<void> fetchUserData() async {
     try {
       var response = await http
@@ -102,32 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: EdgeInsets.only(bottom: 20),
             child: ElevatedButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('Logout Confirmation'),
-                      content: Text('Are you sure you want to log out?'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: Text('No'),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Dismiss the dialog
-                          },
-                        ),
-                        TextButton(
-                          child: Text('Yes'),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Dismiss the dialog
-                            // Perform the logout action here
-                            Get.offAll(
-                                LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
+                Get.offAll(LoginScreen());
               },
               child: Text('Logout'),
             ),

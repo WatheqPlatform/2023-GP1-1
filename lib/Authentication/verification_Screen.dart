@@ -1,9 +1,7 @@
 import "package:flutter/material.dart";
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:watheq_app/Authentication/new_password_screen.dart';
-import 'package:watheq_app/Authentication/reset_password_screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
@@ -27,11 +25,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
           body: json.encode(
               {"email": widget.email, "code": codeController.text.trim()}),
           headers: {"Content-type": "application/json"});
-      print(response.body);
+
       if (response.statusCode == 200) {
         // communication is succefull
         var res = jsonDecode(response.body.trim());
-        print(res);
+
         if (res.containsKey('message')) {
           Get.to(() => NewPasswordScreen(email: widget.email));
 
@@ -71,9 +69,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int endTime =
-        DateTime.now().millisecondsSinceEpoch + 5 * 60 * 1000; // 5 minutes
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: LayoutBuilder(
@@ -113,18 +108,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         padding: const EdgeInsets.fromLTRB(30, 30, 30, 8.0),
                         child: Column(
                           children: [
-                            CountdownTimer(
-                              endTime: endTime,
-                              textStyle:
-                                  TextStyle(fontSize: 30, color: Colors.black),
-                              onEnd: () {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ForgetPasswordScreen()));
-                              },
-                            ),
                             Form(
                               key: formKey,
                               child: Column(

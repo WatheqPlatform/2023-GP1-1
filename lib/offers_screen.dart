@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:watheq_app/profile.dart';
+import 'package:watheq_app/profile_screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:get/get.dart';
-import 'offer_details.dart';
+import 'offer_details_screen.dart';
 
 class OffersScreen extends StatefulWidget {
-  //const OffersScreen({Key? key});
-
   final String email;
 
   const OffersScreen({super.key, required this.email});

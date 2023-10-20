@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
-import 'package:watheq_app/offers.dart';
+import 'package:watheq_app/offers_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

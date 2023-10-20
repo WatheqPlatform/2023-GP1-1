@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:watheq_app/Authentication/reset_password_screen.dart';
 import 'package:watheq_app/Authentication/signup_screen.dart';
@@ -256,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const Text("Don't have an account?"),
                                 TextButton(
                                   onPressed: () {
-                                    Get.to(SignUpScreen());
+                                    Get.to(const SignUpScreen());
                                   },
                                   child: const Text(
                                     "Sign up",
@@ -276,7 +276,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 const Text("Forget password?"),
                                 TextButton(
                                   onPressed: () {
-                                    Get.to(ForgetPasswordScreen());
+                                    Get.to(const ForgetPasswordScreen());
                                   },
                                   child: const Text(
                                     "Click here",

@@ -1,4 +1,4 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -9,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 
 class VerificationScreen extends StatefulWidget {
-  VerificationScreen({super.key, required this.email});
+  const VerificationScreen({super.key, required this.email});
   final String email;
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
@@ -27,11 +27,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
           body: json.encode(
               {"email": widget.email, "code": codeController.text.trim()}),
           headers: {"Content-type": "application/json"});
-      print(response.body);
+
       if (response.statusCode == 200) {
         // communication is succefull
         var res = jsonDecode(response.body.trim());
-        print(res);
+
         if (res.containsKey('message')) {
           Get.to(() => NewPasswordScreen(email: widget.email));
 
@@ -115,10 +115,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           children: [
                             CountdownTimer(
                               endTime: endTime,
-                              textStyle:
-                                  TextStyle(fontSize: 30, color: Colors.black),
+                              textStyle: const TextStyle(
+                                  fontSize: 30, color: Colors.black),
                               onEnd: () {
-                                Get.to(ForgetPasswordScreen());
+                                Get.to(const ForgetPasswordScreen());
                               },
                             ),
                             Form(

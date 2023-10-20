@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 
 class NewPasswordScreen extends StatefulWidget {
-  NewPasswordScreen({super.key, required this.email});
+  const NewPasswordScreen({super.key, required this.email});
   final String email;
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();
@@ -22,7 +22,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   bool validateStructure(String value) {
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regExp = new RegExp(pattern);
+    RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(value);
   }
 
@@ -44,7 +44,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
         if (resBodyOfLogin.containsKey('message')) {
           //true
           Fluttertoast.showToast(msg: "Retested successfully");
-          Get.to(() => LoginScreen());
+          Get.to(() => const LoginScreen());
         } else {
           Fluttertoast.showToast(
               msg: "The email or password is incorrect, please try again");

@@ -8,7 +8,7 @@ import 'package:watheq_app/Authentication/login_screen.dart';
 class ProfileScreen extends StatefulWidget {
   final String email;
 
-  ProfileScreen({required this.email});
+  const ProfileScreen({super.key, required this.email});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -29,22 +29,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('Logout Confirmation'),
-                content: Text('Are you sure you want to log out?'),
+                title: const Text('Logout Confirmation'),
+                content: const Text('Are you sure you want to log out?'),
                 actions: <Widget>[
                   TextButton(
-                    child: Text('No'),
+                    child: const Text('No'),
                     onPressed: () {
                       Navigator.of(context).pop(); // Dismiss the dialog
                     },
                   ),
                   TextButton(
-                    child: Text('Yes'),
+                    child: const Text('Yes'),
                     onPressed: () {
                       Navigator.of(context).pop(); // Dismiss the dialog
                       // Perform the logout action here
                       Get.offAll(
-                          LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
+                          const LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
                     },
                   ),
                 ],
@@ -52,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
           );
         },
-        child: Text('Logout'),
+        child: const Text('Logout'),
       ),
     );
   }
@@ -72,11 +72,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }
       } else {
         // Handle error response
-        print('Failed to fetch user data: ${response.statusCode}');
       }
     } catch (e) {
       // Handle network or API errors
-      print('Error fetching user data: $e');
     }
   }
 
@@ -90,12 +88,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: const Text('Profile'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Align(
             alignment: Alignment.topCenter,
             child: ElevatedButton(
@@ -103,50 +101,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Navigator.of(context)
                     .pop(); // Navigate back to the previous screen
               },
-              child: Text('Back'),
+              child: const Text('Back'),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Full Name: $firstName $lastName',
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 'Email: $email',
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
             ],
           ),
-          Spacer(), // Add Spacer to push the logout button to the bottom
+          const Spacer(), // Add Spacer to push the logout button to the bottom
           Container(
             alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20),
             child: ElevatedButton(
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Logout Confirmation'),
-                      content: Text('Are you sure you want to log out?'),
+                      title: const Text('Logout Confirmation'),
+                      content: const Text('Are you sure you want to log out?'),
                       actions: <Widget>[
                         TextButton(
-                          child: Text('No'),
+                          child: const Text('No'),
                           onPressed: () {
                             Navigator.of(context).pop(); // Dismiss the dialog
                           },
                         ),
                         TextButton(
-                          child: Text('Yes'),
+                          child: const Text('Yes'),
                           onPressed: () {
                             Navigator.of(context).pop(); // Dismiss the dialog
                             // Perform the logout action here
                             Get.offAll(
-                                LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
+                                const LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
                           },
                         ),
                       ],
@@ -154,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                 );
               },
-              child: Text('Logout'),
+              child: const Text('Logout'),
             ),
           ),
         ],

@@ -11,7 +11,7 @@ class OffersScreen extends StatefulWidget {
 
   final String email;
 
-  OffersScreen({required this.email});
+  const OffersScreen({super.key, required this.email});
 
   @override
   State<OffersScreen> createState() => _OffersScreenState();
@@ -33,7 +33,7 @@ class _OffersScreenState extends State<OffersScreen> {
             ),
           );
         },
-        child: Text('Profile'),
+        child: const Text('Profile'),
       ),
     );
   }
@@ -46,7 +46,6 @@ class _OffersScreenState extends State<OffersScreen> {
 
       // Update the allOffers
       setState(() {
-        print(red);
         allOffers.addAll(red);
         foundOffers.addAll(red);
       });
@@ -57,7 +56,6 @@ class _OffersScreenState extends State<OffersScreen> {
   void initState() {
     super.initState();
     getdata();
-    print(allOffers);
   }
 
   void searchOffer(String searchedWord) {
@@ -81,7 +79,6 @@ class _OffersScreenState extends State<OffersScreen> {
 
     setState(() {
       foundOffers = results;
-      print(foundOffers);
     });
   }
 
@@ -90,7 +87,7 @@ class _OffersScreenState extends State<OffersScreen> {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Padding(
@@ -131,11 +128,11 @@ class _OffersScreenState extends State<OffersScreen> {
                           child: ListTile(
                             onTap: () {
                               Get.to(() => JobOfferDetailScreen(
-                                    Offer: foundOffers,
+                                    offer: foundOffers,
                                     index: index,
                                   ));
                             },
-                            title: Text("${foundOffers[index]["JobTitle"]}" +
+                            title: Text("${foundOffers[index]["JobTitle"]}"
                                 "\n ${foundOffers[index]["Category"]}"),
                             subtitle:
                                 Text("${foundOffers[index]["CompanyName"]}"),

@@ -17,8 +17,8 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   var formKey = GlobalKey<FormState>();
-  var FirstNameController = TextEditingController();
-  var LastNameController = TextEditingController();
+  var firstNameController = TextEditingController();
+  var lastNameController = TextEditingController();
   var emailController = TextEditingController(); // users inputs
   var passwordController = TextEditingController();
   var isObsecure = true.obs;
@@ -28,7 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool validateStructure(String value) {
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#$%^&*_\-/?~,`]).{8,}$';
-    RegExp regExp = new RegExp(pattern);
+    RegExp regExp = RegExp(pattern);
     return regExp.hasMatch(value);
   }
 
@@ -41,7 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           "email": emailController.text.trim(),
         },
       );
-      print(response.body);
+
       if (response.statusCode == 200) {
         // communication is succefull
         var resBodyOfEmail = jsonDecode(response.body.trim());
@@ -62,8 +62,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   registerUser() async {
     User userModel = User(
       emailController.text.trim(),
-      FirstNameController.text.trim(),
-      LastNameController.text.trim(),
+      firstNameController.text.trim(),
+      lastNameController.text.trim(),
       passwordController.text.trim(),
     );
 
@@ -72,11 +72,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         Uri.parse(Connection.signUp),
         body: userModel.toJson(),
       );
-      print(response.body);
 
       if (response.statusCode == 200) {
         var resBodyOfSignUp = jsonDecode(response.body.trim());
-        print(resBodyOfSignUp);
 
         if (resBodyOfSignUp == 1) {
           Fluttertoast.showToast(msg: "Sign up successfully");
@@ -84,13 +82,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
           setState(() {
             emailController.clear();
             passwordController.clear();
-            FirstNameController.clear();
-            LastNameController.clear();
+            firstNameController.clear();
+            lastNameController.clear();
           });
 
           // Get.to(LoginScreen());
         } else {
-          Fluttertoast.showToast(msg: "Error Occurred" + resBodyOfSignUp);
+          Fluttertoast.showToast(msg: "Error Occurred $resBodyOfSignUp");
         }
       }
     } catch (e) {
@@ -145,7 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 children: [
                                   //first name field
                                   TextFormField(
-                                    controller: FirstNameController,
+                                    controller: firstNameController,
                                     validator: (value) => value == ""
                                         ? "Enter the first name"
                                         : null,
@@ -195,7 +193,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                   //last name field
                                   TextFormField(
-                                    controller: LastNameController,
+                                    controller: lastNameController,
                                     validator: (value) => value == ""
                                         ? "Enter the last name"
                                         : null,
@@ -394,19 +392,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                     "Conditions And Terms",
                                                     style: TextStyle(
                                                       fontSize: 20,
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255, 11, 15, 121),
+                                                      color: Color.fromARGB(
+                                                          255, 11, 15, 121),
                                                       fontWeight:
                                                           FontWeight.bold,
                                                     ),
                                                   ),
                                                   content: const Text(
-                                                    "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \n" +
-                                                        "a. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \n" +
-                                                        "b. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \n" +
-                                                        "c. The third-party company may use the shared information for learning purposes and to enhance their services.\n \n" +
-                                                        "d.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
+                                                    "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \na. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \nb. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \nc. The third-party company may use the shared information for learning purposes and to enhance their services.\n \nd.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
                                                     style: TextStyle(
                                                         fontSize: 18,
                                                         color: Colors.black,
@@ -419,12 +412,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                         Navigator.of(context)
                                                             .pop();
                                                       },
-                                                      child: Text(
+                                                      child: const Text(
                                                         'Ok',
                                                         style: TextStyle(
                                                           fontSize: 20,
-                                                          color: const Color
-                                                              .fromARGB(
+                                                          color: Color.fromARGB(
                                                               255, 11, 15, 121),
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -456,8 +448,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       foregroundColor: Colors.white,
                                       backgroundColor: const Color.fromARGB(
                                           255, 11, 15, 121),
-                                      onSurface:
-                                          const Color.fromARGB(255, 8, 10, 93),
+                                      disabledForegroundColor:
+                                          const Color.fromARGB(255, 8, 10, 93)
+                                              .withOpacity(0.38),
+                                      disabledBackgroundColor:
+                                          const Color.fromARGB(255, 8, 10, 93)
+                                              .withOpacity(0.12),
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(40)),
@@ -494,7 +490,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 const Text("Already have an account?"),
                                 TextButton(
                                   onPressed: () {
-                                    Get.to(LoginScreen());
+                                    Get.to(const LoginScreen());
                                   },
                                   child: const Text(
                                     "Sign in",

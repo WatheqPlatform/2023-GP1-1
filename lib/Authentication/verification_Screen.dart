@@ -7,7 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 
 class VerificationScreen extends StatefulWidget {
-  VerificationScreen({super.key, required this.email});
+  const VerificationScreen({super.key, required this.email});
   final String email;
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();

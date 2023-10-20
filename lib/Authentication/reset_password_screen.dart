@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq_app/Authentication/verification_Screen.dart';
+import 'package:watheq_app/Authentication/verification_screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
@@ -27,7 +27,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         }),
         headers: {"Content-Type": "application/json"},
       );
-
       if (response.statusCode == 200) {
         // communication is succefull
         var res = jsonDecode(response.body.trim());

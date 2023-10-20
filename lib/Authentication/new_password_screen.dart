@@ -26,7 +26,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
     return regExp.hasMatch(value);
   }
 
-  //resetting functionfunction
+  //reset function
   resetPassword() async {
     try {
       var response = await http.put(

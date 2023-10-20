@@ -21,47 +21,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String lastName = '';
   String email = '';
 
-<<<<<<< HEAD:lib/profile.dart
-=======
-// logout container
-  Widget logoutButton() {
-    return Container(
-      margin: const EdgeInsets.all(10.0),
-      child: ElevatedButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: const Text('Logout Confirmation'),
-                content: const Text('Are you sure you want to log out?'),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text('No'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Dismiss the dialog
-                    },
-                  ),
-                  TextButton(
-                    child: const Text('Yes'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Dismiss the dialog
-                      // Perform the logout action here
-                      Get.offAll(
-                          const LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        child: const Text('Logout'),
-      ),
-    );
-  }
-
->>>>>>> 81ae92fac8cca52b48d5e7aebca6213499a1b546:lib/profile_screen.dart
   Future<void> fetchUserData() async {
     try {
       var response = await http
@@ -130,36 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: const EdgeInsets.only(bottom: 20),
             child: ElevatedButton(
               onPressed: () {
-<<<<<<< HEAD:lib/profile.dart
                 Get.offAll(LoginScreen());
-=======
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text('Logout Confirmation'),
-                      content: const Text('Are you sure you want to log out?'),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text('No'),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Dismiss the dialog
-                          },
-                        ),
-                        TextButton(
-                          child: const Text('Yes'),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Dismiss the dialog
-                            // Perform the logout action here
-                            Get.offAll(
-                                const LoginScreen()); // Navigate to login screen and remove all previous screens from the stack
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
->>>>>>> 81ae92fac8cca52b48d5e7aebca6213499a1b546:lib/profile_screen.dart
               },
               child: const Text('Logout'),
             ),

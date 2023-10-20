@@ -203,6 +203,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                         ),
                                         onPressed: () {
                                           forgetPassword();
+                                          codeController.clear();
                                         },
                                         child: const Text(
                                           "Re-Send code",

@@ -5,22 +5,14 @@ if (!isset($_SESSION['JPEmail'])) {
   exit();
 }
 
-// Database connection and retrieval of data
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "WatheqDB";
+include("../dbConnection.php");
 
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $email = $_SESSION['JPEmail'];  // Set the variable with the logged-in provider's email
 
 $companyName = "";
-$retrieveCompanyNameQuery = "SELECT CompanyName FROM JobProvider WHERE JobProviderEmail = '$email'";
+$retrieveCompanyNameQuery = "SELECT CompanyName FROM jobprovider WHERE JobProviderEmail = '$email'";
 $result = $conn->query($retrieveCompanyNameQuery);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -28,7 +20,7 @@ if ($result->num_rows > 0) {
 }
 
 $totalOffers = 0;
-$retrieveTotalOffersQuery = "SELECT COUNT(*) AS TotalOffers FROM JobOffer WHERE JPEmail = '$email'";
+$retrieveTotalOffersQuery = "SELECT COUNT(*) AS TotalOffers FROM joboffer WHERE JPEmail = '$email'";
 $result = $conn->query($retrieveTotalOffersQuery);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -36,7 +28,7 @@ if ($result->num_rows > 0) {
 }
 
 $activeOffers = 0;
-$retrieveActiveOffersQuery = "SELECT COUNT(*) AS ActiveOffers FROM JobOffer WHERE JPEmail = '$email' AND Status = 'Active'";
+$retrieveActiveOffersQuery = "SELECT COUNT(*) AS ActiveOffers FROM joboffer WHERE JPEmail = '$email' AND Status = 'Active'";
 $result = $conn->query($retrieveActiveOffersQuery);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -60,7 +52,7 @@ $conn->close();
   <link rel="stylesheet" href="Home.css">
   <link rel="icon" href="../Images/Icon.png">
   <title>Home - Watheq</title>
-  <script src="../Functions/logout.js"></script>
+  <script src="../Functions/Logout.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
   <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->        
@@ -79,7 +71,7 @@ $conn->close();
         <a href="../Home Page/Home.php" id="CurrentPage"> Home </a>
         <a href=""> Profile </a>
         <a href="../History Page/History.php"> History </a>
-        <a href="../AddOffer Page/AddOffer.html"> Add Offer </a> 
+        <a href="../AddOffer Page/AddOfferPage.php"> Add Offer </a> 
       </div>
 
       <div id="HeaderEnd">
@@ -143,21 +135,21 @@ $conn->close();
           </div>
               
           <div>
-            <h2>5000</h2>
+            <h2>0</h2>
             <p>
               Total Job Applications
             </p>
           </div>
 
           <div>
-            <h2>10</h2>
+            <h2>0</h2>
             <p>
               Accepted Applications
             </p>
           </div>
               
           <div>
-            <h2>300</h2>
+            <h2>0</h2>
               <p> 
                 Pending Applications
               </p>

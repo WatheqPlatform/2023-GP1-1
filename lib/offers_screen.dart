@@ -126,8 +126,7 @@ class _OffersScreenState extends State<OffersScreen> {
                           child: ListTile(
                             onTap: () {
                               Get.to(() => JobOfferDetailScreen(
-                                    Offer: foundOffers,
-                                    index: index,
+                                    OfferID: foundOffers[index]["OfferID"],
                                   ));
                             },
                             title: Text("${foundOffers[index]["JobTitle"]}"

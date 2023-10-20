@@ -1,4 +1,8 @@
 <?php
+
+
+include("../dbConnection.php");
+
 session_start();
 
 if (!isset($_SESSION['JPEmail'])) {
@@ -17,57 +21,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $maxSalary = $_POST['maxSalary'];
     $jobCategories = $_POST['jobCategories'];
     $jobCity = $_POST['jobCity'];
-    
+
     $startingDate = $_POST['startingDate'];
     $workingHours = $_POST['workingHours'];
     $workingDays = $_POST['workingDays'];
     $notes = $_POST['notes'];
-    $skills = $_POST['skills'];
-    $qualifications = $_POST['qualifications'];
-
-    // Save the data to the database
-    $servername = "localhost";
-    $username = "root";
-    $password = "root";
-    $dbname = "watheqdb";
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
+     $skills = $_POST['skills'];
+     $qualifications = $_POST['qualifications'];
+     $experiences = $_POST['experiences'];
     // Insert job offer data
     $date = date("Y-m-d");
     $jpEmail = $_SESSION['JPEmail'];
+    // Prepare and execute a query to retrieve the CategoryID based on the CategoryName
+    $stmtC = $conn->prepare("SELECT CategoryID FROM Category WHERE CategoryName = ?");
+    $stmtC->bind_param("s", $jobCategories);
+    $stmtC->execute();
+    $stmtC->bind_result($categoryID);
+    $stmtC->fetch();
+    $stmtC->close();
 
-    $sql = "INSERT INTO JobOffer (JobTitle, JobDescription, Field, EmploymentType, LocationAddress, MinSalary, MaxSalary, Status, Date, JPEmail, Category, City, StartingDate, WorkingHours, WorkingDays, AdditionalNotes) 
+    $sql = "INSERT INTO joboffer (JobTitle, JobDescription, Field, EmploymentType, JobAddress, MinSalary, MaxSalary, Status, Date, JPEmail, Category, City, StartingDate, WorkingHours, WorkingDays, AdditionalNotes) 
             VALUES (?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssssssssssss", $jobTitle, $jobDescription, $jobField, $jobType, $jobAddress, $minSalary, $maxSalary, $date, $jpEmail, $jobCategories, $jobCity, $startingDate, $workingHours, $workingDays, $notes);
-    
-    if ($stmt->execute()) {
-        $offerID = $stmt->insert_id;
-        echo "success"; // Send success message to JavaScript
+    $stmt->bind_param("sssssssssssssss", $jobTitle, $jobDescription, $jobField, $jobType, $jobAddress, $minSalary, $maxSalary, $date, $jpEmail, $categoryID, $jobCity, $startingDate, $workingHours, $workingDays, $notes);
 
+    if ($stmt->execute()) {
+        
+        $offerID = $stmt->insert_id;
+        $stmt->close();
+        // Send success message to JavaScript
         // Insert skills into the database
-        if ($skills !== null) {
+        if (isset($_POST['skills']) && $_POST['skills'] = !null) {
             $sql2 = "INSERT INTO skill (SkillName, OfferID) VALUES (?, ?)";
             $stmt2 = $conn->prepare($sql2);
             $stmt2->bind_param("si", $skill, $offerID);
-
+           // $skills = $_POST['skills'];
             foreach ($skills as $skill) {
                 // Execute the prepared statement
                 $stmt2->execute();
             }
+            $stmt2->close();
         }
 
         // Insert qualifications into the database
-        if ($qualifications !== null) {
+        if (isset($_POST['qualifications']) && $_POST['qualifications'] = !null) {
             $sql3 = "INSERT INTO qualification (DegreeLevel, Field, OfferID) VALUES (?, ?, ?)";
             $stmt3 = $conn->prepare($sql3);
             $stmt3->bind_param("ssi", $degreeLevel, $degreeField, $offerID);
-
+//$qualifications = $_POST['qualifications'];
             foreach ($qualifications as $qualification) {
                 $degreeLevel = $qualification['level'];
                 $degreeField = $qualification['field'];
@@ -75,15 +77,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Execute the prepared statement
                 $stmt3->execute();
             }
+            $stmt3->close();
         }
 
         // Insert experiences into the database
-        if ($_POST['experiences'] !== null) {
+        if (isset($_POST['experiences']) && $_POST['experiences'] = !null) {
             $sql4 = "INSERT INTO experience (YearsOfExperience, ExperienceField, Description, OfferID) VALUES (?, ?, ?, ?)";
             $stmt4 = $conn->prepare($sql4);
             $stmt4->bind_param("isss", $yearsOfExperience, $experienceField, $description, $offerID);
 
-            foreach ($_POST['experiences'] as $experience) {
+            foreach ($experiences as $experience) {
                 $yearsOfExperience = $experience['years'];
                 $experienceField = $experience['field'];
                 $description = $experience['description'];
@@ -91,10 +94,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Execute the prepared statement
                 $stmt4->execute();
             }
+            $stmt4->close();
+            
         }
-        
-        
-        
+        echo "success"; 
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

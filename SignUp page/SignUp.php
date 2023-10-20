@@ -1,14 +1,7 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "WatheqDB";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include("../dbConnection.php");
+
 
 // Form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -25,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Check if email already exists
-    $checkEmailQuery = "SELECT * FROM JobProvider WHERE JobProviderEmail = ?";
+    $checkEmailQuery = "SELECT * FROM jobprovider WHERE JobProviderEmail = ?";
     $stmt = $conn->prepare($checkEmailQuery);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -33,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if ($result->num_rows > 0) {
         echo "<script>alert('Email already exists. Please Log In.');</script>";
-        echo '<script>window.location.href = "../LogIn page/logIn.html?email=' . urlencode($email) . '";</script>';
+        echo '<script>window.location.href = "../LogIn Page/LogIn.html?email=' . urlencode($email) . '";</script>';
         exit();
     }
 
@@ -41,13 +34,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($error)) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
-        $insertQuery = "INSERT INTO JobProvider (CompanyName, JobProviderEmail, Password) VALUES (?, ?, ?)";
+        $insertQuery = "INSERT INTO jobprovider (CompanyName, JobProviderEmail, Password) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($insertQuery);
         $stmt->bind_param("sss", $companyName, $email, $hashedPassword);
 
         if ($stmt->execute()) {
             echo "<script>alert('Registration Completed Successfully');</script>";
-            echo '<script>window.location.href = "../LogIn page/logIn.html?email=' . urlencode($email) . '";</script>';
+            echo '<script>window.location.href = "../LogIn Page/LogIn.html?email=' . urlencode($email) . '";</script>';
             exit();
         } else {
             $error = "Error: " . $insertQuery . "<br>" . $conn->error;

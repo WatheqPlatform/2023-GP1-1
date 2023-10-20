@@ -42,15 +42,15 @@ $(document).ready(function () {
             var skills = getSkills();
            
 
-// Call the saveQualifications() function and log the returned data
+            // Call the saveQualifications() function and log the returned data
             var qualifications = saveQualifications();
            
 
-// Call the saveExperiences() function and log the returned data
+            // Call the saveExperiences() function and log the returned data
             var experiences = saveExperiences();
            
             //Send the information to PHP File
-            $.post("AddOffer.php", {
+            $.post("AddOfferLogic.php", {
                 jobTitle: inputValues[0],
                 jobDescription: inputValues[1],
                 jobField: inputValues[2],

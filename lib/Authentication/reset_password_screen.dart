@@ -38,7 +38,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           Get.to(VerificationScreen(email: emailController.text.trim()));
         } else {
           Fluttertoast.showToast(
-              msg: "The email is incorrect, please try again" + res);
+              msg: "The email is incorrect, please try again");
         }
       }
     } catch (e) {

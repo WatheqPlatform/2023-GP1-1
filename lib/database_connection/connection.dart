@@ -7,10 +7,10 @@ class Connection {
   static const validateEmail = "$hostConnect/authentication/validation.php";
   static const logIn = "$hostConnect/authentication/log_in.php";
 
-  static const jobOffersData = "$hostConnect/getdata.php";
-  static const jobSeekerData = "$hostConnect/jobseeker_data.php";
+  static const jobOffersData = "$hostConnect/Data/getdata.php";
+  static const jobSeekerData = "$hostConnect/Data/jobseeker_data.php";
 
-  static const forgetPassword = "$hostConnect/forget_password.php";
-  static const verifyToken = "$hostConnect/verify_code.php";
-  static const resetPassword = "$hostConnect/reset_password.php";
+  static const forgetPassword = "$hostConnect/Reset/forget_password.php";
+  static const verifyToken = "$hostConnect/Reset/verify_code.php";
+  static const resetPassword = "$hostConnect/Reset/reset_password.php";
 }

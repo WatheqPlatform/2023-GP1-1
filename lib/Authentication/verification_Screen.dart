@@ -118,7 +118,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
                               textStyle:
                                   TextStyle(fontSize: 30, color: Colors.black),
                               onEnd: () {
-                                Get.to(ForgetPasswordScreen());
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ForgetPasswordScreen()));
                               },
                             ),
                             Form(

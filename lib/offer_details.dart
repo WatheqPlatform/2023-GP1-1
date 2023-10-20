@@ -9,7 +9,8 @@ class JobOfferDetailScreen extends StatelessWidget {
   //checking optional fields value
 
   Widget StartingDateCheck() {
-    if (Offer[index]["StartingDate"] != null) {
+    if (Offer[index]["StartingDate"] != null ||
+        Offer[index]["StartingDate"] != "") {
       return Container(
         child: Column(
           children: [
@@ -29,7 +30,8 @@ class JobOfferDetailScreen extends StatelessWidget {
   }
 
   Widget WorkingDaysCheck() {
-    if (Offer[index]["WorkingDays"] != null) {
+    if (Offer[index]["WorkingDays"] != null ||
+        Offer[index]["WorkingDays"] != "") {
       return Container(
         child: Column(
           children: [
@@ -49,7 +51,8 @@ class JobOfferDetailScreen extends StatelessWidget {
   }
 
   Widget WorkingHoursCheck() {
-    if (Offer[index]["WorkingHours"] != null) {
+    if (Offer[index]["WorkingHours"] != null ||
+        Offer[index]["WorkingHours"] != "") {
       return Container(
         child: Column(
           children: [
@@ -69,7 +72,8 @@ class JobOfferDetailScreen extends StatelessWidget {
   }
 
   Widget NotesCheck() {
-    if (Offer[index]["AdditionalNotes"] != null) {
+    if (Offer[index]["AdditionalNotes"] != null ||
+        Offer[index]["AdditionalNotes"] != "") {
       return Container(
         child: Column(
           children: [

@@ -37,7 +37,7 @@
      ?>
 
         
-      <h2>Dear <?php echo $companyName ?>, <br> </h2>
+      <h3>Dear <?php echo $companyName ?>, <br> </h3>
 
           <p>
               Click the following button to reset your password.

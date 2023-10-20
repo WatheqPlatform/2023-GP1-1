@@ -22,12 +22,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Store the token in the database along with the email and timestamp
         $timestamp = time();
-        
-        $stmt2 = $conn->prepare("INSERT INTO passwordresettokens (Email, Token, Timestamp) VALUES (?, ? , ?)");
+
+        $checkQuery =$conn-> prepare( "SELECT * from providerresettokens WHERE Email = ? ");
+
+        $checkQuery->bind_param("s",$email);
+
+        $checkQuery->execute();
+
+        $checkResult = $checkQuery->get_result();
+
+        if($checkResult-> num_rows > 0){//have previous record
+
+            $updateToken = $conn->prepare( "UPDATE providerresettokens  SET Token = ? , Timestamp = ? WHERE Email = ? ");
+
+            $updateToken->bind_param("sis",$token,$timestamp,$email);
+
+            $updateToken->execute();
+
+        }
+        else{//first time
+
+        $stmt2 = $conn->prepare("INSERT INTO providerresettokens (Email, Token, Timestamp) VALUES (?, ? , ?)");
          
         $stmt2->bind_param("ssi", $email , $token , $timestamp);
         
         $stmt2->execute();
+
+        }
+
 
         // Send the password reset email
         sendPasswordResetEmail($email, $token);

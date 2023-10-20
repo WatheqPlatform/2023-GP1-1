@@ -8,7 +8,7 @@ if (isset($_GET["token"])) {
     $token = urldecode($_GET["token"]);
 
     // Retrieve the email and timestamp associated with the token
-     $stmt = $conn->prepare("SELECT Email, Timestamp FROM passwordresettokens WHERE Token =  ? ");
+     $stmt = $conn->prepare("SELECT Email, Timestamp FROM providerresettokens WHERE Token =  ? ");
      
       $stmt->bind_param("s", $token);
    
@@ -51,12 +51,7 @@ if (isset($_GET["token"])) {
     
                  $stmt2->execute();
 
-                // Delete the used token from the database
-                $stmt3 = $conn->prepare("DELETE FROM passwordresettokens WHERE Token = ? ");
-               
-                $stmt3->bind_param("s", $token);
-                
-                 $stmt3->execute();
+            
 
                 echo "<script>alert('Password reset successful. You can now login with your new password.');</script>";
                 

@@ -1,14 +1,7 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "WatheqDB";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include("../dbConnection.php");
+
 
 // Start a session (if not already started)
 session_start();
@@ -19,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Prepare and execute a SQL query to retrieve the hashed password for the given email
-    $getPasswordQuery = "SELECT Password FROM JobProvider WHERE JobProviderEmail = ?";
+    $getPasswordQuery = "SELECT Password FROM jobprovider WHERE JobProviderEmail = ?";
     $stmt = $conn->prepare($getPasswordQuery);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -44,8 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo '<script>window.location.href = "LogIn.html?email=' . urlencode($email) . '";</script>';
     }
 }
+
+$conn->close(); // Close the database connection
+
 ?>
 
-<?php
-$conn->close(); // Close the database connection
-?>
+

@@ -421,6 +421,7 @@ input[type=button]:hover{
 	color: #0F5DA7;
 	font-size: 33px;
 	transition: 0.5s ease;
+	margin-left: 95px;
 	cursor: pointer;
 }
 

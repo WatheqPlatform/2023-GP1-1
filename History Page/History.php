@@ -31,7 +31,7 @@ include('HistoryLogic.php');
                 <a href="../Home Page/Home.php"> Home </a>
                 <a href=""> Profile </a>
                 <a href="../History Page/History.php" id="CurrentPage"> History </a>
-                <a href="../AddOffer Page/AddOfferPage.php"> Add Offer </a> 
+                <a href="../AddOffer Page/AddOffer.php"> Add Offer </a> 
             </div>
 
             <div id="HeaderEnd">

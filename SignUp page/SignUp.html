@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="SignUp.css">
+    <link rel="icon" href="../Images/Icon.png">
+    <title>Sign Up - Watheq</title>
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
+    <script src="SignUp.js"></script>
+</head>
+
+<body>
+    <div id="Main">
+
+        <div id="Main1">
+
+            <div id="header">
+                <a href="../index.php">
+                    <img src="../Images/White Logo.png" alt="Watheq Logo" id="logo">
+                </a>
+            </div>
+
+            <div id="Content">
+                <div id="MainContent">
+                    <h1>
+                        We're Delighted <br> To See You Join Us!
+                    </h1>
+                    <p>
+                        This website is dedicated for job providers only if you are a job seeker, we have an exclusive app for you.
+                    </p>
+                </div>
+    
+                <div id="MainContent2">
+                    If you encounter any issues or have questions, our support team is ready to assist you through our social media accounts. 
+                    Thank you for choosing Watheq for your hiring needs!
+                </div>
+            </div>
+        </div>
+
+
+        <div id="SignUpForm">
+            <h2>Join Watheq Family!</h2>
+
+            <p id="FormSentence">
+                We are happy to see you between us
+            </p>
+
+            <form method="POST" action="SignUp.php">
+                <label for="companyName">Company Name</label>
+                <input type="text" name="companyName" required><br>
+        
+                <label for="email">Email</label>
+                <input type="email" name="email" required><br>
+        
+                <label for="password">Password</label>
+                <input type="password" id="passwordInput" name="password" onkeyup="validatePassword()" required><br>
+                <div id="passwordMessage"></div>
+                <input type="submit" value="Sign Up">
+            </form>  
+
+            <p id="FormLogIn">Already have an account? <a href="../LogIn Page/LogIn.html">Sign In</a></p>  
+
+
+            <div class="social-icons">
+                <a href="https://www.facebook.com/profile.php?id=61552475874538"  id="facebook" title="facebook"> 
+                    <i class="fa-brands fa-square-facebook" aria-hidden="true"></i>
+                </a>
+              
+                <a href="https://www.linkedin.com/in/watheq-platform-980a02295/" id="linkedin" title="linkedin">
+                      <i class="fa-brands fa-linkedin" aria-hidden="true"></i>
+                </a>
+                <a href="https://twitter.com/WatheqPlatform" id="twitter" title="twitter"> 
+                    <i class="fa-brands fa-square-x-twitter" aria-hidden="true"></i>
+                <a href="https://www.youtube.com/channel/UCoKOXPubwqwW0TiycHcrvdw" id="youtube" title="youtube">
+                    <i class="fa-brands fa-square-youtube" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

@@ -1,0 +1,231 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../Fonts/AvenirLTStd-Roman.otf'); 
+} 
+
+
+
+body {
+    font-family: 'Avenir', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #0F5DA7;
+}
+
+
+::-webkit-scrollbar {
+    display: none; /*Hide scrollbar*/
+}
+
+
+
+/*Main Content*/
+#Main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+
+
+/*Body Gradiant Background Animation*/
+#Main1{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 15px #2b77bf7e;
+    height: 100vh;
+    width: 65vh;
+    color: white;
+    box-sizing: border-box;
+    padding:  15px 45px;
+    border-top-right-radius: 40px;
+
+    background: linear-gradient(-45deg, #2B77BF , #003884, #0F5DA7, #2B77BF );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+/*Header*/
+#header {
+    padding: 12px 0px;
+}
+
+#logo {
+    max-width: 200px; 
+    height: auto;
+}
+
+
+
+/*Main Content*/
+#Content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 81%;
+}
+
+#MainContent{
+    padding: 0px 5px;
+}
+
+#MainContent h1{
+    margin-top: 60px;
+    line-height: 1.4;
+    letter-spacing: 1.1px;
+}
+
+
+#MainContent p{
+    margin-top: -9px;
+    text-align: justify;
+    font-size: 17px;
+    line-height: 1.35;
+}
+
+#MainContent2 {
+    background-color: #09215055;
+    padding: 30px 29px;
+    border-radius: 15px;
+    font-size: 17px;
+    line-height: 1.30;
+    text-align: justify;
+}
+
+
+
+/*Form Content*/
+#LogInForm{
+    margin: auto;
+    color: #0F5DA7;
+    text-align: center;
+}
+
+#LogInForm h2{
+    font-size: 28px;
+    margin-top: 50px;
+}
+
+#FormSentence{
+    margin-top: -19px;
+    font-size: 17px;
+}
+
+
+label{
+    display: block;
+    text-align: left;
+    padding: 15px 0px 5px 4px;
+    font-size: 17px;
+}
+
+#LogInForm input[type=email], input[type=password]{
+    width: 51vh;
+    height: 36px;
+    border: solid 1.5px #024a8d;
+    padding: 3px 10px;
+    border-radius:5px;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+}
+
+#LogInForm input[type=submit]{
+    display: block;
+    width: 51vh;
+    height: 40px;
+    border: 0px;
+    border-radius: 5px; 
+    color: white;
+    font-size: 18px;
+    margin: 30px 0px 0px 0px;
+    background-color: #0F5DA7;
+    transition: all .4s ease-in-out; 
+}
+
+#LogInForm input[type=submit]:hover {
+    box-shadow: 0 0 15px #2b77bf7e;
+    transform: translate3d(0, -2px, 0);
+    cursor: pointer;
+}
+
+#FormReset{
+    margin: -1px;
+    padding-left: 5px ;
+    text-align: left;
+    text-decoration: none;
+}
+
+#FormReset a{
+    text-decoration: none;
+    color: #2B77BF;
+    font-size: 15px;
+}
+
+
+#FormSignUp{
+    margin: 7px 0px 20px 5px;
+    text-align: left;
+    font-size: 15px;
+    color: #0F5DA7;
+}
+
+#FormSignUp a{
+    text-decoration: none;
+    color: #2B77BF;
+   
+}
+
+
+
+/*Social Media Icons*/
+.social-icons{
+	padding:10px;
+    text-align: center;
+}
+
+.social-icons a{
+    line-height:15px;
+    font-size:35px;
+    margin: 0 3px;
+    text-decoration:none;
+    transition: all .4s ease-in-out; 
+}
+
+#facebook{
+	color:#3b5998;
+}
+
+#twitter{
+	color:black ;
+}
+
+#linkedin{
+	color: #0072b1 ;
+}
+
+#youtube{
+	color: #c4302b;
+}
+
+.social-icons a:hover i{
+    transform: translate3d(0, -2px, 0);
+}
+

@@ -1,0 +1,367 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../Fonts/AvenirLTStd-Roman.otf'); 
+} 
+
+
+
+body{
+    background: linear-gradient(-45deg, #2B77BF , #003884, #0F5DA7, #2B77BF );
+    background-size: 300% 300%;
+    animation: gradient 10s ease infinite;
+    color: white;
+    font-family: 'Avenir', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+
+::-webkit-scrollbar {
+    display: none; /*Hide scrollbar*/
+}
+
+
+
+/*Body Gradiant Background Animation*/
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+/*Moving Waves*/
+#Waves{
+    position: relative;
+    width: 100%;
+    height:130px;
+    overflow: hidden;
+}
+
+#Waves .air{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 90px;
+    background: url(https://1.bp.blogspot.com/-xQUc-TovqDk/XdxogmMqIRI/AAAAAAAACvI/AizpnE509UMGBcTiLJ58BC6iViPYGYQfQCLcBGAsYHQ/s1600/wave.png);
+    background-size: 1000px 100px
+}
+
+#Waves .air.air1{
+    animation: wave 30s linear infinite;
+    z-index: 1000;
+    opacity: 1;
+    animation-delay: 0s;
+    bottom: 0;
+}
+
+#Waves .air.air2{
+    animation: wave2 15s linear infinite;
+    z-index: 999;
+    opacity: 0.5;
+    animation-delay: -5s;
+    bottom: 10px;
+}
+
+#Waves .air.air3{
+    animation: wave 30s linear infinite;
+    z-index: 998;
+    opacity: 0.2;
+    animation-delay: -2s;
+    bottom: 15px;
+}
+
+#Waves .air.air4{
+    animation: wave2 5s linear infinite;
+    z-index: 997;
+    opacity: 0.7;
+    animation-delay: -5s;
+    bottom: 20px;
+}
+
+@keyframes wave{
+    0%{
+      background-position-x: 0px; 
+    }
+    100%{
+      background-position-x: 1000px; 
+    }
+}
+
+@keyframes wave2{
+    0%{
+      background-position-x: 0px; 
+    }
+    100%{
+      background-position-x: -1000px; 
+    }
+}
+
+
+
+/*Header*/
+#header {
+    padding: 6px 50px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#logo {
+    max-width: 200px; 
+    height: auto;
+}
+
+#SignInButton {
+    border: 2px solid white;
+    border-radius: 30px;
+    background-color: transparent;
+    color: white;
+    padding: 7px 50px;
+    font-size: 16.5px;
+    margin-right: 5px;
+    transition: all .4s ease-in-out;
+}
+
+#SignUpButton {
+    border: 2px solid white;
+    border-radius: 30px;
+    background-color: white;
+    box-shadow: 0 0 15px #eeeeee3c;
+    color: #14386e;
+    padding: 7px 50px;
+    font-size: 16.5px;
+    transition: all .4s ease-in-out;
+}
+
+button:hover{
+    box-shadow: 0 0 15px #eeeeee82;
+    transform: translate3d(0, -2px, 0);
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+}
+ 
+
+
+/*Main Content*/
+#MainContent{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 5px 20px;
+}
+
+#MainContent1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+}
+
+#DiscoverButton{
+    border: 0;
+    border-radius: 30px;
+    padding: 13px 65px;
+    margin-left: 68px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    font-size: 17px;
+    color: white;
+    transition: all .4s ease-in-out;
+    background-image: linear-gradient(to right, #003884 0%, #2B77BF  51%, #003884  100%);
+    box-shadow: 0 0 15px #eeeeee3c;
+    background-size: 200% auto;   
+}
+
+#DiscoverButton:hover {
+    background-position: right center; 
+    text-decoration: none;
+}
+
+#DonloadImage{
+    padding: 40px 0px;
+}
+ 
+
+
+/*Who We Are Content*/
+#WhoWeAreSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+}
+
+#WhoWeAreSection h1{
+    color: #0F5DA7;
+    text-align: center;
+    font-size: 43px;
+    padding-top: 50px;
+}
+ 
+#WhoWeAreSection p{
+    color: #0F5DA7;
+    margin: -9px 11% 10px 11% ;
+    font-size: 20px;
+    text-align: justify;
+    line-height: 27px;
+    text-align-last: center;
+}
+
+
+
+/*Features Content*/
+#FeaturesSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+}
+
+#FeaturesSection h1{
+    color: #0F5DA7;
+    text-align: center;
+    font-size: 43px;
+    padding-top: 90px;
+}
+
+
+#Features{ 
+    display: flex;
+    justify-content: space-around; 
+    flex-wrap: wrap;
+    margin: -9px 10% 150px 10% ;
+}
+
+#Features div{
+    max-width: 310px;
+    background-color: rgb(246, 246, 246);
+    color: #0F5DA7;
+    padding: 20px 35px;
+    margin: 10px 3px 10px 3px;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+#Features div:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.282);
+    background-color: white;
+}
+
+#Features h2{
+    text-align: center;
+    font-size: 25px;
+    letter-spacing: 1.1px;
+}
+
+#Features p{
+    text-align: justify;
+    text-align-last: center;
+    font-size: 17px;
+    line-height: 25px;
+    color: #0F5DA7;
+}
+
+
+
+/*Footer*/
+footer {
+    display: flex;
+    justify-content: space-around;
+    background-image: linear-gradient(to right, #003884 0%, #2B77BF  51%, #003884  100%);
+    background-size: 200% auto;   
+    color: white;
+    flex-wrap: wrap;
+}
+
+.copyright {
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+}
+
+
+
+
+/*Responsive Code*/
+@media screen and (max-width: 1388px) {
+    #PhraseImage{
+        margin-top: 60px;
+    }
+
+    #DiscoverButton{
+        margin-bottom: 70px;       
+    }
+
+    img{
+        max-width: 500px;
+    }
+}
+
+@media screen and (max-width: 1388px) {
+    img{
+        max-width: 700px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+     /*Centralize header*/
+     #header {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    img{
+        max-width: 650px;
+    }
+
+    #PhraseImage{
+        margin-top: 40px;
+    }
+
+    #DiscoverButton{
+        margin-bottom: 50px;       
+    }
+}
+
+@media screen and (max-width: 610px) {
+    img{
+        max-width: 450px;
+    }
+
+    #PhraseImage{
+        margin-top: 40px;
+    }
+
+    #DiscoverButton{
+        margin-bottom: 50px;       
+    }
+}
+
+@media screen and (max-width: 580px) {
+    img{
+        max-width: 450px;
+    }
+
+    #PhraseImage{
+        margin-top: 40px;
+    }
+
+    #DiscoverButton{
+        margin-bottom: 50px;       
+    }
+}

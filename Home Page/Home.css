@@ -1,0 +1,251 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../Fonts/AvenirLTStd-Roman.otf'); 
+} 
+
+
+
+body {
+    font-family: 'Avenir', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+
+
+/*Main*/
+#Main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;  
+}
+
+
+
+/*Header*/
+#Header { 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    border-top-right-radius: 40px;
+
+    background: linear-gradient(-45deg, #14386e , #003884, #0F5DA7, #2B77BF );
+    background-size: 300% 100%;
+    animation: gradient 10s ease infinite;
+    box-shadow: 0 0 15px #2b77bf7e;
+    padding-left: 20px;
+    padding-right: 10px;
+    min-height: 100vh;
+}
+
+/*header Gradiant Background Animation*/
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#Header #HeaderStart{
+    display: flex;
+    flex-direction: column;
+}
+
+#Header #CurrentPage{
+    background-color: white;
+    color: #0F5DA7;
+    width: 88%;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    font-weight: bold;
+}
+
+#HomeIcon{
+    color: #0F5DA7;
+    padding-right: 3px;
+}
+
+
+#Header #LogoLink{
+    padding: 25px 30px 40px 10px;
+}
+
+#logo {
+    max-width: 200px; 
+    height: auto;
+}
+
+#Header a{
+    color: white;
+    padding: 15px 15px 15px 25px;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all .4s ease-in-out;
+}
+
+#Header a:hover{
+    filter: drop-shadow(0px 0px 10px #d5dee693);
+    transform: translate3d(0, -2px, 0);
+}
+
+#Header #LogoLink:hover{ /*Prevent logo hovering styeling*/
+    filter: drop-shadow(0px 0px 0px #d5dee693);
+    transform: translate3d(0, 0px, 0);
+}
+
+
+/*Social Media Icons*/
+.social-icons{
+    text-align: left;
+    padding: 25px 15px ;
+}
+
+#Header .social-icons a{
+    font-size:30px;
+    margin: 0 -18px;
+    text-decoration:none;
+    transition: all .4s ease-in-out; 
+}
+
+#Header .social-icons a:hover i{
+    transform: translate3d(0, -2px, 0);
+}
+
+
+
+/*Content*/
+#Content{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;  
+    padding-top: 5.5vh;
+}
+
+#MenuButtons{
+    display: flex;
+    align-self: flex-end;
+    padding-right: 30px;
+}
+
+#Bell {
+    display: block;
+    font-size:30px;
+    font-weight: 300;
+    padding: 7px 12px 5px 0px;
+    color: #0F5DA7;
+    transition: all .4s ease-in-out;
+    filter: drop-shadow(0px 0px 5px #2b77bf7e);
+}
+
+#Bell:hover{
+    
+    transform: translate3d(0, -2px, 0);
+    cursor: pointer;
+}
+
+#logoutButton {
+    border: 0;
+    border-radius: 30px;
+    color: white;
+    height: 40px;
+    padding: 7px 56px;
+    font-size: 16.5px;
+    transition: all .4s ease-in-out;
+    background: linear-gradient(-45deg, #2B77BF , #003884, #0F5DA7, #2B77BF );
+    background-size: 100% 300%;   
+}
+
+
+#logoutButton:hover{
+    box-shadow: 0 0 15px #2b77bf7e;
+    color: white;
+    transform: translate3d(0, -2px, 0);
+    cursor: pointer;
+}
+
+
+
+/*Statstics Content*/
+#Statstics{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#Statstics h1{
+    color: #0F5DA7;
+    text-align: center;
+    font-size: 43px;
+    font-weight: 900;
+    margin: 7.9vh 0vh 3.9vh 0vh;
+    border-radius: 2px;
+    padding: 9px 0px 9px 0px;
+    text-transform: uppercase;
+}
+
+#Statstic{ 
+    display: flex;
+    justify-content: space-around; 
+    flex-wrap: wrap;
+    width: 80%;
+    margin: -9px 10% 4vh 10% ;
+    padding: 0px 50px 0px 50px;
+    box-sizing: border-box;
+}
+
+#Statstic div{
+    width: 39vh;
+    height: 24.3vh;
+    background-color: rgb(249, 249, 249); 
+    color: #0F5DA7;
+    box-sizing: border-box;
+    padding: 4px 35px 24.3vh 35px;
+    margin: 10px 1px 10px 1px;
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+#Statstic h2{
+    text-align: left;
+    font-size: 5.4vh;
+    letter-spacing: 1.1px;
+    border-bottom:2px solid #0c3a7b;
+}
+
+#Statstic p{
+    text-align: left;
+    font-size: 2.7vh;
+    line-height: 25px;
+    margin-top: -20px;
+    color: #0c3a7b;
+    opacity: 0.9;
+}
+
+
+#Statstic p a{
+    display: block;
+    font-size: 2.05vh;
+    color: #0c3a7b;
+    padding-top: 15px;
+    padding-left: 2px;
+    text-decoration: none;
+    opacity: 0.9;
+}
+
+#Statstic div:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.282);
+    background-color: white;
+}
+
+
+
+
+

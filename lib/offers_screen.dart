@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:watheq_app/profile_screen.dart';
-import 'package:watheq_app/database_connection/connection.dart';
+import 'package:Watheq/profile_screen.dart';
+import 'package:Watheq/database_connection/connection.dart';
 import 'package:get/get.dart';
 import 'offer_details_screen.dart';
 

@@ -1,5 +1,6 @@
+import 'package:Watheq/start_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:watheq_app/Authentication/login_screen.dart';
+import 'package:Watheq/start_screen.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 11, 15, 121),
         ),
       ),
-      home: const LoginScreen(),
+      home: const StartScreen(),
     );
   }
 }

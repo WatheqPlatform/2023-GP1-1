@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:Watheq/profile_screen.dart';
-import 'package:Watheq/database_connection/connection.dart';
+import 'package:watheq/profile_screen.dart';
+import 'package:watheq/database_connection/connection.dart';
 import 'package:get/get.dart';
 import 'offer_details_screen.dart';
 
@@ -126,7 +126,7 @@ class _OffersScreenState extends State<OffersScreen> {
                           child: ListTile(
                             onTap: () {
                               Get.to(() => JobOfferDetailScreen(
-                                    OfferID: foundOffers[index]["OfferID"],
+                                    offerID: foundOffers[index]["OfferID"],
                                   ));
                             },
                             title: Text("${foundOffers[index]["JobTitle"]}"

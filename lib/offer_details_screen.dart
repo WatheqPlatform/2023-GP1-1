@@ -1,13 +1,16 @@
+// ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
-import 'package:Watheq/database_connection/connection.dart';
+import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class JobOfferDetailScreen extends StatefulWidget {
-  var OfferID;
+  var offerID;
 
   JobOfferDetailScreen({
-    required this.OfferID,
+    super.key,
+    required this.offerID,
   });
 
   @override
@@ -15,21 +18,21 @@ class JobOfferDetailScreen extends StatefulWidget {
 }
 
 class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
-  List OfferDetails = [];
+  List offerDetails = [];
 
   bool empty = true;
 
   Future<void> getdata() async {
     var res = await http.post(
       Uri.parse(Connection.jobDetailData),
-      body: {"ID": widget.OfferID},
+      body: {"ID": widget.offerID},
     );
 
     if (res.statusCode == 200) {
       var red = json.decode(res.body);
 
       setState(() {
-        OfferDetails.addAll(red);
+        offerDetails.addAll(red);
         empty = false;
       });
     }
@@ -43,19 +46,17 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
 
   //checking optional fields value
 
-  Widget StartingDateCheck() {
-    if (OfferDetails[0]["StartingDate"] != null &&
-        OfferDetails[0]["StartingDate"] != "") {
-      return Container(
-        child: Column(
-          children: [
-            Divider(),
-            ListTile(
-              title: Text('Starting Date'),
-              subtitle: Text("${OfferDetails[0]["StartingDate"]}"),
-            ),
-          ],
-        ),
+  Widget startingDateCheck() {
+    if (offerDetails[0]["StartingDate"] != null &&
+        offerDetails[0]["StartingDate"] != "") {
+      return Column(
+        children: [
+          const Divider(),
+          ListTile(
+            title: const Text('Starting Date'),
+            subtitle: Text("${offerDetails[0]["StartingDate"]}"),
+          ),
+        ],
       );
     } else {
       return Container(
@@ -64,19 +65,17 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     }
   }
 
-  Widget WorkingDaysCheck() {
-    if (OfferDetails[0]["WorkingDays"] != null &&
-        OfferDetails[0]["WorkingDays"] != "") {
-      return Container(
-        child: Column(
-          children: [
-            Divider(),
-            ListTile(
-              title: Text('Working Days'),
-              subtitle: Text("${OfferDetails[0]["WorkingDays"]}"),
-            ),
-          ],
-        ),
+  Widget workingDaysCheck() {
+    if (offerDetails[0]["WorkingDays"] != null &&
+        offerDetails[0]["WorkingDays"] != "") {
+      return Column(
+        children: [
+          const Divider(),
+          ListTile(
+            title: const Text('Working Days'),
+            subtitle: Text("${offerDetails[0]["WorkingDays"]}"),
+          ),
+        ],
       );
     } else {
       return Container(
@@ -85,19 +84,17 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     }
   }
 
-  Widget WorkingHoursCheck() {
-    if (OfferDetails[0]["WorkingHours"] != null &&
-        OfferDetails[0]["WorkingHours"] != "") {
-      return Container(
-        child: Column(
-          children: [
-            Divider(),
-            ListTile(
-              title: Text('Working Hours'),
-              subtitle: Text("${OfferDetails[0]["WorkingHours"]}"),
-            ),
-          ],
-        ),
+  Widget workingHoursCheck() {
+    if (offerDetails[0]["WorkingHours"] != null &&
+        offerDetails[0]["WorkingHours"] != "") {
+      return Column(
+        children: [
+          const Divider(),
+          ListTile(
+            title: const Text('Working Hours'),
+            subtitle: Text("${offerDetails[0]["WorkingHours"]}"),
+          ),
+        ],
       );
     } else {
       return Container(
@@ -106,19 +103,17 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     }
   }
 
-  Widget NotesCheck() {
-    if (OfferDetails[0]["AdditionalNotes"] != null &&
-        OfferDetails[0]["AdditionalNotes"] != "") {
-      return Container(
-        child: Column(
-          children: [
-            Divider(),
-            ListTile(
-              title: Text('Additional Notes'),
-              subtitle: Text("${OfferDetails[0]["AdditionalNotes"]}"),
-            ),
-          ],
-        ),
+  Widget notesCheck() {
+    if (offerDetails[0]["AdditionalNotes"] != null &&
+        offerDetails[0]["AdditionalNotes"] != "") {
+      return Column(
+        children: [
+          const Divider(),
+          ListTile(
+            title: const Text('Additional Notes'),
+            subtitle: Text("${offerDetails[0]["AdditionalNotes"]}"),
+          ),
+        ],
       );
     } else {
       return Container(
@@ -131,7 +126,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Job Offer Details'),
+        title: const Text('Job Offer Details'),
       ),
       body: empty
           ? null
@@ -145,7 +140,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 5,
-                        offset: Offset(0, 3),
+                        offset: const Offset(0, 3),
                       ),
                     ],
                   ),
@@ -155,8 +150,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          "${OfferDetails[0]["JobTitle"]}",
-                          style: TextStyle(
+                          "${offerDetails[0]["JobTitle"]}",
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -165,51 +160,50 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
-                          "${OfferDetails[0]["JobDescription"]}",
-                          style: TextStyle(fontSize: 18),
+                          "${offerDetails[0]["JobDescription"]}",
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Category'),
-                        subtitle: Text("${OfferDetails[0]["Category"]}"),
+                        title: const Text('Category'),
+                        subtitle: Text("${offerDetails[0]["Category"]}"),
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Employment Type'),
-                        subtitle: Text("${OfferDetails[0]["EmploymentType"]}"),
+                        title: const Text('Employment Type'),
+                        subtitle: Text("${offerDetails[0]["EmploymentType"]}"),
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Location'),
-                        subtitle: Text("${OfferDetails[0]["JobAddress"]}" +
-                            "${OfferDetails[0]["City"]}"),
+                        title: const Text('Location'),
+                        subtitle: Text("${offerDetails[0]["JobAddress"]}"
+                            "${offerDetails[0]["City"]}"),
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Salary'),
-                        subtitle: Text("${OfferDetails[0]["MinSalary"]}" +
-                            " - " +
-                            "${OfferDetails[0]["MaxSalary"]}"),
+                        title: const Text('Salary'),
+                        subtitle: Text(
+                            "${offerDetails[0]["MinSalary"]} - ${offerDetails[0]["MaxSalary"]}"),
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Status'),
-                        subtitle: Text("${OfferDetails[0]["Status"]}"),
+                        title: const Text('Status'),
+                        subtitle: Text("${offerDetails[0]["Status"]}"),
                       ),
-                      Divider(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Date'),
-                        subtitle: Text("${OfferDetails[0]["Date"]}"),
+                        title: const Text('Date'),
+                        subtitle: Text("${offerDetails[0]["Date"]}"),
                       ),
-                      StartingDateCheck(),
-                      WorkingDaysCheck(),
-                      WorkingHoursCheck(),
-                      NotesCheck(),
-                      Divider(),
+                      startingDateCheck(),
+                      workingDaysCheck(),
+                      workingHoursCheck(),
+                      notesCheck(),
+                      const Divider(),
                       ListTile(
-                        title: Text('Company Name'),
-                        subtitle: Text("${OfferDetails[0]["CompanyName"]}"),
+                        title: const Text('Company Name'),
+                        subtitle: Text("${offerDetails[0]["CompanyName"]}"),
                       ),
                     ],
                   ),

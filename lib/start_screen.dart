@@ -7,14 +7,14 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/StartBackground.jpeg"),
             fit: BoxFit.cover,
           ),
         ),
         child: Container(
-          color: Color.fromARGB(141, 2, 74, 141),
+          color: const Color.fromARGB(141, 2, 74, 141),
         ),
       ),
     );

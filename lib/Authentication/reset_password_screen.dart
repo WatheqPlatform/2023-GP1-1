@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:Watheq/Authentication/verification_screen.dart';
-import 'package:Watheq/database_connection/connection.dart';
+import 'package:watheq/Authentication/verification_screen.dart';
+import 'package:watheq/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:email_validator/email_validator.dart';

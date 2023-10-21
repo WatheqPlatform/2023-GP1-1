@@ -1,6 +1,5 @@
-import 'package:Watheq/start_screen.dart';
+import 'package:watheq/start_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:Watheq/start_screen.dart';
 import 'package:get/get.dart';
 
 void main() {

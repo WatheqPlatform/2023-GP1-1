@@ -1,11 +1,11 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import 'package:Watheq/database_connection/connection.dart';
+import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:Watheq/Authentication/login_screen.dart';
+import 'package:watheq/Authentication/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String email;
@@ -89,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: const EdgeInsets.only(bottom: 20),
             child: ElevatedButton(
               onPressed: () {
-                Get.offAll(LoginScreen());
+                Get.offAll(const LoginScreen());
               },
               child: const Text('Logout'),
             ),

@@ -244,6 +244,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   //email field
                                   TextFormField(
                                     controller: emailController,
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
                                     validator: (value) {
                                       if (value == "") {
                                         return "Enter the email";
@@ -301,6 +303,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   //password field
                                   Obx(
                                     () => TextFormField(
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       controller: passwordController,
                                       obscureText: isObsecure.value,
                                       validator: (value) {

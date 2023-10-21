@@ -99,6 +99,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                   //password field
                                   Obx(
                                     () => TextFormField(
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       controller: passwordController,
                                       obscureText: isObsecure.value,
                                       validator: (value) {

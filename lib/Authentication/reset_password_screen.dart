@@ -5,6 +5,7 @@ import 'package:watheq_app/Authentication/verification_screen.dart';
 import 'package:watheq_app/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
+import 'package:email_validator/email_validator.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -93,9 +94,19 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 children: [
                                   //email field
                                   TextFormField(
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
                                     controller: emailController,
-                                    validator: (value) =>
-                                        value == "" ? "Enter your Email" : null,
+                                    validator: (value) {
+                                      if (value == "") {
+                                        return "Enter the email";
+                                      }
+                                      if (!EmailValidator.validate(
+                                          value.toString())) {
+                                        return "Enter valid email";
+                                      }
+                                      return null;
+                                    },
                                     decoration: InputDecoration(
                                       prefixIcon: const Icon(
                                         Icons.email,

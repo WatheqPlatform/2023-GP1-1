@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 11, 15, 121),
         ),
+        fontFamily: 'Poppins',
       ),
       home: const StartScreen(),
     );

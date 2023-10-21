@@ -5,6 +5,7 @@ import 'package:Watheq/Authentication/verification_screen.dart';
 import 'package:Watheq/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
+import 'package:email_validator/email_validator.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -18,6 +19,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   var emailController = TextEditingController(); // users inputs
   var isObsecure = true.obs;
 
+//sending code
   forgetPassword() async {
     try {
       var response = await http.post(
@@ -27,8 +29,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         }),
         headers: {"Content-Type": "application/json"},
       );
-      // ignore: avoid_print
-      print(response);
       if (response.statusCode == 200) {
         // communication is succefull
         var res = jsonDecode(response.body.trim());
@@ -39,7 +39,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           Get.to(VerificationScreen(email: emailController.text.trim()));
         } else {
           Fluttertoast.showToast(
-              msg: "The email is incorrect, please try again $res");
+              msg: "The email is incorrect, please try again");
         }
       }
     } catch (e) {
@@ -94,9 +94,19 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 children: [
                                   //email field
                                   TextFormField(
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
                                     controller: emailController,
-                                    validator: (value) =>
-                                        value == "" ? "Enter your Email" : null,
+                                    validator: (value) {
+                                      if (value == "") {
+                                        return "Enter the email";
+                                      }
+                                      if (!EmailValidator.validate(
+                                          value.toString())) {
+                                        return "Enter valid email";
+                                      }
+                                      return null;
+                                    },
                                     decoration: InputDecoration(
                                       prefixIcon: const Icon(
                                         Icons.email,

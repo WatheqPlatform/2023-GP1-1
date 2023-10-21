@@ -26,7 +26,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
     return regExp.hasMatch(value);
   }
 
-  //resetting functionfunction
+  //reset function
   resetPassword() async {
     try {
       var response = await http.put(
@@ -39,15 +39,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
       if (response.statusCode == 200) {
         // communication is succefull
-        var resBodyOfLogin = jsonDecode(response.body.trim());
+        var resBody = jsonDecode(response.body.trim());
 
-        if (resBodyOfLogin.containsKey('message')) {
+        if (resBody.containsKey('message')) {
           //true
           Fluttertoast.showToast(msg: "Retested successfully");
           Get.to(() => const LoginScreen());
         } else {
-          Fluttertoast.showToast(
-              msg: "The email or password is incorrect, please try again");
+          Fluttertoast.showToast(msg: resBody['error']);
         }
       }
     } catch (e) {
@@ -100,6 +99,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                   //password field
                                   Obx(
                                     () => TextFormField(
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
                                       controller: passwordController,
                                       obscureText: isObsecure.value,
                                       validator: (value) {

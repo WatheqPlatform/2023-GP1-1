@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:Watheq/Authentication/new_password_screen.dart';
-import 'package:Watheq/Authentication/reset_password_screen.dart';
 import 'package:Watheq/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
@@ -71,9 +69,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int endTime =
-        DateTime.now().millisecondsSinceEpoch + 5 * 60 * 1000; // 5 minutes
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: LayoutBuilder(
@@ -113,14 +108,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         padding: const EdgeInsets.fromLTRB(30, 30, 30, 8.0),
                         child: Column(
                           children: [
-                            CountdownTimer(
-                              endTime: endTime,
-                              textStyle: const TextStyle(
-                                  fontSize: 30, color: Colors.black),
-                              onEnd: () {
-                                Get.to(const ForgetPasswordScreen());
-                              },
-                            ),
                             Form(
                               key: formKey,
                               child: Column(
@@ -216,6 +203,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                         ),
                                         onPressed: () {
                                           forgetPassword();
+                                          codeController.clear();
                                         },
                                         child: const Text(
                                           "Re-Send code",

@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/PagesBackground.png"),
+            image: AssetImage("assets/images/LaunchColor.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Welcome Back!",
                     style: TextStyle(
                       color: Color(0xFF14386E),
-                      fontSize: 25.0,
+                      fontSize: 27.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 40),
                   Form(
                     key: formKey,
                     child: Column(

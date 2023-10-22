@@ -25,7 +25,7 @@ class StartScreen extends StatelessWidget {
             children: [
               Image.asset(
                 "assets/images/WatheqLogo.png",
-                width: screenWidth * 0.6,
+                width: screenWidth * 0.65,
               ),
               const SizedBox(height: 80),
               Container(

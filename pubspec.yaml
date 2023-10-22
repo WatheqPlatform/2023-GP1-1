@@ -71,8 +71,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/images/StartBackground.jpeg
+   - assets/images/StartBackground.png
+   - assets/images/LaunchColor.png
    - assets/images/WatheqLogo.png
+   - assets/images/PagesBackground.png
 
  
   # To add custom fonts to your application, add a fonts section here,

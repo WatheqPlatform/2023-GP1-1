@@ -3,39 +3,39 @@ import 'package:watheq/Authentication/signup_screen.dart';
 import 'package:watheq/Authentication/login_screen.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({Key? key});
+  const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/StartBackground.jpeg"),
+            image: AssetImage("assets/images/LaunchColor.png"),
             fit: BoxFit.cover,
           ),
         ),
         child: Container(
-          color: const Color.fromARGB(154, 2, 74, 141),
+          //color: const Color.fromARGB(163, 2, 74, 141),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 80,
-                ),
-                child: Image.asset(
-                  "assets/images/WatheqLogo.png",
-                  width: 280,
-                ),
+              Image.asset(
+                "assets/images/WatheqLogo.png",
+                width: 280,
+              ),
+              //Padding between element
+              const SizedBox(
+                height: 80,
               ),
               Container(
                 width: double.infinity,
-                height: screenHeight * 0.41,
+                height: screenHeight * 0.40,
                 padding: const EdgeInsets.only(
-                  top: 65.0,
+                  top: 60.0,
                   right: 40.0,
                   bottom: 20.0,
                   left: 40.0,
@@ -48,7 +48,7 @@ class StartScreen extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Color(0x3B000000),
-                      spreadRadius: 5,
+                      spreadRadius: 3,
                       blurRadius: 7,
                       offset: Offset(0, 3),
                     ),
@@ -56,7 +56,7 @@ class StartScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       "Improve Your Career",
                       style: TextStyle(
                         color: Color(0xFF14386E),
@@ -64,7 +64,10 @@ class StartScreen extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    //Padding between element
+                    const SizedBox(
+                      height: 2,
+                    ),
                     const Text(
                       "Discover endless career possibilities Your journey begins here!",
                       style: TextStyle(
@@ -73,7 +76,11 @@ class StartScreen extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 30),
+                    //Padding between element
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    //Get Started Button
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
@@ -88,7 +95,7 @@ class StartScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        elevation: 10,
+                        elevation: 5,
                       ),
                       child: const Text(
                         "Get Started",
@@ -97,7 +104,11 @@ class StartScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 17),
+                    //Padding between element
+                    const SizedBox(
+                      height: 17,
+                    ),
+                    //Sign In Button
                     OutlinedButton(
                       onPressed: () {
                         Navigator.push(
@@ -111,7 +122,7 @@ class StartScreen extends StatelessWidget {
                           width: 1.5,
                           color: Color(0xFF024A8D),
                         ),
-                        fixedSize: const Size(325, 50),
+                        fixedSize: const Size(325, 47),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),

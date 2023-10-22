@@ -34,69 +34,91 @@ $(document).ready(function () {
             shadow.addEventListener("click", function () {
                 modal_wrapper.classList.remove("active");
                 faliure_wrap.classList.remove("active");
-            })
+            });
 
         } else {
+            // double check that the nubmers feilds have a number values
+            if (isNaN(parseFloat($("#minSalary").val())) || !isFinite(parseFloat($("#minSalary").val()))) {
 
-
-            var skills = getSkills();
-           
-
-            // Call the saveQualifications() function and log the returned data
-            var qualifications = saveQualifications();
-           
-
-            // Call the saveExperiences() function and log the returned data
-            var experiences = saveExperiences();
-           
-            //Send the information to PHP File
-            $.post("AddOfferLogic.php", {
-                jobTitle: inputValues[0],
-                jobDescription: inputValues[1],
-                jobField: inputValues[2],
-                jobAddress: inputValues[3],
-                jobType: inputValues[4],
-                minSalary: inputValues[5],
-                maxSalary: inputValues[6],
-                jobCategories: inputValues[7],
-                jobCity: inputValues[8],
-
-                // non required feilds we won't check if they are empty 
-                startingDate: $("#date").val(),
-                workingHours: $("#workingHours").val(),
-                notes: $("#notes").val(),
-                workingDays: getWorkingDays(),
-                //skills: getSkills(),
-                // qualifications: saveQualifications(),
-                //s experiences: saveExperiences(),
-                skills: skills,
-                qualifications: qualifications,
-                experiences: experiences
-
-            }, function (data) {
-               
-                if (data === "success") { // Update the condition to trim the data
-                    $('#AddForm')[0].reset(); // Delete information from the form
-                    var modal_wrapper = document.querySelector(".modal_wrapper");
-                    var success_wrap = document.querySelector(".success_wrap");
-                    var shadow = document.querySelector(".shadow");
-
-                    modal_wrapper.classList.add("active");
-                    success_wrap.classList.add("active");
-
-                    // Clicking anywhere on the screen remove the message
-                    shadow.addEventListener("click", function () {
-                        modal_wrapper.classList.remove("active");
-                        success_wrap.classList.remove("active");
-                        window.location.href = "../History Page/History.php";
-                    });
+                alert("Please enter a valid number for the minimum salary.");
+            } else {
+                if (isNaN(parseFloat($("#maxSalary").val())) || !isFinite(parseFloat($("#maxSalary").val())))
+                {
+                    alert("Please enter a valid number for the maximum salary.");
                 } else {
-                    // Handle error case
-                    alert("An error occurred during form submission. Please try again");
-                    console.error("Form submission error:", data);
-                }
+                    if (parseFloat($("#minSalary").val()) > parseFloat($("#maxSalary").val()))
+                    {
+                        alert("Minimum salary cannot be greater than the maximum salary.");
 
-            });
+                    } else {
+
+
+
+                        var skills = getSkills();
+
+
+// Call the saveQualifications() function and log the returned data
+                        var qualifications = saveQualifications();
+
+
+// Call the saveExperiences() function and log the returned data
+                        var experiences = saveExperiences();
+                        if (experiences === false) {
+                            alert("Please enter a valid number for Experience years.");
+                        } else {
+                            //Send the information to PHP File
+                            $.post("AddOffer.php", {
+                                jobTitle: inputValues[0],
+                                jobDescription: inputValues[1],
+                                jobField: inputValues[2],
+                                jobAddress: inputValues[3],
+                                jobType: inputValues[4],
+                                minSalary: inputValues[5],
+                                maxSalary: inputValues[6],
+                                jobCategories: inputValues[7],
+                                jobCity: inputValues[8],
+
+                                // non required feilds we won't check if they are empty 
+                                startingDate: $("#date").val(),
+                                workingHours: $("#workingHours").val(),
+                                notes: $("#notes").val(),
+                                workingDays: getWorkingDays(),
+                                //skills: getSkills(),
+                                // qualifications: saveQualifications(),
+                                //s experiences: saveExperiences(),
+                                skills: skills,
+                                qualifications: qualifications,
+                                experiences: experiences
+
+                            }, function (data) {
+
+                                if (data === "success") { // Update the condition to trim the data
+                                    $('#AddForm')[0].reset(); // Delete information from the form
+                                    var modal_wrapper = document.querySelector(".modal_wrapper");
+                                    var success_wrap = document.querySelector(".success_wrap");
+                                    var shadow = document.querySelector(".shadow");
+
+                                    modal_wrapper.classList.add("active");
+                                    success_wrap.classList.add("active");
+
+                                    // Clicking anywhere on the screen remove the message
+                                    shadow.addEventListener("click", function () {
+                                        modal_wrapper.classList.remove("active");
+                                        success_wrap.classList.remove("active");
+                                        window.location.href = "../History Page/History.php";
+                                    });
+                                } else {
+                                    // Handle error case
+                                    alert("An error occurred during form submission. Please try again");
+                                    console.error("Form submission error:", data);
+                                }
+
+                            });
+                        }
+                    }
+                }
+            }
+
 
             function getWorkingDays() {
                 let days = $("input[name='day']:checked").map(function () {
@@ -159,7 +181,9 @@ $(document).ready(function () {
                     var description = $(this).find("input[name^='experiences']").eq(0).val().trim();
                     var years = $(this).find("input[name^='experiences']").eq(1).val();
 
-                    if (field !== "" && description !== "" && years !== "") {
+                    var YearisInteger = Number.isInteger(parseInt(years));
+
+                    if (field !== "" && description !== "" && years !== "" && YearisInteger) {
                         // Check if the experience already exists in the experiences array
                         var exists = experiences.some(function (experience) {
                             return experience.field === field && experience.description === description && experience.years === years;
@@ -172,6 +196,9 @@ $(document).ready(function () {
                                 years: years
                             });
                         }
+                    } else {
+
+                        return false;
                     }
                 });
 

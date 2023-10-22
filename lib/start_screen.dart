@@ -30,7 +30,7 @@ class StartScreen extends StatelessWidget {
               const SizedBox(height: 80),
               Container(
                 width: double.infinity,
-                height: screenHeight * 0.4,
+                height: screenHeight * 0.41,
                 padding: EdgeInsets.all(screenWidth * 0.1),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -48,7 +48,7 @@ class StartScreen extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 25),
                     const Text(
                       "Improve Your Career",
                       style: TextStyle(
@@ -59,7 +59,7 @@ class StartScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     const Text(
-                      "Discover endless career possibilities. Your journey begins here!",
+                      "Discover endless career possibilities Your journey begins here!",
                       style: TextStyle(
                         color: Color(0xffd714386e),
                         fontSize: 17.0,

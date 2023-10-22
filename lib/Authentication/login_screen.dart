@@ -92,10 +92,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            const SizedBox(height: 195),
+            const SizedBox(height: 220),
             Container(
               width: double.infinity,
-              height: screenHeight * 0.65,
+              height: screenHeight * 0.63,
               padding: EdgeInsets.symmetric(
                 vertical: screenHeight * 0.03,
                 horizontal: screenWidth * 0.1,
@@ -116,12 +116,12 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: Column(
                 children: [
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 45),
                   const Text(
                     "Welcome Back!",
                     style: TextStyle(
                       color: Color(0xFF14386E),
-                      fontSize: 27.0,
+                      fontSize: 29.0,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -252,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 28),
                         ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
@@ -298,9 +298,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text(
                             "Sign Up",
                             style: TextStyle(
-                              color: Color(0xFF14386E),
-                              fontSize: 15,
-                            ),
+                                color: Color(0xFF14386E),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),

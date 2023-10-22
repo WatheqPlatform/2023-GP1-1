@@ -52,8 +52,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -64,13 +66,9 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            //Header
             Row(
               children: [
-                // Padding between elements
-                const SizedBox(
-                  width: 2,
-                ),
+                const SizedBox(width: 2),
                 IconButton(
                   icon: const Icon(
                     Icons.arrow_back_ios_rounded,
@@ -82,10 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(
-                    top: 10,
-                    left: 1,
-                  ),
+                  padding: EdgeInsets.only(top: 10, left: 1),
                   child: Text(
                     "Sign In",
                     style: TextStyle(
@@ -97,18 +92,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ),
-            // Padding between elements
-            const SizedBox(
-              height: 180,
-            ),
+            const SizedBox(height: 195),
             Container(
               width: double.infinity,
-              height: screenHeight * 0.68,
-              padding: const EdgeInsets.only(
-                top: 65.0,
-                right: 40.0,
-                bottom: 20.0,
-                left: 40.0,
+              height: screenHeight * 0.65,
+              padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.03,
+                horizontal: screenWidth * 0.1,
               ),
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -126,10 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: Column(
                 children: [
-                  //Padding between element
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 50),
                   const Text(
                     "Welcome Back!",
                     style: TextStyle(
@@ -146,20 +133,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  //Padding between element
-                  const SizedBox(
-                    height: 55,
-                  ),
-                  // Sign In Form
+                  const SizedBox(height: 50),
                   Form(
                     key: formKey,
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(
-                            right: 270,
-                            bottom: 3,
-                          ),
+                          padding: EdgeInsets.only(right: 270, bottom: 3),
                           child: Text(
                             "Email",
                             style: TextStyle(
@@ -168,9 +148,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        // Email
                         SizedBox(
-                          width: 325,
+                          width: screenWidth * 0.8,
                           child: TextFormField(
                             controller: emailController,
                             validator: (value) =>
@@ -192,23 +171,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Color(0xFF14386E),
                                 ),
                               ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: screenWidth * 0.04,
+                                vertical: screenHeight * 0.012,
                               ),
                             ),
                           ),
                         ),
-                        // Padding between elements
-                        const SizedBox(
-                          height: 20,
-                        ),
-
+                        const SizedBox(height: 20),
                         const Padding(
-                          padding: EdgeInsets.only(
-                            right: 230,
-                            bottom: 3,
-                          ),
+                          padding: EdgeInsets.only(right: 230, bottom: 3),
                           child: Text(
                             "Password",
                             style: TextStyle(
@@ -217,10 +189,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        //
-                        // Password
                         SizedBox(
-                          width: 325,
+                          width: screenWidth * 0.8,
                           child: Column(
                             children: [
                               Obx(
@@ -257,24 +227,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                         color: Color(0xFF14386E),
                                       ),
                                     ),
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 12,
-                                      vertical: 6,
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.04,
+                                      vertical: screenHeight * 0.012,
                                     ),
                                   ),
                                 ),
                               ),
-                              //clackable text
                               GestureDetector(
                                 onTap: () {
-                                  // Handle click action
                                   Get.to(const ForgetPasswordScreen());
                                 },
                                 child: const Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 3,
-                                    right: 150,
-                                  ),
+                                  padding: EdgeInsets.only(top: 3, right: 150),
                                   child: Text(
                                     "Forgot Your Password?",
                                     style: TextStyle(
@@ -287,11 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-
-                        // Submit Button
+                        const SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
@@ -300,7 +261,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF024A8D),
-                            fixedSize: const Size(325, 50),
+                            fixedSize:
+                                Size(screenWidth * 0.8, screenHeight * 0.056),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
@@ -316,9 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 6,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -329,17 +289,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: 15.0,
                         ),
                       ),
-                      //clackable text
                       GestureDetector(
                         onTap: () {
-                          // Handle click action
                           Get.to(const SignUpScreen());
                         },
                         child: const Padding(
-                          padding: EdgeInsets.only(
-                            right: 60,
-                            left: 5,
-                          ),
+                          padding: EdgeInsets.only(right: 67, left: 5),
                           child: Text(
                             "Sign Up",
                             style: TextStyle(

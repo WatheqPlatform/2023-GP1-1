@@ -3,14 +3,15 @@ import 'package:watheq/Authentication/signup_screen.dart';
 import 'package:watheq/Authentication/login_screen.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  const StartScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -19,43 +20,35 @@ class StartScreen extends StatelessWidget {
           ),
         ),
         child: Container(
-          //color: const Color.fromARGB(163, 2, 74, 141),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Image.asset(
                 "assets/images/WatheqLogo.png",
-                width: 280,
+                width: screenWidth * 0.6,
               ),
-              //Padding between element
-              const SizedBox(
-                height: 80,
-              ),
+              const SizedBox(height: 80),
               Container(
                 width: double.infinity,
-                height: screenHeight * 0.40,
-                padding: const EdgeInsets.only(
-                  top: 60.0,
-                  right: 40.0,
-                  bottom: 20.0,
-                  left: 40.0,
-                ),
-                decoration: const BoxDecoration(
+                height: screenHeight * 0.4,
+                padding: EdgeInsets.all(screenWidth * 0.1),
+                decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(90.0),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0x3B000000),
+                      color: const Color(0x3B000000),
                       spreadRadius: 3,
                       blurRadius: 7,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
                 child: Column(
                   children: [
+                    const SizedBox(height: 15),
                     const Text(
                       "Improve Your Career",
                       style: TextStyle(
@@ -64,34 +57,29 @@ class StartScreen extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    //Padding between element
-                    const SizedBox(
-                      height: 2,
-                    ),
+                    const SizedBox(height: 2),
                     const Text(
-                      "Discover endless career possibilities Your journey begins here!",
+                      "Discover endless career possibilities. Your journey begins here!",
                       style: TextStyle(
                         color: Color(0xffd714386e),
                         fontSize: 17.0,
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    //Padding between element
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    //Get Started Button
+                    const SizedBox(height: 30),
                     ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SignUpScreen()),
+                            builder: (context) => const SignUpScreen(),
+                          ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF024A8D),
-                        fixedSize: const Size(325, 50),
+                        backgroundColor: const Color(0xFF024A8D),
+                        fixedSize:
+                            Size(screenWidth * 0.8, screenHeight * 0.056),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -104,17 +92,14 @@ class StartScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    //Padding between element
-                    const SizedBox(
-                      height: 17,
-                    ),
-                    //Sign In Button
+                    const SizedBox(height: 17),
                     OutlinedButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
+                            builder: (context) => const LoginScreen(),
+                          ),
                         );
                       },
                       style: OutlinedButton.styleFrom(
@@ -122,7 +107,8 @@ class StartScreen extends StatelessWidget {
                           width: 1.5,
                           color: Color(0xFF024A8D),
                         ),
-                        fixedSize: const Size(325, 47),
+                        fixedSize:
+                            Size(screenWidth * 0.8, screenHeight * 0.052),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),

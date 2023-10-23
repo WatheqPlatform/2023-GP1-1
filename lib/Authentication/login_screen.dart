@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      Fluttertoast.showToast(msg: "Please check your connection");
     }
   }
 
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/LaunchColor.png"),
+            image: AssetImage("assets/images/PagesBackground.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(right: 270, bottom: 3),
+                          padding: EdgeInsets.only(right: 255, bottom: 3),
                           child: Text(
                             "Email",
                             style: TextStyle(
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 20),
                         const Padding(
-                          padding: EdgeInsets.only(right: 230, bottom: 3),
+                          padding: EdgeInsets.only(right: 217, bottom: 3),
                           child: Text(
                             "Password",
                             style: TextStyle(

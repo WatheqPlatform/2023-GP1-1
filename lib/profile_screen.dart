@@ -17,8 +17,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String firstName = '';
-  String lastName = '';
+  String Name = '';
+
   String email = '';
 
   Future<void> fetchUserData() async {
@@ -29,8 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         var data = json.decode(response.body);
         if (data is List && data.isNotEmpty) {
           setState(() {
-            firstName = data[0]['FirstName'];
-            lastName = data[0]['LastName'];
+            Name = data[0]['Name'];
             email = data[0]['JobSeekerEmail'];
           });
         }
@@ -73,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Full Name: $firstName $lastName',
+                'Full Name: $Name',
                 style: const TextStyle(fontSize: 20),
               ),
               const SizedBox(height: 10),

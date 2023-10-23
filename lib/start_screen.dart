@@ -35,7 +35,7 @@ class StartScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(90.0),
+                    topLeft: Radius.circular(80.0),
                   ),
                   boxShadow: [
                     BoxShadow(

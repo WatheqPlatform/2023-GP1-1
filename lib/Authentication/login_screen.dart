@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     "Sign In",
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 29.0,
+                      fontSize: 27.0,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(90.0),
+                  topLeft: Radius.circular(80.0),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(
                       color: Color(0xFF14386E),
                       fontSize: 29.0,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Text(
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(right: 255, bottom: 3),
+                          padding: EdgeInsets.only(right: 262, bottom: 3),
                           child: Text(
                             "Email",
                             style: TextStyle(
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 20),
                         const Padding(
-                          padding: EdgeInsets.only(right: 217, bottom: 3),
+                          padding: EdgeInsets.only(right: 224, bottom: 3),
                           child: Text(
                             "Password",
                             style: TextStyle(

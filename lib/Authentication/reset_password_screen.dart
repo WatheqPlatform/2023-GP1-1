@@ -83,7 +83,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     "Forget Password",
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 29.0,
+                      fontSize: 27.0,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -101,7 +101,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(90.0),
+                  topLeft: Radius.circular(80.0),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -120,24 +120,24 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     style: TextStyle(
                       color: Color(0xFF14386E),
                       fontSize: 29.0,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Text(
-                    "Enter the email address associated with your account to send you the reset code.",
+                    "Enter the email address associated with your account to send you the reset code",
                     style: TextStyle(
                       color: Color(0xffd714386e),
                       fontSize: 17.0,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 50),
                   Form(
                     key: formKey,
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(right: 255, bottom: 3),
+                          padding: EdgeInsets.only(right: 265, bottom: 3),
                           child: Text(
                             "Email",
                             style: TextStyle(

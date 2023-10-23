@@ -129,17 +129,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     "Sign Up",
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 29.0,
+                      fontSize: 27.0,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 80),
+            const SizedBox(height: 93),
             Container(
               width: double.infinity,
-              height: screenHeight * 0.80,
+              height: screenHeight * 0.77,
               padding: EdgeInsets.symmetric(
                 vertical: screenHeight * 0.03,
                 horizontal: screenWidth * 0.08,
@@ -147,7 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(90.0),
+                  topLeft: Radius.circular(80.0),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -166,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     style: TextStyle(
                       color: Color(0xFF14386E),
                       fontSize: 29.0,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Text(
@@ -177,13 +177,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 45),
                   Form(
                     key: formKey,
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(right: 215, bottom: 3),
+                          padding: EdgeInsets.only(right: 224, bottom: 3),
                           child: Text(
                             "Full Name",
                             style: TextStyle(
@@ -224,7 +224,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         const SizedBox(height: 20),
                         const Padding(
-                          padding: EdgeInsets.only(right: 255, bottom: 3),
+                          padding: EdgeInsets.only(right: 264, bottom: 3),
                           child: Text(
                             "Email",
                             style: TextStyle(
@@ -272,7 +272,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         const SizedBox(height: 20),
                         const Padding(
-                          padding: EdgeInsets.only(right: 215, bottom: 3),
+                          padding: EdgeInsets.only(right: 226, bottom: 3),
                           child: Text(
                             "Password",
                             style: TextStyle(
@@ -333,23 +333,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                               ),
+                              const SizedBox(height: 10),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Checkbox(
-                                    activeColor: const Color(0xFF14386E),
-                                    checkColor: Colors.white,
-                                    side: MaterialStateBorderSide.resolveWith(
-                                      (states) => const BorderSide(
-                                          width: 2.0, color: Color(0xFF14386E)),
+                                  const SizedBox(width: 5),
+                                  SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Checkbox(
+                                      activeColor: const Color(0xFF14386E),
+                                      checkColor: Colors.white,
+                                      side: MaterialStateBorderSide.resolveWith(
+                                        (states) => const BorderSide(
+                                            width: 2.0,
+                                            color: Color(0xFF14386E)),
+                                      ),
+                                      value: isChecked,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          isChecked = !isChecked;
+                                        });
+                                      },
                                     ),
-                                    value: isChecked,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        isChecked = !isChecked;
-                                      });
-                                    },
                                   ),
+                                  const SizedBox(width: 5),
                                   const Text(
                                     "I accept the ",
                                     style: TextStyle(
@@ -368,7 +376,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 style: TextStyle(
                                                   fontSize: 18,
                                                   color: Color(0xFF14386E),
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                               ),
                                               content: const Text(
@@ -390,7 +398,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       fontSize: 18,
                                                       color: Color(0xFF14386E),
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.w600,
                                                     ),
                                                   ),
                                                 ),
@@ -453,7 +461,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Get.to(const LoginScreen());
                         },
                         child: const Padding(
-                          padding: EdgeInsets.only(right: 45, left: 5),
+                          padding: EdgeInsets.only(right: 52, left: 5),
                           child: Text(
                             "Sign In",
                             style: TextStyle(

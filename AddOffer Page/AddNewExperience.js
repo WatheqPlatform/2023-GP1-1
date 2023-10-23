@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var experienceCount = 1;
+    var numberCount = 5;
  
 
     $("#addExperience").click(function (e) {
@@ -15,7 +16,8 @@ $(document).ready(function () {
             <input type="text" name="experiences[${experienceCount}][description]" class="input">
 
             <label for="experienceYears${experienceCount}">Minimum Years of Experience <span class="MaybeRequiredExperince"></span></label>
-            <input type="number" name="experiences[${experienceCount}][years]" class="input">
+            <input type="number" name="experiences[${experienceCount}][years]" class="input" onkeyup="validateNumericInput(this, '${numberCount}')">
+            <span id="warningMessage${numberCount}" style="color: red; display: none;">Please enter a valid number</span>
 
             <ion-icon name="close-circle-outline" class="removeExperience remove" data-experience="${experienceCount}"></ion-icon>   
         </div>
@@ -23,6 +25,7 @@ $(document).ready(function () {
 
         $("#experienceFields").append(experienceFields);
         experienceCount++;
+        numberCount++;
     });
 
     $(document).on("click", ".removeExperience", function (e) {
@@ -31,4 +34,6 @@ $(document).ready(function () {
         $("#experience" + experienceId).remove();
        
     });
+    
+    
 });

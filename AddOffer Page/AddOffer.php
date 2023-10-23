@@ -31,11 +31,13 @@ $result2 = $conn->query($sql2);
         <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->   
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="../Functions/Logout.js"></script>
+        <script src="numInputsValidation.js"></script>
         <script src="AddNewExperience.js"></script>
         <script src="AddNewSkill.js"></script>
         <script src="AddNewQualification.js"></script>
         <script src="FormNavigation.js"></script>
         <script src="Validation.js"></script>
+        
     </head>
 
     <body>
@@ -209,19 +211,23 @@ $result2 = $conn->query($sql2);
                                 <div class="form_container">
                                     <div class="input_wrap">  
                                         <label for="minSalary">Minimum Salary<span class="required"></span></label>
-                                        <input type="number" name="minSalary" class="input" id="minSalary" >
+                                        <input type="number" name="minSalary" class="input" id="minSalary" onkeyup="validateNumericInput(this, '1')" >
+                                        <span id="warningMessage1" style="color: red; display: none;">Please enter a valid number</span>
+
                                     </div>
                                     <div class="input_wrap">  
                                         <label for="maxSalary">Maximum Salary<span class="required"></span></label>
-                                        <input type="number" name="maxSalary" class="input" id="maxSalary" >
+                                        <input type="number" name="maxSalary" class="input" id="maxSalary" onkeyup="validateNumericInput(this, '2')">
+                                        <span id="warningMessage2" style="color: red; display: none;">Please enter a valid number</span>
                                     </div>
                                     <div class="input_wrap">
                                         <label for="date">Starting Date</label> 
                                         <input type="date" name="date"  class="input" id="date">
                                     </div>
                                     <div class="input_wrap">
-                                        <label for="workingHours">Working Hours</label> 
-                                        <input type="number" name="workingHours" class="input" id="workingHours">
+                                        <label for="workingHours">Working Hours Per Day</label> 
+                                        <input type="number" name="workingHours" class="input" id="workingHours" onkeyup="validateNumericInput(this, '3')">
+                                        <span id="warningMessage3" style="color: red; display: none;">Please enter a valid number</span>
                                     </div>
                                     <div class="input_wrap checklist">
                                         <label for="day">Working Days</label>  <!-- not required-->
@@ -307,10 +313,11 @@ $result2 = $conn->query($sql2);
                                         <h4> Experience 1: </h4>
                                         <label for="experienceField0">Experience Field</label> 
                                         <input type="text" name="experience[0][field]" class="input">
-                                        <label for="experienceDescription0" class="MaybeRequiredExperince">Experience Description <span iclass="MaybeRequiredExperince"></span></label> 
+                                        <label for="experienceDescription0" >Experience Description <span class="MaybeRequiredExperince"></span></label> 
                                         <input type="text" name="experiences[0][description]" class="input">
                                         <label for="experienceYears0">Minimum Years of Experience <span class="MaybeRequiredExperince"></span></label>   
-                                        <input type="number" name="experiences[0][years]" class="input" >                 
+                                        <input type="number" name="experiences[0][years]" class="input" onkeyup="validateNumericInput(this, '4')" >  
+                                        <span id="warningMessage4" style="color: red; display: none;">Please enter a valid number</span>
                                     </div>
                                 </div>
                                 <ion-icon name="add-circle-outline" id="addExperience" class="AddingExtraButton"></ion-icon>  

@@ -37,15 +37,7 @@ $(document).ready(function () {
             });
 
         } else {
-            // double check that the nubmers feilds have a number values
-            if (isNaN(parseFloat($("#minSalary").val())) || !isFinite(parseFloat($("#minSalary").val()))) {
-
-                alert("Please enter a valid number for the minimum salary.");
-            } else {
-                if (isNaN(parseFloat($("#maxSalary").val())) || !isFinite(parseFloat($("#maxSalary").val())))
-                {
-                    alert("Please enter a valid number for the maximum salary.");
-                } else {
+            
                     if (parseFloat($("#minSalary").val()) > parseFloat($("#maxSalary").val()))
                     {
                         alert("Minimum salary cannot be greater than the maximum salary.");
@@ -115,9 +107,9 @@ $(document).ready(function () {
 
                             });
                         }
-                    }
+                    
                 }
-            }
+            
 
 
             function getWorkingDays() {

@@ -59,6 +59,9 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icons/LaunchIcon.png"
+  adaptive_icon_background: "assets/icons/LaunchColor.png"
+  adaptive_icon_foreground: "assets/icons/LaunchIcon.png"
+  adaptive_icon_padding: true
 
 
 # The following section is specific to Flutter packages.
@@ -75,6 +78,8 @@ flutter:
    - assets/images/LaunchColor.png
    - assets/images/WatheqLogo.png
    - assets/images/PagesBackground.png
+   - assets/icons/LaunchColor.png
+   - assets/icons/LaunchIcon.png
 
  
   # To add custom fonts to your application, add a fonts section here,

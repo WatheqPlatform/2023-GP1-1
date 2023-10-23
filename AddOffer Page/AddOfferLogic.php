@@ -32,6 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Insert job offer data
     $date = date("Y-m-d");
     $jpEmail = $_SESSION['JPEmail'];
+    
     // Prepare and execute a query to retrieve the CategoryID based on the CategoryName
     $stmtC = $conn->prepare("SELECT CategoryID FROM category WHERE CategoryName = ?");
     $stmtC->bind_param("s", $jobCategories);
@@ -39,18 +40,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmtC->bind_result($categoryID);
     $stmtC->fetch();
     $stmtC->close();
+    
+    // Prepare and execute the SQL query retrieve the CityID based on the CityName
+
+$stmtCity = $conn->prepare("SELECT CityID FROM city WHERE CityName = ?");
+$stmtCity->bind_param("s", $jobCity);
+$stmtCity->execute();
+$stmtCity->bind_result($cityID);
+$stmtCity->fetch();
+$stmtCity->close();
+
+
+
+
+
+
 
     $sql = "INSERT INTO joboffer (JobTitle, JobDescription, Field, EmploymentType, JobAddress, MinSalary, MaxSalary, Status, Date, JPEmail, Category, City, StartingDate, WorkingHours, WorkingDays, AdditionalNotes) 
             VALUES (?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssssssssssss", $jobTitle, $jobDescription, $jobField, $jobType, $jobAddress, $minSalary, $maxSalary, $date, $jpEmail, $categoryID, $jobCity, $startingDate, $workingHours, $workingDays, $notes);
+    $stmt->bind_param("sssssssssssssss", $jobTitle, $jobDescription, $jobField, $jobType, $jobAddress, $minSalary, $maxSalary, $date, $jpEmail, $categoryID, $cityID, $startingDate, $workingHours, $workingDays, $notes);
 
     if ($stmt->execute()) {
         
         $offerID = $stmt->insert_id;
         $stmt->close();
-        // Send success message to JavaScript
+        
         // Insert skills into the database
         if (isset($_POST['skills']) && $_POST['skills'] = !null) {
             $sql2 = "INSERT INTO skill (SkillName, OfferID) VALUES (?, ?)";
@@ -97,6 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt4->close();
             
         }
+        // Send success message to JavaScript
         echo "success"; 
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;

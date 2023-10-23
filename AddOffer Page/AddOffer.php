@@ -168,7 +168,7 @@ $result2 = $conn->query($sql2);
                                         </select>
                                     </div>
                                     <div class="input_wrap">
-                                        <label for="jobField">Job Field<span class="required"></span></label></span>
+                                        <label for="jobField">Job Field<span class="required"></span></label>
                                         <input type="text" name="jobField" class="input" id="jobField" >
                                     </div>
                                     <div class="input_wrap">

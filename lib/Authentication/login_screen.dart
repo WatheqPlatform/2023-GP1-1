@@ -36,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (resBodyOfLogin == 1) {
           Fluttertoast.showToast(msg: "Logged in successfully");
-          Get.to(OffersScreen(
+          Get.offAll(OffersScreen(
             email: emailController.text,
           ));
         } else {

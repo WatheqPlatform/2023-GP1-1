@@ -43,176 +43,196 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
 
         if (resBody.containsKey('message')) {
           //true
-          Fluttertoast.showToast(msg: "Retested successfully");
+          Fluttertoast.showToast(msg: "Resetted successfully");
           Get.to(() => const LoginScreen());
         } else {
-          Fluttertoast.showToast(msg: resBody['error']);
+          Fluttertoast.showToast(
+              msg: "Reset time has expired, please request new one. ");
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      Fluttertoast.showToast(msg: "Please check your connection");
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: LayoutBuilder(
-        builder: (context, cons) {
-          return ConstrainedBox(
-            // to adjust the screen and have the style
-            constraints: BoxConstraints(
-              minHeight: cons.maxHeight,
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/PagesBackground.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Row(
+              children: [
+                const SizedBox(width: 2),
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 40,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10, left: 1),
+                  child: Text(
+                    "Reset Password",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 29.0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            child: SingleChildScrollView(
-              // if the screen is small
+            const SizedBox(height: 220),
+            Container(
+              width: double.infinity,
+              height: screenHeight * 0.63,
+              padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.03,
+                horizontal: screenWidth * 0.1,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(90.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x3B000000),
+                    spreadRadius: 3,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 250,
+                  const SizedBox(height: 45),
+                  const Text(
+                    "Reset Password",
+                    style: TextStyle(
+                      color: Color(0xFF14386E),
+                      fontSize: 29.0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(241, 246, 245, 245),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(60),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 8,
-                            color: Colors.black26,
-                            offset: Offset(0, -3),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(30, 30, 30, 8.0),
-                        child: Column(
-                          children: [
-                            Form(
-                              key: formKey,
-                              child: Column(
-                                children: [
-                                  //password field
-                                  Obx(
-                                    () => TextFormField(
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      controller: passwordController,
-                                      obscureText: isObsecure.value,
-                                      validator: (value) {
-                                        if (value == "") {
-                                          return "Enter the password";
-                                        }
-                                        if (!validateStructure(
-                                            value.toString())) {
-                                          return "Enter valid Password  \n 8 characters \n one uppercase letter \n one lowercase letter \n one digit \n one special character";
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        prefixIcon: const Icon(
-                                          Icons.key,
-                                          color: Colors.black,
-                                        ),
-                                        suffixIcon: Obx(
-                                          () => GestureDetector(
-                                            onTap: () {
-                                              isObsecure.value =
-                                                  !isObsecure.value;
-                                            },
-                                            child: Icon(
-                                              isObsecure.value
-                                                  ? Icons.visibility_off
-                                                  : Icons.visibility,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ),
-                                        hintText: "Password",
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                            color: Colors.white60,
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                            color: Colors.white60,
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                            color: Colors.white60,
-                                          ),
-                                        ),
-                                        disabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                          borderSide: const BorderSide(
-                                            color: Colors.white60,
-                                          ),
-                                        ),
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                          horizontal: 14,
-                                          vertical: 6,
-                                        ),
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                      ),
-                                    ),
-                                  ),
-
-                                  const SizedBox(
-                                    height: 22,
-                                  ),
-
-                                  //Reset button
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      foregroundColor: Colors.white,
-                                      backgroundColor: const Color.fromARGB(
-                                          255, 11, 15, 121),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(40)),
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 40),
-                                    ),
-                                    onPressed: () {
-                                      if (formKey.currentState!.validate()) {
-                                        resetPassword();
-                                      }
-                                    },
-                                    child: const Text(
-                                      "Reset Password",
-                                      style: TextStyle(
-                                        fontSize: 17,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                  const Text(
+                    "Enter your new password.",
+                    style: TextStyle(
+                      color: Color(0xffd714386e),
+                      fontSize: 17.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 40),
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(right: 217, bottom: 3),
+                          child: Text(
+                            "Password",
+                            style: TextStyle(
+                              color: Color(0xFF14386E),
+                              fontSize: 18.0,
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          width: screenWidth * 0.8,
+                          child: Column(
+                            children: [
+                              Obx(
+                                () => TextFormField(
+                                  controller: passwordController,
+                                  obscureText: isObsecure.value,
+                                  validator: (value) =>
+                                      value == "" ? "Enter the password" : null,
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(
+                                      Icons.key,
+                                      color: Color.fromARGB(102, 20, 56, 110),
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      onTap: () {
+                                        isObsecure.value = !isObsecure.value;
+                                      },
+                                      child: Icon(
+                                        isObsecure.value
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                        color: Color(0xFF14386E),
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Color(0xFF14386E),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Color(0xFF14386E),
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.04,
+                                      vertical: screenHeight * 0.012,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 28),
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    resetPassword();
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF024A8D),
+                                  fixedSize: Size(
+                                      screenWidth * 0.8, screenHeight * 0.056),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  elevation: 5,
+                                ),
+                                child: const Text(
+                                  "Reset Password",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }

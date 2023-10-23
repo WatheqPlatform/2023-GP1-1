@@ -183,7 +183,7 @@ $(document).ready(function () {
 
                     var YearisInteger = Number.isInteger(parseInt(years));
 
-                    if (field !== "" && description !== "" && years !== "" && YearisInteger) {
+                    if (field !== "" && description !== "" && years !== "" && YearisInteger === true) {
                         // Check if the experience already exists in the experiences array
                         var exists = experiences.some(function (experience) {
                             return experience.field === field && experience.description === description && experience.years === years;

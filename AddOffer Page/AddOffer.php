@@ -9,6 +9,11 @@ include("../dbConnection.php");
 // Retrieve the rows from the "category" table
 $sql = "SELECT * FROM category";
 $result = $conn->query($sql);
+// Fetch the cities from the "city" table
+$sql2 = "SELECT CityName FROM city ORDER BY CityName ASC";
+$result2 = $conn->query($sql2);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -168,107 +173,19 @@ $result = $conn->query($sql);
                                         <label for="jobCity">Job City<span class="required"></span></label>
                                         <select name="jobCity" id="jobCity" class="input select">
                                             <option disabled selected></option>
-                                            <option value="Abha">Abha</option>
-                                            <option value="Ad-Dilam">Ad-Dilam</option>
-                                            <option value="Al-Abwa">Al-Abwa</option>
-                                            <option value="Al Artaweeiyah">Al Artaweeiyah</option>
-                                            <option value="Al Bukayriyah">Al Bukayriyah</option>
-                                            <option value="Badr">Badr</option>
-                                            <option value="Baljurashi">Baljurashi</option>
-                                            <option value="Bisha">Bisha</option>
-                                            <option value="Bareq">Bareq</option>
-                                            <option value="Buraydah">Buraydah</option>
-                                            <option value="Al Bahah">Al Bahah</option>
-                                            <option value="Buqaa">Buqaa</option>
-                                            <option value="Dammam">Dammam</option>
-                                            <option value="Dhahran">Dhahran</option>
-                                            <option value="Dhurma">Dhurma</option>
-                                            <option value="Dahaban">Dahaban</option>
-                                            <option value="Diriyah">Diriyah</option>
-                                            <option value="Duba">Duba</option>
-                                            <option value="Dumat Al-Jandal">Dumat Al-Jandal</option>
-                                            <option value="Dawadmi">Dawadmi</option>
-                                            <option value="Farasan">Farasan</option>
-                                            <option value="Gatgat">Gatgat</option>
-                                            <option value="Gerrha">Gerrha</option>
-                                            <option value="Ghawiyah">Ghawiyah</option>
-                                            <option value="Al-Gwei'iyyah">Al-Gwei'iyyah</option>
-                                            <option value="Hautat Sudair">Hautat Sudair</option>
-                                            <option value="Habaala">Habaala</option>
-                                            <option value="Hajrah">Hajrah</option>
-                                            <option value="Haql">Haql</option>
-                                            <option value="Al-Hareeq">Al-Hareeq</option>
-                                            <option value="Harmah">Harmah</option>
-                                            <option value="Ha'il">Ha'il</option>
-                                            <option value="Hotat Bani Tamim">Hotat Bani Tamim</option>
-                                            <option value="Hofuf">Hofuf</option>
-                                            <option value="Huraymila">Huraymila</option>
-                                            <option value="Hafr Al-Batin">Hafr Al-Batin</option>
-                                            <option value="Jabal Umm al Ru'us">Jabal Umm al Ru'us</option>
-                                            <option value="Jalajil">Jalajil</option>
-                                            <option value="Jeddah">Jeddah</option>
-                                            <option value="Jizan">Jizan</option>
-                                            <option value="Jazan Economic City">Jazan Economic City</option>
-                                            <option value="Jubail">Jubail</option>
-                                            <option value="Al Jafr">Al Jafr</option>
-                                            <option value="Khafji">Khafji</option>
-                                            <option value="Khaybar">Khaybar</option>
-                                            <option value="King Abdullah Economic City">King Abdullah Economic City</option>
-                                            <option value="Khamis Mushait">Khamis Mushait</option>
-                                            <option value="Al-Saih">Al-Saih</option>
-                                            <option value="Knowledge Economic City, Medina">Knowledge Economic City, Medina</option>
-                                            <option value="Khobar">Khobar</option>
-                                            <option value="Al-Khutt">Al-Khutt</option>
-                                            <option value="Layla">Layla</option>
-                                            <option value="Lihyan">Lihyan</option>
-                                            <option value="Al Lith">Al Lith</option>
-                                            <option value="Al Majma'ah">Al Majma'ah</option>
-                                            <option value="Mastoorah">Mastoorah</option>
-                                            <option value="Al Mikhwah">Al Mikhwah</option>
-                                            <option value="Al-Mubarraz">Al-Mubarraz</option>
-                                            <option value="Al-Mubarraz">Al-Mubarraz</option>
-                                            <option value="Al-Mujaydil">Al-Mujaydil</option>
-                                            <option value="Al-Mulayh">Al-Mulayh</option>
-                                            <option value="Al-Munayzilah">Al-Munayzilah</option>
-                                            <option value="Al-Mutayrifi">Al-Mutayrifi</option>
-                                            <option value="Al-Nabiyya Al-Gharbiyya">Al-Nabiyya Al-Gharbiyya</option>
-                                            <option value="Al-Namas">Al-Namas</option>
-                                            <option value="Al-Omran">Al-Omran</option>
-                                            <option value="Al-'Oyun">Al-'Oyun</option>
-                                            <option value="Al-'Ula">Al-'Ula</option>
-                                            <option value="Al-Quway'iyah">Al-Quway'iyah</option>
-                                            <option value="Al Qunfudhah">Al Qunfudhah</option>
-                                            <option value="Al-Ras">Al-Ras</option>
-                                            <option value="Al-Rass">Al-Rass</option>
-                                            <option value="Riyadh">Riyadh</option>
-                                            <option value="Rumaythah">Rumaythah</option>
-                                            <option value="Al-Ruwaidah">Al-Ruwaidah</option>
-                                            <option value="Sabt Al Alayah">Sabt Al Alayah</option>
-                                            <option value="Sabya">Sabya</option>
-                                            <option value="Al Sadu">Al Sadu</option>
-                                            <option value="Safwa">Safwa</option>
-                                            <option value="Sakakah">Sakakah</option>
-                                            <option value="Al-Salil">Al-Salil</option>
-                                            <option value="Samtah">Samtah</option>
-                                            <option value="Sarat Abidah">Sarat Abidah</option>
-                                            <option value="Sharurah">Sharurah</option>
-                                            <option value="Shaqraa">Shaqraa</option>
-                                            <option value="Al-Shaybah">Al-Shaybah</option>
-                                            <option value="Shuqaiq">Shuqaiq</option>
-                                            <option value="Sulayyil">Sulayyil</option>
-                                            <option value="Tabuk">Tabuk</option>
-                                            <option value="Taima">Taima</option>
-                                            <option value="Tanomah">Tanomah</option>
-                                            <option value="Al Taraf">Al Taraf</option>
-                                            <option value="Al-Uyaynah">Al-Uyaynah</option>
-                                            <option value="Al-'Uyun">Al-'Uyun</option>
-                                            <option value="Al-Uyaynah">Al-Uyaynah</option>
-                                            <option value="Al-Wajh">Al-Wajh</option>
-                                            <option value="Alwaqiyah">Alwaqiyah</option>
-                                            <option value="Wadi ad-Dawasir">Wadi ad-Dawasir</option>
-                                            <option value="Yanbu">Yanbu</option>
-                                            <option value="Zalm">Zalm</option>
-                                            <option value="Zulfi">Zulfi</option>
+                                            <?php
+                                            // Generate the HTML options
+                                                    
+                                                    if ($result2->num_rows > 0) {
+                                                        while ($row = $result2->fetch_assoc()) {
+
+                                                            echo '<option value="' . $row["CityName"] . '">' . $row["CityName"] . '</option>';
+                                                        }
+                                                    }
+                                                    else
+                                                    {  echo "No cities found."; }
+                                                    ?>
+                                                   
                                         </select>
                                     </div>
                                     <div class="input_wrap">

@@ -212,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         isObscure.value
                                             ? Icons.visibility_off
                                             : Icons.visibility,
-                                        color: Color(0xFF14386E),
+                                        color: const Color(0xFF14386E),
                                       ),
                                     ),
                                     enabledBorder: OutlineInputBorder(

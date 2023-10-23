@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 import "package:flutter/material.dart";
 import 'package:fluttertoast/fluttertoast.dart';
@@ -83,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             NameController.clear();
           });
 
-          Get.to(LoginScreen());
+          Get.to(const LoginScreen());
         } else {
           Fluttertoast.showToast(msg: "Error Occurred");
         }
@@ -311,7 +313,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         isObsecure.value
                                             ? Icons.visibility_off
                                             : Icons.visibility,
-                                        color: Color(0xFF14386E),
+                                        color: const Color(0xFF14386E),
                                       ),
                                     ),
                                     enabledBorder: OutlineInputBorder(

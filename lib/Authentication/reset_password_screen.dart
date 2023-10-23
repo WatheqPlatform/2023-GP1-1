@@ -5,7 +5,6 @@ import 'package:watheq/Authentication/verification_screen.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
-import 'package:email_validator/email_validator.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});

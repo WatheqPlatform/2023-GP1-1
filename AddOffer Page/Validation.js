@@ -59,7 +59,7 @@ $(document).ready(function () {
                             alert("Please enter a valid number for Experience years.");
                         } else {
                             //Send the information to PHP File
-                            $.post("AddOffer.php", {
+                            $.post("AddOfferLogic.php", {
                                 jobTitle: inputValues[0],
                                 jobDescription: inputValues[1],
                                 jobField: inputValues[2],

@@ -55,7 +55,7 @@ class _OffersScreenState extends State<OffersScreen> {
               (element["CompanyName"]
                   .toLowerCase()
                   .contains(searchedWord.toLowerCase())) ||
-              (element["Category"]
+              (element["CategoryName"]
                   .toLowerCase()
                   .contains(searchedWord.toLowerCase())))
           .toList();

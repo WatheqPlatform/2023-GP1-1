@@ -189,7 +189,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                           child: SizedBox(
                             height: screenHeight * 0.70,
                             child: ListView(
-                              padding: EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
                               children: [
                                 Text(
                                   "${offerDetails[0]["JobDescription"]}",
@@ -223,7 +223,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF024A8D),
+                            backgroundColor: const Color(0xFF024A8D),
                             fixedSize:
                                 Size(screenWidth * 0.8, screenHeight * 0.056),
                             shape: RoundedRectangleBorder(

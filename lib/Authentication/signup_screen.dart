@@ -1,8 +1,7 @@
-// ignore_for_file: void_checks
+// ignore_for_file: void_checks, non_constant_identifier_names
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/login_screen.dart';
@@ -74,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 "Error",
                 "This email is already exist, please sign in.",
                 ContentType.failure,
-                Color.fromARGB(255, 209, 24, 24));
+                const Color.fromARGB(255, 209, 24, 24));
           }
         } else {
           registerUser();
@@ -83,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } catch (e) {
       if (context.mounted) {
         ErrorMessage.show(context, "Error", "Please check your connection.",
-            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -112,30 +111,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
               "Success",
               "You have registered successfully.",
               ContentType.success,
-              Color.fromARGB(255, 15, 152, 20),
+              const Color.fromARGB(255, 15, 152, 20),
             );
 
-            Timer(Duration(seconds: 2), () {
+            Timer(const Duration(seconds: 2), () {
               setState(() {
                 emailController.clear();
                 passwordController.clear();
                 NameController.clear();
               });
 
-              Get.to(LoginScreen());
+              Get.to(const LoginScreen());
             });
           }
         } else {
           if (context.mounted) {
             ErrorMessage.show(context, "Error", "Please check your connection.",
-                ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+                ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
           }
         }
       }
     } catch (e) {
       if (context.mounted) {
         ErrorMessage.show(context, "Error", "Please check your connection.",
-            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -498,7 +497,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           "Error",
                                           "Please accept the conditions and terms to continue.",
                                           ContentType.failure,
-                                          Color.fromARGB(255, 209, 24, 24));
+                                          const Color.fromARGB(
+                                              255, 209, 24, 24));
                                     }
                                   } else {
                                     return ErrorMessage.show(
@@ -506,7 +506,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         "Error",
                                         "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digitand one special character",
                                         ContentType.failure,
-                                        Color.fromARGB(255, 209, 24, 24));
+                                        const Color.fromARGB(255, 209, 24, 24));
                                   }
                                 } else {
                                   return ErrorMessage.show(
@@ -514,7 +514,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       "Error",
                                       "Plese enter a valid email",
                                       ContentType.failure,
-                                      Color.fromARGB(255, 209, 24, 24));
+                                      const Color.fromARGB(255, 209, 24, 24));
                                 }
                               } else {
                                 return ErrorMessage.show(
@@ -522,7 +522,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     "Error",
                                     "Please fill all the information.",
                                     ContentType.failure,
-                                    Color.fromARGB(255, 209, 24, 24));
+                                    const Color.fromARGB(255, 209, 24, 24));
                               }
                             }
                           },

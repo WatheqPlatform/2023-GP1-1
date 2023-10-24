@@ -60,11 +60,11 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               "Success",
               "The password has been resetted successfully.",
               ContentType.success,
-              Color.fromARGB(255, 15, 152, 20),
+              const Color.fromARGB(255, 15, 152, 20),
             );
 
-            Timer(Duration(seconds: 2), () {
-              Get.to(LoginScreen());
+            Timer(const Duration(seconds: 2), () {
+              Get.to(const LoginScreen());
             });
           }
         } else {
@@ -74,14 +74,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 "Error",
                 "Reset time has expired, please request new one.",
                 ContentType.failure,
-                Color.fromARGB(255, 209, 24, 24));
+                const Color.fromARGB(255, 209, 24, 24));
           }
         }
       }
     } catch (e) {
       if (context.mounted) {
         ErrorMessage.show(context, "Error", "Please check your connection.",
-            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -256,7 +256,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                             "Error",
                                             "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digitand one special character",
                                             ContentType.failure,
-                                            Color.fromARGB(255, 209, 24, 24));
+                                            const Color.fromARGB(
+                                                255, 209, 24, 24));
                                       }
                                     } else {
                                       return ErrorMessage.show(
@@ -264,7 +265,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                           "Error",
                                           "Please enter the password.",
                                           ContentType.failure,
-                                          Color.fromARGB(255, 209, 24, 24));
+                                          const Color.fromARGB(
+                                              255, 209, 24, 24));
                                     }
                                   }
                                 },

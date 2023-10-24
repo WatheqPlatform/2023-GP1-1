@@ -1,3 +1,5 @@
+// ignore_for_file: void_checks
+
 import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
@@ -51,9 +53,9 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               "Success",
               "The email has been sent successfully.",
               ContentType.success,
-              Color.fromARGB(255, 15, 152, 20),
+              const Color.fromARGB(255, 15, 152, 20),
             );
-            Timer(Duration(seconds: 2), () {
+            Timer(const Duration(seconds: 2), () {
               Get.to(VerificationScreen(email: emailController.text.trim()));
             });
           }
@@ -64,14 +66,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 "Error",
                 "The email is incorrect, please try again.",
                 ContentType.failure,
-                Color.fromARGB(255, 209, 24, 24));
+                const Color.fromARGB(255, 209, 24, 24));
           }
         }
       }
     } catch (e) {
       if (context.mounted) {
         ErrorMessage.show(context, "Error", "Please check your connection.",
-            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -230,7 +232,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                       "Error",
                                       "Please enter a valid email.",
                                       ContentType.failure,
-                                      Color.fromARGB(255, 209, 24, 24));
+                                      const Color.fromARGB(255, 209, 24, 24));
                                 }
                               } else {
                                 return ErrorMessage.show(
@@ -238,7 +240,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                     "Error",
                                     "Please enter the email.",
                                     ContentType.failure,
-                                    Color.fromARGB(255, 209, 24, 24));
+                                    const Color.fromARGB(255, 209, 24, 24));
                               }
                             }
                           },

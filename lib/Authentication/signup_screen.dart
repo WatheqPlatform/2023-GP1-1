@@ -1,6 +1,7 @@
+// ignore_for_file: void_checks, non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/login_screen.dart';
@@ -72,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 "Error",
                 "This email is already exist, please sign in.",
                 ContentType.failure,
-                Color.fromARGB(255, 209, 24, 24));
+                const Color.fromARGB(255, 209, 24, 24));
           }
         } else {
           registerUser();
@@ -81,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     } catch (e) {
       if (context.mounted) {
         ErrorMessage.show(context, "Error", "Please check your connection.",
-            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -110,30 +111,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
               "Success",
               "You have registered successfully.",
               ContentType.success,
-              Color.fromARGB(255, 15, 152, 20),
+              const Color.fromARGB(255, 15, 152, 20),
             );
 
-            Timer(Duration(seconds: 2), () {
+            Timer(const Duration(seconds: 2), () {
               setState(() {
                 emailController.clear();
                 passwordController.clear();
                 NameController.clear();
               });
 
-              Get.to(LoginScreen());
+              Get.to(const LoginScreen());
             });
           }
         } else {
           if (context.mounted) {
             ErrorMessage.show(context, "Error", "Please check your connection.",
-                ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+                ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
           }
         }
       }
     } catch (e) {
       if (context.mounted) {
         ErrorMessage.show(context, "Error", "Please check your connection.",
-            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -430,43 +431,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   GestureDetector(
                                     onTap: () {
                                       showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text(
-                                                "Conditions And Terms",
-                                                style: TextStyle(
-                                                  fontSize: 18,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                              "Conditions And Terms",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Color(0xFF14386E),
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            content: const Text(
+                                              "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \na. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \nb. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \nc. The third-party company may use the shared information for learning purposes or to enhance their services.\n \nd.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
+                                              style: TextStyle(
+                                                  fontSize: 15,
                                                   color: Color(0xFF14386E),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              content: const Text(
-                                                "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \na. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \nb. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \nc. The third-party company may use the shared information for learning purposes or to enhance their services.\n \nd.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
-                                                style: TextStyle(
-                                                    fontSize: 15,
+                                                  letterSpacing: 1.15),
+                                            ),
+                                            scrollable: true,
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text(
+                                                  'Ok',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
                                                     color: Color(0xFF14386E),
-                                                    letterSpacing: 1.15),
-                                              ),
-                                              scrollable: true,
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text(
-                                                    'Ok',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Color(0xFF14386E),
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
-                                              ],
-                                            );
-                                          });
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                     child: const Text(
                                       "conditions and terms",
@@ -496,7 +497,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           "Error",
                                           "Please accept the conditions and terms to continue.",
                                           ContentType.failure,
-                                          Color.fromARGB(255, 209, 24, 24));
+                                          const Color.fromARGB(
+                                              255, 209, 24, 24));
                                     }
                                   } else {
                                     return ErrorMessage.show(
@@ -504,7 +506,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         "Error",
                                         "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digitand one special character",
                                         ContentType.failure,
-                                        Color.fromARGB(255, 209, 24, 24));
+                                        const Color.fromARGB(255, 209, 24, 24));
                                   }
                                 } else {
                                   return ErrorMessage.show(
@@ -512,7 +514,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       "Error",
                                       "Plese enter a valid email",
                                       ContentType.failure,
-                                      Color.fromARGB(255, 209, 24, 24));
+                                      const Color.fromARGB(255, 209, 24, 24));
                                 }
                               } else {
                                 return ErrorMessage.show(
@@ -520,22 +522,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     "Error",
                                     "Please fill all the information.",
                                     ContentType.failure,
-                                    Color.fromARGB(255, 209, 24, 24));
+                                    const Color.fromARGB(255, 209, 24, 24));
                               }
                             }
-
-                            //return null;
-
-                            /*
-                              registermsg
-                                  ? ErrorMessage.show(
-                                      context,
-                                      "Success",
-                                      "    Completed successfully.",
-                                      ContentType.success,
-                                      Color.fromARGB(255, 15, 152, 20))
-                                  : null;
-                                  */
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF024A8D),

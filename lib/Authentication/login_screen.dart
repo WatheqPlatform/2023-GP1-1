@@ -1,10 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, void_checks
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/reset_password_screen.dart';
 import 'package:watheq/Authentication/signup_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:watheq/database_connection/connection.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:watheq/offers_screen.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool emailfilled = false;
   bool passfilled = false;
 
+  @override
   void initState() {
     emailfilled = false;
     passfilled = false;
@@ -55,13 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
               "Error",
               "The email or password is incorrect, please try again",
               ContentType.failure,
-              Color.fromARGB(255, 209, 24, 24));
+              const Color.fromARGB(255, 209, 24, 24));
         }
       }
     } catch (e) {
       if (context.mounted) {
         ErrorMessage.show(context, "Error", "Please check your connection.",
-            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -293,7 +295,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     "Error",
                                     "Please fill all the information.",
                                     ContentType.failure,
-                                    Color.fromARGB(255, 209, 24, 24));
+                                    const Color.fromARGB(255, 209, 24, 24));
                               }
                             }
                           },

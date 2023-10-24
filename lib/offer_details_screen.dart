@@ -124,91 +124,153 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Job Offer Details'),
-      ),
       body: empty
           ? null
-          : ListView(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
+          : Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/PagesBackground.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(width: 2),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back_ios_rounded,
+                          size: 40,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.only(top: 10, left: 1),
                         child: Text(
                           "${offerDetails[0]["JobTitle"]}",
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                            fontSize: screenWidth * 0.055,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          "${offerDetails[0]["JobDescription"]}",
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        title: const Text('Category'),
-                        subtitle: Text("${offerDetails[0]["Category"]}"),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        title: const Text('Employment Type'),
-                        subtitle: Text("${offerDetails[0]["EmploymentType"]}"),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        title: const Text('Location'),
-                        subtitle: Text("${offerDetails[0]["JobAddress"]}"
-                            "${offerDetails[0]["City"]}"),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        title: const Text('Salary'),
-                        subtitle: Text(
-                            "${offerDetails[0]["MinSalary"]} - ${offerDetails[0]["MaxSalary"]}"),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        title: const Text('Status'),
-                        subtitle: Text("${offerDetails[0]["Status"]}"),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        title: const Text('Date'),
-                        subtitle: Text("${offerDetails[0]["Date"]}"),
-                      ),
-                      startingDateCheck(),
-                      workingDaysCheck(),
-                      workingHoursCheck(),
-                      notesCheck(),
-                      const Divider(),
-                      ListTile(
-                        title: const Text('Company Name'),
-                        subtitle: Text("${offerDetails[0]["CompanyName"]}"),
-                      ),
                     ],
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 30,
+                    ),
+                    height: screenHeight * 0.86,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(80.0),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: screenHeight * 0.70,
+                            child: ListView(
+                              padding: const EdgeInsets.all(5),
+                              children: [
+                                Text(
+                                  "${offerDetails[0]["JobDescription"]}",
+                                  style: const TextStyle(fontSize: 17),
+                                  textAlign: TextAlign.justify,
+                                ),
+                                Text(
+                                  "By ${offerDetails[0]["CompanyName"]}",
+                                  style: const TextStyle(fontSize: 17),
+                                  textAlign: TextAlign.justify,
+                                ),
+                                Text("${offerDetails[0]["CategoryName"]}"),
+                                Text("${offerDetails[0]["EmploymentType"]}"),
+                                Text("${offerDetails[0]["JobAddress"]}"
+                                    "${offerDetails[0]["CityName"]}"),
+                                Text(
+                                    "${offerDetails[0]["MinSalary"]} - ${offerDetails[0]["MaxSalary"]}"),
+                                Text("${offerDetails[0]["Date"]}"),
+                                startingDateCheck(),
+                                workingDaysCheck(),
+                                workingHoursCheck(),
+                                notesCheck(),
+                              ],
+                            ),
+                          ),
+                        ),
+                        //Buttons
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF024A8D),
+                            fixedSize:
+                                Size(screenWidth * 0.8, screenHeight * 0.056),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            elevation: 5,
+                          ),
+                          child: const Text(
+                            "Apply",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 17,
+                        ),
+                        OutlinedButton(
+                          onPressed: () {},
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(
+                              width: 1.5,
+                              color: Color(0xFF024A8D),
+                            ),
+                            fixedSize:
+                                Size(screenWidth * 0.8, screenHeight * 0.052),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          child: const Text(
+                            "Mock Interview ",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFF024A8D),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 35,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
     );
   }

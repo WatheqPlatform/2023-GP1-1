@@ -28,7 +28,7 @@ class ErrorMessage {
           color: color,
           //inMaterialBanner: ,
         ),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         elevation: 0,

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, prefer_interpolation_to_compose_strings
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -91,6 +93,7 @@ class _OffersScreenState extends State<OffersScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    int selectedIndex = 0;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -115,12 +118,12 @@ class _OffersScreenState extends State<OffersScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           left: 10,
                         ),
                         child: Text(
                           "Hello " + Name + "!",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 25.0,
                             fontWeight: FontWeight.w400,
@@ -142,7 +145,7 @@ class _OffersScreenState extends State<OffersScreen> {
                       IconButton(
                         icon: const Icon(
                           Icons.filter_list_rounded,
-                          size: 39,
+                          size: 36,
                           color: Colors.white,
                         ),
                         onPressed: () {},
@@ -150,7 +153,7 @@ class _OffersScreenState extends State<OffersScreen> {
                       const SizedBox(width: 5),
                       SizedBox(
                         width: screenWidth * 0.809,
-                        height: screenWidth * 0.09,
+                        height: screenHeight * 0.045,
                         child: TextField(
                           onChanged: (value) => searchOffer(value),
                           decoration: InputDecoration(
@@ -261,7 +264,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: screenWidth * 0.7,
                                               child: Column(
                                                 mainAxisAlignment:
@@ -291,19 +294,24 @@ class _OffersScreenState extends State<OffersScreen> {
                                                           FontWeight.w400,
                                                     ),
                                                   ),
-                                                  SizedBox(
+                                                  const SizedBox(
                                                     height: 5,
                                                   ),
-                                                  Text(
-                                                    "Posted: ${foundOffers[index]["Date"]}"
-                                                        .capitalizeEach(),
-                                                    //"
-                                                    style: const TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 155, 155, 155),
-                                                      fontSize: 13.0,
-                                                      fontWeight:
-                                                          FontWeight.w400,
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 8),
+                                                    child: Text(
+                                                      "Posted: ${foundOffers[index]["Date"]}"
+                                                          .capitalizeEach(),
+                                                      //"
+                                                      style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 155, 155, 155),
+                                                        fontSize: 13.0,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -374,7 +382,7 @@ class _OffersScreenState extends State<OffersScreen> {
                         ),
                       ],
                     ),
-                    //Bottom Mneu
+                    //Bottom Menu
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: GNav(
@@ -406,7 +414,14 @@ class _OffersScreenState extends State<OffersScreen> {
                             text: 'Profile',
                           )
                         ],
+                        selectedIndex: 0,
                         onTabChange: (index) {
+                          setState(
+                            () {
+                              selectedIndex =
+                                  index; // Update the selected index
+                            },
+                          );
                           if (index == 0) {
                             Navigator.of(context).push(
                               MaterialPageRoute(

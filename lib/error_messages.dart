@@ -23,6 +23,7 @@ class ErrorMessage {
         content: AwesomeSnackbarContent(
           title: msgTitle,
           message: message,
+          messageFontSize: 18,
           contentType: contentType,
           color: color,
           //inMaterialBanner: ,
@@ -31,7 +32,7 @@ class ErrorMessage {
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        margin: EdgeInsets.only(bottom: screenHeight * 0.79),
+        margin: EdgeInsets.only(bottom: screenHeight * 0.77),
       ),
     );
   }

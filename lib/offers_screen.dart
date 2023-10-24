@@ -116,12 +116,12 @@ class _OffersScreenState extends State<OffersScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(
+                        padding: const EdgeInsets.only(
                           left: 10,
                         ),
                         child: Text(
                           "Hello " + Name + "!",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 25.0,
                             fontWeight: FontWeight.w400,

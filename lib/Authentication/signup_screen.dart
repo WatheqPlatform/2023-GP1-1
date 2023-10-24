@@ -1,3 +1,5 @@
+// ignore_for_file: void_checks
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -523,19 +525,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Color.fromARGB(255, 209, 24, 24));
                               }
                             }
-
-                            //return null;
-
-                            /*
-                              registermsg
-                                  ? ErrorMessage.show(
-                                      context,
-                                      "Success",
-                                      "    Completed successfully.",
-                                      ContentType.success,
-                                      Color.fromARGB(255, 15, 152, 20))
-                                  : null;
-                                  */
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF024A8D),

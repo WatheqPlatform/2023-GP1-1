@@ -157,9 +157,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ),
                                   ),
-                                  Text(
+                                  const Text(
                                     "Name",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 20,
                                       color: Color(0xFF14386E),
                                       fontWeight: FontWeight.w500,
@@ -171,9 +171,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         fontSize: 20, color: Color(0xFF14386E)),
                                   ),
                                   const SizedBox(height: 20),
-                                  Text(
+                                  const Text(
                                     "Email",
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 20,
                                       color: Color(0xFF14386E),
                                       fontWeight: FontWeight.w500,

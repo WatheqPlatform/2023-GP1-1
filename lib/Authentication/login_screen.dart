@@ -7,6 +7,8 @@ import 'package:watheq/database_connection/connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:watheq/offers_screen.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:watheq/error_messages.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,6 +22,15 @@ class _LoginScreenState extends State<LoginScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var isObscure = true.obs;
+
+  bool emailfilled = false;
+  bool passfilled = false;
+
+  void initState() {
+    emailfilled = false;
+    passfilled = false;
+    super.initState();
+  }
 
   logInUser() async {
     try {
@@ -35,17 +46,23 @@ class _LoginScreenState extends State<LoginScreen> {
         var resBodyOfLogin = jsonDecode(response.body.trim());
 
         if (resBodyOfLogin == 1) {
-          Fluttertoast.showToast(msg: "Logged in successfully");
           Get.offAll(OffersScreen(
             email: emailController.text,
           ));
         } else {
-          Fluttertoast.showToast(
-              msg: "The email or password is incorrect, please try again");
+          ErrorMessage.show(
+              context,
+              "Error",
+              "The email or password is incorrect, please try again",
+              ContentType.failure,
+              Color.fromARGB(255, 209, 24, 24));
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "Please check your connection");
+      if (context.mounted) {
+        ErrorMessage.show(context, "Error", "Please check your connection.",
+            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+      }
     }
   }
 
@@ -152,8 +169,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: screenWidth * 0.8,
                           child: TextFormField(
                             controller: emailController,
-                            validator: (value) =>
-                                value == "" ? "Enter the email" : null,
+                            validator: (value) {
+                              if (value == "") {
+                                emailfilled = false;
+                              } else if (value != "") {
+                                emailfilled = true;
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
                                 Icons.email,
@@ -197,8 +220,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 () => TextFormField(
                                   controller: passwordController,
                                   obscureText: isObscure.value,
-                                  validator: (value) =>
-                                      value == "" ? "Enter the password" : null,
+                                  validator: (value) {
+                                    if (value == "") {
+                                      passfilled = false;
+                                    } else if (value != "") {
+                                      passfilled = true;
+                                    }
+                                    return null;
+                                  },
                                   decoration: InputDecoration(
                                     prefixIcon: const Icon(
                                       Icons.key,
@@ -256,7 +285,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              logInUser();
+                              if (emailfilled && passfilled) {
+                                logInUser();
+                              } else {
+                                return ErrorMessage.show(
+                                    context,
+                                    "Error",
+                                    "Please fill all the information.",
+                                    ContentType.failure,
+                                    Color.fromARGB(255, 209, 24, 24));
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(

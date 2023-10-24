@@ -1,10 +1,13 @@
+import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:watheq/Authentication/verification_screen.dart';
 import 'package:watheq/database_connection/connection.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
+import 'package:email_validator/email_validator.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:watheq/error_messages.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -18,6 +21,16 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   var emailController = TextEditingController(); // users inputs
   var isObsecure = true.obs;
 
+  bool emailfilled = false;
+  bool validemail = false;
+
+  @override
+  void initState() {
+    emailfilled = false;
+    validemail = false;
+    super.initState();
+  }
+
 //sending code
   forgetPassword() async {
     try {
@@ -29,20 +42,37 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         headers: {"Content-Type": "application/json"},
       );
       if (response.statusCode == 200) {
-        // communication is succefull
         var res = jsonDecode(response.body.trim());
 
         if (res.containsKey('message')) {
-          //true
-          Fluttertoast.showToast(msg: "Email sent successfully");
-          Get.to(VerificationScreen(email: emailController.text.trim()));
+          if (context.mounted) {
+            ErrorMessage.show(
+              context,
+              "Success",
+              "The email has been sent successfully.",
+              ContentType.success,
+              Color.fromARGB(255, 15, 152, 20),
+            );
+            Timer(Duration(seconds: 2), () {
+              Get.to(VerificationScreen(email: emailController.text.trim()));
+            });
+          }
         } else {
-          Fluttertoast.showToast(
-              msg: "The email is incorrect, please try again");
+          if (context.mounted) {
+            ErrorMessage.show(
+                context,
+                "Error",
+                "The email is incorrect, please try again.",
+                ContentType.failure,
+                Color.fromARGB(255, 209, 24, 24));
+          }
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "Please check your connection");
+      if (context.mounted) {
+        ErrorMessage.show(context, "Error", "Please check your connection.",
+            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+      }
     }
   }
 
@@ -149,8 +179,20 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           width: screenWidth * 0.8,
                           child: TextFormField(
                             controller: emailController,
-                            validator: (value) =>
-                                value == "" ? "Enter the email" : null,
+                            validator: (value) {
+                              if (value == "") {
+                                emailfilled = false;
+                              } else if (value != "") {
+                                emailfilled = true;
+                              }
+                              if (!EmailValidator.validate(value.toString())) {
+                                validemail = false;
+                              } else {
+                                validemail = true;
+                              }
+
+                              return null;
+                            },
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
                                 Icons.email,
@@ -179,7 +221,25 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              forgetPassword();
+                              if (emailfilled) {
+                                if (validemail) {
+                                  forgetPassword();
+                                } else {
+                                  return ErrorMessage.show(
+                                      context,
+                                      "Error",
+                                      "Please enter a valid email.",
+                                      ContentType.failure,
+                                      Color.fromARGB(255, 209, 24, 24));
+                                }
+                              } else {
+                                return ErrorMessage.show(
+                                    context,
+                                    "Error",
+                                    "Please enter the email.",
+                                    ContentType.failure,
+                                    Color.fromARGB(255, 209, 24, 24));
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(

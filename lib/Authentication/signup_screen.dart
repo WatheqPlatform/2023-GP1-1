@@ -370,43 +370,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   GestureDetector(
                                     onTap: () {
                                       showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: const Text(
-                                                "Conditions And Terms",
-                                                style: TextStyle(
-                                                  fontSize: 18,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: const Text(
+                                              "Conditions And Terms",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Color(0xFF14386E),
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            content: const Text(
+                                              "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \na. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \nb. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \nc. The third-party company may use the shared information for learning purposes or to enhance their services.\n \nd.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
+                                              style: TextStyle(
+                                                  fontSize: 15,
                                                   color: Color(0xFF14386E),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              content: const Text(
-                                                "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \na. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \nb. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \nc. The third-party company may use the shared information for learning purposes or to enhance their services.\n \nd.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
-                                                style: TextStyle(
-                                                    fontSize: 15,
+                                                  letterSpacing: 1.15),
+                                            ),
+                                            scrollable: true,
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: const Text(
+                                                  'Ok',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
                                                     color: Color(0xFF14386E),
-                                                    letterSpacing: 1.15),
-                                              ),
-                                              scrollable: true,
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text(
-                                                    'Ok',
-                                                    style: TextStyle(
-                                                      fontSize: 18,
-                                                      color: Color(0xFF14386E),
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
-                                              ],
-                                            );
-                                          });
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                     },
                                     child: const Text(
                                       "conditions and terms",

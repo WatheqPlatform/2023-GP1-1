@@ -23,7 +23,7 @@ if (isset($_SESSION['JPEmail'])) {
     <div id="Main">
 
         <div id="header">
-            <a href="index.html">
+            <a href="index.php">
                 <img src="Images/White Logo.png" alt="Watheq Logo" id="logo">
             </a>
             <div id="RegistrationButtons">

@@ -48,7 +48,7 @@ class _OffersScreenState extends State<OffersScreen> {
     if (response.statusCode == 200) {
       var nameRespose = json.decode(response.body);
       String fullName = nameRespose[0]["Name"];
-      int space = fullName.indexOf(" ") + 1;
+      int space = fullName.indexOf(" ");
       setState(() {
         Name = fullName.substring(0, space);
         Name = Name.capitalizeEach();

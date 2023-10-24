@@ -19,6 +19,7 @@ class OffersScreen extends StatefulWidget {
 }
 
 class _OffersScreenState extends State<OffersScreen> {
+  String Name = "";
   List allOffers = [];
   List foundOffers = [];
 
@@ -36,10 +37,30 @@ class _OffersScreenState extends State<OffersScreen> {
     }
   }
 
+  Future getName() async {
+    var response = await http.post(
+      Uri.parse(Connection.jobSeekerName),
+      body: {
+        "email": widget.email,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var nameRespose = json.decode(response.body);
+      String fullName = nameRespose[0]["Name"];
+      int space = fullName.indexOf(" ") + 1;
+      setState(() {
+        Name = fullName.substring(0, space);
+        Name = Name.capitalizeEach();
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     getdata();
+    getName();
   }
 
   void searchOffer(String searchedWord) {
@@ -93,12 +114,12 @@ class _OffersScreenState extends State<OffersScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.only(
                           left: 10,
                         ),
                         child: Text(
-                          "Hello Shouq!",
+                          "Hello " + Name + "!",
                           style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 25.0,

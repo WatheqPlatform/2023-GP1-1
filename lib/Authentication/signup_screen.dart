@@ -1,12 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import "package:flutter/material.dart";
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/login_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:watheq/database_connection/connection.dart';
 import 'package:watheq/Authentication/user.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:watheq/error_messages.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -22,6 +25,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var passwordController = TextEditingController();
   var isObsecure = true.obs;
   bool isChecked = false;
+
+  bool namefilled = false;
+  bool emailfilled = false;
+  bool passfilled = false;
+  bool validpass = false;
+  bool validemail = false;
+
+  @override
+  void initState() {
+    namefilled = false;
+    emailfilled = false;
+    passfilled = false;
+    validemail = false;
+    validpass = false;
+
+    super.initState();
+  }
 
 //validate password
   bool validateStructure(String value) {
@@ -46,14 +66,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
         var resBodyOfEmail = jsonDecode(response.body.trim());
 
         if (resBodyOfEmail == 1) {
-          //true
-          Fluttertoast.showToast(msg: "Email is already exist please sign in");
+          if (context.mounted) {
+            ErrorMessage.show(
+                context,
+                "Error",
+                "This email is already exist, please sign in.",
+                ContentType.failure,
+                Color.fromARGB(255, 209, 24, 24));
+          }
         } else {
-          registerUser(); // sign up
+          registerUser();
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "Please check your connection");
+      if (context.mounted) {
+        ErrorMessage.show(context, "Error", "Please check your connection.",
+            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+      }
     }
   }
 
@@ -75,21 +104,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
         var resBodyOfSignUp = jsonDecode(response.body.trim());
 
         if (resBodyOfSignUp == 1) {
-          Fluttertoast.showToast(msg: "Sign up successfully");
+          if (context.mounted) {
+            ErrorMessage.show(
+              context,
+              "Success",
+              "You have registered successfully.",
+              ContentType.success,
+              Color.fromARGB(255, 15, 152, 20),
+            );
 
-          setState(() {
-            emailController.clear();
-            passwordController.clear();
-            NameController.clear();
-          });
+            Timer(Duration(seconds: 2), () {
+              setState(() {
+                emailController.clear();
+                passwordController.clear();
+                NameController.clear();
+              });
 
-          Get.to(LoginScreen());
+              Get.to(LoginScreen());
+            });
+          }
         } else {
-          Fluttertoast.showToast(msg: "Error Occurred");
+          if (context.mounted) {
+            ErrorMessage.show(context, "Error", "Please check your connection.",
+                ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+          }
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "Please check your connection");
+      if (context.mounted) {
+        ErrorMessage.show(context, "Error", "Please check your connection.",
+            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+      }
     }
   }
 
@@ -196,8 +241,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: screenWidth * 0.8,
                           child: TextFormField(
                             controller: NameController,
-                            validator: (value) =>
-                                value == "" ? "Enter the  name" : null,
+                            validator: (value) {
+                              if (value == "") {
+                                namefilled = false;
+                              } else {
+                                namefilled = true;
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
                                 Icons.person,
@@ -239,11 +290,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             controller: emailController,
                             validator: (value) {
                               if (value == "") {
-                                return "Enter the email";
+                                emailfilled = false;
+                              } else if (value != "") {
+                                emailfilled = true;
                               }
                               if (!EmailValidator.validate(value.toString())) {
-                                return "Enter valid email";
+                                validemail = false;
+                              } else {
+                                validemail = true;
                               }
+
                               return null;
                             },
                             decoration: InputDecoration(
@@ -291,10 +347,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   obscureText: isObsecure.value,
                                   validator: (value) {
                                     if (value == "") {
-                                      return "Enter the password";
+                                      passfilled = false;
+                                    } else if (value != "") {
+                                      passfilled = true;
                                     }
                                     if (!validateStructure(value.toString())) {
-                                      return "Enter valid Password  \n 8 characters \n one uppercase letter \n one lowercase letter \n one digit \n one special character";
+                                      validpass = false;
+                                    } else {
+                                      setState(() {
+                                        validpass = true;
+                                      });
                                     }
                                     return null;
                                   },
@@ -415,8 +477,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {
-                              validateEmail();
+                              if (namefilled && passfilled && emailfilled) {
+                                if (validemail) {
+                                  if (validpass) {
+                                    if (isChecked) {
+                                      validateEmail();
+                                    } else {
+                                      return ErrorMessage.show(
+                                          context,
+                                          "Error",
+                                          "Please accept the conditions and terms to continue.",
+                                          ContentType.failure,
+                                          Color.fromARGB(255, 209, 24, 24));
+                                    }
+                                  } else {
+                                    return ErrorMessage.show(
+                                        context,
+                                        "Error",
+                                        "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digitand one special character",
+                                        ContentType.failure,
+                                        Color.fromARGB(255, 209, 24, 24));
+                                  }
+                                } else {
+                                  return ErrorMessage.show(
+                                      context,
+                                      "Error",
+                                      "Plese enter a valid email",
+                                      ContentType.failure,
+                                      Color.fromARGB(255, 209, 24, 24));
+                                }
+                              } else {
+                                return ErrorMessage.show(
+                                    context,
+                                    "Error",
+                                    "Please fill all the information.",
+                                    ContentType.failure,
+                                    Color.fromARGB(255, 209, 24, 24));
+                              }
                             }
+
+                            //return null;
+
+                            /*
+                              registermsg
+                                  ? ErrorMessage.show(
+                                      context,
+                                      "Success",
+                                      "    Completed successfully.",
+                                      ContentType.success,
+                                      Color.fromARGB(255, 15, 152, 20))
+                                  : null;
+                                  */
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF024A8D),

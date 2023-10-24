@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:watheq/Authentication/new_password_screen.dart';
 import 'package:watheq/database_connection/connection.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:watheq/error_messages.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key, required this.email});
@@ -17,6 +18,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
   var formKey = GlobalKey<FormState>();
   var codeController = TextEditingController(); // users inputs
   var isObsecure = true.obs;
+
+  bool codefilled = false;
+
+  @override
+  void initState() {
+    codefilled = false;
+    super.initState();
+  }
 
   //Verify code function
   verify() async {
@@ -32,15 +41,18 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
         if (res.containsKey('message')) {
           Get.to(() => NewPasswordScreen(email: widget.email));
-
-          Fluttertoast.showToast(
-              msg: "Code Is Correct Please add your new password");
         } else {
-          Fluttertoast.showToast(msg: res['error']);
+          if (context.mounted) {
+            ErrorMessage.show(context, "Error", res["error"],
+                ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+          }
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      if (context.mounted) {
+        ErrorMessage.show(context, "Error", "Please check your connection.",
+            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+      }
     }
   }
 
@@ -59,11 +71,26 @@ class _VerificationScreenState extends State<VerificationScreen> {
         var res = jsonDecode(response.body.trim());
 
         if (res.containsKey('message')) {
-          Fluttertoast.showToast(msg: "Verification code sent successfully");
+          if (context.mounted) {
+            ErrorMessage.show(
+              context,
+              "Success",
+              "The email has been sent successfully.",
+              ContentType.success,
+              Color.fromARGB(255, 15, 152, 20),
+            );
+          }
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "Please check your connection");
+      if (context.mounted) {
+        ErrorMessage.show(
+            context,
+            "Error",
+            "The email is incorrect, please try again.",
+            ContentType.failure,
+            Color.fromARGB(255, 209, 24, 24));
+      }
     }
   }
 
@@ -170,8 +197,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           width: screenWidth * 0.8,
                           child: TextFormField(
                             controller: codeController,
-                            validator: (value) =>
-                                value == "" ? "Enter the code" : null,
+                            validator: (value) {
+                              if (value == "") {
+                                codefilled = false;
+                              } else if (value != "") {
+                                codefilled = true;
+                              }
+                              return null;
+                            },
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
                                 Icons.lock_person,
@@ -199,8 +232,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         const SizedBox(height: 40),
                         ElevatedButton(
                           onPressed: () {
-                            verify();
-                            codeController.clear();
+                            if (formKey.currentState!.validate()) {
+                              if (codefilled) {
+                                verify();
+                                codeController.clear();
+                              } else {
+                                return ErrorMessage.show(
+                                    context,
+                                    "Error",
+                                    "Please enter the verification code.",
+                                    ContentType.failure,
+                                    Color.fromARGB(255, 209, 24, 24));
+                              }
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF024A8D),

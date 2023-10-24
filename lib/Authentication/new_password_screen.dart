@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/login_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:watheq/database_connection/connection.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:watheq/error_messages.dart';
 
 class NewPasswordScreen extends StatefulWidget {
   const NewPasswordScreen({super.key, required this.email});
@@ -17,6 +20,16 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
   var formKey = GlobalKey<FormState>();
   var passwordController = TextEditingController();
   var isObsecure = true.obs;
+
+  bool passfilled = false;
+  bool validpass = false;
+
+  @override
+  void initState() {
+    passfilled = false;
+    validpass = false;
+    super.initState();
+  }
 
   //validate password
   bool validateStructure(String value) {
@@ -38,20 +51,38 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       );
 
       if (response.statusCode == 200) {
-        // communication is succefull
         var resBody = jsonDecode(response.body.trim());
 
         if (resBody.containsKey('message')) {
-          //true
-          Fluttertoast.showToast(msg: "Resetted successfully");
-          Get.to(() => const LoginScreen());
+          if (context.mounted) {
+            ErrorMessage.show(
+              context,
+              "Success",
+              "The password has been resetted successfully.",
+              ContentType.success,
+              Color.fromARGB(255, 15, 152, 20),
+            );
+
+            Timer(Duration(seconds: 2), () {
+              Get.to(LoginScreen());
+            });
+          }
         } else {
-          Fluttertoast.showToast(
-              msg: "Reset time has expired, please request new one. ");
+          if (context.mounted) {
+            ErrorMessage.show(
+                context,
+                "Error",
+                "Reset time has expired, please request new one.",
+                ContentType.failure,
+                Color.fromARGB(255, 209, 24, 24));
+          }
         }
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: "Please check your connection");
+      if (context.mounted) {
+        ErrorMessage.show(context, "Error", "Please check your connection.",
+            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+      }
     }
   }
 
@@ -162,8 +193,21 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                 () => TextFormField(
                                   controller: passwordController,
                                   obscureText: isObsecure.value,
-                                  validator: (value) =>
-                                      value == "" ? "Enter the password" : null,
+                                  validator: (value) {
+                                    if (value == "") {
+                                      passfilled = false;
+                                    } else if (value != "") {
+                                      passfilled = true;
+                                    }
+                                    if (!validateStructure(value.toString())) {
+                                      validpass = false;
+                                    } else {
+                                      setState(() {
+                                        validpass = true;
+                                      });
+                                    }
+                                    return null;
+                                  },
                                   decoration: InputDecoration(
                                     prefixIcon: const Icon(
                                       Icons.key,
@@ -203,7 +247,25 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                               ElevatedButton(
                                 onPressed: () {
                                   if (formKey.currentState!.validate()) {
-                                    resetPassword();
+                                    if (passfilled) {
+                                      if (validpass) {
+                                        resetPassword();
+                                      } else {
+                                        return ErrorMessage.show(
+                                            context,
+                                            "Error",
+                                            "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digitand one special character",
+                                            ContentType.failure,
+                                            Color.fromARGB(255, 209, 24, 24));
+                                      }
+                                    } else {
+                                      return ErrorMessage.show(
+                                          context,
+                                          "Error",
+                                          "Please enter the password.",
+                                          ContentType.failure,
+                                          Color.fromARGB(255, 209, 24, 24));
+                                    }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(

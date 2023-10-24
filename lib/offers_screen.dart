@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:watheq/profile_screen.dart';
+import 'offer_details_screen.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:get/get.dart';
-import 'offer_details_screen.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:string_capitalize/string_capitalize.dart';
 
 class OffersScreen extends StatefulWidget {
   final String email;
@@ -18,23 +21,6 @@ class OffersScreen extends StatefulWidget {
 class _OffersScreenState extends State<OffersScreen> {
   List allOffers = [];
   List foundOffers = [];
-
-// profile button
-  Widget profileButton() {
-    return Container(
-      margin: const EdgeInsets.all(10.0),
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => ProfileScreen(email: widget.email),
-            ),
-          );
-        },
-        child: const Text('Profile'),
-      ),
-    );
-  }
 
   Future<void> getdata() async {
     var res = await http.get(Uri.parse(Connection.jobOffersData));
@@ -69,7 +55,7 @@ class _OffersScreenState extends State<OffersScreen> {
               (element["CompanyName"]
                   .toLowerCase()
                   .contains(searchedWord.toLowerCase())) ||
-              (element["Category"]
+              (element["CategoryName"]
                   .toLowerCase()
                   .contains(searchedWord.toLowerCase())))
           .toList();
@@ -82,66 +68,348 @@ class _OffersScreenState extends State<OffersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
+      resizeToAvoidBottomInset: false,
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/PagesBackground.png"),
+            fit: BoxFit.cover,
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: TextField(
-              onChanged: (value) => searchOffer(value),
-              decoration: const InputDecoration(
-                hintText: "Search",
-                suffixIcon: Icon(Icons.search),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 10,
+                right: 10,
+                bottom: 20,
               ),
-            ),
-          ),
-          foundOffers.isEmpty
-              ? const Center(
-                  // Display a message when the allOffers is empty
-                  child: Text('No job offers found.'),
-                )
-              : Expanded(
-                  child: ListView.builder(
-                    itemCount: foundOffers.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(241, 246, 245, 245),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 8,
-                                color: Colors.black26,
-                                offset: Offset(0, -3),
-                              ),
-                            ],
-                          ),
-                          child: ListTile(
-                            onTap: () {
-                              Get.to(() => JobOfferDetailScreen(
-                                    offerID: foundOffers[index]["OfferID"],
-                                  ));
-                            },
-                            title: Text("${foundOffers[index]["JobTitle"]}"
-                                "\n ${foundOffers[index]["Category"]}"),
-                            subtitle:
-                                Text("${foundOffers[index]["CompanyName"]}"),
-                            trailing: Text("${foundOffers[index]["Date"]}"),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          left: 10,
+                        ),
+                        child: Text(
+                          "Hello Shouq!",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                      );
-                    },
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.notifications_none_rounded,
+                          size: 35,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.filter_list_rounded,
+                          size: 39,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {},
+                      ),
+                      const SizedBox(width: 5),
+                      SizedBox(
+                        width: screenWidth * 0.809,
+                        height: screenWidth * 0.09,
+                        child: TextField(
+                          onChanged: (value) => searchOffer(value),
+                          decoration: InputDecoration(
+                            hintText: "Search by job title, field, or company",
+                            border: InputBorder.none,
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: Color(0xFFD3D3D3),
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            hintStyle: const TextStyle(
+                              color: Color(0xFFD3D3D3),
+                              fontSize: 14,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
+                            ),
+                            contentPadding: EdgeInsets.only(
+                              left: screenWidth * 0.04,
+                              right: screenWidth * 0.04,
+                              top: screenHeight * 0.01,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: screenHeight * 0.80,
+              padding: EdgeInsets.symmetric(
+                horizontal: screenWidth * 0.01,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(80.0),
                 ),
-          profileButton(), // Pass the BuildContext to the profileButton
-        ],
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x3B000000),
+                    spreadRadius: 3,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Stack(
+                children: [
+                  foundOffers.isEmpty
+                      ? const Center(
+                          // Display a message when their is no offers
+                          child: Text('No job offers found.'),
+                        )
+                      : Expanded(
+                          child: SizedBox(
+                            height: screenHeight * 0.71,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(80.0),
+                              ),
+                              child: ListView.builder(
+                                itemCount: foundOffers.length,
+                                padding: const EdgeInsets.only(
+                                  top: 35,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 2,
+                                      left: 5,
+                                      right: 5,
+                                      bottom: 5,
+                                    ),
+                                    child: Container(
+                                      width: screenWidth,
+                                      decoration: const BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Color.fromARGB(
+                                                169, 158, 158, 158),
+                                            width: 0.5,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 10,
+                                          bottom: 10,
+                                          left: 20,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: screenWidth * 0.7,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "${foundOffers[index]["JobTitle"]}"
+                                                        .capitalizeEach(),
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF14386E),
+                                                      fontSize: 21.0,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "${foundOffers[index]["CompanyName"]} \n${foundOffers[index]["CategoryName"]}"
+                                                        .capitalizeEach(),
+                                                    //"
+                                                    style: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 155, 155, 155),
+                                                      fontSize: 15.0,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Text(
+                                                    "Posted: ${foundOffers[index]["Date"]}"
+                                                        .capitalizeEach(),
+                                                    //"
+                                                    style: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 155, 155, 155),
+                                                      fontSize: 13.0,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                top: 0,
+                                                right: 5,
+                                              ),
+                                              width: screenWidth * 0.09,
+                                              height: screenHeight * 0.058,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color:
+                                                      const Color(0xFF024A8D),
+                                                  width: 1.8,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                    Icons.arrow_forward),
+                                                iconSize: 20,
+                                                onPressed: () {
+                                                  Get.to(
+                                                    () => JobOfferDetailScreen(
+                                                      offerID:
+                                                          foundOffers[index]
+                                                              ["OfferID"],
+                                                    ),
+                                                  );
+                                                },
+                                                color: const Color(0xFF024A8D),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 5,
+                    ),
+                    width: 350,
+                    margin: EdgeInsets.only(
+                      left: screenWidth * 0.07,
+                      top: screenHeight * 0.725,
+                      bottom: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color.fromARGB(29, 0, 0, 0),
+                          spreadRadius: 1,
+                          blurRadius: 10,
+                          offset: Offset(1, 1),
+                        ),
+                      ],
+                    ),
+                    //Bottom Mneu
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: GNav(
+                        backgroundColor: const Color.fromARGB(
+                            0, 255, 255, 255), //Navigation Background
+                        color: const Color.fromARGB(
+                            255, 66, 66, 66), //Unslected page icon color
+                        activeColor:
+                            const Color(0xFF14386E), //Selected page icon color
+                        tabBackgroundColor: const Color(0xFF14386E).withOpacity(
+                            0.1), //Selected page icon background color
+                        gap: 8,
+                        iconSize: 24, // tab button icon size
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ), // navigation bar padding
+                        tabs: const [
+                          GButton(
+                            icon: LineIcons.home,
+                            text: 'Home',
+                          ),
+                          GButton(
+                            icon: LineIcons.list,
+                            text: 'Applications',
+                          ),
+                          GButton(
+                            icon: LineIcons.user,
+                            text: 'Profile',
+                          )
+                        ],
+                        onTabChange: (index) {
+                          if (index == 0) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    OffersScreen(email: widget.email),
+                              ),
+                            );
+                          } else if (index == 2) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    ProfileScreen(email: widget.email),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

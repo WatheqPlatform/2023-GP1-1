@@ -122,7 +122,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     "Reset Password",
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 29.0,
+                      fontSize: 27.0,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -140,7 +140,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(90.0),
+                  topLeft: Radius.circular(80.0),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -159,24 +159,24 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                     style: TextStyle(
                       color: Color(0xFF14386E),
                       fontSize: 29.0,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Text(
-                    "Enter your new password.",
+                    "Enter your new password",
                     style: TextStyle(
                       color: Color(0xffd714386e),
                       fontSize: 17.0,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 70),
                   Form(
                     key: formKey,
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(right: 217, bottom: 3),
+                          padding: EdgeInsets.only(right: 227, bottom: 3),
                           child: Text(
                             "Password",
                             style: TextStyle(
@@ -221,7 +221,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                         isObsecure.value
                                             ? Icons.visibility_off
                                             : Icons.visibility,
-                                        color: Color(0xFF14386E),
+                                        color: const Color(0xFF14386E),
                                       ),
                                     ),
                                     enabledBorder: OutlineInputBorder(

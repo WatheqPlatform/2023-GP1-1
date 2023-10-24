@@ -17,6 +17,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  // ignore: non_constant_identifier_names
   String Name = '';
 
   String email = '';

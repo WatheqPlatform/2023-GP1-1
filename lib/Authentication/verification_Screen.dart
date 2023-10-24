@@ -130,7 +130,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     "Verify Code",
                     style: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 29.0,
+                      fontSize: 27.0,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -148,7 +148,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(90.0),
+                  topLeft: Radius.circular(80.0),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -167,11 +167,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     style: TextStyle(
                       color: Color(0xFF14386E),
                       fontSize: 29.0,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   const Text(
-                    "Enter the verification code sent to your email. ",
+                    "Enter the verification code sent to your email",
                     style: TextStyle(
                       color: Color(0xffd714386e),
                       fontSize: 17.0,
@@ -184,7 +184,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(right: 150, bottom: 3),
+                          padding: EdgeInsets.only(right: 160, bottom: 3),
                           child: Text(
                             "Verification Code",
                             style: TextStyle(
@@ -229,7 +229,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 28),
                         ElevatedButton(
                           onPressed: () {
                             if (formKey.currentState!.validate()) {

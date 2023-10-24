@@ -50,11 +50,28 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     if (offerDetails[0]["StartingDate"] != null &&
         offerDetails[0]["StartingDate"] != "") {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Divider(),
+          Padding(
+            padding: const EdgeInsets.only(top: 15, bottom: 2),
+            child: Text(
+              "PStarting Day",
+              style: const TextStyle(
+                  fontSize: 20.0,
+                  color: const Color(0xFF024A8D),
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.justify,
+            ),
+          ),
           ListTile(
-            title: const Text('Starting Date'),
-            subtitle: Text("${offerDetails[0]["StartingDate"]}"),
+            subtitle: Text(
+              "${offerDetails[0]["StartingDate"]}",
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  color: const Color(0xFF024A8D),
+                  fontWeight: FontWeight.w400),
+              textAlign: TextAlign.justify,
+            ),
           ),
         ],
       );
@@ -69,11 +86,28 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     if (offerDetails[0]["WorkingDays"] != null &&
         offerDetails[0]["WorkingDays"] != "") {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Divider(),
+          Padding(
+            padding: const EdgeInsets.only(top: 15, bottom: 2),
+            child: Text(
+              "Working Days",
+              style: const TextStyle(
+                  fontSize: 20.0,
+                  color: const Color(0xFF024A8D),
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.justify,
+            ),
+          ),
           ListTile(
-            title: const Text('Working Days'),
-            subtitle: Text("${offerDetails[0]["WorkingDays"]}"),
+            subtitle: Text(
+              "${offerDetails[0]["WorkingDays"]}",
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  color: const Color(0xFF024A8D),
+                  fontWeight: FontWeight.w400),
+              textAlign: TextAlign.left,
+            ),
           ),
         ],
       );
@@ -88,11 +122,28 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     if (offerDetails[0]["WorkingHours"] != null &&
         offerDetails[0]["WorkingHours"] != "") {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Divider(),
+          Padding(
+            padding: const EdgeInsets.only(top: 15, bottom: 2),
+            child: Text(
+              "Working Hours",
+              style: const TextStyle(
+                  fontSize: 20.0,
+                  color: const Color(0xFF024A8D),
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.justify,
+            ),
+          ),
           ListTile(
-            title: const Text('Working Hours'),
-            subtitle: Text("${offerDetails[0]["WorkingHours"]}"),
+            subtitle: Text(
+              "${offerDetails[0]["WorkingHours"]}",
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  color: const Color(0xFF024A8D),
+                  fontWeight: FontWeight.w400),
+              textAlign: TextAlign.justify,
+            ),
           ),
         ],
       );
@@ -107,6 +158,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     if (offerDetails[0]["AdditionalNotes"] != null &&
         offerDetails[0]["AdditionalNotes"] != "") {
       return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Divider(),
           ListTile(
@@ -139,6 +191,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     children: [
                       const SizedBox(width: 2),
@@ -154,13 +209,31 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10, left: 1),
-                        child: Text(
-                          "${offerDetails[0]["JobTitle"]}",
-                          style: TextStyle(
-                            color: const Color.fromARGB(255, 255, 255, 255),
-                            fontSize: screenWidth * 0.055,
-                            fontWeight: FontWeight.w400,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 35, bottom: 5),
+                              child: Text(
+                                "${offerDetails[0]["JobTitle"]}",
+                                style: TextStyle(
+                                  color:
+                                      const Color.fromARGB(255, 255, 255, 255),
+                                  fontSize: screenWidth * 0.055,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "By ${offerDetails[0]["CompanyName"]}",
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.050,
+                                color: const Color.fromARGB(255, 255, 255, 255),
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -173,7 +246,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                       vertical: 10,
                       horizontal: 30,
                     ),
-                    height: screenHeight * 0.86,
+                    height: screenHeight * 0.82,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -191,23 +264,126 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                             child: ListView(
                               padding: const EdgeInsets.all(5),
                               children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Text(
+                                    "Job Description",
+                                    style: const TextStyle(
+                                        fontSize: 20.0,
+                                        color: const Color(0xFF024A8D),
+                                        fontWeight: FontWeight.w600),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
                                 Text(
                                   "${offerDetails[0]["JobDescription"]}",
-                                  style: const TextStyle(fontSize: 17),
+                                  style: const TextStyle(
+                                      fontSize: 18.0,
+                                      color: const Color(0xFF024A8D),
+                                      fontWeight: FontWeight.w400),
                                   textAlign: TextAlign.justify,
                                 ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 15, bottom: 2),
+                                  child: Text(
+                                    "Job Category",
+                                    style: const TextStyle(
+                                        fontSize: 20.0,
+                                        color: const Color(0xFF024A8D),
+                                        fontWeight: FontWeight.w600),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
                                 Text(
-                                  "By ${offerDetails[0]["CompanyName"]}",
-                                  style: const TextStyle(fontSize: 17),
+                                  "${offerDetails[0]["CategoryName"]}",
+                                  style: const TextStyle(
+                                      fontSize: 18.0,
+                                      color: const Color(0xFF024A8D),
+                                      fontWeight: FontWeight.w400),
                                   textAlign: TextAlign.justify,
                                 ),
-                                Text("${offerDetails[0]["CategoryName"]}"),
-                                Text("${offerDetails[0]["EmploymentType"]}"),
-                                Text("${offerDetails[0]["JobAddress"]}"
-                                    "${offerDetails[0]["CityName"]}"),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 15, bottom: 2),
+                                  child: Text(
+                                    "Employment Type",
+                                    style: const TextStyle(
+                                        fontSize: 20.0,
+                                        color: const Color(0xFF024A8D),
+                                        fontWeight: FontWeight.w600),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
                                 Text(
-                                    "${offerDetails[0]["MinSalary"]} - ${offerDetails[0]["MaxSalary"]}"),
-                                Text("${offerDetails[0]["Date"]}"),
+                                  "${offerDetails[0]["EmploymentType"]}",
+                                  style: const TextStyle(
+                                      fontSize: 18.0,
+                                      color: const Color(0xFF024A8D),
+                                      fontWeight: FontWeight.w400),
+                                  textAlign: TextAlign.justify,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 15, bottom: 2),
+                                  child: Text(
+                                    "Job Address",
+                                    style: const TextStyle(
+                                        fontSize: 20.0,
+                                        color: const Color(0xFF024A8D),
+                                        fontWeight: FontWeight.w600),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                                Text(
+                                  "${offerDetails[0]["JobAddress"]}"
+                                  "${offerDetails[0]["CityName"]}",
+                                  style: const TextStyle(
+                                      fontSize: 18.0,
+                                      color: const Color(0xFF024A8D),
+                                      fontWeight: FontWeight.w400),
+                                  textAlign: TextAlign.justify,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 15, bottom: 2),
+                                  child: Text(
+                                    "Salary Range",
+                                    style: const TextStyle(
+                                        fontSize: 20.0,
+                                        color: const Color(0xFF024A8D),
+                                        fontWeight: FontWeight.w600),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                                Text(
+                                  "${offerDetails[0]["MinSalary"]} - ${offerDetails[0]["MaxSalary"]}",
+                                  style: const TextStyle(
+                                      fontSize: 18.0,
+                                      color: const Color(0xFF024A8D),
+                                      fontWeight: FontWeight.w400),
+                                  textAlign: TextAlign.justify,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 15, bottom: 2),
+                                  child: Text(
+                                    "Posted Day",
+                                    style: const TextStyle(
+                                        fontSize: 20.0,
+                                        color: const Color(0xFF024A8D),
+                                        fontWeight: FontWeight.w600),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                                Text(
+                                  "${offerDetails[0]["Date"]}",
+                                  style: const TextStyle(
+                                      fontSize: 18.0,
+                                      color: const Color(0xFF024A8D),
+                                      fontWeight: FontWeight.w400),
+                                  textAlign: TextAlign.justify,
+                                ),
                                 startingDateCheck(),
                                 workingDaysCheck(),
                                 workingHoursCheck(),

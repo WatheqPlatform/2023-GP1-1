@@ -147,7 +147,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   Container(
                                     margin: const EdgeInsets.only(bottom: 20),
-                                    width: screenWidth * 0.78,
+                                    width: screenWidth * 0.79,
                                     decoration: const BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(

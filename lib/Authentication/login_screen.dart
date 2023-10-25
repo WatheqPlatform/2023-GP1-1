@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:watheq/database_connection/connection.dart';
 import 'dart:convert';
 import 'package:watheq/offers_screen.dart';
+import 'package:watheq/start_screen.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:watheq/error_messages.dart';
 
@@ -95,7 +96,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                     Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StartScreen()
+                        ),
+                      );
                   },
                 ),
                 const Padding(

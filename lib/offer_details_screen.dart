@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:string_capitalize/string_capitalize.dart';
 
 class JobOfferDetailScreen extends StatefulWidget {
   var offerID;
@@ -33,7 +34,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
       red[0]['experiences'] = json.decode(red[0]['experiences']);
       red[0]['qualifications'] = json.decode(red[0]['qualifications']);
       red[0]['skills'] = json.decode(red[0]['skills']);
-      
+
       setState(() {
         offerDetails.addAll(red);
         empty = false;
@@ -55,26 +56,24 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 2),
+          const Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 1),
             child: Text(
-              "PStarting Day",
-              style: const TextStyle(
-                  fontSize: 20.0,
-                  color: const Color(0xFF024A8D),
+              "Starting Day",
+              style: TextStyle(
+                  fontSize: 19.0,
+                  color: Color(0xFF024A8D),
                   fontWeight: FontWeight.w600),
               textAlign: TextAlign.justify,
             ),
           ),
-          ListTile(
-            subtitle: Text(
-              "${offerDetails[0]["StartingDate"]}",
-              style: const TextStyle(
-                  fontSize: 18.0,
-                  color: const Color(0xFF024A8D),
-                  fontWeight: FontWeight.w400),
-              textAlign: TextAlign.justify,
-            ),
+          Text(
+            "${offerDetails[0]["StartingDate"]}",
+            style: const TextStyle(
+                fontSize: 16,
+                color: Color.fromARGB(255, 37, 42, 74),
+                fontWeight: FontWeight.w400),
+            textAlign: TextAlign.justify,
           ),
         ],
       );
@@ -84,173 +83,34 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
       );
     }
   }
+
   Widget workingDaysCheck() {
     if (offerDetails[0]["WorkingDays"] != null &&
         offerDetails[0]["WorkingDays"] != "") {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 2),
+          const Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 1),
             child: Text(
               "Working Days",
-              style: const TextStyle(
-                  fontSize: 20.0,
-                  color: const Color(0xFF024A8D),
+              style: TextStyle(
+                  fontSize: 19.0,
+                  color: Color(0xFF024A8D),
                   fontWeight: FontWeight.w600),
               textAlign: TextAlign.justify,
             ),
           ),
-          ListTile(
-            subtitle: Text(
-              "${offerDetails[0]["WorkingDays"]}",
-              style: const TextStyle(
-                  fontSize: 18.0,
-                  color: const Color(0xFF024A8D),
-                  fontWeight: FontWeight.w400),
-              textAlign: TextAlign.left,
-            ),
-          ),
-        ],
-      );
-    } else {
-      return Container(
-        height: 0,
-      );
-    }
-  }
-  Widget renderQualifications() {
-    if (offerDetails[0]['qualifications'].length > 0) {
-      
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
           Text(
-            "Qualifications",
+            "${offerDetails[0]["WorkingDays"]}"
+                .capitalizeEach()
+                .replaceAll(", ", "\n"),
             style: const TextStyle(
-                fontSize: 20.0,
-                color: const Color(0xFF024A8D),
-                fontWeight: FontWeight.w600),
-            textAlign: TextAlign.justify,
-          ),
-         SizedBox(height: 200, child:  ListView.builder(
-  itemCount: offerDetails[0]['qualifications'].length,
-  itemBuilder: (context, index) {
-    final qualification = offerDetails[0]['qualifications'][index];
-
-    return ListTile(
-      title: Text('Degree Level: ${qualification["DegreeLevel"]}',style: const TextStyle(
-          fontSize: 18.0,
-          color: const Color(0xFF024A8D),
-          fontWeight: FontWeight.w400,
-        ),
-        textAlign: TextAlign.left,),
-      subtitle: Text(
-        "Field: ${qualification['Field']}",
-        style: const TextStyle(
-          fontSize: 18.0,
-          color: const Color(0xFF024A8D),
-          fontWeight: FontWeight.w400,
-        ),
-        textAlign: TextAlign.left,
-      ),
-    );
-  },
-)
-         )
-         
-        ],
-      );
-    } else {
-      return Container(
-        height: 0,
-      );
-    }
-  }
-
-    Widget renderExpriences() {
-    if (offerDetails[0]['experiences'].length > 0) {
-      
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Experiences",
-            style: const TextStyle(
-                fontSize: 20.0,
-                color: const Color(0xFF024A8D),
-                fontWeight: FontWeight.w600),
-            textAlign: TextAlign.justify,
-          ),
-         SizedBox(height: 200, child:  ListView.builder(
-  itemCount: offerDetails[0]['experiences'].length,
-  itemBuilder: (context, index) {
-    final experience = offerDetails[0]['experiences'][index];
-
-    return ListTile(
-      title: Text('Years Of Experience: ${experience["YearsOfExperience"]}',style: const TextStyle(
-          fontSize: 18.0,
-          color: const Color(0xFF024A8D),
-          fontWeight: FontWeight.w400,
-        ),
-        textAlign: TextAlign.left,),
-      subtitle: Text(
-        "Field: ${experience['ExperienceField']}",
-        style: const TextStyle(
-          fontSize: 18.0,
-          color: const Color(0xFF024A8D),
-          fontWeight: FontWeight.w400,
-        ),
-        textAlign: TextAlign.left,
-      ),
-    );
-  },
-)
-         )
-         
-        ],
-      );
-    } else {
-      return Container(
-        height: 0,
-      );
-    }
-  }
-    Widget renderSkills() {
-    if (offerDetails[0]['skills'].length > 0) {
-      
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Skills",
-            style: const TextStyle(
-                fontSize: 20.0,
-                color: const Color(0xFF024A8D),
-                fontWeight: FontWeight.w600),
-            textAlign: TextAlign.justify,
-          ),
-         SizedBox(height: 200, child:  ListView.builder(
-  itemCount: offerDetails[0]['skills'].length,
-  itemBuilder: (context, index) {
-    final skill = offerDetails[0]['skills'][index];
-
-    return ListTile(
-
-      subtitle: Text(
-        "${skill}",
-        style: const TextStyle(
-          fontSize: 18.0,
-          color: const Color(0xFF024A8D),
-          fontWeight: FontWeight.w400,
-        ),
-        textAlign: TextAlign.left,
-      ),
-    );
-  },
-)
-         )
-         
+                fontSize: 16,
+                color: Color.fromARGB(255, 37, 42, 74),
+                fontWeight: FontWeight.w400),
+            textAlign: TextAlign.left,
+          )
         ],
       );
     } else {
@@ -266,16 +126,144 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 2),
+          const Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 1),
             child: Text(
               "Working Hours",
-              style: const TextStyle(
-                  fontSize: 20.0,
-                  color: const Color(0xFF024A8D),
+              style: TextStyle(
+                fontSize: 19.0,
+                color: Color(0xFF024A8D),
+                fontWeight: FontWeight.w600,
+              ),
+              textAlign: TextAlign.justify,
+            ),
+          ),
+          Text(
+            "${offerDetails[0]["WorkingHours"]}h Per Day",
+            style: const TextStyle(
+              fontSize: 16,
+              color: Color.fromARGB(255, 37, 42, 74),
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.justify,
+          ),
+        ],
+      );
+    } else {
+      return Container(
+        height: 0,
+      );
+    }
+  }
+
+  Widget renderSkills() {
+    if (offerDetails[0]['skills'].length > 0) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 1),
+            child: Text(
+              "Required Skills",
+              style: TextStyle(
+                  fontSize: 19.0,
+                  color: Color(0xFF024A8D),
                   fontWeight: FontWeight.w600),
               textAlign: TextAlign.justify,
             ),
+          ),
+          Text(
+            "${offerDetails[0]['skills']}"
+                .replaceAll("[", "")
+                .replaceAll("]", "")
+                .replaceAll(", ", "\n"),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Color.fromARGB(255, 37, 42, 74),
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.left,
+          )
+        ],
+      );
+    } else {
+      return Container(
+        height: 0,
+      );
+    }
+  }
+
+  Widget renderQualifications() {
+    if (offerDetails[0]['qualifications'].length > 0) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 1),
+            child: const Text(
+              "Required Qualifications",
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Color(0xFF024A8D),
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.justify,
+            ),
+          ),
+          Text(
+            "${offerDetails[0]['qualifications']}"
+                .replaceAll("[", "")
+                .replaceAll("]", "")
+                .replaceAll("{", "")
+                .replaceAll("}", "\n")
+                .replaceAll("DegreeLevel", "Degree Level")
+                .replaceAll(", ", "\n"),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Color.fromARGB(255, 37, 42, 74),
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.left,
+          ),
+        ],
+      );
+    } else {
+      return Container(
+        height: 0,
+      );
+    }
+  }
+
+  Widget renderExpriences() {
+    if (offerDetails[0]['experiences'].length > 0) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 1),
+            child: const Text(
+              "Required Experiences",
+              style: TextStyle(
+                  fontSize: 20.0,
+                  color: Color(0xFF024A8D),
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.justify,
+            ),
+          ),
+          Text(
+            "${offerDetails[0]['experiences']}"
+                .replaceAll("[", "")
+                .replaceAll("]", "")
+                .replaceAll("{", "")
+                .replaceAll("}", "\n")
+                .replaceAll("ExperienceField", "Field")
+                .replaceAll("YearsOfExperience", "Years Of Experience")
+                .replaceAll(", ", "\n"),
+            style: const TextStyle(
+              fontSize: 16,
+              color: Color.fromARGB(255, 37, 42, 74),
+              fontWeight: FontWeight.w400,
+            ),
+            textAlign: TextAlign.left,
           ),
         ],
       );
@@ -292,10 +280,25 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Divider(),
-          ListTile(
-            title: const Text('Additional Notes'),
-            subtitle: Text("${offerDetails[0]["AdditionalNotes"]}"),
+          const Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 1),
+            child: Text(
+              "Additional Notes",
+              style: TextStyle(
+                  fontSize: 19.0,
+                  color: Color(0xFF024A8D),
+                  fontWeight: FontWeight.w600),
+              textAlign: TextAlign.justify,
+            ),
+          ),
+          Text(
+            "${offerDetails[0]["AdditionalNotes"]}"
+                .replaceAll(RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n'),
+            style: const TextStyle(
+                fontSize: 16,
+                color: Color.fromARGB(255, 37, 42, 74),
+                fontWeight: FontWeight.w400),
+            textAlign: TextAlign.justify,
           ),
         ],
       );
@@ -323,13 +326,11 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  
                   Row(
                     children: [
-                      const SizedBox(width: 2, height: 2,),
+                      const SizedBox(
+                        width: 2,
+                      ),
                       IconButton(
                         icon: const Icon(
                           Icons.arrow_back_ios_rounded,
@@ -342,40 +343,54 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 10, left: 1),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 35, bottom: 5),
-                              child: Text(
-                                "${offerDetails[0]["JobTitle"]}",
-                                style: TextStyle(
-                                  color:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: screenWidth * 0.055,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "By ${offerDetails[0]["CompanyName"]}",
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.050,
-                                color: const Color.fromARGB(255, 255, 255, 255),
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            
-                          ],
+                        child: Text(
+                          "${offerDetails[0]["JobTitle"]}".capitalizeEach(),
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 255, 255, 255),
+                            fontSize: screenWidth * 0.055,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
-                      
                     ],
                   ),
-                 
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 40,
+                          width: 30,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.account_circle_rounded,
+                              size: 30,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Text(
+                            "   ${offerDetails[0]["CompanyName"]}"
+                                .capitalizeEach()
+                                .replaceAll(
+                                    RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n'),
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.050,
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(
-                    height: 25,
+                    height: 12,
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -390,42 +405,58 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                       ),
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(
-                          height: 50,
+                          height: 40,
                         ),
+
                         Expanded(
                           child: ListView(
-                            
                             padding: const EdgeInsets.all(5),
                             children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
+                              Text(
+                                "Posted: ${offerDetails[0]["Date"]}",
+                                style: const TextStyle(
+                                    fontSize: 15.0,
+                                    color: Color.fromARGB(169, 158, 158, 158),
+                                    fontWeight: FontWeight.w400),
+                                textAlign: TextAlign.left,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(bottom: 1),
                                 child: Text(
                                   "Job Description",
-                                  style: const TextStyle(
-                                      fontSize: 20.0,
-                                      color: const Color(0xFF024A8D),
+                                  style: TextStyle(
+                                      fontSize: 19.0,
+                                      color: Color(0xFF024A8D),
                                       fontWeight: FontWeight.w600),
                                   textAlign: TextAlign.justify,
                                 ),
                               ),
                               Text(
-                                "${offerDetails[0]["JobDescription"]}",
+                                "${offerDetails[0]["JobDescription"]}"
+                                    .replaceAll(
+                                        RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'),
+                                        '\n'),
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: const Color(0xFF024A8D),
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 37, 42, 74),
                                     fontWeight: FontWeight.w400),
                                 textAlign: TextAlign.justify,
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(top: 15, bottom: 2),
+                                    const EdgeInsets.only(top: 20, bottom: 1),
                                 child: Text(
-                                  "Job Category",
+                                  "Category".capitalizeEach().replaceAll(
+                                      RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n'),
                                   style: const TextStyle(
-                                      fontSize: 20.0,
-                                      color: const Color(0xFF024A8D),
+                                      fontSize: 19.0,
+                                      color: Color(0xFF024A8D),
                                       fontWeight: FontWeight.w600),
                                   textAlign: TextAlign.justify,
                                 ),
@@ -433,99 +464,81 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                               Text(
                                 "${offerDetails[0]["CategoryName"]}",
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: const Color(0xFF024A8D),
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 37, 42, 74),
                                     fontWeight: FontWeight.w400),
                                 textAlign: TextAlign.justify,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 15, bottom: 2),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 20, bottom: 1),
                                 child: Text(
-                                  "Employment Type",
-                                  style: const TextStyle(
-                                      fontSize: 20.0,
-                                      color: const Color(0xFF024A8D),
+                                  "Type",
+                                  style: TextStyle(
+                                      fontSize: 19.0,
+                                      color: Color(0xFF024A8D),
                                       fontWeight: FontWeight.w600),
                                   textAlign: TextAlign.justify,
                                 ),
                               ),
                               Text(
-                                "${offerDetails[0]["EmploymentType"]}",
+                                "${offerDetails[0]["EmploymentType"]}"
+                                    .capitalizeEach(),
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: const Color(0xFF024A8D),
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 37, 42, 74),
                                     fontWeight: FontWeight.w400),
                                 textAlign: TextAlign.justify,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 15, bottom: 2),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 20, bottom: 1),
                                 child: Text(
-                                  "Job Address",
-                                  style: const TextStyle(
-                                      fontSize: 20.0,
-                                      color: const Color(0xFF024A8D),
+                                  "Location",
+                                  style: TextStyle(
+                                      fontSize: 19.0,
+                                      color: Color(0xFF024A8D),
                                       fontWeight: FontWeight.w600),
                                   textAlign: TextAlign.justify,
                                 ),
                               ),
                               Text(
                                 "${offerDetails[0]["JobAddress"]}"
-                                "${offerDetails[0]["CityName"]}",
+                                        "${offerDetails[0]["CityName"]}"
+                                    .capitalizeEach()
+                                    .replaceAll(
+                                        RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'),
+                                        '\n'),
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: const Color(0xFF024A8D),
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 37, 42, 74),
                                     fontWeight: FontWeight.w400),
                                 textAlign: TextAlign.justify,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 15, bottom: 2),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 20, bottom: 1),
                                 child: Text(
                                   "Salary Range",
-                                  style: const TextStyle(
-                                      fontSize: 20.0,
-                                      color: const Color(0xFF024A8D),
+                                  style: TextStyle(
+                                      fontSize: 19,
+                                      color: Color(0xFF024A8D),
                                       fontWeight: FontWeight.w600),
                                   textAlign: TextAlign.justify,
                                 ),
                               ),
                               Text(
-                                "${offerDetails[0]["MinSalary"]} - ${offerDetails[0]["MaxSalary"]}",
+                                "${offerDetails[0]["MinSalary"]}SAR - ${offerDetails[0]["MaxSalary"]}SAR",
                                 style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: const Color(0xFF024A8D),
-                                    fontWeight: FontWeight.w400),
-                                textAlign: TextAlign.justify,
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 15, bottom: 2),
-                                child: Text(
-                                  "Posted Day",
-                                  style: const TextStyle(
-                                      fontSize: 20.0,
-                                      color: const Color(0xFF024A8D),
-                                      fontWeight: FontWeight.w600),
-                                  textAlign: TextAlign.justify,
-                                ),
-                              ),
-                              Text(
-                                "${offerDetails[0]["Date"]}",
-                                style: const TextStyle(
-                                    fontSize: 18.0,
-                                    color: const Color(0xFF024A8D),
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 37, 42, 74),
                                     fontWeight: FontWeight.w400),
                                 textAlign: TextAlign.justify,
                               ),
                               startingDateCheck(),
                               workingDaysCheck(),
                               workingHoursCheck(),
-                              notesCheck(),
-                              renderQualifications(),
+                              renderSkills(),
                               renderExpriences(),
-                              renderSkills()
+                              renderQualifications(),
+                              notesCheck(),
                             ],
                           ),
                         ),
@@ -533,52 +546,59 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF024A8D),
-                            fixedSize:
-                                Size(screenWidth * 0.8, screenHeight * 0.056),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            elevation: 5,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15),
+                          child: Column(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF024A8D),
+                                  fixedSize: Size(
+                                      screenWidth * 0.8, screenHeight * 0.056),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  elevation: 5,
+                                ),
+                                child: const Text(
+                                  "Apply",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 17,
+                              ),
+                              OutlinedButton(
+                                onPressed: () {},
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                    width: 1.5,
+                                    color: Color(0xFF024A8D),
+                                  ),
+                                  fixedSize: Size(
+                                      screenWidth * 0.8, screenHeight * 0.052),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Mock Interview ",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xFF024A8D),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 25,
+                              ),
+                            ],
                           ),
-                          child: const Text(
-                            "Apply",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 17,
-                        ),
-                        OutlinedButton(
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(
-                              width: 1.5,
-                              color: Color(0xFF024A8D),
-                            ),
-                            fixedSize:
-                                Size(screenWidth * 0.8, screenHeight * 0.052),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          child: const Text(
-                            "Mock Interview ",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF024A8D),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 35,
-                        ),
+                        )
                       ],
                     ),
                   ),

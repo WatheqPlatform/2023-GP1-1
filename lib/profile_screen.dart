@@ -9,6 +9,7 @@ import 'dart:convert';
 import 'package:watheq/offers_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:string_capitalize/string_capitalize.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String email;
@@ -166,9 +167,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                   Text(
-                                    Name,
+                                    Name.capitalizeEach(),
                                     style: const TextStyle(
-                                        fontSize: 20, color: Color(0xFF14386E)),
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 37, 42, 74),
+                                    ),
                                   ),
                                   const SizedBox(height: 20),
                                   const Text(
@@ -182,7 +185,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     email,
                                     style: const TextStyle(
-                                        fontSize: 20, color: Color(0xFF14386E)),
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 37, 42, 74),
+                                    ),
                                   ),
                                   const SizedBox(
                                     height: 60,

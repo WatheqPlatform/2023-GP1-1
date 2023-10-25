@@ -52,9 +52,13 @@ class _OffersScreenState extends State<OffersScreen> {
       String fullName = nameRespose[0]["Name"];
 
       int space = fullName.indexOf(" ");
+
       setState(() {
-        Name = fullName.capitalizeEach();
-        Name = fullName.substring(0, space);
+        if (space != -1) {
+          Name = fullName.substring(0, space);
+        } else {
+          Name = fullName;
+        }
         Name = Name.capitalizeEach();
       });
     }

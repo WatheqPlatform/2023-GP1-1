@@ -8,6 +8,7 @@ import 'package:watheq/Authentication/login_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:watheq/database_connection/connection.dart';
 import 'package:watheq/Authentication/user.dart';
+import 'package:watheq/start_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:watheq/error_messages.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -166,7 +167,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const StartScreen()),
+                    );
                   },
                 ),
                 const Padding(

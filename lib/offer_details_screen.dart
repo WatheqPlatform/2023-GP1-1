@@ -471,6 +471,27 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                     fontWeight: FontWeight.w400),
                                 textAlign: TextAlign.justify,
                               ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 20, bottom: 1),
+                                child: Text(
+                                  "Field".capitalizeEach().replaceAll(
+                                      RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n'),
+                                  style: const TextStyle(
+                                      fontSize: 19.0,
+                                      color: Color(0xFF024A8D),
+                                      fontWeight: FontWeight.w600),
+                                  textAlign: TextAlign.justify,
+                                ),
+                              ),
+                              Text(
+                                "${offerDetails[0]["Field"]}",
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Color.fromARGB(255, 37, 42, 74),
+                                    fontWeight: FontWeight.w400),
+                                textAlign: TextAlign.justify,
+                              ),
                               const Padding(
                                 padding: EdgeInsets.only(top: 20, bottom: 1),
                                 child: Text(
@@ -503,7 +524,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 ),
                               ),
                               Text(
-                                "${offerDetails[0]["JobAddress"]} ${offerDetails[0]["CityName"]}"
+                                "${offerDetails[0]["CityName"]}, " 
+                                "${offerDetails[0]["JobAddress"]} "
+                                        
                                     .capitalizeEach()
                                     .replaceAll(
                                         RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'),

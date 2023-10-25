@@ -43,14 +43,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
           Get.to(() => NewPasswordScreen(email: widget.email));
         } else {
           if (context.mounted) {
-            ErrorMessage.show(context, "Error", res["error"],
+            ErrorMessage.show(context, "Error", 18, res["error"],
                 ContentType.failure, Color.fromARGB(255, 209, 24, 24));
           }
         }
       }
     } catch (e) {
       if (context.mounted) {
-        ErrorMessage.show(context, "Error", "Please check your connection.",
+        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
             ContentType.failure, Color.fromARGB(255, 209, 24, 24));
       }
     }
@@ -75,6 +75,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             ErrorMessage.show(
               context,
               "Success",
+              18,
               "The email has been sent successfully.",
               ContentType.success,
               Color.fromARGB(255, 15, 152, 20),
@@ -87,6 +88,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         ErrorMessage.show(
             context,
             "Error",
+            18,
             "The email is incorrect, please try again.",
             ContentType.failure,
             Color.fromARGB(255, 209, 24, 24));
@@ -240,6 +242,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 return ErrorMessage.show(
                                     context,
                                     "Error",
+                                    18,
                                     "Please enter the verification code.",
                                     ContentType.failure,
                                     Color.fromARGB(255, 209, 24, 24));

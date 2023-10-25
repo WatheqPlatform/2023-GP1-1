@@ -6,15 +6,17 @@ class ErrorMessage {
   final String msgTitle;
   final Color color;
   final ContentType contentType;
+  final double fontsize;
 
   const ErrorMessage(
       {required this.msgTitle,
       required this.message,
       required this.color,
-      required this.contentType});
+      required this.contentType,
+      required this.fontsize});
 
-  static show(BuildContext context, String msgTitle, String message,
-      ContentType contentType, Color color) {
+  static show(BuildContext context, String msgTitle, double fontsize,
+      String message, ContentType contentType, Color color) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -23,7 +25,7 @@ class ErrorMessage {
         content: AwesomeSnackbarContent(
           title: msgTitle,
           message: message,
-          messageFontSize: 18,
+          messageFontSize: fontsize,
           contentType: contentType,
           color: color,
           //inMaterialBanner: ,

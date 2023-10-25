@@ -51,6 +51,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             ErrorMessage.show(
               context,
               "Success",
+              18,
               "The email has been sent successfully.",
               ContentType.success,
               const Color.fromARGB(255, 15, 152, 20),
@@ -64,6 +65,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             ErrorMessage.show(
                 context,
                 "Error",
+                18,
                 "The email is incorrect, please try again.",
                 ContentType.failure,
                 const Color.fromARGB(255, 209, 24, 24));
@@ -72,7 +74,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       }
     } catch (e) {
       if (context.mounted) {
-        ErrorMessage.show(context, "Error", "Please check your connection.",
+        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
             ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
@@ -230,6 +232,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                   return ErrorMessage.show(
                                       context,
                                       "Error",
+                                      18,
                                       "Please enter a valid email.",
                                       ContentType.failure,
                                       const Color.fromARGB(255, 209, 24, 24));
@@ -238,6 +241,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                                 return ErrorMessage.show(
                                     context,
                                     "Error",
+                                    18,
                                     "Please enter the email.",
                                     ContentType.failure,
                                     const Color.fromARGB(255, 209, 24, 24));

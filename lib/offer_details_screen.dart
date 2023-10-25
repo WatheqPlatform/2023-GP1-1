@@ -317,7 +317,14 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: empty
-          ? null
+          ? Container(
+              //   color: Color.fromARGB(255, 62, 61, 61).withOpacity(0.5),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFF024A8D),
+                ),
+              ),
+            )
           : Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -524,9 +531,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 ),
                               ),
                               Text(
-                                "${offerDetails[0]["CityName"]}, " 
-                                "${offerDetails[0]["JobAddress"]} "
-                                        
+                                "${offerDetails[0]["CityName"]}, "
+                                        "${offerDetails[0]["JobAddress"]} "
                                     .capitalizeEach()
                                     .replaceAll(
                                         RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'),

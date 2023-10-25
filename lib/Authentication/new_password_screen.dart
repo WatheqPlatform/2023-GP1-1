@@ -58,6 +58,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             ErrorMessage.show(
               context,
               "Success",
+              18,
               "The password has been resetted successfully.",
               ContentType.success,
               const Color.fromARGB(255, 15, 152, 20),
@@ -72,6 +73,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
             ErrorMessage.show(
                 context,
                 "Error",
+                18,
                 "Reset time has expired, please request new one.",
                 ContentType.failure,
                 const Color.fromARGB(255, 209, 24, 24));
@@ -80,7 +82,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       }
     } catch (e) {
       if (context.mounted) {
-        ErrorMessage.show(context, "Error", "Please check your connection.",
+        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
             ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
@@ -254,7 +256,8 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                         return ErrorMessage.show(
                                             context,
                                             "Error",
-                                            "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digitand one special character",
+                                            14,
+                                            "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digit and one special character",
                                             ContentType.failure,
                                             const Color.fromARGB(
                                                 255, 209, 24, 24));
@@ -263,6 +266,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                       return ErrorMessage.show(
                                           context,
                                           "Error",
+                                          18,
                                           "Please enter the password.",
                                           ContentType.failure,
                                           const Color.fromARGB(

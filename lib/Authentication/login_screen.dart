@@ -37,6 +37,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   logInUser() async {
     try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Color(0xFF024A8D),
+            ),
+          );
+        },
+      );
       var response = await http.post(
         Uri.parse(Connection.logIn),
         body: {
@@ -44,6 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
           "password": passwordController.text.trim(),
         },
       );
+
+      Navigator.of(context).pop();
 
       if (response.statusCode == 200) {
         var resBodyOfLogin = jsonDecode(response.body.trim());
@@ -56,6 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ErrorMessage.show(
               context,
               "Error",
+              18,
               "The email or password is incorrect, please try again",
               ContentType.failure,
               const Color.fromARGB(255, 209, 24, 24));
@@ -63,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       if (context.mounted) {
-        ErrorMessage.show(context, "Error", "Please check your connection.",
+        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
             ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
@@ -96,12 +109,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const StartScreen()
-                        ),
-                      );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const StartScreen()),
+                    );
                   },
                 ),
                 const Padding(
@@ -299,6 +311,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return ErrorMessage.show(
                                     context,
                                     "Error",
+                                    18,
                                     "Please fill all the information.",
                                     ContentType.failure,
                                     const Color.fromARGB(255, 209, 24, 24));

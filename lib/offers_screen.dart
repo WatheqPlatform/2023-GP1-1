@@ -302,7 +302,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                                         const EdgeInsets.only(
                                                             bottom: 8),
                                                     child: Text(
-                                                      "Posted: ${foundOffers[index]["Date"]}"
+                                                      "Posted on ${foundOffers[index]["Date"]}"
                                                           .capitalizeEach(),
                                                       //"
                                                       style: const TextStyle(

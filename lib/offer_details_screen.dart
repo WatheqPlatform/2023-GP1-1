@@ -59,7 +59,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
           const Padding(
             padding: EdgeInsets.only(top: 20, bottom: 1),
             child: Text(
-              "Starting Day",
+              "Starting Date",
               style: TextStyle(
                   fontSize: 19.0,
                   color: Color(0xFF024A8D),
@@ -102,9 +102,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
             ),
           ),
           Text(
-            "${offerDetails[0]["WorkingDays"]}"
+            "\u{25AA}  ${offerDetails[0]["WorkingDays"]}"
                 .capitalizeEach()
-                .replaceAll(", ", "\n"),
+                .replaceAll(", ", "\n\u{25AA}  "),
             style: const TextStyle(
                 fontSize: 16,
                 color: Color.fromARGB(255, 37, 42, 74),
@@ -174,15 +174,15 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
           ),
           Text(
             "${offerDetails[0]['skills']}"
-                .replaceAll("[", "")
+                .replaceAll("[", "\u{25AA}  ")
                 .replaceAll("]", "")
-                .replaceAll(", ", "\n"),
+                .replaceAll(", ", "\n\u{25AA}  "),
             style: const TextStyle(
               fontSize: 16,
               color: Color.fromARGB(255, 37, 42, 74),
               fontWeight: FontWeight.w400,
             ),
-            textAlign: TextAlign.left,
+            textAlign: TextAlign.justify,
           )
         ],
       );
@@ -198,9 +198,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 20, bottom: 1),
-            child: const Text(
+            child: Text(
               "Required Qualifications",
               style: TextStyle(
                   fontSize: 20.0,
@@ -213,10 +213,11 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
             "${offerDetails[0]['qualifications']}"
                 .replaceAll("[", "")
                 .replaceAll("]", "")
-                .replaceAll("{", "")
-                .replaceAll("}", "\n")
-                .replaceAll("DegreeLevel", "Degree Level")
-                .replaceAll(", ", "\n"),
+                .replaceAll("{", "\u{25AA} ")
+                .replaceAll("}", " Degree\n")
+                .replaceAll("Field:", "")
+                .replaceAll(", ", "\n")
+                .replaceAll("DegreeLevel:", "  "),
             style: const TextStyle(
               fontSize: 16,
               color: Color.fromARGB(255, 37, 42, 74),
@@ -238,9 +239,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 20, bottom: 1),
-            child: const Text(
+            child: Text(
               "Required Experiences",
               style: TextStyle(
                   fontSize: 20.0,
@@ -254,10 +255,11 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                 .replaceAll("[", "")
                 .replaceAll("]", "")
                 .replaceAll("{", "")
-                .replaceAll("}", "\n")
-                .replaceAll("ExperienceField", "Field")
-                .replaceAll("YearsOfExperience", "Years Of Experience")
-                .replaceAll(", ", "\n"),
+                .replaceAll("}", " Years\n")
+                .replaceAll("Description: ", "\u{25AA}  ")
+                .replaceAll("ExperienceField", "   Field")
+                .replaceAll("YearsOfExperience", "   Years Of Experience")
+                .replaceAll(", ", " \n"),
             style: const TextStyle(
               fontSize: 16,
               color: Color.fromARGB(255, 37, 42, 74),
@@ -416,7 +418,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                             padding: const EdgeInsets.all(5),
                             children: [
                               Text(
-                                "Posted: ${offerDetails[0]["Date"]}",
+                                "Posted on ${offerDetails[0]["Date"]}",
                                 style: const TextStyle(
                                     fontSize: 15.0,
                                     color: Color.fromARGB(169, 158, 158, 158),

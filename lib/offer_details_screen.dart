@@ -503,8 +503,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 ),
                               ),
                               Text(
-                                "${offerDetails[0]["JobAddress"]}"
-                                        "${offerDetails[0]["CityName"]}"
+                                "${offerDetails[0]["JobAddress"]} ${offerDetails[0]["CityName"]}"
                                     .capitalizeEach()
                                     .replaceAll(
                                         RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'),

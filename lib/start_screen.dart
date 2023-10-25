@@ -60,7 +60,7 @@ class StartScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   const Text(
-                    "Discover endless career possibilities Your journey begins here!",
+                    "Discover endless career possibilities. Your journey begins here!",
                     style: TextStyle(
                       color: Color(0xffd714386e),
                       fontSize: 17.0,

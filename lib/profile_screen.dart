@@ -161,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const Text(
                                     "Name",
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 19,
                                       color: Color(0xFF14386E),
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -169,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     Name.capitalizeEach(),
                                     style: const TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       color: Color.fromARGB(255, 37, 42, 74),
                                     ),
                                   ),
@@ -177,7 +177,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   const Text(
                                     "Email",
                                     style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 19,
                                       color: Color(0xFF14386E),
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -185,12 +185,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   Text(
                                     email,
                                     style: const TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 17,
                                       color: Color.fromARGB(255, 37, 42, 74),
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 60,
+                                    height: 70,
                                   ),
                                   OutlinedButton(
                                     onPressed: () {},

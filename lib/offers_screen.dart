@@ -157,7 +157,7 @@ class _OffersScreenState extends State<OffersScreen> {
                         child: TextField(
                           onChanged: (value) => searchOffer(value),
                           decoration: InputDecoration(
-                            hintText: "Search by job title, field, or company",
+                            hintText: "Search by title, category, or company",
                             border: InputBorder.none,
                             prefixIcon: const Icon(
                               Icons.search,

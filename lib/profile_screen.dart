@@ -23,6 +23,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   // ignore: non_constant_identifier_names
   String Name = '';
+  String letters = "";
 
   String email = '';
 
@@ -36,6 +37,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           setState(() {
             Name = data[0]['Name'];
             email = data[0]['JobSeekerEmail'];
+
+            int space = Name.indexOf(" ");
+            letters += Name.substring(0, 1);
+            if (space != -1) {
+              letters += Name.substring(space + 1, space + 2);
+              letters = letters.toUpperCase();
+            }
           });
         }
       } else {
@@ -123,10 +131,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   0.1,
                                 ),
                               ),
-                              child: const Center(
+                              child: Center(
                                 child: Text(
-                                  'SA',
-                                  style: TextStyle(
+                                  letters,
+                                  style: const TextStyle(
                                     fontSize: 90,
                                     color: Color(0xFF14386E),
                                   ),

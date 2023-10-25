@@ -32,7 +32,7 @@ class ErrorMessage {
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        margin: EdgeInsets.only(bottom: screenHeight * 0.77),
+        margin: EdgeInsets.only(bottom: screenHeight * 0.78),
       ),
     );
   }

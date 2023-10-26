@@ -73,6 +73,7 @@ if (isset($_GET["token"])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
     <script src="../Functions/ValidatePassword.js"></script>
+    <script src="ResetValidation.js"></script>
 </head>
 
 <body>

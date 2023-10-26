@@ -8,7 +8,12 @@
     <link rel="icon" href="../Images/Icon.png">
     <title>Sign In - Watheq</title>
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
-    <script src="LogIn.js"></script> 
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="LogIn.js"></script>
+    <script src="Validation.js"></script> 
 </head>
 
 <body>
@@ -49,15 +54,15 @@
                 We are happy to see you again
             </p>
 
-            <form id="loginForm" method="POST" action="LogIn.php">
+            <form id="loginForm" method="POST">
                 <label for="email">Email</label>
-                <input type="email" name="email" required>
+                <input type="email" name="email" id="email" required>
         
                 <label for="password">Password</label>
-                <input type="password" name="password" required>
+                <input type="password" name="password" id="password" required>
                 <p id="FormReset"><a href="../Reset Password Pages/ForgotPassword.php">Forgot your password?</a></p> 
         
-                <input type="submit" value="Log In">
+                <input type="button" value="Sign In" id="SubmitButton">
             </form>
 
             <p id="FormSignUp">Don't have an account? <a href="../SignUp page/SignUp.html">Sign Up</a></p>
@@ -78,6 +83,22 @@
             </div>
             
         </div>
+            <!--Final Messages-->
+            <div class="modal_wrapper">
+                <div class="shadow"></div> <!--To make the screen dark when message displayed-->
+                <div class="faliure_wrap">
+                    <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                    <p>Please fill all the required information</p>
+                </div>
+                <div class="faliure_wrap2">
+                    <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                    <p>Incorrect email or password, please try again</p>
+                </div>
+                <div class="faliure_wrap3">
+                    <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                    <p>An error occurred during form submission, please try again</p>
+                </div>
+            </div>
         
     </div>
 </body>

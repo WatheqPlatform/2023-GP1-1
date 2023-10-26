@@ -42,13 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmtC->close();
     
     // Prepare and execute the SQL query retrieve the CityID based on the CityName
-
-$stmtCity = $conn->prepare("SELECT CityID FROM city WHERE CityName = ?");
-$stmtCity->bind_param("s", $jobCity);
-$stmtCity->execute();
-$stmtCity->bind_result($cityID);
-$stmtCity->fetch();
-$stmtCity->close();
+    $stmtCity = $conn->prepare("SELECT CityID FROM city WHERE CityName = ?");
+    $stmtCity->bind_param("s", $jobCity);
+    $stmtCity->execute();
+    $stmtCity->bind_result($cityID);
+    $stmtCity->fetch();
+    $stmtCity->close();
 
 
 
@@ -85,7 +84,6 @@ $stmtCity->close();
             $sql3 = "INSERT INTO qualification (DegreeLevel, Field, OfferID) VALUES (?, ?, ?)";
             $stmt3 = $conn->prepare($sql3);
             $stmt3->bind_param("ssi", $degreeLevel, $degreeField, $offerID);
-//$qualifications = $_POST['qualifications'];
             foreach ($qualifications as $qualification) {
                 $degreeLevel = $qualification['level'];
                 $degreeField = $qualification['field'];

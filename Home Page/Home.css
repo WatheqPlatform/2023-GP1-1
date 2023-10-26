@@ -61,18 +61,12 @@ body {
 
 #Header #CurrentPage{
     background-color: white;
-    color: #0F5DA7;
+    color: #085399;
     width: 88%;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     font-weight: bold;
 }
-
-#HomeIcon{
-    color: #0F5DA7;
-    padding-right: 3px;
-}
-
 
 #Header #LogoLink{
     padding: 25px 30px 40px 10px;
@@ -140,13 +134,11 @@ body {
     font-size:30px;
     font-weight: 300;
     padding: 7px 12px 5px 0px;
-    color: #0F5DA7;
+    color: #085399;
     transition: all .4s ease-in-out;
-    filter: drop-shadow(0px 0px 5px #2b77bf7e);
 }
 
-#Bell:hover{
-    
+#Bell:hover{    
     transform: translate3d(0, -2px, 0);
     cursor: pointer;
 }
@@ -181,11 +173,11 @@ body {
 }
 
 #Statstics h1{
-    color: #0F5DA7;
+    color: #085399;
     text-align: center;
-    font-size: 43px;
+    font-size: 39px;
     font-weight: 900;
-    margin: 7.9vh 0vh 3.9vh 0vh;
+    margin: 7.9vh 0vh 3.5vh 0vh;
     border-radius: 2px;
     padding: 9px 0px 9px 0px;
     text-transform: uppercase;
@@ -205,7 +197,7 @@ body {
     width: 39vh;
     height: 24.3vh;
     background-color: rgb(249, 249, 249); 
-    color: #0F5DA7;
+    color: #085399;
     box-sizing: border-box;
     padding: 4px 35px 24.3vh 35px;
     margin: 10px 1px 10px 1px;
@@ -237,7 +229,6 @@ body {
     padding-top: 15px;
     padding-left: 2px;
     text-decoration: none;
-    opacity: 0.9;
 }
 
 #Statstic div:hover{

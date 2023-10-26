@@ -6,7 +6,7 @@ e.preventDefault();
         <div class="input_wrap Multiable" id="qualification${qualificationCount}">
             <h4> Qualification ${qualificationCount + 1}: </h4>
             <label for="degreeLevel${qualificationCount}">Degree Level</label>   
-        <select name="degreeLevel${qualificationCount}" id="degreeLevel" class="input">
+        <select name="degreeLevel${qualificationCount}" id="degreeLevel" class="input select">
                                             <option disabled selected></option>
                                             <option value="Pre-high school education">Pre-high school</option>
                                             <option value="High School">High School</option>

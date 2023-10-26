@@ -212,13 +212,13 @@ $result2 = $conn->query($sql2);
                                     <div class="input_wrap">  
                                         <label for="minSalary">Minimum Salary<span class="required"></span></label>
                                         <input type="number" name="minSalary" class="input" id="minSalary" onkeyup="validateNumericInput(this, '1')" >
-                                        <span id="warningMessage1" style="color: red; display: none;">Please enter a valid number</span>
+                                        <span id="warningMessage1">Please enter a valid number</span>
 
                                     </div>
                                     <div class="input_wrap">  
                                         <label for="maxSalary">Maximum Salary<span class="required"></span></label>
                                         <input type="number" name="maxSalary" class="input" id="maxSalary" onkeyup="validateNumericInput(this, '2')">
-                                        <span id="warningMessage2" style="color: red; display: none;">Please enter a valid number</span>
+                                        <span id="warningMessage2">Please enter a valid number</span>
                                     </div>
                                     <div class="input_wrap">
                                         <label for="date">Starting Date</label> 
@@ -227,7 +227,7 @@ $result2 = $conn->query($sql2);
                                     <div class="input_wrap">
                                         <label for="workingHours">Working Hours Per Day</label> 
                                         <input type="number" name="workingHours" class="input" id="workingHours" onkeyup="validateNumericInput(this, '3')">
-                                        <span id="warningMessage3" style="color: red; display: none;">Please enter a valid number</span>
+                                        <span id="warningMessage3">Please enter a valid number</span>
                                     </div>
                                     <div class="input_wrap checklist">
                                         <label for="day">Working Days</label>  <!-- not required-->
@@ -287,7 +287,7 @@ $result2 = $conn->query($sql2);
                                     <div class="input_wrap Multiable" id="qualification0">
                                         <h4> Qualification 1: </h4>
                                         <label for="degreeLevel0">Degree Level</label>   
-                                        <select name="degreeLevel0" id="degreeLevel" class="input">
+                                        <select name="degreeLevel0" id="degreeLevel" class="input select">
                                             <option disabled selected></option>
                                             <option value="Pre-high school education">Pre-high school</option>
                                             <option value="High School">High School</option>
@@ -317,7 +317,7 @@ $result2 = $conn->query($sql2);
                                         <input type="text" name="experiences[0][description]" class="input">
                                         <label for="experienceYears0">Minimum Years of Experience <span class="MaybeRequiredExperince"></span></label>   
                                         <input type="number" name="experiences[0][years]" class="input" onkeyup="validateNumericInput(this, '4')" >  
-                                        <span id="warningMessage4" style="color: red; display: none;">Please enter a valid number</span>
+                                        <span id="warningMessage4">Please enter a valid number</span>
                                     </div>
                                 </div>
                                 <ion-icon name="add-circle-outline" id="addExperience" class="AddingExtraButton"></ion-icon>  
@@ -387,7 +387,7 @@ $result2 = $conn->query($sql2);
                 <p>You have successfully posted the offer.</p>
             </div>
             <div class="faliure_wrap">
-                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Checkmark icon-->
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
                 <p>You Need to fill all the required fields. </p>
             </div>
         </div>

@@ -7,21 +7,19 @@
 </head>
 
 <body style= 
-"background-color: rgb(246, 246, 246);
- border-radius: 8px;
- max-width: 400px;
- padding: 20px 35px;
- margin: 0 auto;
- color:#0c3a7b;
- font-family: 'Avenir', sans-serif;
- text-align: left;" >
-
-    <img src="https://watheqplatform.com/Images/Blue%20Logo.png" style= "max-width: 200px;  height: auto;">
-       
+  "background-color: rgb(246, 246, 246);
+  border-radius: 8px;
+  max-width: 400px;
+  padding: 20px 35px;
+  margin: 0 auto;
+  color:#0c3a7b;
+  font-family: 'Avenir', sans-serif;
+  text-align: left;" 
+>
+    <img src="https://watheqplatform.com/Images/Blue%20Logo.png" style= "max-width: 200px;  height: auto;">     
     <div>
                 
       <?php
-
         include("../dbConnection.php");
 
         $companyName = "";
@@ -33,8 +31,7 @@
            $row = $result->fetch_assoc();
            $companyName = $row["CompanyName"];
         }
-
-     ?>
+      ?>
 
         
       <h3>Dear <?php echo $companyName ?>, <br> </h3>
@@ -68,6 +65,5 @@
                 
     </div>
            
-
 </body>
 </html>

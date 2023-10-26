@@ -17,7 +17,12 @@ body {
     display: none; /*Hide scrollbar*/
 }
 
-
+input:-webkit-autofill, /*Remove the background color*/
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
 
 /*Main Content*/
 #Main{
@@ -115,7 +120,7 @@ body {
 /*Form content*/
 #SignUpForm{
     margin: auto;
-    color: #0F5DA7;
+    color: #085399;
     text-align: center;
 }
 
@@ -140,14 +145,14 @@ label{
 #SignUpForm input[type=text], input[type=email], input[type=password]{
     width: 51vh;
     height: 36px;
-    border: solid 1.5px #024a8d;
+    border: solid 1.5px #085399;
     padding: 3px 10px;
     border-radius:5px;
     margin-bottom: 5px;
     box-sizing: border-box;
 }
 
-#SignUpForm input[type=submit]{
+#SignUpForm input[type=button]{
     display: block;
     width: 51vh;
     height: 40px;
@@ -156,11 +161,11 @@ label{
     color: white;
     font-size: 18px;
     margin: 30px 0px 0px 15px;
-    background-color: #0F5DA7;
+    background-color: #085399;
     transition: all .4s ease-in-out; 
 }
 
-#SignUpForm input[type=submit]:hover {
+#SignUpForm input[type=button]:hover {
     box-shadow: 0 0 15px #2b77bf7e;
     transform: translate3d(0, -2px, 0);
     cursor: pointer;
@@ -171,12 +176,12 @@ label{
     margin: 7px 0px 20px 17px;
     text-align: left;
     font-size: 15px;
-    color: #0F5DA7;
+    color: #085399;
 }
 
 #FormLogIn a{
     text-decoration: none;
-    color: #2B77BF; 
+    color: #2d72b2; 
 }
 
 
@@ -215,3 +220,89 @@ label{
 .social-icons a:hover i{
     transform: translate3d(0, -2px, 0);
 }
+
+/*Final Message*/
+.modal_wrapper{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+    color: #085399;
+}
+
+.modal_wrapper .shadow{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.8);
+	opacity: 0;
+	transition: 0.2s ease;
+}
+
+.modal_wrapper .success_wrap, .modal_wrapper .faliure_wrap, .modal_wrapper .faliure_wrap2, .modal_wrapper .faliure_wrap3, .modal_wrapper .faliure_wrap4{
+	position: absolute;
+	visibility: hidden;
+    width: 30%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-800px);
+	background:white;
+	padding: 50px;
+	display: flex;
+	align-items: center;
+    justify-content: center;
+	border-radius: 5px;
+	transition: 0.5s ease;
+}
+
+.modal_wrapper .faliure_wrap .modal_icon, .modal_wrapper .faliure_wrap2 .modal_icon, .modal_wrapper .faliure_wrap3 .modal_icon,.modal_wrapper .faliure_wrap4 .modal_icon{
+	margin-right: 20px;
+	width: 50px;
+	height:50px;
+	background: rgb(188, 5, 5);
+	color: white;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 32px;
+	font-weight: 700;
+}
+
+.modal_wrapper .success_wrap .modal_icon{
+	margin-right: 20px;
+	width: 50px;
+	height: 50px;
+	background: #4CBB17;
+	color: white;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 32px;
+	font-weight: 700;
+}
+.modal_wrapper.active{
+	visibility: visible;
+}
+
+
+.faliure_wrap.active, .faliure_wrap2.active, .faliure_wrap3.active, .faliure_wrap4.active {
+	visibility: visible;
+	transform: translate(-50%,-50%);
+}
+
+.success_wrap.active{
+	visibility: visible;
+	transform: translate(-50%,-50%);
+}
+
+.modal_wrapper.active .shadow{
+	opacity: 1;
+}
+
+

@@ -49,12 +49,12 @@ $(document).ready(function () {
                 var skills = getSkills();
 
 
-// Call the saveQualifications() function and log the returned data
+                // Call the saveQualifications() function and log the returned data
                 var qualifications = saveQualifications();
                 // check that if there's at least one feild filled, the other should be filled too
                 var checkQualification = checkQualifications(qualifications);
 
-// Call the saveExperiences() function and log the returned data
+                // Call the saveExperiences() function and log the returned data
                 var experiences = saveExperiences();
                 // check that if there's at least one feild filled, the other should be filled too
                 var checkExperiences = checkExperience(experiences);

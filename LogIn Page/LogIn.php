@@ -15,27 +15,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $getPasswordQuery = "SELECT Password FROM jobprovider WHERE JobProviderEmail = ?";
     $stmt = $conn->prepare($getPasswordQuery);
     $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $hashedPassword = $row["Password"];
-
-        // Verify the entered password against the hashed password
-        if (password_verify($password, $hashedPassword)) {
-            // Password is correct, set the session variable and redirect
-            $_SESSION['JPEmail'] = $email; // Set the session variable
-            header("Location: ../Home Page/Home.php");
-            exit();
+    if($stmt->execute()){
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $hashedPassword = $row["Password"];
+            // Verify the entered password against the hashed password
+            if (password_verify($password, $hashedPassword)) {
+                // Password is correct, set the session variable and redirect
+                $_SESSION['JPEmail'] = $email; // Set the session variable
+                echo "success";
+                exit();  
+            } else {
+                echo "failure2";//Print the message
+                exit();             
+            }
         } else {
-            echo "<script>alert('Incorrect Email or password. Please try again.');</script>";
-            echo '<script>window.location.href = "LogIn.html?email=' . urlencode($email) . '";</script>';
+            echo "failure3"; //Print the message   
+            exit();        
         }
-    } else {
-        echo "<script>alert('Incorrect Email or password. Please try again.');</script>";
-        echo '<script>window.location.href = "LogIn.html?email=' . urlencode($email) . '";</script>';
+        // Send success message to JavaScript
+    }else {
+        echo "error";
+        exit(); 
     }
+    
 }
 
 $conn->close(); // Close the database connection

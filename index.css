@@ -206,14 +206,14 @@ a{
 }
 
 #WhoWeAreSection h1{
-    color: #0F5DA7;
+    color: #085399;
     text-align: center;
     font-size: 43px;
     padding-top: 50px;
 }
  
 #WhoWeAreSection p{
-    color: #0F5DA7;
+    color: #085399;
     margin: -9px 11% 10px 11% ;
     font-size: 20px;
     text-align: justify;
@@ -232,7 +232,7 @@ a{
 }
 
 #FeaturesSection h1{
-    color: #0F5DA7;
+    color: #085399;
     text-align: center;
     font-size: 43px;
     padding-top: 90px;
@@ -249,7 +249,7 @@ a{
 #Features div{
     max-width: 310px;
     background-color: rgb(246, 246, 246);
-    color: #0F5DA7;
+    color: #085399;
     padding: 20px 35px;
     margin: 10px 3px 10px 3px;
     border-radius: 8px;
@@ -272,7 +272,7 @@ a{
     text-align-last: center;
     font-size: 17px;
     line-height: 25px;
-    color: #0F5DA7;
+    color: #085399;
 }
 
 

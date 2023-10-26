@@ -12,8 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate password requirements
     $passwordRegex = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?!.*\s).{8,}$/";
     if (!preg_match($passwordRegex, $password)) {
-        echo "<script>alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.');</script>";
-        echo '<script>window.location.href = "SignUp.html?companyName=' . urlencode($companyName) . '&email=' . urlencode($email) . '";</script>';
+        echo "failure2";
         exit();
     }
 
@@ -25,8 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
     
     if ($result->num_rows > 0) {
-        echo "<script>alert('Email already exists. Please Log In.');</script>";
-        echo '<script>window.location.href = "../LogIn Page/LogIn.html?email=' . urlencode($email) . '";</script>';
+        echo "failure3";
         exit();
     }
 
@@ -39,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sss", $companyName, $email, $hashedPassword);
 
         if ($stmt->execute()) {
-            echo "<script>alert('Registration Completed Successfully');</script>";
-            echo '<script>window.location.href = "../LogIn Page/LogIn.html?email=' . urlencode($email) . '";</script>';
-            exit();
+            echo "success";
+            exit(); 
         } else {
-            $error = "Error: " . $insertQuery . "<br>" . $conn->error;
+            echo "error";
+            exit(); 
         }
     }
 }

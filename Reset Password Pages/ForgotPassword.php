@@ -1,4 +1,3 @@
-
 <?php
 include("../dbConnection.php");
 
@@ -53,11 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Send the password reset email
         sendPasswordResetEmail($email, $token);
-
-        echo "<script>alert('A password reset link has been sent to your email. Please check your inbox.');</script>";
-          
+        echo "success";
+        exit();         
     } else {
-        echo "<script>alert('Email does not exist. Please try again.');</script>";
+        echo "failure2";
+        exit();
     }
 }
 
@@ -104,6 +103,13 @@ function sendPasswordResetEmail($email, $token) {
     <link rel="icon" href="../Images/Icon.png">
     <title>Reset Password - Watheq</title>
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial--> 
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
+    <script src="ForgotValidation.js"></script>
     <script src="../Functions/ValidatePassword.js"></script>
 </head>
 
@@ -145,11 +151,11 @@ function sendPasswordResetEmail($email, $token) {
             Enter the email address associated with your <br> account and we'll send you a link to reset your <br> password
             </p>
 
-            <form id="resetPasswordForm" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <form id="resetPasswordForm" method="POST">
                 <label for="email">Email</label>
-                <input type="email" name="email" required>
+                <input type="email" name="email" id="email" required>
 
-                <input type="submit" value="Send Email">
+                <input type="button" value="Send Email" id="SubmitButton">
             </form>
 
 
@@ -167,6 +173,23 @@ function sendPasswordResetEmail($email, $token) {
                 </a>
             </div>
 
+        </div>
+
+        <!--Final Messages-->
+        <div class="modal_wrapper">
+            <div class="shadow"></div> <!--To make the screen dark when message displayed-->
+            <div class="faliure_wrap">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Please fill all the required information</p>
+            </div>
+            <div class="faliure_wrap2">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Email does not exist, please try again</p>
+            </div>
+            <div class="success_wrap">
+                <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->
+                <p>Password reset link has been sent to your email, please check your inbox</p>
+            </div>
         </div>
 
     </div>

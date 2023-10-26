@@ -8,7 +8,13 @@
     <link rel="icon" href="../Images/Icon.png">
     <title>Sign Up - Watheq</title>
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
-    <script src="SignUp.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial--> 
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../Functions/ValidatePassword.js"></script>
+    <script src="Validation.js"></script>
 </head>
 
 <body>
@@ -49,15 +55,15 @@
 
             <form method="POST" action="SignUp.php">
                 <label for="companyName">Company Name</label>
-                <input type="text" name="companyName" required><br>
+                <input type="text" name="companyName"  id="companyName" required><br>
         
                 <label for="email">Email</label>
-                <input type="email" name="email" required><br>
+                <input type="email" name="email" id="email" required><br>
         
                 <label for="password">Password</label>
                 <input type="password" id="passwordInput" name="password" onkeyup="validatePassword()" required><br>
                 <div id="passwordMessage"></div>
-                <input type="submit" value="Sign Up">
+                <input type="button" value="Sign Up" id="SubmitButton">
             </form>  
 
             <p id="FormLogIn">Already have an account? <a href="../LogIn Page/LogIn.html">Sign In</a></p>  
@@ -78,7 +84,34 @@
                 </a>
             </div>
         </div>
-        
+
+        <!--Final Messages-->
+        <div class="modal_wrapper">
+            <div class="shadow"></div> <!--To make the screen dark when message displayed-->
+            <div class="faliure_wrap">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Please fill all the required information</p>
+            </div>
+            <div class="faliure_wrap2">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Password must satisfy the specified rules</p>
+            </div>
+            <div class="faliure_wrap3">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Email already exists, please log in</p>
+            </div>
+            <div class="faliure_wrap4">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>An error occurred during form submission, please try again</p>
+            </div>
+            <div class="success_wrap">
+                <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->
+                <p>Registration Completed Successfully</p>
+            </div>
+        </div>
+
     </div>
+    
+        
 </body>
 </html>

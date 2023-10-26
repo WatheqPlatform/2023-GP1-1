@@ -64,7 +64,7 @@ include('HistoryLogic.php');
 
                 <?php
                     if (!empty($availableOffers)) {
-                        echo "<h1>Offers List</h1>";
+                        echo "<h1>Posted Job Offers</h1>";
                         foreach ($availableOffers as $offer) {
                             echo "<div id='WholeOffer'>";
                             echo "<div id='FirstPart'>";

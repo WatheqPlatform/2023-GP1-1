@@ -8,17 +8,13 @@ if (isset($_GET["token"])) {
     $token = urldecode($_GET["token"]);
 
     // Retrieve the email and timestamp associated with the token
-     $stmt = $conn->prepare("SELECT Email, Timestamp FROM providerresettokens WHERE Token =  ? ");
-     
-      $stmt->bind_param("s", $token);
-   
-     if($stmt->execute()){
-
+    $stmt = $conn->prepare("SELECT Email, Timestamp FROM providerresettokens WHERE Token =  ? ");
+    $stmt->bind_param("s", $token);
+    if($stmt->execute()){
        $result = $stmt->get_result();
     }
 
-    if ($result->num_rows > 0) {
-        
+    if ($result->num_rows > 0) {      
         $row = $result->fetch_assoc();
         $email = $row["Email"];
         $timestamp = $row["Timestamp"];
@@ -30,44 +26,29 @@ if (isset($_GET["token"])) {
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 $newPassword = $_POST["new_password"];
-                
                 $passwordRegex = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?!.*\s).{8,}$/";
                 
-           if (!preg_match($passwordRegex, $newPassword)) {
-               
-              echo "<script>alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.');</script>";
-              
-             echo '<script>window.location.href = "PasswordResset.php?token=' . urlencode($token). '</script>';
-             
-                 exit();
-    }
+                if (!preg_match($passwordRegex, $newPassword)) {           
+                    echo "failure2";   
+                    exit();
+                }
 
                 // Update the password in the database for the corresponding email address
-                $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-                
+                $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);        
                 $stmt2 = $conn->prepare("UPDATE jobprovider SET Password = ? WHERE JobProviderEmail = ? ");
-                
-                 $stmt2->bind_param("ss", $hashedPassword , $email);
-    
-                 $stmt2->execute();
-
-            
-
-                echo "<script>alert('Password reset successful. You can now login with your new password.');</script>";
-                
-                echo '<script>window.location.href = "../LogIn Page/LogIn.html?email=' . urlencode($email) . '";</script>';
+                $stmt2->bind_param("ss", $hashedPassword , $email);
+                $stmt2->execute();
+                echo "success";
+                exit();  
             }
         } else {
-            echo "<script>alert('The password reset link has expired. Please request a new one.');</script>";
-            
-            echo '<script>window.location.href="index.php";</script>';
+            echo "failure3";    
             exit();
         }
     } else {
-        echo "<script>alert('Invalid link. Please request a new password reset link.');</script>";
-        
-         echo '<script>window.location.href="../index.php";</script>';
-         exit();
+        echo "failure4";   
+        echo '<script>window.location.href="../index.php";</script>';
+        exit();
     }
 } else {
     echo '<script>window.location.href="../index.php";</script>';
@@ -84,6 +65,12 @@ if (isset($_GET["token"])) {
     <link rel="stylesheet" href="Password.css">
     <link rel="icon" href="../Images/Icon.png">
     <title>Reset Password - Watheq</title>
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial--> 
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->
     <script src="../Functions/ValidatePassword.js"></script>
 </head>
@@ -126,11 +113,11 @@ if (isset($_GET["token"])) {
                 Please enter a new password for your account
             </p>
 
-            <form id="resetPasswordForm" method="POST" action="<?php echo $_SERVER['PHP_SELF'] . '?token=' . urlencode($token); ?>">
+            <form id="resetPasswordForm" method="POST">
                 <label for="new_password">New Password</label>
                 <input type="password" name="new_password" id="passwordInput" onkeyup="validatePassword()"  required>
                 <div id="passwordMessage"></div>
-                <input type="submit" value="Reset Password">
+                <input type="button" value="Reset Password" id="SubmitButton">
             </form>
 
 
@@ -147,7 +134,30 @@ if (isset($_GET["token"])) {
                     <i class="fa-brands fa-square-youtube" aria-hidden="true"></i>
                 </a>
             </div>
+        </div>
 
+        <div class="modal_wrapper">
+            <div class="shadow"></div> <!--To make the screen dark when message displayed-->
+            <div class="faliure_wrap">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Please fill all the required information</p>
+            </div>
+            <div class="faliure_wrap2">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>The password reset link has expired, please request a new one</p>
+            </div>
+            <div class="faliure_wrap3">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Email does not exist, please try again</p>
+            </div>
+            <div class="faliure_wrap4">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Invalid link, Please request a new password reset link</p>
+            </div>
+            <div class="success_wrap">
+                <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->
+                <p>Password reset successfully. You can now login with your new password</p>
+            </div>
         </div>
 
     </div>

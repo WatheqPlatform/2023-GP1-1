@@ -7,7 +7,7 @@ $(document).ready(function() {
         var skillsContainer = `
             <div  class="input_wrap Multiable" id="skill${skillCount}"> 
                 <h4> Skill ${skillCount+1}: </h4>
-                <input type="text" name="skills[${skillCount}]" class="input" id="company" required>           
+                <input type="text" name="skills[${skillCount}]" class="input" id="company" maxlength="255" required>           
              
                 <ion-icon name="close-circle-outline" class="removeSkill remove" data-skill="${skillCount}"></ion-icon>         
             </div>

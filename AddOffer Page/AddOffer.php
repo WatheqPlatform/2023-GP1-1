@@ -273,7 +273,7 @@ $result2 = $conn->query($sql2);
                                 <div class="form_container" id="skillsContainer">
                                     <div class="input_wrap Multiable" id="skill0">
                                         <h4> Skill 1: </h4>
-                                        <input type="text" name="skills[0]" class="input" id="company">              
+                                        <input type="text" name="skills[0]" class="input" id="company" maxlength= "255">              
                                     </div> 
                                 </div>
                                 <ion-icon name="add-circle-outline" id="addSkill" class="AddingExtraButton"></ion-icon>           

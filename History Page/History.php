@@ -18,7 +18,7 @@ include('HistoryLogic.php');
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <script src="Closeoffer.js"></script>
 </head>
 
 <body>
@@ -114,32 +114,6 @@ include('HistoryLogic.php');
         </div> 
 
     </div>
-    <script>
-        // Function to close the offer using AJAX
-        function closeOffer(offerId, jobTitle) {
-    var confirmClose = confirm("Are you sure you want to close the offer for '" + jobTitle + "'?");
-            if (confirmClose) {
-                $.ajax({
-                    type: "POST",
-                    url: "CloseOfferLogic.php",
-                    data: {
-                        offerId: offerId,
-                        confirmClose: 'true'
-                    },
-                    success: function(response) {
-                        // Display the confirmation message
-                        alert(response);
-                        // Reload the page to reflect the changes
-                        location.reload();
-                    },
-                    error: function(xhr, status, error) {
-    var errorMessage = xhr.status + ': ' + xhr.statusText;
-    alert("An error occurred while closing the offer. Error: " + errorMessage);
-}
-                });
-            }
-        }
-    </script>
     
    
 </body>

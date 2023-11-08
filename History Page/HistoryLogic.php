@@ -14,7 +14,7 @@ include("../dbConnection.php");
 $jobProviderEmail = $_SESSION['JPEmail'];
 
 // Query to retrieve job offers history for the logged-in job provider
-$sql = "SELECT JobTitle, JobDescription, Status FROM joboffer WHERE JPEmail = ?";
+$sql = "SELECT OfferID, JobTitle, JobDescription, Status FROM joboffer WHERE JPEmail = ?";
 
 // Prepare and execute the query
 $stmt = $conn->prepare($sql);
@@ -34,13 +34,14 @@ $closedOffers = array();
 // Check if there are any job offers
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
+        $offerID = $row["OfferID"];
         $jobTitle = $row["JobTitle"];
         $jobDescription = $row["JobDescription"];
         $status = $row["Status"];
 
         // Separate job offers based on their status
         if ($status === "Active") {
-            $availableOffers[] = array("JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status);
+            $availableOffers[] = array("OfferID" => $offerID, "JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status);
         } elseif ($status === "Closed") {
             $closedOffers[] = array("JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status);
         }

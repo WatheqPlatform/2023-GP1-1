@@ -384,11 +384,11 @@ $result2 = $conn->query($sql2);
             <div class="shadow"></div> <!--To make the screen dark when message displayed-->
             <div class="success_wrap">
                 <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->
-                <p>You have successfully posted the offer.</p>
+                <p>You have successfully posted the offer</p>
             </div>
             <div class="faliure_wrap">
                 <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
-                <p>You Need to fill all the required fields. </p>
+                <p>You need to fill all the required fields</p>
             </div>
         </div>
 

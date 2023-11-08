@@ -47,7 +47,6 @@ if (isset($_GET["token"])) {
         }
     } else {
         echo "failure4";   
-        echo '<script>window.location.href="../index.php";</script>';
         exit();
     }
 } else {
@@ -149,11 +148,11 @@ if (isset($_GET["token"])) {
             </div>
             <div class="faliure_wrap3">
                 <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
-                <p>Email does not exist, please try again</p>
+                <p>Invalid link, Please request a new password reset link</p>
             </div>
             <div class="faliure_wrap4">
                 <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
-                <p>Invalid link, Please request a new password reset link</p>
+                <p>Email does not exist, please try again</p>
             </div>
             <div class="success_wrap">
                 <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->

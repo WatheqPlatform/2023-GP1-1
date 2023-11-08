@@ -4,6 +4,7 @@ $(document).ready(function () {
         let isEmpty = false;
 
         if (password == undefined || password == null || password === "") {
+            
             isEmpty = true;
         }
 
@@ -22,6 +23,7 @@ $(document).ready(function () {
             });
         }
         else {
+
             // Send the information to PHP File
             $.post("ResetPassword.php", {
                 password: password,

@@ -223,6 +223,7 @@ body {
     text-align: left;
     font-size: 23px;
     margin-top: -4px;
+    height: 31%;
     color: white;
 }
 
@@ -266,7 +267,7 @@ body {
     line-height: 1.25;
     margin-top: 0px;
     color: #0c3a7b;
-    height: 51%;
+    height: 50%;
 }
 
 #CloseButton{
@@ -275,8 +276,7 @@ body {
     background-color: transparent;
     color: rgb(148, 6, 6);
     padding: 5px 30px;
-    margin-bottom: 9px;
-    font-size: 16.5px;
+    font-size: 14px;
     transition: all .4s ease-in-out;
     align-self: flex-end;
 }
@@ -288,6 +288,7 @@ body {
     cursor: pointer;
 }
 
+/*No offers message*/
 #Empty{
     color: #024a8d;
     font-size: 3vh;

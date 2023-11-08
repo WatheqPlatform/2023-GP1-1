@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         // Generate a unique token
         $token = generateToken();
-
         // Store the token in the database along with the email and timestamp
         $timestamp = time();
 

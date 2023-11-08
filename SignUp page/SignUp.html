@@ -55,10 +55,10 @@
 
             <form method="POST" action="SignUp.php">
                 <label for="companyName">Company Name</label>
-                <input type="text" name="companyName"  id="companyName" required><br>
+                <input type="text" name="companyName"  id="companyName" maxlength= "50" required><br>
         
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" required><br>
+                <input type="email" name="email" id="email" maxlength= "100" required><br>
         
                 <label for="password">Password</label>
                 <input type="password" id="passwordInput" name="password" onkeyup="validatePassword()" required><br>

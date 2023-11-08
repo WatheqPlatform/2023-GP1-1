@@ -135,7 +135,7 @@ $result2 = $conn->query($sql2);
                                 <div class="form_container">
                                     <div class="input_wrap">
                                         <label for="jobTitle">Job Title<span class="required"></span></label>
-                                        <input type="text" name="jobTitle" class="input" id="jobTitle" >
+                                        <input type="text" name="jobTitle" class="input" id="jobTitle" maxlength="100">
                                     </div>
                                     <div class="input_wrap">
                                         <label for="jobType">Employment Type<span class="required"></span></label>
@@ -169,7 +169,7 @@ $result2 = $conn->query($sql2);
                                     </div>
                                     <div class="input_wrap">
                                         <label for="jobField">Job Field<span class="required"></span></label>
-                                        <input type="text" name="jobField" class="input" id="jobField" >
+                                        <input type="text" name="jobField" class="input" id="jobField" maxlength="100" >
                                     </div>
                                     <div class="input_wrap">
                                         <label for="jobCity">Job City<span class="required"></span></label>
@@ -192,11 +192,11 @@ $result2 = $conn->query($sql2);
                                     </div>
                                     <div class="input_wrap">
                                         <label for="jobAddress">Job Address<span class="required"></span></label>
-                                        <input type="text" name="jobAddress" class="input" id="jobAddress" >
+                                        <input type="text" name="jobAddress" class="input" id="jobAddress" maxlength="100" >
                                     </div>
                                     <div class="input_wrap">
                                         <label for="jobDescription">Job Description<span class="required"></span></label>
-                                        <textarea name="jobDescription" class="input" id="jobDescription" ></textarea>
+                                        <textarea name="jobDescription" class="input" id="jobDescription" maxlength="500" ></textarea>
                                     </div>
                                 </div>
 
@@ -273,7 +273,7 @@ $result2 = $conn->query($sql2);
                                 <div class="form_container" id="skillsContainer">
                                     <div class="input_wrap Multiable" id="skill0">
                                         <h4> Skill 1: </h4>
-                                        <input type="text" name="skills[0]" class="input" id="company">              
+                                        <input type="text" name="skills[0]" class="input" id="company" maxlength= "255">              
                                     </div> 
                                 </div>
                                 <ion-icon name="add-circle-outline" id="addSkill" class="AddingExtraButton"></ion-icon>           
@@ -298,7 +298,7 @@ $result2 = $conn->query($sql2);
                                             <option value="Post Doctorate">Post Doctorate</option>
                                         </select>
                                         <label for="degreeField0">Degree Field <span id="MaybeRequiredQualification"></span></label> 
-                                        <input type="text" name="degree[0][field]" class="input" >  
+                                        <input type="text" name="degree[0][field]" class="input" maxlength="50" >  
                                     </div> 
                                 </div>
                                 <ion-icon name="add-circle-outline" id="addQualification" class="AddingExtraButton"></ion-icon> 
@@ -331,7 +331,7 @@ $result2 = $conn->query($sql2);
                                 <div class="form_container">
                                     <div class="input_wrap">
                                         <label for="notes">Additional Notes</label>
-                                        <textarea id="notes" name="notes" rows="4" cols="50" class="input" id="notes"></textarea>
+                                        <textarea id="notes" name="notes" rows="4" cols="50" class="input" id="notes" maxlength="500"></textarea>
                                     </div>
                                 </div>
                             </div>

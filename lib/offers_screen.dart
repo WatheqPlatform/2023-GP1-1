@@ -349,6 +349,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                                       offerID:
                                                           foundOffers[index]
                                                               ["OfferID"],
+                                                      email: widget.email,
                                                     ),
                                                   );
                                                 },

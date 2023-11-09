@@ -40,7 +40,7 @@ if ($result->num_rows > 0) {
         if ($status === "Active") {
             $availableOffers[] = array("OfferID" => $offerID, "JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status);
         } elseif ($status === "Closed") {
-            $closedOffers[] = array("JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status);
+            $closedOffers[] = array("OfferID" => $offerID, "JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status);
         }
     }
 }

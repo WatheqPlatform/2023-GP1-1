@@ -18,6 +18,7 @@ include('ApplicationsLogic.php');
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="ApplicationStatusLogic.js"></script>
 </head>
 
 <body>
@@ -81,8 +82,8 @@ include('ApplicationsLogic.php');
                                 echo "<p id='Name'>{$Application['Name']}</p>";
                                 echo "<p id='Email'>{$Application['JobSeekerEmail']}</p>";
 
-                                echo "<button type='button'>Accept</button>";     
-                                echo "<button type='button'>Reject</button>";   
+                                echo "<button type='button' class='accept-button' data-application-id='{$Application['ApplicationID']}'>Accept</button>";     
+                                echo "<button type='button' class='reject-button' data-application-id='{$Application['ApplicationID']}'>Reject</button>";   
 
                                 
                                 echo "</div>";
@@ -121,7 +122,7 @@ include('ApplicationsLogic.php');
                    
 
                         if (empty($PendingApplications) && empty($RejectedApplications) && empty($AcceptedApplications)) {
-                            echo "<p id='Empty'>No job applications found.</p>";
+                            echo "<p id='Empty'>No job applications yet.</p>";
                         }
                         
                     echo"</div>";

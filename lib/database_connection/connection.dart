@@ -19,4 +19,7 @@ class Connection {
   static const forgetPassword = "$hostConnect/Reset/forget_password.php";
   static const verifyToken = "$hostConnect/Reset/verify_code.php";
   static const resetPassword = "$hostConnect/Reset/reset_password.php";
+   static const checkApplication =
+      "$hostConnect/Application/checkApplication.php";
+  static const apply = "$hostConnect/Application/apply.php";
 }

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:watheq/Applications_Screen.dart';
 import 'dart:convert';
 import 'package:watheq/profile_screen.dart';
 import 'offer_details_screen.dart';
@@ -435,7 +436,15 @@ class _OffersScreenState extends State<OffersScreen> {
                                     OffersScreen(email: widget.email),
                               ),
                             );
-                          } else if (index == 2) {
+                           } else if(index == 1) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    ApplicationsScreen(email: widget.email),
+                              ),
+                            );
+                          }
+                           else if (index == 2) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) =>

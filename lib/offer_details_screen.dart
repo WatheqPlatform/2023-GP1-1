@@ -58,6 +58,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
         Uri.parse(Connection.checkApplication),
         body: {
           "email": widget.email,
+          "OfferID": widget.offerID,
         },
       );
       if (response.statusCode == 200) {
@@ -69,8 +70,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
             ErrorMessage.show(
                 context,
                 "Error",
-                18,
-                "You have alreday applied to this job offer, please check the applications page.",
+                15,
+                "You have alreday applied to this job offer please check the applications page.",
                 ContentType.failure,
                 const Color.fromARGB(255, 209, 24, 24));
           }
@@ -90,7 +91,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     try {
       var response = await http.post(
         Uri.parse(Connection.apply),
-        body: {"email": widget.email, "offerId": offerDetails[0]["OfferID"]},
+        body: {"email": widget.email, "offerId": widget.offerID},
       );
 
       if (response.statusCode == 200) {
@@ -103,9 +104,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                 context,
                 "Success",
                 18,
-                "You have successfully  applied to this job offer, please check the applications page to track the application.",
+                "You have successfully applied to the job offer.",
                 ContentType.failure,
-                const Color.fromARGB(255, 209, 24, 24));
+                const Color.fromARGB(255, 15, 152, 20));
           }
         } else {
           if (context.mounted) {

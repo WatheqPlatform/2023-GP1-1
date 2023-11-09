@@ -1,0 +1,291 @@
+@font-face {
+    font-family: 'Avenir';
+    src: url('../Fonts/AvenirLTStd-Roman.otf'); 
+} 
+
+
+body {
+    font-family: 'Avenir', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+
+::-webkit-scrollbar {
+    display: none; /*Hide scrollbar*/
+}
+
+
+
+/*Main*/
+#Main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;  
+}
+
+
+/*Header*/
+#Header { 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    border-top-right-radius: 40px;
+    background: linear-gradient(-45deg, #14386e , #003884, #0F5DA7, #2B77BF );
+    background-size: 300% 100%;
+    animation: gradient 10s ease infinite;
+    box-shadow: 0 0 15px #2b77bf7e;
+    padding-left: 20px;
+    padding-right: 10px;
+    min-height: 100vh;
+}
+
+/*header Gradiant Background Animation*/
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#Header #HeaderStart{
+    display: flex;
+    flex-direction: column;
+}
+
+#Header #CurrentPage{
+    background-color: white;
+    color: #085399;
+    width: 88%;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    font-weight: bold;
+}
+
+#Header #LogoLink{
+    padding: 25px 30px 40px 10px;
+}
+
+#logo {
+    max-width: 200px; 
+    height: auto;
+}
+
+#Header a{
+    color: white;
+    padding: 15px 15px 15px 25px;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all .4s ease-in-out;
+}
+
+#Header a:hover{
+    filter: drop-shadow(0px 0px 10px #d5dee693);
+    transform: translate3d(0, -2px, 0);
+}
+
+#Header #LogoLink:hover{ /*Prevent logo hovering styeling*/
+    filter: drop-shadow(0px 0px 0px #d5dee693);
+    transform: translate3d(0, 0px, 0);
+}
+
+
+/*Social Media Icons*/
+.social-icons{
+    text-align: left;
+    padding: 25px 15px ;
+}
+
+#Header .social-icons a{
+    font-size:30px;
+    margin: 0 -18px;
+    text-decoration:none;
+    transition: all .4s ease-in-out; 
+}
+
+#Header .social-icons a:hover i{
+    transform: translate3d(0, -2px, 0);
+}
+
+
+
+
+/*Content*/
+#Content{
+    display: flex;
+    flex-direction: column; 
+    padding-top: 5.5vh;
+    padding-bottom: 9.8vh;
+    width: 85%;
+}
+
+#MenuButtons{
+    display: flex;
+    align-self: flex-end;
+    padding-right: 30px;
+}
+
+#Bell {
+    display: block;
+    font-size:30px;
+    font-weight: 300;
+    padding: 7px 12px 5px 0px;
+    color: #085399;
+    transition: all .4s ease-in-out;
+}
+
+#Bell:hover{
+    
+    transform: translate3d(0, -2px, 0);
+    cursor: pointer;
+}
+
+#logoutButton {
+    border: 0;
+    border-radius: 30px;
+    color: white;
+    height: 40px;
+    padding: 7px 56px;
+    margin-bottom:  2vh;
+    font-size: 16.5px;
+    transition: all .4s ease-in-out;
+    background: linear-gradient(-45deg, #2B77BF , #003884, #0F5DA7, #2B77BF );
+    background-size: 100% 300%;   
+}
+
+
+#logoutButton:hover{
+    box-shadow: 0 0 15px #2b77bf7e;
+    color: white;
+    transform: translate3d(0, -2px, 0);
+    cursor: pointer;
+}
+
+
+
+/*Ofers Content*/
+#Applications{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    flex-wrap: wrap;
+    width: 64vw;
+    padding: 1vh 1vh;
+    box-sizing: border-box;
+}
+
+
+#Applications h1{
+    color: #085399;
+    text-align: center;
+    font-size: 35px;
+    font-weight: 900;
+    border-radius: 2px;
+}
+
+
+#ApplicationsGrid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-self: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    width: 100%;
+}
+
+
+#Application{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 28.4vh;
+    background-color: white;   
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.325));
+    margin-bottom: 3vh;
+    margin-left: 0.5vw;
+    margin-top: 0px;
+}
+
+.Pending{
+    background-color: gray;
+    border-top-right-radius: 15px;
+}
+
+.Pending p{
+    padding: 0px;
+}
+
+.Accepted{
+    background-color: greenyellow;
+    border-top-right-radius: 15px;
+}
+
+.Rejected{
+    background-color: rgb(148, 6, 6);
+    border-top-right-radius: 15px;
+}
+
+
+#Name{
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    color: #024a8d;
+    opacity: 0.7;
+    padding: 0.1vh 1vw;
+}
+
+#Email{
+    text-align: left;
+    font-size: 18px;
+    color: #024a8d;
+    padding: 0.1vh 1vw;
+}
+
+
+#CloseButton{
+    border: 2px solid rgb(148, 6, 6);
+    border-radius: 30px;
+    background-color: transparent;
+    color: rgb(148, 6, 6);
+    padding: 5px 30px;
+    font-size: 14px;
+    transition: all .4s ease-in-out;
+    align-self: flex-end;
+}
+
+
+#CloseButton:hover{
+    box-shadow: 0 0 10px rgba(158, 16, 16, 0.473);
+    transform: translate3d(0, -2px, 0);
+    cursor: pointer;
+}
+
+/*No offers message*/
+#Empty{
+    color: #024a8d;
+    font-size: 3vh;
+    text-align: center;
+    margin-left: -10vh;
+    margin-top: 35vh;
+    margin-bottom: 9vh;
+}
+
+
+
+
+
+

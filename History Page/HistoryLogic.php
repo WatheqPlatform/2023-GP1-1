@@ -7,9 +7,6 @@ if (!isset($_SESSION['JPEmail'])) {
 include("../dbConnection.php");
 
 
-// Include this logic file in job-offers-history.php using require_once
-
-
 // Retrieve the job provider's email from the session
 $jobProviderEmail = $_SESSION['JPEmail'];
 

@@ -26,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $workingHours = $_POST['workingHours'];
     $workingDays = $_POST['workingDays'];
     $notes = $_POST['notes'];
-     $skills = $_POST['skills'];
-     $qualifications = $_POST['qualifications'];
-     $experiences = $_POST['experiences'];
+    $skills = $_POST['skills'];
+    $qualifications = $_POST['qualifications'];
+    $experiences = $_POST['experiences'];
     // Insert job offer data
     $date = date("Y-m-d");
     $jpEmail = $_SESSION['JPEmail'];
@@ -49,11 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmtCity->fetch();
     $stmtCity->close();
 
-
-
-
-
-
+    
 
     $sql = "INSERT INTO joboffer (JobTitle, JobDescription, Field, EmploymentType, JobAddress, MinSalary, MaxSalary, Status, Date, JPEmail, Category, City, StartingDate, WorkingHours, WorkingDays, AdditionalNotes) 
             VALUES (?, ?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?, ?, ?, ?, ?, ?)";

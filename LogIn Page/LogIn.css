@@ -48,7 +48,6 @@ input:-webkit-autofill:active{
     box-sizing: border-box;
     padding:  15px 45px;
     border-top-right-radius: 40px;
-
     background: linear-gradient(-45deg, #2B77BF , #003884, #0F5DA7, #2B77BF );
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;

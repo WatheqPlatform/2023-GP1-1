@@ -23,7 +23,7 @@ if ($conn->query($sqlUpdate) === TRUE) {
     echo "Application status updated successfully";
 } else {
     // Update failed
-    echo "Error updating application status: " . $conn->error;
+    echo "Error updating application status: ";
 }
 
 // Close the database connection

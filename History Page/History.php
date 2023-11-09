@@ -12,7 +12,7 @@ include('HistoryLogic.php');
     <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet">
     <link rel="stylesheet" href="History.css">
     <link rel="icon" href="../Images/Icon.png">
-    <title>History - Watheq</title>
+    <title>Job Offers - Watheq</title>
     <script src="../Functions/Logout.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
@@ -32,7 +32,7 @@ include('HistoryLogic.php');
                 </a>
                 <a href="../Home Page/Home.php"> Home </a>
                 <a href=""> Profile </a>
-                <a href="../History Page/History.php" id="CurrentPage"> History </a>
+                <a href="../History Page/History.php" id="CurrentPage"> Job Offers </a>
                 <a href="../AddOffer Page/AddOffer.php"> Add Offer </a> 
             </div>
 
@@ -67,47 +67,41 @@ include('HistoryLogic.php');
                 <?php
                     if (!empty($availableOffers) || !empty($closedOffers)) {
                         echo "<h1>Posted Job Offers</h1>";
-                    }
 
-                    if (!empty($availableOffers)) {
-                        foreach ($availableOffers as $offer) {
-                            echo "<div id='WholeOffer'>";
-                            echo "<div id='FirstPart'>";
-                            echo "<p id='Title'>Job Title</p>";
-                            echo "<p id='JobTitle'>{$offer['JobTitle']}</p>";
-                            echo "<p><a href='../Applications Page/Applications.php?ID=".$offer["OfferID"]."'>View Applications <i class='fa-solid fa-arrow-right'></i></a></p>";
-                            echo "</div>";
-
-                            echo "<div id='SecondPart'>";
-                            echo "<p id='Status'>{$offer['Status']} Job Offer</p>";
-                            echo "<p id='Description'>{$offer['JobDescription']}</p>";
-                            echo "<button type='button' onclick='closeOffer({$offer['OfferID']}, \"{$offer['JobTitle']}\")' id='CloseButton'>Close Offer</button>";         
-                            echo "</div>";
-
-                            echo "</div>";
+                        function displayOffers($Offers, $status) {
+                            foreach ($Offers as $offer) {
+                                echo "<div id='WholeOffer'>";
+                                echo "<div id='FirstPart'>";
+                                echo "<p id='Title'>Job Title</p>";
+                                echo "<p id='JobTitle'>{$offer['JobTitle']}</p>";
+                                echo "<p><a href='../Applications Page/Applications.php?ID=".$offer["OfferID"]."&JobTitle=".$offer["JobTitle"]."'>View Applications <i class='fa-solid fa-arrow-right'></i></a></p>";
+                                echo "</div>";
+    
+                                echo "<div id='SecondPart'>";
+                                echo "<div id='BottomDiv'>";
+                                echo "<p id='Status'>{$offer['Status']} Job Offer</p>";
+                                echo "<p id='Date'>Posted On {$offer['Date']}</p>";
+                                echo "</div>"; 
+                                echo "<p id='Description'>{$offer['JobDescription']}</p>";
+                                
+                                if($status === 'Active'){
+                                    echo "<button type='button' onclick='closeOffer({$offer['OfferID']}, \"{$offer['JobTitle']}\")' id='CloseButton'>Close Offer</button>";         
+                                }  
+                                echo "</div>"; 
+                                echo "</div>";
+                            }
                         }
-                    }
 
-                    if (!empty($closedOffers)) {
-                        foreach ($closedOffers as $offer) {
-                            echo "<div id='WholeOffer'>";
-
-                            echo "<div id='FirstPart'>";
-                            echo "<p id='Title'>Job Title</p>";
-                            echo "<p id='JobTitle'>{$offer['JobTitle']}</p>";
-                            echo "<p><a href='../Applications Page/Applications.php?ID=".$offer["OfferID"]."'>View Applications <i class='fa-solid fa-arrow-right'></i></a></p>";
-                            echo "</div>";
-
-                            echo "<div id='SecondPart'>";
-                            echo "<p id='Status'>{$offer['Status']} Job Offer</p>";
-                            echo "<p id='Description'>{$offer['JobDescription']}</p>";
-                            echo "</div>";
-
-                            echo "</div>";
+                        if (!empty($availableOffers)) {
+                            echo "<h2>Active Job Offers</h2>";
+                            displayOffers($availableOffers, 'Active');
                         }
-                    }  
-
-                    if (empty($availableOffers) && empty($closedOffers)) {
+    
+                        if (!empty($closedOffers)) {
+                            echo "<h2>Closed Job Offers</h2>";
+                            displayOffers($closedOffers, 'Closed');
+                        } 
+                    }else{
                         echo "<p id='Empty'>No available job offers found.</p>";
                     }
                 ?> 

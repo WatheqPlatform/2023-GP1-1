@@ -52,7 +52,7 @@ $result2 = $conn->query($sql2);
                     </a>
                     <a href="../Home Page/Home.php"> Home </a>
                     <a href=""> Profile </a>
-                    <a href="../History Page/History.php"> History </a>
+                    <a href="../History Page/History.php"> Job Offers </a>
                     <a href="../AddOffer Page/AddOffer.php" id="CurrentPage"> Add Offer </a> 
                 </div>
 

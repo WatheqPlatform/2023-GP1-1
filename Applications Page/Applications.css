@@ -4,6 +4,7 @@
 } 
 
 
+
 body {
     font-family: 'Avenir', sans-serif;
     margin: 0;
@@ -68,6 +69,11 @@ body {
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     font-weight: bold;
+}
+
+#Header #CurrentPage:hover{
+    filter: drop-shadow(0px 0px 5px #d5dee693);
+    transform: translate3d(0, -2px, 0);
 }
 
 #Header #LogoLink{
@@ -177,11 +183,10 @@ body {
     flex-direction: column;
     align-self: center;
     flex-wrap: wrap;
-    width: 64vw;
+    width: 63vw;
     padding: 1vh 1vh;
     box-sizing: border-box;
 }
-
 
 #Applications h1{
     color: #085399;
@@ -189,74 +194,159 @@ body {
     font-size: 35px;
     font-weight: 900;
     border-radius: 2px;
+    margin-bottom: 0;
 }
 
-
-#ApplicationsGrid{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-self: center;
-    flex-wrap: wrap;
-    gap: 5px;
-    width: 100%;
+h3#JobTitle{
+    color: #085399;
+    text-align: center;
+    font-size: 25px;
+    font-weight: 300;
+    margin-top: 7px;
 }
 
+h2{
+    color: #024a8d;
+    padding-left: 20px;
+    margin-bottom: 12px;
+}
 
-#Application{
+#WholeOffer{
     display: flex;
-    flex-direction: column;
-    width: 300px;
-    height: 28.4vh;
-    background-color: white;   
-    border-top-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.325));
+    justify-content: space-between;
+    color: #085399;
+    height: 29vh;
     margin-bottom: 3vh;
-    margin-left: 0.5vw;
-    margin-top: 0px;
+    filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.325));
 }
 
-.Pending{
-    background-color: gray;
-    border-top-right-radius: 15px;
+#FirstPart{
+    background-color: #085399;
+    width: 20%;
+    padding: 2vh 6vh;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
 }
 
-.Pending p{
-    padding: 0px;
-}
-
-.Accepted{
-    background-color: greenyellow;
-    border-top-right-radius: 15px;
-}
-
-.Rejected{
-    background-color: rgb(148, 6, 6);
-    border-top-right-radius: 15px;
-}
-
-
-#Name{
+#Title{
     text-transform: capitalize;
     text-align: left;
-    font-size: 18px;
+    font-size: 13px;
     letter-spacing: 1.5px;
-    color: #024a8d;
+    color: white;
     opacity: 0.7;
-    padding: 0.1vh 1vw;
+}
+
+#ApplicantName{
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 23px;
+    margin-top: -4px;
+    height: 30%;
+    color: white;
+}
+
+#FirstPart a{
+    display: block;
+    font-size: 13px;
+    color: white;
+    padding: 35px 0px 5px 2px;
+    text-decoration: none;
+    letter-spacing: 1.3px;
+    color: white;
+    opacity: 0.7;
+}
+
+
+#SecondPart{
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    padding: 2vh 6vh;
+    background-color: white;   
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+#Status{
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: #085399;
+    opacity: 0.7;
+}
+
+.Rejected#Status{
+    color: rgb(148, 6, 6);
+}
+
+.Accepted#Status{
+    color: rgb(16, 156, 16);
+}
+
+#Summary{
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 14px;
+    text-align: justify;
+    line-height: 1.25;
+    margin-top: 0px;
+    color: #0c3a7b;
+    height: 50%;
+}
+
+
+#BottomDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#ContactDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 7px;
 }
 
 #Email{
     text-align: left;
-    font-size: 18px;
-    color: #024a8d;
-    padding: 0.1vh 1vw;
+    font-size: 14px;
+    text-align: justify;
+    line-height: 1.25;
+    margin-top: 10px;
+    margin-bottom: 1px;
+    color: #0c3a7b;
+    opacity: 0.7;
 }
 
+#Number{
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 14px;
+    text-align: justify;
+    line-height: 1.25;
+    margin-top: 0px;
+    color: #0c3a7b;
+    opacity: 0.7;
+}
 
-#CloseButton{
+.icon-space {
+    margin-right: 5px; /* Adjust the space as needed */
+}
+
+/*  buttons div */
+#Buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 22px;
+}
+
+.reject-button{
     border: 2px solid rgb(148, 6, 6);
     border-radius: 30px;
     background-color: transparent;
@@ -265,11 +355,31 @@ body {
     font-size: 14px;
     transition: all .4s ease-in-out;
     align-self: flex-end;
+    margin-top: 0;
 }
 
 
-#CloseButton:hover{
+.reject-button:hover{
     box-shadow: 0 0 10px rgba(158, 16, 16, 0.473);
+    transform: translate3d(0, -2px, 0);
+    cursor: pointer;
+}
+
+.accept-button{
+    border: 2px solid rgb(16, 156, 16);
+    border-radius: 30px;
+    background-color: transparent;
+    color: rgb(16, 156, 16);
+    padding: 5px 30px;
+    font-size: 14px;
+    transition: all .4s ease-in-out;
+    align-self: flex-end;
+    margin-right: 10px;
+}
+
+
+.accept-button:hover{
+    box-shadow: 0 0 10px rgba(16, 156, 16, 0.415);
     transform: translate3d(0, -2px, 0);
     cursor: pointer;
 }

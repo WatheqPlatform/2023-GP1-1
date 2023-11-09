@@ -71,6 +71,11 @@ body {
     font-weight: bold;
 }
 
+#Header #CurrentPage:hover{
+    filter: drop-shadow(0px 0px 5px #d5dee693);
+    transform: translate3d(0, -2px, 0);
+}
+
 #Header #LogoLink{
     padding: 25px 30px 40px 10px;
 }
@@ -191,6 +196,12 @@ body {
     border-radius: 2px;
 }
 
+h2{
+    color: #024a8d;
+    padding-left: 20px;
+    margin-bottom: 12px;
+}
+
 #WholeOffer{
     display: flex;
     justify-content: space-between;
@@ -248,6 +259,22 @@ body {
     background-color: white;   
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
+}
+
+#BottomDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#Date{
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: #085399;
+    opacity: 0.7;
 }
 
 #Status{

@@ -80,6 +80,11 @@ input:-webkit-autofill:active{
     font-weight: bold;
 }
 
+#Header #CurrentPage:hover{
+    filter: drop-shadow(0px 0px 5px #d5dee693);
+    transform: translate3d(0, -2px, 0);
+}
+
 #Header #LogoLink{
     padding: 25px 30px 40px 10px;
 }

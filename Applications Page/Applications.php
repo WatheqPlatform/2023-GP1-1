@@ -3,27 +3,27 @@ include('ApplicationsLogic.php');
 ?>
 
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'> <!--Icons retrevial-->              
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Icons retrieval -->           
     <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="Applications.css">
     <link rel="icon" href="../Images/Icon.png">
     <title>Applications - Watheq</title>
     <script src="../Functions/Logout.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
-    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!-- Icons retrieval -->
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>      
+    <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script>    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery for AJAX functionality -->
     <script src="ApplicationStatusLogic.js"></script>
 </head>
-
 <body>
     <div id="Main">
 
+        <!-- Header Section -->
         <div id="Header">
 
             <div id="HeaderStart">
@@ -32,7 +32,7 @@ include('ApplicationsLogic.php');
                 </a>
                 <a href="../Home Page/Home.php"> Home </a>
                 <a href=""> Profile </a>
-                <a href="../History Page/History.php" id="CurrentPage"> History </a>
+                <a href="../History Page/History.php" id="CurrentPage"> Job Offers </a>
                 <a href="../AddOffer Page/AddOffer.php"> Add Offer </a> 
             </div>
 
@@ -55,85 +55,71 @@ include('ApplicationsLogic.php');
 
         </div>
 
+        <!-- Content Section -->
         <div id="Content">
-
             <div id="MenuButtons">
-                <ion-icon name="notifications-outline"  id="Bell"></ion-icon>
+                <ion-icon name="notifications-outline" id="Bell"></ion-icon>
                 <button id="logoutButton">Log Out</button>    
             </div>
 
             <div id="Applications">
-
                 <?php
-                    if (!empty($PendingApplications) ||  !empty($RejectedApplications) || !empty($AcceptedApplications)) {
+                    // Check if there are any applications
+                    if (!empty($PendingApplications) || !empty($RejectedApplications) || !empty($AcceptedApplications)) {
                         echo "<h1>Job Applications</h1>";
-                    }
+                        echo "<h3 id='JobTitle'>".$_GET["JobTitle"]."</h3>";
 
-                    echo"<div id='ApplicationsGrid'>";
+                        // Function to display applications
+                        function displayApplications($applications, $status) {
+                            foreach ($applications as $application) {
+                                echo "<div id='WholeOffer'>";
+                                echo "<div id='FirstPart' class='".$application['Status']."'>";
+                                echo "<p id='Title'>Applicant Name</p>";
+                                echo "<p id='ApplicantName'>{$application['Name']}</p>";
+                                echo "<p><a href='../Applications Page/Applications.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
+                                echo "</div>";
 
+                                echo "<div id='SecondPart'>";
+                                echo "<p id='Status'class='".$application['Status']."'>{$application['Status']} Application</p>";
+                                echo "<p id='Summary'>{$application['Summary']}</p>";
+                            
+                                echo "<div id='BottomDiv'>";
+                                echo "<div id='ContactDiv'>";
+                                echo "<p id='Email'><i class='bi bi-envelope icon-space'> </i>  {$application['ContactEmail']}</p>";
+                                echo "<p id='Number'><i class='bi bi-telephone icon-space'> </i>  {$application['PhoneNumber']}</p>";
+                                echo "</div>";
+                                if ($status === 'Pending') {
+                                    echo "<div id='Buttons'>";
+                                    echo "<button type='button' class='accept-button' data-application-id='{$application['ApplicationID']}'>Accept</button>";
+                                    echo "<button type='button' class='reject-button' data-application-id='{$application['ApplicationID']}'>Reject</button>";
+                                    echo "</div>";
+                                }
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</div>";
+                            }
+                        }
+
+                        // Call function for each application status
                         if (!empty($PendingApplications)) {
-                            foreach ($PendingApplications as $Application) {
-                                echo "<div id='Application'>";
-
-                                echo "<div id='Status' class='".$Application['Status']."'>";
-                                echo "<p id='Status'>{$Application['Status']} Application</p>";
-                                echo "</div>";
-
-                                echo "<p id='Name'>{$Application['Name']}</p>";
-                                echo "<p id='Email'>{$Application['JobSeekerEmail']}</p>";
-
-                                echo "<button type='button' class='accept-button' data-application-id='{$Application['ApplicationID']}'>Accept</button>";     
-                                echo "<button type='button' class='reject-button' data-application-id='{$Application['ApplicationID']}'>Reject</button>";   
-
-                                
-                                echo "</div>";
-                            }
+                            echo "<h2>Pending Applications</h2>";
+                            displayApplications($PendingApplications, 'Pending');
                         }
-
                         if (!empty($AcceptedApplications)) {
-                            foreach ($AcceptedApplications as $Application) {
-                                echo "<div id='Application'>";
-
-                                echo "<div id='Status' class='".$Application['Status']."'>";
-                                echo "<p id='Status'>{$Application['Status']} Application</p>";
-                                echo "</div>";
-
-                                echo "<p id='Name'>{$Application['Name']}</p>";
-                                echo "<p id='Email'>{$Application['JobSeekerEmail']}</p>";
-
-                                echo "</div>";
-                            }
-                        } 
-                        
+                            echo "<h2>Accepted Applications</h2>";
+                            displayApplications($AcceptedApplications, 'Accepted');
+                        }
                         if (!empty($RejectedApplications)) {
-                            foreach ($RejectedApplications as $Application) {
-                                echo "<div id='Application'>";
-
-                                echo "<div id='Status' class='".$Application['Status']."'>";
-                                echo "<p id='Status'>{$Application['Status']} Application</p>";
-                                echo "</div>";
-
-                                echo "<p id='Name'>{$Application['Name']}</p>";
-                                echo "<p id='Email'>{$Application['JobSeekerEmail']}</p>";
-                                
-                                echo "</div>";
-                            }
-                        }  
-                   
-
-                        if (empty($PendingApplications) && empty($RejectedApplications) && empty($AcceptedApplications)) {
-                            echo "<p id='Empty'>No job applications yet.</p>";
+                            echo "<h2>Rejected Applications</h2>";
+                            displayApplications($RejectedApplications, 'Rejected');
                         }
                         
-                    echo"</div>";
+                    } else {
+                        echo "<p id='Empty'>No job applications found.</p>";
+                    }
                 ?> 
-
             </div> 
-
         </div> 
-
     </div>
-    
-   
 </body>
 </html>

@@ -65,11 +65,12 @@ $result = $conn->query($sqlTotalAccepted);
 
 // Check if the query executed successfully
 if ($result->num_rows > 0) {
-    // Fetch the result row
-    $row = $result->fetch_assoc();
+  // Fetch the result row
+  $row = $result->fetch_assoc();
 
-    // Get the total accepted applications count
-$TotalAcceptedApplications = $row['TotalAcceptedApplications'];}
+  // Get the total accepted applications count
+  $TotalAcceptedApplications = $row['TotalAcceptedApplications'];
+}
 
 // Initialize the total pending applications count
 $TotalPendingApplications = 0;
@@ -125,7 +126,7 @@ $conn->close();
         </a>
         <a href="../Home Page/Home.php" id="CurrentPage"> Home </a>
         <a href=""> Profile </a>
-        <a href="../History Page/History.php"> History </a>
+        <a href="../History Page/History.php"> Job Offers </a>
         <a href="../AddOffer Page/AddOffer.php"> Add Offer </a> 
       </div>
 

@@ -37,6 +37,61 @@ if ($result->num_rows > 0) {
 
 $closedOffers = $totalOffers  - $activeOffers;
 
+$TotalApplications =0;
+// SQL query
+$sqlTotal = "SELECT COUNT(a.ApplicationID) AS TotalApplications
+        FROM Application a
+        JOIN joboffer j ON j.JPEmail = '$email' AND j.OfferID = a.OfferID";
+
+// Execute the query
+$result = $conn->query($sqlTotal);
+// Check if the query executed successfully
+if ($result->num_rows > 0) {
+    // Fetch the result row
+    $row = $result->fetch_assoc();
+    // Get the total applications count
+$TotalApplications = $row['TotalApplications'];}
+
+// Initialize the total accepted applications count
+$TotalAcceptedApplications = 0;
+// SQL query
+$sqlTotalAccepted = "SELECT COUNT(a.ApplicationID) AS TotalAcceptedApplications
+        FROM Application a
+        JOIN joboffer j ON j.JPEmail = '$email' AND j.OfferID = a.OfferID
+        WHERE a.Status = 'Accepted'";
+
+// Execute the query
+$result = $conn->query($sqlTotalAccepted);
+
+// Check if the query executed successfully
+if ($result->num_rows > 0) {
+    // Fetch the result row
+    $row = $result->fetch_assoc();
+
+    // Get the total accepted applications count
+$TotalAcceptedApplications = $row['TotalAcceptedApplications'];}
+
+// Initialize the total pending applications count
+$TotalPendingApplications = 0;
+// SQL query
+$sqlTotalPending = "SELECT COUNT(a.ApplicationID) AS TotalPendingApplications
+        FROM Application a
+        JOIN joboffer j ON j.JPEmail = '$email' AND j.OfferID = a.OfferID
+        WHERE a.Status = 'Pending'";
+
+// Execute the query
+$result = $conn->query($sqlTotalPending);
+
+// Check if the query executed successfully
+if ($result->num_rows > 0) {
+    // Fetch the result row
+    $row = $result->fetch_assoc();
+
+    // Get the total pending applications count
+    $TotalPendingApplications = $row['TotalPendingApplications'];
+}
+
+
 $conn->close();
 ?>
 
@@ -135,21 +190,21 @@ $conn->close();
           </div>
               
           <div>
-            <h2>0</h2>
+            <h2><?php echo $TotalApplications; ?></h2>
             <p>
               Total Job Applications
             </p>
           </div>
 
           <div>
-            <h2>0</h2>
+            <h2><?php echo $TotalAcceptedApplications; ?></h2>
             <p>
               Accepted Applications
             </p>
           </div>
               
           <div>
-            <h2>0</h2>
+            <h2><?php echo $TotalPendingApplications; ?></h2> 
               <p> 
                 Pending Applications
               </p>

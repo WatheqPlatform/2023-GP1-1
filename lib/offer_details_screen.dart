@@ -5,13 +5,17 @@ import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:string_capitalize/string_capitalize.dart';
+import 'package:watheq/error_messages.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class JobOfferDetailScreen extends StatefulWidget {
   var offerID;
+  final String email;
 
   JobOfferDetailScreen({
     super.key,
     required this.offerID,
+    required this.email,
   });
 
   @override
@@ -46,6 +50,81 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
   void initState() {
     super.initState();
     getdata();
+  }
+
+  Future checkApplication() async {
+    try {
+      var response = await http.post(
+        Uri.parse(Connection.checkApplication),
+        body: {
+          "email": widget.email,
+        },
+      );
+      if (response.statusCode == 200) {
+        // communication is succefull
+        var resBodyOfCheck = jsonDecode(response.body.trim());
+
+        if (resBodyOfCheck == 1) {
+          if (context.mounted) {
+            ErrorMessage.show(
+                context,
+                "Error",
+                18,
+                "You have alreday applied to this job offer, please check the applications page.",
+                ContentType.failure,
+                const Color.fromARGB(255, 209, 24, 24));
+          }
+        } else {
+          apply();
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
+      }
+    }
+  }
+
+  Future apply() async {
+    try {
+      var response = await http.post(
+        Uri.parse(Connection.apply),
+        body: {"email": widget.email, "offerId": offerDetails[0]["OfferID"]},
+      );
+
+      if (response.statusCode == 200) {
+        // communication is succefull
+        var resBodyOfApply = jsonDecode(response.body.trim());
+
+        if (resBodyOfApply == 1) {
+          if (context.mounted) {
+            ErrorMessage.show(
+                context,
+                "Success",
+                18,
+                "You have successfully  applied to this job offer, please check the applications page to track the application.",
+                ContentType.failure,
+                const Color.fromARGB(255, 209, 24, 24));
+          }
+        } else {
+          if (context.mounted) {
+            ErrorMessage.show(
+                context,
+                "Error",
+                18,
+                "Please fill your CV information to apply to job offer.",
+                ContentType.failure,
+                const Color.fromARGB(255, 209, 24, 24));
+          }
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
+      }
+    }
   }
 
   //checking optional fields value
@@ -581,7 +660,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                           child: Column(
                             children: [
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  checkApplication();
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF024A8D),
                                   fixedSize: Size(

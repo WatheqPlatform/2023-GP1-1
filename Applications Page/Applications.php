@@ -121,7 +121,7 @@ include('ApplicationsLogic.php');
                    
 
                         if (empty($PendingApplications) && empty($RejectedApplications) && empty($AcceptedApplications)) {
-                            echo "<p id='Empty'>No job applications yet.</p>";
+                            echo "<p id='Empty'>No job applications found.</p>";
                         }
                         
                     echo"</div>";

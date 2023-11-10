@@ -375,7 +375,7 @@ class _OffersScreenState extends State<OffersScreen> {
                     width: 350,
                     margin: EdgeInsets.only(
                       left: screenWidth * 0.07,
-                      top: screenHeight * 0.725,
+                      top: screenHeight * 0.71,
                       bottom: 5,
                     ),
                     decoration: BoxDecoration(
@@ -437,15 +437,14 @@ class _OffersScreenState extends State<OffersScreen> {
                                     OffersScreen(email: widget.email),
                               ),
                             );
-                           } else if(index == 1) {
+                          } else if (index == 1) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) =>
                                     ApplicationsScreen(email: widget.email),
                               ),
                             );
-                          }
-                           else if (index == 2) {
+                          } else if (index == 2) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) =>

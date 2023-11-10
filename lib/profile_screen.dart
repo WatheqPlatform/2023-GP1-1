@@ -10,6 +10,7 @@ import 'package:watheq/offers_screen.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:string_capitalize/string_capitalize.dart';
+import 'package:watheq/Applications_Screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String email;
@@ -325,6 +326,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 MaterialPageRoute(
                                   builder: (_) =>
                                       OffersScreen(email: widget.email),
+                                ),
+                              );
+                            } else if (index == 1) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      ApplicationsScreen(email: widget.email),
                                 ),
                               );
                             }

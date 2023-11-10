@@ -11,15 +11,16 @@ class Connection {
   static const jobSeekerData = "$hostConnect/Data/jobseeker_data.php";
   static const jobDetailData = "$hostConnect/Data/getdetaildata.php";
   static const jobSeekerName = "$hostConnect/Data/getName.php";
-   static const jobSeekerApplication = "$hostConnect/Data/ReadData.php";
-  
-
-
+  static const jobSeekerApplication =
+      "$hostConnect/Application/jobSeekerApplications.php";
 
   static const forgetPassword = "$hostConnect/Reset/forget_password.php";
   static const verifyToken = "$hostConnect/Reset/verify_code.php";
   static const resetPassword = "$hostConnect/Reset/reset_password.php";
-   static const checkApplication =
+
+  static const checkApplication =
       "$hostConnect/Application/checkApplication.php";
   static const apply = "$hostConnect/Application/apply.php";
+  static const cancelApplication =
+      "$hostConnect/Application/cancelApplication.php";
 }

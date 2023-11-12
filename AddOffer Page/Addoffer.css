@@ -534,9 +534,10 @@ input[type=button]:hover{
 }
 
 /*Number validation*/
-#warningMessage1, #warningMessage2, #warningMessage3, #warningMessage4{
+#warningMessage1, #warningMessage2, #warningMessage3, #warningMessage4, #EnterMessage0{
 	color: red; 
 	display: none;
 	font-size: 14px;
 	margin-top: 5px;
+	margin-bottom: 5px;
 }

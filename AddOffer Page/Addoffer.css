@@ -306,12 +306,12 @@ input:-webkit-autofill:active{
 
 
 /*Required Qualification*/
-#MaybeRequiredQualification::after{
+.MaybeRequiredQualification::after{
 	content: ' *';
     color: #4CBB17;
 }
 
-#MaybeRequiredQualification:hover:after {
+.MaybeRequiredQualification:hover:after {
     content: '  * This field is required for adding qualification ';
     font-size: 11px;
     color: #4CBB17;

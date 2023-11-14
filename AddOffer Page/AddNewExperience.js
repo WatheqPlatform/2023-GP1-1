@@ -14,9 +14,9 @@ $(document).ready(function () {
             <select name="experienceCategory${experienceCount}" id="experienceCategory${experienceCount}" class="input select">
                 <option disabled selected></option>
             </select>
-
-            <label for="experienceDescription${experienceCount}">Experience Description <span class="MaybeRequiredExperince"></span></label>
-            <input type="text" name="experiences[${experienceCount}][description]" class="input">
+ 
+            <label for="experienceJobTitle${experienceCount}" maxlength="100">Job Title <span class="MaybeRequiredExperince"></span></label>
+            <input type="text" name="experiences[${experienceCount}][JobTitle]" class="input">
 
             <label for="experienceYears${experienceCount}">Minimum Years of Experience <span class="MaybeRequiredExperince"></span></label>
             <input type="number" name="experiences[${experienceCount}][years]" class="input" onkeyup="validateNumericInput(this, '${numberCount}')">

@@ -355,8 +355,8 @@ $result3 = $conn->query($query);
                                             }
                                             ?>
                                         </select>
-                                        <label for="experienceDescription0" >Experience Description <span class="MaybeRequiredExperince"></span></label> 
-                                        <input type="text" name="experiences[0][description]" class="input">
+                                        <label for="experienceJobTitle0" >Job Title<span class="MaybeRequiredExperince"></span></label> 
+                                        <input type="text" name="experiences[0][JobTitle]" class="input" maxlength="100">
                                         <label for="experienceYears0">Minimum Years of Experience <span class="MaybeRequiredExperince"></span></label>   
                                         <input type="number" name="experiences[0][years]" class="input" onkeyup="validateNumericInput(this, '4')" >  
                                         <span id="warningMessage4">Please enter a valid number</span>

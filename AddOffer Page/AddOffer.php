@@ -9,9 +9,14 @@ include("../dbConnection.php");
 // Retrieve the rows from the "category" table
 $sql = "SELECT * FROM category";
 $result = $conn->query($sql);
+$result4 = $conn->query($sql);
 // Fetch the cities from the "city" table
 $sql2 = "SELECT CityName FROM city ORDER BY CityName ASC";
 $result2 = $conn->query($sql2);
+
+// Query to retrieve distinct rows from the "Field" column
+$query = "SELECT DISTINCT Field FROM qualification WHERE FieldFlag = 0 ORDER BY Field ASC";
+$result3 = $conn->query($query);
 
 
 ?>
@@ -37,6 +42,7 @@ $result2 = $conn->query($sql2);
         <script src="AddNewQualification.js"></script>
         <script src="FormNavigation.js"></script>
         <script src="Validation.js"></script>
+        <script src="DegreeFieldScript.js"></script>
         
     </head>
 
@@ -146,7 +152,7 @@ $result2 = $conn->query($sql2);
                                         </select>
                                     </div>
                                     <div class="input_wrap">
-                                        <label for="job-categories">Job Category<span class="required"></span></label>
+                                        <label for="job-categories">Job Industry<span class="required"></span></label>
                                         <select name="job-categories" id="job-categories" class="input select" >
                                             <?php
                                             // Check if there are any rows
@@ -167,10 +173,7 @@ $result2 = $conn->query($sql2);
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="input_wrap">
-                                        <label for="jobField">Job Field<span class="required"></span></label>
-                                        <input type="text" name="jobField" class="input" id="jobField" maxlength="100" >
-                                    </div>
+                                    
                                     <div class="input_wrap">
                                         <label for="jobCity">Job City<span class="required"></span></label>
                                         <select name="jobCity" id="jobCity" class="input select">
@@ -222,7 +225,7 @@ $result2 = $conn->query($sql2);
                                     </div>
                                     <div class="input_wrap">
                                         <label for="date">Starting Date</label> 
-                                        <input type="date" name="date"  class="input" id="date">
+                                        <input type="date" name="date" class="input" id="date" min="<?php echo date('Y-m-d'); ?>">
                                     </div>
                                     <div class="input_wrap">
                                         <label for="workingHours">Working Hours Per Day</label> 
@@ -287,9 +290,9 @@ $result2 = $conn->query($sql2);
                                     <div class="input_wrap Multiable" id="qualification0">
                                         <h4> Qualification 1: </h4>
                                         <label for="degreeLevel0">Degree Level</label>   
-                                        <select name="degreeLevel0" id="degreeLevel" class="input select">
+                                        <select name="degreeLevel0" id="degreeLevel0" class="input select" onchange="handleDegreeLevelChange(event, 0)">
                                             <option disabled selected></option>
-                                            <option value="Pre-high school education">Pre-high school</option>
+                                            <option value="Pre-high school">Pre-high school</option>
                                             <option value="High School">High School</option>
                                             <option value="Diploma">Diploma</option>
                                             <option value="Bachelor">Bachelor</option>
@@ -297,8 +300,28 @@ $result2 = $conn->query($sql2);
                                             <option value="Doctorate">Doctorate</option>
                                             <option value="Post Doctorate">Post Doctorate</option>
                                         </select>
-                                        <label for="degreeField0">Degree Field <span id="MaybeRequiredQualification"></span></label> 
-                                        <input type="text" name="degree[0][field]" class="input" maxlength="50" >  
+                                         <label id= "DegreeFieldLabel0" for="degreeField0">Degree Field  <span class="MaybeRequiredQualification"></span> </label> 
+                                        <select name="degree[0][field]" id="degreeField0" class="input select" onchange="handleDegreeFieldChange(event, 0)">
+                                          
+                                            <?php
+                                            // Generate the HTML options
+                                                    
+                                                    if ($result3->num_rows > 0) {
+                                                          echo '<option disabled selected></option>';
+                                                        while ($row = $result3->fetch_assoc()) {
+
+                                                            echo '<option value="' . $row["Field"] . '">' . $row["Field"] . '</option>';
+                                                        }
+                                                       echo '<option value="Other"> Other </option>';
+                                                    }
+                                                    else
+                                                    {  echo "No Fields found."; }
+                                                    ?>
+                                                   
+                                        </select>
+                                         <span class ="EnterMessage" id="EnterMessage0" style="display: none;">Please enter your qualification field below</span>
+                                         <label id = "LableOther0" for="qualificationOther0" style="display: none;"> Qualification Field <span class="MaybeRequiredQualification"></span></label> 
+                                        <input type="text" id = "qualificationOther0" name="qualificationOther0" class="input" style="display: none;" maxlength="100">
                                     </div> 
                                 </div>
                                 <ion-icon name="add-circle-outline" id="addQualification" class="AddingExtraButton"></ion-icon> 
@@ -311,8 +334,27 @@ $result2 = $conn->query($sql2);
                                 <div class="form_container" id="experienceFields">
                                     <div class="input_wrap Multiable" id="experience0">
                                         <h4> Experience 1: </h4>
-                                        <label for="experienceField0">Experience Field</label> 
-                                        <input type="text" name="experience[0][field]" class="input">
+                                        <label for="experienceCategory0">Experience Industry</label> 
+                                     
+                                        <select name="experienceCategory0" id="experienceCategory0" class="input select" >
+                                            <?php
+                                            // Check if there are any rows
+                                            if ($result4->num_rows > 0) {
+                                                // Start the select field
+
+                                                echo '<option disabled selected></option>';
+
+                                                // Loop through the rows and print the options
+                                                while ($row = $result4->fetch_assoc()) {
+                                                    echo '<option value="' . $row["CategoryName"] . '">' . $row["CategoryName"] . '</option>';
+                                                }
+
+                                                // End the select field
+                                            } else {
+                                                echo "No industries found.";
+                                            }
+                                            ?>
+                                        </select>
                                         <label for="experienceDescription0" >Experience Description <span class="MaybeRequiredExperince"></span></label> 
                                         <input type="text" name="experiences[0][description]" class="input">
                                         <label for="experienceYears0">Minimum Years of Experience <span class="MaybeRequiredExperince"></span></label>   

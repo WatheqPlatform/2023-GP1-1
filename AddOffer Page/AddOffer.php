@@ -336,7 +336,7 @@ $result3 = $conn->query($query);
                                         <h4> Experience 1: </h4>
                                         <label for="experienceCategory0">Experience Industry</label> 
                                      
-                                        <select name="experienceCategory0" id="experienceCategory0" class="input select" >
+                                        <select name="experiences[0][Category]" id="experienceCategory0" class="input select" >
                                             <?php
                                             // Check if there are any rows
                                             if ($result4->num_rows > 0) {

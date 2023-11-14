@@ -11,7 +11,7 @@ $(document).ready(function () {
         <div class="input_wrap Multiable" id="experience${experienceCount}">
             <h4> Experience ${experienceCount + 1}: </h4>
             <label for="experienceCategory${experienceCount}">Experience Industry</label>
-            <select name="experienceCategory${experienceCount}" id="experienceCategory${experienceCount}" class="input select">
+            <select name="experiences[${experienceCount}][Category]" id="experienceCategory${experienceCount}" class="input select">
                 <option disabled selected></option>
             </select>
  

@@ -584,7 +584,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 padding:
                                     const EdgeInsets.only(top: 20, bottom: 1),
                                 child: Text(
-                                  "Category".capitalizeEach().replaceAll(
+                                  "Job Industry".capitalizeEach().replaceAll(
                                       RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n'),
                                   style: const TextStyle(
                                       fontSize: 19.0,

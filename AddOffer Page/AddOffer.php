@@ -291,7 +291,7 @@ $result3 = $conn->query($query);
                                         <h4> Qualification 1: </h4>
                                         <label for="degreeLevel0">Degree Level</label>   
                                         <select name="degreeLevel0" id="degreeLevel0" class="input select" onchange="handleDegreeLevelChange(event, 0)">
-                                            <option disabled selected></option>
+                                            <option> </option>
                                             <option value="Pre-high school">Pre-high school</option>
                                             <option value="High School">High School</option>
                                             <option value="Diploma">Diploma</option>
@@ -307,7 +307,7 @@ $result3 = $conn->query($query);
                                             // Generate the HTML options
                                                     
                                                     if ($result3->num_rows > 0) {
-                                                          echo '<option disabled selected></option>';
+                                                          echo '<option> </option>';
                                                         while ($row = $result3->fetch_assoc()) {
 
                                                             echo '<option value="' . $row["Field"] . '">' . $row["Field"] . '</option>';
@@ -342,7 +342,7 @@ $result3 = $conn->query($query);
                                             if ($result4->num_rows > 0) {
                                                 // Start the select field
 
-                                                echo '<option disabled selected></option>';
+                                                echo '<option></option>';
 
                                                 // Loop through the rows and print the options
                                                 while ($row = $result4->fetch_assoc()) {

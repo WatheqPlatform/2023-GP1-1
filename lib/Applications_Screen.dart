@@ -22,6 +22,7 @@ class ApplicationsScreen extends StatefulWidget {
 
 class _ApplicationsScreen extends State<ApplicationsScreen> {
   List list = [];
+  bool isAccepted = false;
 
   Future ReadData() async {
     var res = await http.post(
@@ -48,6 +49,9 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
       case 'Accepted':
         return Color.fromARGB(255, 15, 152, 20);
       case 'Rejected':
+        return Color.fromARGB(255, 209, 24, 24);
+
+      case 'Cancelled':
         return Color.fromARGB(255, 209, 24, 24);
 
       default:
@@ -232,15 +236,22 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                                                       Icons.arrow_forward),
                                                   iconSize: 20,
                                                   onPressed: () {
+                                                    list[index]["ApplicationStatus"] ==
+                                                            "Accepted"
+                                                        ? isAccepted = true
+                                                        : isAccepted = false;
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) =>
                                                               (JobOfferDetailScreen(
-                                                                  offerID:
-                                                                      "${list[index]["OfferID"]}",
-                                                                  email: widget
-                                                                      .email))),
+                                                                offerID:
+                                                                    "${list[index]["OfferID"]}",
+                                                                email: widget
+                                                                    .email,
+                                                                isAccepted:
+                                                                    isAccepted,
+                                                              ))),
                                                     ).then((value) {
                                                       // This block will be executed when returning back to this screen
                                                       setState(() {

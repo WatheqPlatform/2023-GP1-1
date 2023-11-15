@@ -11,11 +11,13 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 class JobOfferDetailScreen extends StatefulWidget {
   final String offerID;
   final String email;
+  final bool isAccepted;
 
   JobOfferDetailScreen({
     super.key,
     required this.offerID,
     required this.email,
+    required this.isAccepted,
   });
 
   @override
@@ -440,7 +442,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
       body: empty
           ? Container(
               //   color: Color.fromARGB(255, 62, 61, 61).withOpacity(0.5),
-              child: Center(
+              child: const Center(
                 child: CircularProgressIndicator(
                   color: Color(0xFF024A8D),
                 ),
@@ -730,101 +732,115 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                           const SizedBox(
                                             height: 17,
                                           ),
-                                          OutlinedButton(
-                                            onPressed: () {
-                                              showDialog<void>(
-                                                context: context,
-                                                barrierDismissible: false,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    title: const Text(
-                                                      'Cancel Application',
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        color:
-                                                            Color(0xFF14386E),
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                    content:
-                                                        const SingleChildScrollView(
-                                                      child: ListBody(
-                                                        children: <Widget>[
-                                                          Text(
-                                                            'Are you sure you want to cancel your application?',
+                                          !widget.isAccepted
+                                              ? OutlinedButton(
+                                                  onPressed: () {
+                                                    showDialog<void>(
+                                                      context: context,
+                                                      barrierDismissible: false,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          title: const Text(
+                                                            'Cancel Application',
                                                             style: TextStyle(
-                                                                fontSize: 15,
-                                                                color: Color(
-                                                                    0xFF14386E),
-                                                                letterSpacing:
-                                                                    1.15),
+                                                              fontSize: 18,
+                                                              color: Color(
+                                                                  0xFF14386E),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
                                                           ),
-                                                        ],
-                                                      ),
+                                                          content:
+                                                              const SingleChildScrollView(
+                                                            child: ListBody(
+                                                              children: <Widget>[
+                                                                Text(
+                                                                  'Are you sure you want to cancel your application?',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      color: Color(
+                                                                          0xFF14386E),
+                                                                      letterSpacing:
+                                                                          1.15),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              child: const Text(
+                                                                'No',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Color(
+                                                                      0xFF14386E),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop(); // Close the dialog
+                                                              },
+                                                            ),
+                                                            TextButton(
+                                                              child: Text(
+                                                                'Yes',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Color(
+                                                                      0xFF14386E),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
+                                                              ),
+                                                              onPressed: () {
+                                                                cancelApplication();
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  style:
+                                                      OutlinedButton.styleFrom(
+                                                    side: const BorderSide(
+                                                      width: 1.5,
+                                                      color: Color.fromARGB(
+                                                          255, 209, 24, 24),
                                                     ),
-                                                    actions: <Widget>[
-                                                      TextButton(
-                                                        child: const Text(
-                                                          'No',
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                            color: Color(
-                                                                0xFF14386E),
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop(); // Close the dialog
-                                                        },
-                                                      ),
-                                                      TextButton(
-                                                        child: Text(
-                                                          'Yes',
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                            color: Color(
-                                                                0xFF14386E),
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                        onPressed: () {
-                                                          cancelApplication();
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            style: OutlinedButton.styleFrom(
-                                              side: const BorderSide(
-                                                width: 1.5,
-                                                color: Color.fromARGB(
-                                                    255, 209, 24, 24),
-                                              ),
-                                              fixedSize: Size(screenWidth * 0.8,
-                                                  screenHeight * 0.052),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                            ),
-                                            child: const Text(
-                                              " Cancel Application",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Color.fromARGB(
-                                                    255, 209, 24, 24),
-                                              ),
-                                            ),
-                                          ),
+                                                    fixedSize: Size(
+                                                        screenWidth * 0.8,
+                                                        screenHeight * 0.052),
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                  ),
+                                                  child: const Text(
+                                                    " Cancel Application",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Color.fromARGB(
+                                                          255, 209, 24, 24),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Container(),
                                         ],
                                       ),
                                     )

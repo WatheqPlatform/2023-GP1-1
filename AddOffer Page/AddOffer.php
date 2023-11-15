@@ -42,7 +42,7 @@ $result3 = $conn->query($query);
         <script src="AddNewQualification.js"></script>
         <script src="FormNavigation.js"></script>
         <script src="Validation.js"></script>
-        <script src="DegreeFieldScript.js"></script>
+        
         
     </head>
 

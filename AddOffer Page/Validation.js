@@ -5,7 +5,6 @@ $(document).ready(function () {
             // REQUIRED FEILDS ONLY
             $("#jobTitle").val(),
             $("#jobDescription").val(),
-            $("#jobField").val(),
             $("#jobAddress").val(),
             $("#jobType").val(),
             $("#minSalary").val(),
@@ -59,18 +58,33 @@ $(document).ready(function () {
                 // check that if there's at least one feild filled, the other should be filled too
                 var checkExperiences = checkExperience(experiences);
                 if (checkQualification === true && checkExperiences === true) {
+console.log("jobTitle: " + inputValues[0]);
+console.log("jobDescription: " + inputValues[1]);
+console.log("jobAddress: " + inputValues[2]);
+console.log("jobType: " + inputValues[3]);
+console.log("minSalary: " + inputValues[4]);
+console.log("maxSalary: " + inputValues[5]);
+console.log("jobCategories: " + inputValues[6]);
+console.log("jobCity: " + inputValues[7]);
 
+console.log("startingDate: " + $("#date").val());
+console.log("workingHours: " + $("#workingHours").val());
+console.log("notes: " + $("#notes").val());
+console.log("workingDays: " + getWorkingDays());
+
+console.log("skills: ", skills);
+console.log("qualifications: ", qualifications);
+console.log("experiences: ", experiences);
                     //Send the information to PHP File
                     $.post("AddOfferLogic.php", {
                         jobTitle: inputValues[0],
                         jobDescription: inputValues[1],
-                        jobField: inputValues[2],
-                        jobAddress: inputValues[3],
-                        jobType: inputValues[4],
-                        minSalary: inputValues[5],
-                        maxSalary: inputValues[6],
-                        jobCategories: inputValues[7],
-                        jobCity: inputValues[8],
+                        jobAddress: inputValues[2],
+                        jobType: inputValues[3],
+                        minSalary: inputValues[4],
+                        maxSalary: inputValues[5],
+                        jobCategories: inputValues[6],
+                        jobCity: inputValues[7],
 
                         // non required feilds we won't check if they are empty 
                         startingDate: $("#date").val(),
@@ -141,39 +155,57 @@ $(document).ready(function () {
                 for (var i = 0; i < qualifications.length; i++) {
                     var qualification = qualifications[i];
                     if (!qualification.level && qualification.field) {
-                        alert("Qualification degree level is missiing.");
+                        alert("Qualification Degree Level is missiing.");
                         return false;
                     } else if (qualification.level && !qualification.field) {
-                        alert("Qualification degree field is missing.");
+                        alert("Qualification Degree Field is missing.");
                         return false;
                     }
+                    else if (!qualification.other && qualification.field==="Other")
+                    {  alert("Qualification Degree field is missing.\nYou should enter your Degree Feild or choose from the provided Feilds.");
+                        return false;}
+                    
                 }
                 return true;
             }
+
 
             function saveQualifications() {
                 var qualifications = [];
 
                 $("div[id^='qualification']").each(function () {
                     var degreeLevel = $(this).find("select[name^='degreeLevel']").val();
-                    var degreeField = $(this).find("input[name^='degree']").val();
+                    var degreeField = $(this).find("select[name^='degree[']").val();
+                    var qualificationOther = $(this).find("input[name^='qualificationOther']").val();
 
+                    if (degreeLevel === "Pre-high school") {
+                        degreeField = "None";
+                        qualificationOther = "None";
+                    }
 
+                    if (degreeField !== "Other") {
+                        qualificationOther = "None";
+                    }
 
                     var existingQualification = qualifications.find(function (qualification) {
-                        return qualification.level === degreeLevel && qualification.field === degreeField;
+                        return (
+                                qualification.level === degreeLevel &&
+                                qualification.field === degreeField &&
+                                qualification.other === qualificationOther
+                                );
                     });
 
-                    if (!existingQualification && (degreeLevel !== null || degreeField !== ""))
-                    {
+                    if (
+                            !existingQualification &&
+                            (degreeLevel !== null || degreeField !== "" || qualificationOther !== "")
+                            ) {
                         qualifications.push({
                             level: degreeLevel,
-                            field: degreeField
+                            field: degreeField,
+                            other: qualificationOther
                         });
                     }
                 });
-
-
 
                 return qualifications;
             }
@@ -186,14 +218,14 @@ $(document).ready(function () {
                 for (var i = 0; i < experience.length; i++)
                 {
                     var ex = experience[i];
-                    if (!ex.field) {
-                        alert("Experience field is missing.");
+                    if (!ex.Category) {
+                        alert("Experience Industry is missing.");
                         return false;
-                    } else if (!ex.description) {
-                        alert("Experience description is missing.");
+                    } else if (!ex.JobTitle) {
+                        alert("Experience Job Title is missing.");
                         return false;
                     } else if (!ex.years) {
-                        alert("Experience years is missing.");
+                        alert("Experience Minimum Years is missing.");
                         return false;
                     }
                 }
@@ -204,22 +236,22 @@ $(document).ready(function () {
                 var experiences = [];
 
                 $("div[id^='experience']").each(function () {
-                    var field = $(this).find("input[name^='experience']").eq(0).val();
-                    var description = $(this).find("input[name^='experiences']").eq(0).val();
-                    var years = $(this).find("input[name^='experiences']").eq(1).val();
+                    var Category = $(this).find("select[name$='[Category]']").val();
+                    var JobTitle = $(this).find("input[name$='[JobTitle]']").val();
+                    var years = $(this).find("input[name$='[years]']").val();
 
 
 
 
                     // Check if the experience already exists in the experiences array
                     var exists = experiences.some(function (experience) {
-                        return experience.field === field && experience.description === description && experience.years === years;
+                        return experience.Category === Category && experience.JobTitle === JobTitle && experience.years === years;
                     });
 
-                    if (!exists && (field !== "" || description !== "" || years !== "")) {
+                    if (!exists && (Category !== null || JobTitle !== "" || years !== "")) {
                         experiences.push({
-                            field: field,
-                            description: description,
+                            Category: Category,
+                            JobTitle: JobTitle,
                             years: years
                         });
                     }

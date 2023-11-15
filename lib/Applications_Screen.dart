@@ -22,6 +22,7 @@ class ApplicationsScreen extends StatefulWidget {
 
 class _ApplicationsScreen extends State<ApplicationsScreen> {
   List list = [];
+  bool isAccepted = false;
 
   Future ReadData() async {
     var res = await http.post(
@@ -48,6 +49,9 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
       case 'Accepted':
         return Color.fromARGB(255, 15, 152, 20);
       case 'Rejected':
+        return Color.fromARGB(255, 209, 24, 24);
+
+      case 'Cancelled':
         return Color.fromARGB(255, 209, 24, 24);
 
       default:
@@ -118,155 +122,158 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                         ? const Center(
                             child: Text('No Applications found.'),
                           )
-                        : Column(
-                          children: [
-                            Expanded(
-                                child: SizedBox(
-                                  height: screenHeight * 0.71,
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(80.0),
-                                    ),
-                                    child: ListView.builder(
-                                      itemCount: list.length,
-                                      padding: const EdgeInsets.only(top: 35),
-                                      itemBuilder: (context, index) {
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                            top: 2,
-                                            left: 5,
-                                            right: 5,
-                                            bottom: 5,
+                        : Expanded(
+                            child: SizedBox(
+                              height: screenHeight * 0.71,
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(80.0),
+                                ),
+                                child: ListView.builder(
+                                  itemCount: list.length,
+                                  padding: const EdgeInsets.only(top: 35),
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                        top: 2,
+                                        left: 5,
+                                        right: 5,
+                                        bottom: 5,
+                                      ),
+                                      child: Container(
+                                        width: screenWidth,
+                                        decoration: const BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: Color.fromARGB(
+                                                  169, 158, 158, 158),
+                                              width: 0.5,
+                                            ),
                                           ),
-                                          child: Container(
-                                            width: screenWidth,
-                                            decoration: const BoxDecoration(
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                  color: Color.fromARGB(
-                                                      169, 158, 158, 158),
-                                                  width: 0.5,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 10,
+                                            bottom: 10,
+                                            left: 20,
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: screenWidth * 0.7,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "${list[index]["JobTitle"]}"
+                                                          .capitalizeEach(),
+                                                      style: const TextStyle(
+                                                        color:
+                                                            Color(0xFF14386E),
+                                                        fontSize: 21.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "${list[index]["CompanyName"]}"
+                                                          .capitalizeEach(),
+                                                      //"
+                                                      style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 155, 155, 155),
+                                                        fontSize: 15.0,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Container(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              bottom: 8),
+                                                      child: Text(
+                                                        "${list[index]["ApplicationStatus"]}",
+                                                        style: TextStyle(
+                                                          color: getStatusColor(
+                                                              "${list[index]["ApplicationStatus"]}"),
+                                                          fontSize: 13.0,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                top: 10,
-                                                bottom: 10,
-                                                left: 20,
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                    width: screenWidth * 0.7,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment.start,
-                                                      children: [
-                                                        Text(
-                                                          "${list[index]["JobTitle"]}"
-                                                              .capitalizeEach(),
-                                                          style: const TextStyle(
-                                                            color:
-                                                                Color(0xFF14386E),
-                                                            fontSize: 21.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          "${list[index]["CompanyName"]}"
-                                                              .capitalizeEach(),
-                                                          //"
-                                                          style: const TextStyle(
-                                                            color: Color.fromARGB(
-                                                                255, 155, 155, 155),
-                                                            fontSize: 15.0,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Container(
-                                                          padding:
-                                                              const EdgeInsets.only(
-                                                                  bottom: 8),
-                                                          child: Text(
-                                                            "${list[index]["ApplicationStatus"]}",
-                                                            style: TextStyle(
-                                                              color: getStatusColor(
-                                                                  "${list[index]["ApplicationStatus"]}"),
-                                                              fontSize: 13.0,
-                                                              fontWeight:
-                                                                  FontWeight.w400,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                  top: 0,
+                                                  right: 5,
+                                                ),
+                                                width: screenWidth * 0.09,
+                                                height: screenHeight * 0.058,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color:
+                                                        const Color(0xFF024A8D),
+                                                    width: 1.8,
                                                   ),
-                                                  Container(
-                                                    margin: const EdgeInsets.only(
-                                                      top: 0,
-                                                      right: 5,
-                                                    ),
-                                                    width: screenWidth * 0.09,
-                                                    height: screenHeight * 0.058,
-                                                    decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color:
-                                                            const Color(0xFF024A8D),
-                                                        width: 1.8,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(30),
-                                                    ),
-                                                    child: IconButton(
-                                                      icon: const Icon(
-                                                          Icons.arrow_forward),
-                                                      iconSize: 20,
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  (JobOfferDetailScreen(
-                                                                      offerID:
-                                                                          "${list[index]["OfferID"]}",
-                                                                      email: widget
-                                                                          .email))),
-                                                        ).then((value) {
-                                                          // This block will be executed when returning back to this screen
-                                                          setState(() {
-                                                            list.clear();
-                                                            ReadData();
-                                                          });
-                                                        });
-                                                      },
-                                                      color:
-                                                          const Color(0xFF024A8D),
-                                                    ),
-                                                  ),
-                                                ],
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                ),
+                                                child: IconButton(
+                                                  icon: const Icon(
+                                                      Icons.arrow_forward),
+                                                  iconSize: 20,
+                                                  onPressed: () {
+                                                    list[index]["ApplicationStatus"] ==
+                                                            "Accepted"
+                                                        ? isAccepted = true
+                                                        : isAccepted = false;
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              (JobOfferDetailScreen(
+                                                                offerID:
+                                                                    "${list[index]["OfferID"]}",
+                                                                email: widget
+                                                                    .email,
+                                                                isAccepted:
+                                                                    isAccepted,
+                                                              ))),
+                                                    ).then((value) {
+                                                      // This block will be executed when returning back to this screen
+                                                      setState(() {
+                                                        list.clear();
+                                                        ReadData();
+                                                      });
+                                                    });
+                                                  },
+                                                  color:
+                                                      const Color(0xFF024A8D),
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  ),
+                                        ),
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
-                          ],
-                        ),
+                            ),
+                          ),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 5,

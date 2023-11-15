@@ -228,149 +228,146 @@ class _OffersScreenState extends State<OffersScreen> {
                           // Display a message when their is no offers
                           child: Text('No job offers found.'),
                         )
-                      : Column(
-                        children: [
-                          Expanded(
-                              child: SizedBox(
-                                height: screenHeight * 0.71,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(80.0),
-                                  ),
-                                  child: ListView.builder(
-                                    itemCount: foundOffers.length,
+                      : Expanded(
+                          child: SizedBox(
+                            height: screenHeight * 0.71,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(80.0),
+                              ),
+                              child: ListView.builder(
+                                itemCount: foundOffers.length,
+                                padding: const EdgeInsets.only(
+                                  top: 35,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return Padding(
                                     padding: const EdgeInsets.only(
-                                      top: 35,
+                                      top: 2,
+                                      left: 5,
+                                      right: 5,
+                                      bottom: 5,
                                     ),
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 2,
-                                          left: 5,
-                                          right: 5,
-                                          bottom: 5,
+                                    child: Container(
+                                      width: screenWidth,
+                                      decoration: const BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(
+                                            color: Color.fromARGB(
+                                                169, 158, 158, 158),
+                                            width: 0.5,
+                                          ),
                                         ),
-                                        child: Container(
-                                          width: screenWidth,
-                                          decoration: const BoxDecoration(
-                                            border: Border(
-                                              bottom: BorderSide(
-                                                color: Color.fromARGB(
-                                                    169, 158, 158, 158),
-                                                width: 0.5,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 10,
+                                          bottom: 10,
+                                          left: 20,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: screenWidth * 0.7,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "${foundOffers[index]["JobTitle"]}"
+                                                        .capitalizeEach(),
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF14386E),
+                                                      fontSize: 21.0,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "${foundOffers[index]["CompanyName"]} \n${foundOffers[index]["CategoryName"]}"
+                                                        .capitalizeEach(),
+                                                    //"
+                                                    style: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 155, 155, 155),
+                                                      fontSize: 15.0,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            bottom: 8),
+                                                    child: Text(
+                                                      "Posted on ${foundOffers[index]["Date"]}"
+                                                          .capitalizeEach(),
+                                                      //"
+                                                      style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 155, 155, 155),
+                                                        fontSize: 13.0,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 10,
-                                              bottom: 10,
-                                              left: 20,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                SizedBox(
-                                                  width: screenWidth * 0.7,
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                    children: [
-                                                      Text(
-                                                        "${foundOffers[index]["JobTitle"]}"
-                                                            .capitalizeEach(),
-                                                        style: const TextStyle(
-                                                          color: Color(0xFF14386E),
-                                                          fontSize: 21.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        "${foundOffers[index]["CompanyName"]} \n${foundOffers[index]["CategoryName"]}"
-                                                            .capitalizeEach(),
-                                                        //"
-                                                        style: const TextStyle(
-                                                          color: Color.fromARGB(
-                                                              255, 155, 155, 155),
-                                                          fontSize: 15.0,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets.only(
-                                                                bottom: 8),
-                                                        child: Text(
-                                                          "Posted on ${foundOffers[index]["Date"]}"
-                                                              .capitalizeEach(),
-                                                          //"
-                                                          style: const TextStyle(
-                                                            color: Color.fromARGB(
-                                                                255, 155, 155, 155),
-                                                            fontSize: 13.0,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                            Container(
+                                              margin: const EdgeInsets.only(
+                                                top: 0,
+                                                right: 5,
+                                              ),
+                                              width: screenWidth * 0.09,
+                                              height: screenHeight * 0.058,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color:
+                                                      const Color(0xFF024A8D),
+                                                  width: 1.8,
                                                 ),
-                                                Container(
-                                                  margin: const EdgeInsets.only(
-                                                    top: 0,
-                                                    right: 5,
-                                                  ),
-                                                  width: screenWidth * 0.09,
-                                                  height: screenHeight * 0.058,
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color:
-                                                          const Color(0xFF024A8D),
-                                                      width: 1.8,
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                    Icons.arrow_forward),
+                                                iconSize: 20,
+                                                onPressed: () {
+                                                  Get.to(
+                                                    () => JobOfferDetailScreen(
+                                                      offerID:
+                                                          foundOffers[index]
+                                                              ["OfferID"],
+                                                      email: widget.email,
+                                                      isAccepted: false,
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(30),
-                                                  ),
-                                                  child: IconButton(
-                                                    icon: const Icon(
-                                                        Icons.arrow_forward),
-                                                    iconSize: 20,
-                                                    onPressed: () {
-                                                      Get.to(
-                                                        () => JobOfferDetailScreen(
-                                                          offerID:
-                                                              foundOffers[index]
-                                                                  ["OfferID"],
-                                                          email: widget.email,
-                                                        ),
-                                                      );
-                                                    },
-                                                    color: const Color(0xFF024A8D),
-                                                  ),
-                                                ),
-                                              ],
+                                                  );
+                                                },
+                                                color: const Color(0xFF024A8D),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ),
-                        ],
-                      ),
+                          ),
+                        ),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 5,

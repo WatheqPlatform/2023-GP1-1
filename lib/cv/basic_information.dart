@@ -27,7 +27,7 @@ class BasicInformationScreen extends StatefulWidget {
 }
 
 class _BasicInformationScreenState extends State<BasicInformationScreen> {
-  List<Map<String, dynamic>> filteredCities = [];
+  List<Map<String, dynamic>> cities = [];
   late List<DropdownMenuItem<Map<String, dynamic>>> cityDropdownItems =[];
 
 
@@ -43,6 +43,9 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             value: city,
             child: Text(city['CityName'].toString()),
           );
+        }));
+        cities = List<Map<String, dynamic>>.from(value.map((city) {
+          return city;
         }));
       });
 
@@ -67,7 +70,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
     String firstName = "", lastName = "", phoneNumber = "", contactEmail = "", summary = "";
     firstName = widget.formController.formData['firstName'] ?? '';
     lastName = widget.formController.formData['lastName'] ?? '';
-    phoneNumber = widget.formController.formData['phoneNumber'].toString() ?? '';
+    phoneNumber = widget.formController.formData['phoneNumber']?.toString() ?? '';
     contactEmail = widget.formController.formData['contactEmail'] ?? '';
     summary = widget.formController.formData['summary'] ?? '';
     final TextEditingController firstNameController = TextEditingController(text: firstName);
@@ -134,8 +137,22 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
                       RequiredFieldWidget(label: 'Summary',keyName: 'summary',controller: summaryController,),
                       // Repeat for other fields
-                      DropdownButtonFormField<Map<String, dynamic>>(
+                      Row(
+                        children: [
+                          Text('City',
+                            style: const TextStyle(color: Color(0xFF085399)), // Label color
+                          ),
+                          const Text(
+                            ' *',
+                            style: TextStyle(color: Colors.red),
+                          ),
+
+                        ],
+                      ),
+
+                      if (cities.length > 0) DropdownButtonFormField<Map<String, dynamic>>(
                         items: cityDropdownItems,
+                        value: (cities.firstWhereOrNull((element) => element['CityId'] == widget.formController.formData['city'].toString()) ),
                         key: Key('city'),
                         onChanged: (Map<String, dynamic>? selectedCity) {
                           if (selectedCity != null) {
@@ -143,7 +160,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                           }
                         },
                         decoration: InputDecoration(
-                          labelText: 'City',
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color(0xFF085399)),
                           ),

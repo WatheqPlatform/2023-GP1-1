@@ -1,6 +1,6 @@
 class Connection {
   static const hostConnect =
-      "http://danas-macbook-pro.local:8888/watheq_api"; // ip of the host device
+      "https://www.watheqplatform.com/watheq_api"; // ip of the host device
 
   static const signUp = "$hostConnect/authentication/sign_up.php";
 

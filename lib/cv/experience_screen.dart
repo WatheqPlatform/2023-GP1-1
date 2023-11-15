@@ -342,25 +342,31 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(child:Stepper(
-                        steps: const [
-                          Step(title: Text(''), content: Text(''), isActive: true,),
-                          Step(title: Text(''), content: Text(''), isActive: true, ),
-                          Step(title: Text(''), content: Text(''), isActive: true, ),
-                          Step(title: Text(''), content: Text(''), isActive: true, ),
-                          Step(title: Text(''), content: Text(''), isActive: true, ),
-
-                        ],
-                        currentStep: 2,
-                        onStepTapped: (int index){
-                          widget.goToPage(index);
-                        },
-
-
-                        type: StepperType.horizontal,
-
-                      ),height: 75 ,),
-                      SizedBox(
+                      Theme(
+                          data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
+                  canvasColor: Colors.transparent,
+                  colorScheme: ColorScheme.light(
+                    primary: Color(0xFF085399),
+                    
+                  )),
+                        child: SizedBox(child:Stepper(
+                          
+                          steps: const [
+                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                      
+                          ],
+                          currentStep: 2,
+                          onStepTapped: (int index){
+                            widget.goToPage(index);
+                          },
+                          type: StepperType.horizontal,
+                      
+                        ),height: 75 ,),
+                      ),SizedBox(
                         height: screenHeight*0.59,
                         child: ListView(children: buildsteps()),
                       ),
@@ -369,7 +375,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ElevatedButton(
+                            ElevatedButton.icon(
                               onPressed: () {
 
                                 showDialog(
@@ -406,7 +412,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                 ),
                                 elevation: 5,
                               ),
-                              child: Text('Cancel'),
+                              icon: Icon(Icons.cancel),
+                            label: Text(''),
                             ),
                             Directionality(
                               textDirection: TextDirection.rtl,

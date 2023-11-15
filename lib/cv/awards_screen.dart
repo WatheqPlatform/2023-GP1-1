@@ -173,22 +173,31 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(child:Stepper(
+                        Theme(
+                          data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
+                  canvasColor: Colors.transparent,
+                  colorScheme: ColorScheme.light(
+                    primary: Color(0xFF085399),
+                    
+                  )),
+                        child: SizedBox(child:Stepper(
+                          
                           steps: const [
-                            Step(title: Text(''), content: Text(''), isActive: true,),
-                            Step(title: Text(''), content: Text(''), isActive: true, ),
-                            Step(title: Text(''), content: Text(''), isActive: true, ),
-                            Step(title: Text(''), content: Text(''), isActive: true, ),
-                            Step(title: Text(''), content: Text(''), isActive: true, ),
-
+                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                      
                           ],
                           currentStep: 2,
                           onStepTapped: (int index){
                             widget.goToPage(index);
                           },
                           type: StepperType.horizontal,
-
+                      
                         ),height: 75 ,),
+                      ),
 
                         SizedBox(
                           height: screenHeight*0.6,
@@ -200,7 +209,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ElevatedButton(
+                                  ElevatedButton.icon(
 
                                     onPressed: () {
 
@@ -238,7 +247,8 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                       ),
                                       elevation: 5,
                                     ),
-                                    child: Text('Cancel'),
+                                    icon: Icon(Icons.cancel),
+                                  label: Text(''),
                                   ),
                                   Directionality(
                                     textDirection: TextDirection.rtl,

@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +36,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     fetchCities().then((value) {
       setState(() {
@@ -132,22 +132,31 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     key: widget.formKey,
                     child: Column(
                     children: [
-                      SizedBox(child:Stepper(
-                        steps: const [
-                          Step(title: Text(''), content: Text(''), isActive: true,   ),
-                          Step(title: Text(''), content: Text(''), isActive: true,  ),
-                          Step(title: Text(''), content: Text(''), isActive: true, ),
-                          Step(title: Text(''), content: Text(''), isActive: true, ),
-                          Step(title: Text(''), content: Text(''), isActive: true, ),
-
-                        ],
-                        currentStep: 2,
-                        onStepTapped: (int index){
-                          widget.goToPage(index);
-                        },
-                        type: StepperType.horizontal,
-
-                      ),height: 75 ,),
+                      Theme(
+                          data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
+                  canvasColor: Colors.transparent,
+                  colorScheme: ColorScheme.light(
+                    primary: Color(0xFF085399),
+                    
+                  )),
+                        child: SizedBox(child:Stepper(
+                          
+                          steps: const [
+                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                      
+                          ],
+                          currentStep: 2,
+                          onStepTapped: (int index){
+                            widget.goToPage(index);
+                          },
+                          type: StepperType.horizontal,
+                      
+                        ),height: 75 ,),
+                      ),
                       RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
                       RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
                       RequiredFieldWidget(label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
@@ -176,12 +185,12 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                           contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
                         ),
                       ),
-                      SizedBox(height:screenHeight * 0.1 ,),
+                      SizedBox(height:screenHeight * 0.07 ,),
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ElevatedButton(
+                          ElevatedButton.icon(
                             onPressed: () {
 
                               showDialog(
@@ -218,7 +227,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                               ),
                               elevation: 5,
                             ),
-                            child: Text('Cancel'),
+                            icon: Icon(Icons.cancel),
+                            label: Text(''),
                           ),
                           Directionality(
                             textDirection: TextDirection.rtl,

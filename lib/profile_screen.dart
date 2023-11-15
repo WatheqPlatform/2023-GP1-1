@@ -12,6 +12,10 @@ import 'package:line_icons/line_icons.dart';
 import 'package:string_capitalize/string_capitalize.dart';
 import 'package:watheq/Applications_Screen.dart';
 
+import 'cv/basic_information.dart';
+import 'cv/controller/form_controller.dart';
+import 'cv/multi_step_form.dart';
+
 class ProfileScreen extends StatefulWidget {
   final String email;
 
@@ -24,8 +28,30 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String Name = '';
   String letters = "";
-
   String email = '';
+  bool isEdit = false;
+  final FormController formController = Get.put(FormController(), tag: 'form-control');
+  Future<void> fetchCV() async {
+    try {
+      var response = await http
+          .get(Uri.parse('${Connection.getCv}?jobSeekerEmail=${widget.email}'));
+      var data = json.decode(response.body);
+      print(data);
+      if (data['data'] is List) {
+
+      }
+      else {
+        formController.formData.value = data['data'];
+        setState(() {
+          isEdit = true;
+        });
+      }
+
+    }
+    catch(e) {
+
+    }
+  }
 
   Future<void> fetchUserData() async {
     try {
@@ -58,7 +84,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     fetchUserData();
+    fetchCV();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +231,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       height: 60,
                                     ),
                                     OutlinedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                          Get.to(()=> MultiStepForm(email: email,));
+                                      },
                                       style: OutlinedButton.styleFrom(
                                         side: const BorderSide(
                                           width: 1.5,
@@ -215,7 +246,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               BorderRadius.circular(15),
                                         ),
                                       ),
-                                      child: const Text(
+                                      child: isEdit ? Text(
+                                        "Edit CV",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFF024A8D),
+                                        ),
+                                      ) : Text(
                                         "Create CV",
                                         style: TextStyle(
                                           fontSize: 18,

@@ -13,6 +13,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:string_capitalize/string_capitalize.dart';
 import 'package:watheq/Applications_Screen.dart';
+import 'package:watheq/profile_screen.dart';
 
 import 'controller/form_controller.dart';
 
@@ -20,12 +21,13 @@ class AwardsScreen extends StatefulWidget {
   final isEdit;
   final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
+  final email;
   final VoidCallback onBack;
   AwardsScreen(
       {super.key,
       required this.isEdit,
       required this.formKey,
-      required this.onNext, required this.onBack});
+      required this.onNext, required this.onBack, required this.email});
 
   @override
   _AwardsScreenState createState() => _AwardsScreenState();
@@ -172,59 +174,98 @@ class _AwardsScreenState extends State<AwardsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: screenHeight*0.658,
+                          height: screenHeight*0.6,
                           child: ListView(children: buildsteps()),
                         ),
-                        SizedBox(height: 10,),
                         // Next button aligned to the bottom right
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Directionality(
-                                textDirection: TextDirection.ltr,
-                                child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    widget.onBack();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xFFd4d4d4), // ##d4d4d4
-                                    padding: EdgeInsets.symmetric(horizontal: 40),
+                        Column(
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Directionality(
+                                    textDirection: TextDirection.ltr,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {
+                                        widget.onBack();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xFFd4d4d4), // ##d4d4d4
+                                        padding: EdgeInsets.symmetric(horizontal: 40),
+                                      ),
+                                      icon: Icon(Icons
+                                          .arrow_back), // Change the icon as needed
+                                      label: Text('Back'),
+                                    ),
                                   ),
-                                  icon: Icon(Icons
-                                      .arrow_back), // Change the icon as needed
-                                  label: Text('Back'),
-                                ),
-                              ),
-                              Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    widget.formKey.currentState!.save();
-                                    formController.formData.value['awards'] = [];
-                                    for( int i=1;i<=steps;i++) {
+                                  Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () {
+                                        widget.formKey.currentState!.save();
+                                        formController.formData.value['awards'] = [];
+                                        for( int i=1;i<=steps;i++) {
 
-                                      final data = {
-                                        'awardName': awardNameControllers[i].text,
-                                        'issuedBy': issuedByControllers[i].text,
-                                        'date': datesController[i].text
-                                      };
-                                      if (awardNameControllers[i].text.isNotEmpty) {
-                                        formController.addAward(data);
-                                      }
+                                          final data = {
+                                            'awardName': awardNameControllers[i].text,
+                                            'issuedBy': issuedByControllers[i].text,
+                                            'date': datesController[i].text
+                                          };
+                                          if (awardNameControllers[i].text.isNotEmpty) {
+                                            formController.addAward(data);
+                                          }
 
+                                        }
+                                         widget.onNext();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xFF085399), // #085399
+                                        padding: EdgeInsets.symmetric(horizontal: 40),
+                                      ),
+                                      icon: Icon(Icons
+                                          .arrow_back), // Change the icon as needed
+                                      label: Text('Next'),
+                                    ),
+                                  )
+                                ]),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Show confirmation dialog
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Confirmation'),
+                                        content: Text(
+                                            'Are you sure you want to cancel?'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Close the dialog
+                                            },
+                                            child: Text('No'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Get.off(ProfileScreen(email: widget.email));
+                                            },
+                                            child: Text('Yes'),
+                                          ),
+                                        ],
+                                      );
                                     }
-                                     widget.onNext();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color(0xFF085399), // #085399
-                                    padding: EdgeInsets.symmetric(horizontal: 40),
-                                  ),
-                                  icon: Icon(Icons
-                                      .arrow_back), // Change the icon as needed
-                                  label: Text('Next'),
-                                ),
-                              )
-                            ]),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.redAccent, // Set the color to grey
+                                padding: EdgeInsets.symmetric(horizontal: 100),
+                              ),
+                              child: Text('Cancel'),
+                            ),
+                          ],
+                        ),
+
                       ],
                     ),
                   ),

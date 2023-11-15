@@ -138,7 +138,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         body: jsonString,
       );
       widget.formController.reset();
-      Get.to(ProfileScreen(email: widget.email));
+      Get.off(ProfileScreen(email: widget.email));
 
     } catch (e) {
       print(e);

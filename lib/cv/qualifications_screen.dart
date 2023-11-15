@@ -14,6 +14,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:string_capitalize/string_capitalize.dart';
 import 'package:watheq/Applications_Screen.dart';
 
+import '../profile_screen.dart';
 import 'controller/form_controller.dart';
 
 class QualificationsScreen extends StatefulWidget {
@@ -21,7 +22,8 @@ class QualificationsScreen extends StatefulWidget {
   final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
   final VoidCallback onBack;
-  QualificationsScreen({super.key, required this.isEdit,  required this.formKey, required this.onNext, required this.onBack});
+  final email;
+  QualificationsScreen({super.key, required this.isEdit,  required this.formKey, required this.onNext, required this.onBack, required this.email});
   final FormController formController = Get.find( tag: 'form-control' );
   @override
   _QualificationsScreenState createState() => _QualificationsScreenState();
@@ -292,60 +294,99 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: screenHeight*0.658,
+                        height: screenHeight*0.6,
                         child: ListView(children: buildsteps()),
                       ),
                       SizedBox(height: 10,),
                       // Next button aligned to the bottom right
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Directionality(
-                              textDirection: TextDirection.ltr,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  widget.onBack();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFFd4d4d4), // ##d4d4d4
-                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                      Column(
+                        children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Directionality(
+                                  textDirection: TextDirection.ltr,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      widget.onBack();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Color(0xFFd4d4d4), // ##d4d4d4
+                                      padding: EdgeInsets.symmetric(horizontal: 40),
+                                    ),
+                                    icon: Icon(Icons
+                                        .arrow_back), // Change the icon as needed
+                                    label: Text('Back'),
+                                  ),
                                 ),
-                                icon: Icon(Icons
-                                    .arrow_back), // Change the icon as needed
-                                label: Text('Back'),
-                              ),
-                            ),
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  widget.formController.formData['qualifications'] = [];
-                                    for (int i = 1; i <= steps; i++) {
-                                      if (degreeLevelControllers[i].text.isNotEmpty) {
-                                        widget.formController.addQualification(
-                                            {
-                                              'DegreeLevel': degreeLevelControllers[i].text,
-                                              'Field': degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text : degreeFieldControllers[i].text,
-                                              'FieldFlag': degreeFieldControllers[i].text == 'other' ? 1 : 0,
-                                              'StartDate': startDatesController[i].text,
-                                              'EndDate': endDatesController[i].text,
-                                              'UniversityName': universityControllers[i].text
+                                Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      widget.formController.formData['qualifications'] = [];
+                                        for (int i = 1; i <= steps; i++) {
+                                          if (degreeLevelControllers[i].text.isNotEmpty) {
+                                            widget.formController.addQualification(
+                                                {
+                                                  'DegreeLevel': degreeLevelControllers[i].text,
+                                                  'Field': degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text : degreeFieldControllers[i].text,
+                                                  'FieldFlag': degreeFieldControllers[i].text == 'other' ? 1 : 0,
+                                                  'StartDate': startDatesController[i].text,
+                                                  'EndDate': endDatesController[i].text,
+                                                  'UniversityName': universityControllers[i].text
 
-                                            });
-                                      }
-                                    }
-                                    widget.onNext();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF085399), // #085399
-                                  padding: EdgeInsets.symmetric(horizontal: 40),
-                                ),
-                                icon: Icon(Icons
-                                    .arrow_back), // Change the icon as needed
-                                label: Text('Next'),
-                              ),
-                            )
-                          ]),
+                                                });
+                                          }
+                                        }
+                                        widget.onNext();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Color(0xFF085399), // #085399
+                                      padding: EdgeInsets.symmetric(horizontal: 40),
+                                    ),
+                                    icon: Icon(Icons
+                                        .arrow_back), // Change the icon as needed
+                                    label: Text('Next'),
+                                  ),
+                                )
+                              ]),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Show confirmation dialog
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Confirmation'),
+                                      content: Text(
+                                          'Are you sure you want to cancel?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+                                          },
+                                          child: Text('No'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Get.off(ProfileScreen(email: widget.email));
+                                          },
+                                          child: Text('Yes'),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.redAccent, // Set the color to grey
+                              padding: EdgeInsets.symmetric(horizontal: 100),
+                            ),
+                            child: Text('Cancel'),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

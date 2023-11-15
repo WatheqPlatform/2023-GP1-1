@@ -33,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final FormController formController = Get.put(FormController(), tag: 'form-control');
   Future<void> fetchCV() async {
     try {
+      formController.reset();
       var response = await http
           .get(Uri.parse('${Connection.getCv}?jobSeekerEmail=${widget.email}'));
       var data = json.decode(response.body);

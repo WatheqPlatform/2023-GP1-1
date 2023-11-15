@@ -13,14 +13,15 @@ import 'package:line_icons/line_icons.dart';
 import 'package:string_capitalize/string_capitalize.dart';
 import 'package:watheq/Applications_Screen.dart';
 
+import '../profile_screen.dart';
 import 'controller/form_controller.dart';
 
 class BasicInformationScreen extends StatefulWidget {
   final isEdit;
   final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
-
-  BasicInformationScreen({super.key, required this.isEdit, required this.formKey, required this.onNext});
+  final email;
+  BasicInformationScreen({super.key, required this.isEdit, required this.formKey, required this.onNext, required this.email});
   final FormController formController = Get.put(FormController(), tag: 'form-control');
   State<BasicInformationScreen> createState() => _BasicInformationScreenState();
 }
@@ -155,8 +156,43 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                       SizedBox(height:screenHeight * 0.1 ,),
                       // Next button aligned to the bottom right
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              // Show confirmation dialog
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Confirmation'),
+                                      content: Text(
+                                          'Are you sure you want to cancel?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .pop(); // Close the dialog
+                                          },
+                                          child: Text('No'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Get.off(ProfileScreen(email: widget.email));
+                                          },
+                                          child: Text('Yes'),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.redAccent, // Set the color to grey
+                              padding: EdgeInsets.symmetric(horizontal: 50),
+                            ),
+                            child: Text('Cancel'),
+                          ),
                           // Directionality(
                           //   textDirection: TextDirection.ltr,
                           //   child: ElevatedButton.icon(

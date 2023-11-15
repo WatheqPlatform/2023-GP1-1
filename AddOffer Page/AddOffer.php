@@ -300,27 +300,22 @@ $result3 = $conn->query($query);
                                             <option value="Doctorate">Doctorate</option>
                                             <option value="Post Doctorate">Post Doctorate</option>
                                         </select>
-                                         <label id= "DegreeFieldLabel0" for="degreeField0">Degree Field  <span class="MaybeRequiredQualification"></span> </label> 
-                                        <select name="degree[0][field]" id="degreeField0" class="input select" onchange="handleDegreeFieldChange(event, 0)">
-                                          
+                                        <label id= "DegreeFieldLabel0" for="degreeField0">Degree Field  <span class="MaybeRequiredQualification"></span> </label> 
+                                        <select name="degree[0][field]" id="degreeField0" class="input select" onchange="handleDegreeFieldChange(event, 0)">    
                                             <?php
-                                            // Generate the HTML options
-                                                    
-                                                    if ($result3->num_rows > 0) {
-                                                          echo '<option> </option>';
-                                                        while ($row = $result3->fetch_assoc()) {
-
-                                                            echo '<option value="' . $row["Field"] . '">' . $row["Field"] . '</option>';
-                                                        }
-                                                       echo '<option value="Other"> Other </option>';
+                                                // Generate the HTML options       
+                                                if ($result3->num_rows > 0) {
+                                                    echo '<option> </option>';
+                                                    while ($row = $result3->fetch_assoc()) {
+                                                        echo '<option value="' . $row["Field"] . '">' . $row["Field"] . '</option>';
                                                     }
-                                                    else
-                                                    {  echo "No Fields found."; }
-                                                    ?>
-                                                   
+                                                    echo '<option value="Other">Other</option>';
+                                                }
+                                                else
+                                                { echo "No Fields found."; }
+                                            ?>               
                                         </select>
                                          <span class ="EnterMessage" id="EnterMessage0" style="display: none;">Please enter your qualification field below</span>
-                                         <label id = "LableOther0" for="qualificationOther0" style="display: none;"> Qualification Field <span class="MaybeRequiredQualification"></span></label> 
                                         <input type="text" id = "qualificationOther0" name="qualificationOther0" class="input" style="display: none;" maxlength="100">
                                     </div> 
                                 </div>

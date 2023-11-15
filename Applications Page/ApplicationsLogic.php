@@ -19,9 +19,7 @@ $stmt = $conn->prepare($sql);
 $offerID = (int) $_GET["ID"];
 $stmt->bind_param("i", $offerID);
 
-if (!$stmt->execute()) {
-    
-}
+$stmt->execute();
 
 $result = $stmt->get_result();
 
@@ -36,8 +34,8 @@ if ($result->num_rows > 0) {
         $ApplicationID = $row["ApplicationID"];
         $CVID = $row["CV_ID"];
         $ContactEmail = $row["ContactEmail"];
-        $JobSeekerName = $row["FirstName"] . " " . $row["LastName"];
-        $JobSeekerPhone =  $row["PhoneNumber"];
+        $JobSeekerName = $row["FirstName"] . " <br>" . $row["LastName"];
+        $JobSeekerPhone = $row["PhoneNumber"];
         $Status = $row["Status"];
         $Summary = $row["Summary"];
 

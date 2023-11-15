@@ -82,7 +82,7 @@ include('HistoryLogic.php');
                                 echo "<p id='Status'>{$offer['Status']} Job Offer</p>";
                                 echo "<p id='Date'>Posted On {$offer['Date']}</p>";
                                 echo "</div>"; 
-                                echo "<p id='Description'>{$offer['JobDescription']}</p>";
+                                echo "<p id='Description'>".preg_replace('/\s+/', ' ', $offer['JobDescription'])."</p>";
                                 
                                 if($status === 'Active'){
                                     echo "<button type='button' onclick='closeOffer({$offer['OfferID']}, \"{$offer['JobTitle']}\")' id='CloseButton'>Close Offer</button>";         

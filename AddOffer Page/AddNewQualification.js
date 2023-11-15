@@ -29,7 +29,6 @@ $(document).ready(function () {
                 </select>
 
                 <span id="EnterMessage${qualificationCount}" style="display: none;" class ="EnterMessage">Please enter your qualification field below</span>
-                <label id="LableOther${qualificationCount}" for="qualificationOther${qualificationCount}" style="display: none;">Qualification Field <span class="MaybeRequiredQualification"></span></label> 
                 <input type="text" id="qualificationOther${qualificationCount}" name="qualificationOther${qualificationCount}" class="input" style="display: none;" maxlength="100">
 
                 <ion-icon name="close-circle-outline" class="removeQualification remove" data-qualification="${qualificationCount}"></ion-icon>   
@@ -51,29 +50,29 @@ $(document).ready(function () {
 // Function to load field options for a specific qualification
 function loadFieldOptions(qualificationId) {
     $.ajax({
-        url: "fields.php", 
-        type: "GET",
-        success: function (response) {
-            var options = JSON.parse(response);
-            var select = $("#degreeField" + qualificationId);
+      url: "fields.php", 
+      type: "GET",
+      success: function (response) {
+          var options = JSON.parse(response);
+          var select = $("#degreeField" + qualificationId);
 
-            select.empty(); // Clear existing options
+          select.empty(); // Clear existing options
 
-            if (options.length > 0) {
-                select.append('<option disabled selected></option>');
+          if (options.length > 0) {
+              select.append('<option disabled selected></option>');
 
-                options.forEach(function (option) {
-                    select.append('<option value="' + option.Field + '">' + option.Field + '</option>');
-                });
-                select.append('<option value="Other"> Other </option>');
-                
-            } else {
-                select.append('<option disabled selected>No fields found</option>');
-            }
-        },
-        error: function (xhr, status, error) {
-            console.log(error); // Handle the error case
-        }
+              options.forEach(function (option) {
+                  select.append('<option value="' + option.Field + '">' + option.Field + '</option>');
+              });
+              select.append('<option value="Other"> Other </option>');
+              
+          } else {
+              select.append('<option disabled selected>No fields found</option>');
+          }
+      },
+      error: function (xhr, status, error) {
+          console.log(error); // Handle the error case
+      }
     });
 }
 
@@ -89,9 +88,9 @@ function handleDegreeLevelChange(event, qualificationId) {
   if (selectedValue === "Pre-high school") {
     degreeFieldLabel.hide();
     degreeField.hide();
-      enterMessage.hide();
-  qualificationOther.hide();
-  otherFieldLabel.hide();
+    enterMessage.hide();
+    qualificationOther.hide();
+    otherFieldLabel.hide();
   } else {
     degreeFieldLabel.show();
     degreeField.show();
@@ -104,8 +103,6 @@ function handleDegreeFieldChange(event, qualificationId) {
   var enterMessage = $("#EnterMessage" + qualificationId);
   var otherFieldLabel = $("#LableOther" + qualificationId);
 
-   
-
     if (selectedValue === "Other") {
       //enterMessage.show();
       qualificationOther.show();
@@ -115,7 +112,7 @@ function handleDegreeFieldChange(event, qualificationId) {
       //enterMessage.hide();
       qualificationOther.hide();
       otherFieldLabel.hide();
-       enterMessage.hide();
+      enterMessage.hide();
     }
  
 

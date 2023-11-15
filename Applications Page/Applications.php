@@ -76,17 +76,17 @@ include('ApplicationsLogic.php');
                                 echo "<div id='FirstPart' class='".$application['Status']."'>";
                                 echo "<p id='Title'>Applicant Name</p>";
                                 echo "<p id='ApplicantName'>{$application['Name']}</p>";
-                                echo "<p><a href='../Applications Page/Applications.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
+                                echo "<p><a href='../CV Page/CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
                                 echo "</div>";
 
                                 echo "<div id='SecondPart'>";
                                 echo "<p id='Status'class='".$application['Status']."'>{$application['Status']} Application</p>";
-                                echo "<p id='Summary'>{$application['Summary']}</p>";
+                                echo "<p id='Summary'>".preg_replace('/\s+/', ' ', $application['Summary'])."</p>";
                             
                                 echo "<div id='BottomDiv'>";
                                 echo "<div id='ContactDiv'>";
                                 echo "<p id='Email'><i class='bi bi-envelope icon-space'> </i>  {$application['ContactEmail']}</p>";
-                                echo "<p id='Number'><i class='bi bi-telephone icon-space'> </i>  {$application['PhoneNumber']}</p>";
+                                echo "<p id='Number'><i class='bi bi-telephone icon-space'> </i>0{$application['PhoneNumber']}</p>";
                                 echo "</div>";
                                 if ($status === 'Pending') {
                                     echo "<div id='Buttons'>";

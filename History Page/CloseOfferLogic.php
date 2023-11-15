@@ -28,13 +28,6 @@ if (isset($_POST['offerId']) && isset($_POST['confirmClose']) && $_POST['confirm
         $stmtUpdateApplications->bind_param("i", $offerId);
         $stmtUpdateApplications->execute();
 
-        // Check if the query to update applications was successful
-        if ($stmtUpdateApplications->affected_rows > 0) {
-            echo "Applications associated with the closed offer are updated to 'Rejected'.";
-        } else {
-            echo "No applications associated with the closed offer.";
-        }
-
         // Close the statement for updating applications
         $stmtUpdateApplications->close();
     } else {

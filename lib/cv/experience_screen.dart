@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
+import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -24,7 +25,8 @@ import 'controller/form_controller.dart';
 class ExperiencesScreen extends StatefulWidget {
   final String email;
   final VoidCallback onBack;
-  ExperiencesScreen({super.key, required this.onBack, required this.email});
+  final goToPage;
+  ExperiencesScreen({super.key, required this.onBack, required this.email, required this.goToPage});
   final FormController formController = Get.find( tag: 'form-control' );
   @override
   _ExperiencesScreenState createState() => _ExperiencesScreenState();
@@ -62,14 +64,17 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
 
     if (data['qualifications'] != null && data['qualifications'] is List) {
       for (Map<String, dynamic> qualification in data['qualifications']) {
-        List<String> requiredFieldsQualification = ['DegreeLevel', 'Field', 'FieldFlag', 'StartDate', 'EndDate', 'UniversityName'];
-
+        List<String> requiredFieldsQualification = ['DegreeLevel', ];
+        if (qualification['DegreeLevel'] != 'Pre-high school') {
+            requiredFieldsQualification.addAll(['Field', 'StartDate', 'EndDate', 'UniversityName']);
+        }
         for (String field in requiredFieldsQualification) {
+
           if (qualification[field] == null || qualification[field].toString().isEmpty) {
             return "Missing or empty field in qualifications: $field";
           }
         }
-        if (qualification['StartDate'] != null && qualification['EndDate'] != null) {
+        if (qualification['StartDate'].isNotEmpty && qualification['EndDate'].isNotEmpty) {
           DateTime startDate = intl.DateFormat('yyyy/MM/dd').parse(qualification['StartDate']);
           DateTime endDate = intl.DateFormat('yyyy/MM/dd').parse(qualification['EndDate']);
 
@@ -151,7 +156,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     }
     List<Widget> l = [];
     for (int i = 1; i <= steps; i++) {
-      String category = fields[0], jobTitle = '', company = '', startDate = '', endDate = '';
+      String? category = null, jobTitle = '', company = '', startDate = '', endDate = '';
 
       if (widget.formController.formData['experiences'].length >= i) {
         final experience = widget.formController.formData['experiences'][i-1];
@@ -179,18 +184,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
           SizedBox(height: 40,),
           if(fields.length > 0) Column(
             children: [
-              Row(
-                children: [
-                  Text('Experience Industry',
-                    style: const TextStyle(color: Color(0xFF085399)), // Label color
-                  ),
-                  const Text(
-                    ' *',
-                    style: TextStyle(color: Colors.red),
-                  ),
-
-                ],
-              ),
+              RequiredFieldLabel(labelText: 'Experience Industry'),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
@@ -210,8 +204,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                     vertical:  0.012,
                   ),
                 ),
-                value: experienceIndustryControllers[i].text,
-
+                value: experienceIndustryControllers[i].text.isNotEmpty ? experienceIndustryControllers[i].text : null,
+                hint: Text('Choose Industry'),
                 onChanged: (String? newValue) {
                   setState(() {
                     experienceIndustryControllers[i].text = newValue!;
@@ -232,7 +226,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             keyName: 'jobTitle',
             controller: jobTitleControllers[i],
           ),
-          // Repeat for other fields
+
           RequiredFieldWidget(
             label: 'Company Name',
             keyName: 'companyName',
@@ -316,7 +310,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Experiences Screen",
+                    "Experiences",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -348,37 +342,79 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(child:Stepper(
+                        steps: const [
+                          Step(title: Text(''), content: Text(''), isActive: true,),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+
+                        ],
+                        currentStep: 2,
+                        onStepTapped: (int index){
+                          widget.goToPage(index);
+                        },
+
+
+                        type: StepperType.horizontal,
+
+                      ),height: 75 ,),
                       SizedBox(
-                        height: screenHeight*0.658,
+                        height: screenHeight*0.59,
                         child: ListView(children: buildsteps()),
                       ),
                       SizedBox(height: 10,),
-                      // Next button aligned to the bottom right
+
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Directionality(
-                              textDirection: TextDirection.ltr,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  widget.onBack();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFFd4d4d4), // ##d4d4d4
-                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                            ElevatedButton(
+                              onPressed: () {
+
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Confirmation'),
+                                        content: Text(
+                                            'Are you sure you want to cancel?'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop();
+                                            },
+                                            child: Text('No'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Get.off(ProfileScreen(email: widget.email));
+                                            },
+                                            child: Text('Yes'),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.redAccent,
+                                padding: EdgeInsets.symmetric(horizontal: 50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                icon: Icon(Icons
-                                    .arrow_back), // Change the icon as needed
-                                label: Text('Back'),
+                                elevation: 5,
                               ),
+                              child: Text('Cancel'),
                             ),
                             Directionality(
                               textDirection: TextDirection.rtl,
-                              child: ElevatedButton.icon(
+                              child: ElevatedButton(
                                 onPressed: () {
                                   widget.formController.formData['experiences'] = [];
                                   for (int i = 1; i <= steps; i++) {
-                                    if (jobTitleControllers[i].text.isNotEmpty) {
+                                    if (experienceIndustryControllers[i].text.isNotEmpty) {
                                       widget.formController.addExperience({
                                         'CategoryID': fieldsWithId.where((element) => element['CategoryName'] == experienceIndustryControllers[i].text).first['CategoryID'],
                                         'JobTitle': jobTitleControllers[i].text,
@@ -402,15 +438,17 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                         ContentType.failure,
                                         const Color.fromARGB(255, 209, 24, 24));
                                   }
-                                  //widget.onNext();
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF085399), // #085399
+                                  primary: Color(0xFF085399),
                                   padding: EdgeInsets.symmetric(horizontal: 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  elevation: 5,
                                 ),
-                                icon: Icon(Icons
-                                    .arrow_back), // Change the icon as needed
-                                label: Text('Create'),
+
+                                 child: Text('Create CV'),
                               ),
                             )
                           ]),

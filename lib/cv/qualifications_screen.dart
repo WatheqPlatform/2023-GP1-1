@@ -1,10 +1,11 @@
-// ignore_for_file: library_private_types_in_public_api
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
+import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -23,7 +24,8 @@ class QualificationsScreen extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onBack;
   final email;
-  QualificationsScreen({super.key, required this.isEdit,  required this.formKey, required this.onNext, required this.onBack, required this.email});
+  final goToPage;
+  QualificationsScreen({super.key, required this.isEdit,  required this.formKey, required this.onNext, required this.onBack, required this.email, required this.goToPage});
   final FormController formController = Get.find( tag: 'form-control' );
   @override
   _QualificationsScreenState createState() => _QualificationsScreenState();
@@ -37,6 +39,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
   List<TextEditingController> startDatesController=[TextEditingController()];
   List<TextEditingController> endDatesController=[TextEditingController()];
   List<String> fields =[] ;
+
   int steps = 1;
   List<Widget> buildsteps() {
     if (fields.length == 0) {
@@ -44,7 +47,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     }
     List<Widget> l = [];
     for (int i = 1; i <= steps; i++) {
-      String level = "Pre-high school", field = fields[0], other = "", sDate = "", endDate ="", uName = "";
+      String? level = null, field = null, other = "", sDate = "", endDate ="", uName = "";
       if (widget.formController.formData['qualifications'].length >= i) {
         level = widget.formController.formData['qualifications'][i-1]['DegreeLevel'];
         sDate = widget.formController.formData['qualifications'][i-1]['StartDate'];
@@ -73,18 +76,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                 color: Color(0xFF085399), fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 5,),
-          Row(
-            children: [
-              Text('Degree Level',
-                style: const TextStyle(color: Color(0xFF085399)), // Label color
-              ),
-              const Text(
-                ' *',
-                style: TextStyle(color: Colors.red),
-              ),
-
-            ],
-          ),
+          RequiredFieldLabel(labelText: 'Degree Level'),
           DropdownButtonFormField<String>(
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
@@ -104,7 +96,8 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                 vertical:  0.012,
               ),
             ),
-          value: degreeLevelControllers[i].text,
+          value: degreeLevelControllers[i].text.isNotEmpty ? degreeLevelControllers[i].text : null,
+          hint: Text('Choose Degree level'),
           onChanged: (String? newValue) {
             if (newValue != null)
               degreeLevelControllers[i].text = newValue;
@@ -130,22 +123,12 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         ),
           SizedBox(height: 20,),
           if (fields.length > 0) Visibility(
-            visible: degreeLevelControllers[i].text != 'Pre-high school',
+            visible:( degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school'),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Text('Degree Field',
-                      style: const TextStyle(color: Color(0xFF085399)), // Label color
-                    ),
-                    const Text(
-                      ' *',
-                      style: TextStyle(color: Colors.red),
-                    ),
-
-                  ],
-                ),
+                RequiredFieldLabel(labelText: 'Degree Field'),
                 DropdownButtonFormField<String>(
+                  value: degreeFieldControllers[i].text.isNotEmpty ? degreeFieldControllers[i].text : null,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -164,7 +147,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                       vertical:  0.012,
                     ),
                   ),
-                  value: degreeFieldControllers[i].text,
+                  hint: Text('Choose Field'),
                   onChanged: (String? newValue) {
                     setState(() {
                       degreeFieldControllers[i].text = newValue!;
@@ -183,9 +166,9 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           ) ,
           // Repeat for other fields
           SizedBox(height: 20,),
-          Visibility(child: RequiredFieldWidget(label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),visible: degreeFieldControllers[i].text == 'other',),
-          DateButton(label: 'Start Date',dateController: startDatesController[i],),
-          DateButton(label: 'End Date',dateController: endDatesController[i],),
+          Visibility(child: RequiredFieldWidget(label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other'),),
+          Visibility(child: DateButton(label: 'Start Date',dateController: startDatesController[i],), visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school'),),
+          Visibility(child: DateButton(label: 'End Date',dateController: endDatesController[i],), visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school'),) ,
           i!=1? IconButton(
               onPressed: () {
                 int index=i;
@@ -260,7 +243,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Qualifications Screen",
+                    "Qualifications",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -293,31 +276,73 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(child:Stepper(
+                        steps: const [
+                          Step(title: Text(''), content: Text(''), isActive: true,),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+
+                        ],
+                        currentStep: 2,
+                        onStepTapped: (int index){
+                          widget.goToPage(index);
+                        },
+
+                        type: StepperType.horizontal,
+
+                      ),height: 75 ,),
+
                       SizedBox(
-                        height: screenHeight*0.6,
+                        height: screenHeight*0.59,
                         child: ListView(children: buildsteps()),
                       ),
                       SizedBox(height: 10,),
-                      // Next button aligned to the bottom right
+
                       Column(
                         children: [
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Directionality(
-                                  textDirection: TextDirection.ltr,
-                                  child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      widget.onBack();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Color(0xFFd4d4d4), // ##d4d4d4
-                                      padding: EdgeInsets.symmetric(horizontal: 40),
+                                ElevatedButton(
+                                  onPressed: () {
+
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Confirmation'),
+                                            content: Text(
+                                                'Are you sure you want to cancel?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop();
+                                                },
+                                                child: Text('No'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Get.off(ProfileScreen(email: widget.email));
+                                                },
+                                                child: Text('Yes'),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.redAccent,
+                                    padding: EdgeInsets.symmetric(horizontal: 50),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                    icon: Icon(Icons
-                                        .arrow_back), // Change the icon as needed
-                                    label: Text('Back'),
+                                    elevation: 5,
                                   ),
+                                  child: Text('Cancel'),
                                 ),
                                 Directionality(
                                   textDirection: TextDirection.rtl,
@@ -341,50 +366,20 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                         widget.onNext();
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: Color(0xFF085399), // #085399
+                                      primary: Color(0xFF085399),
                                       padding: EdgeInsets.symmetric(horizontal: 40),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      elevation: 5,
                                     ),
                                     icon: Icon(Icons
-                                        .arrow_back), // Change the icon as needed
+                                        .arrow_back),
                                     label: Text('Next'),
                                   ),
                                 )
                               ]),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Show confirmation dialog
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Confirmation'),
-                                      content: Text(
-                                          'Are you sure you want to cancel?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pop(); // Close the dialog
-                                          },
-                                          child: Text('No'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Get.off(ProfileScreen(email: widget.email));
-                                          },
-                                          child: Text('Yes'),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent, // Set the color to grey
-                              padding: EdgeInsets.symmetric(horizontal: 100),
-                            ),
-                            child: Text('Cancel'),
-                          ),
+
                         ],
                       ),
                     ],

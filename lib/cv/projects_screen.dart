@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,7 +23,8 @@ class ProjectsScreen extends StatefulWidget {
   final VoidCallback onNext;
   final VoidCallback onBack;
   final email;
-  ProjectsScreen({super.key, required this.isEdit,  required this.formKey, required this.onNext, required this.onBack, required this.email});
+  final goToPage;
+  ProjectsScreen({super.key, required this.isEdit,  required this.formKey, required this.onNext, required this.onBack, required this.email, required this.goToPage});
   final FormController formController = Get.find( tag: 'form-control' );
   @override
   _ProjectsScreenState createState() => _ProjectsScreenState();
@@ -128,7 +129,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Projects Screen",
+                    "Projects",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -160,31 +161,71 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                  SizedBox(child:Stepper(
+                  steps: const [
+                      Step(title: Text(''), content: Text(''), isActive: true,),
+                Step(title: Text(''), content: Text(''), isActive: true, ),
+                Step(title: Text(''), content: Text(''), isActive: true, ),
+                Step(title: Text(''), content: Text(''), isActive: true, ),
+                Step(title: Text(''), content: Text(''), isActive: true, ),
+
+                ],
+              currentStep: 2,
+                    onStepTapped: (int index){
+                      widget.goToPage(index);
+                    },
+              type: StepperType.horizontal,
+
+              ),height: 75 ,),
                       SizedBox(
-                        height: screenHeight*0.6,
+                        height: screenHeight*0.57,
                         child: ListView(children: buildsteps()),
                       ),
                       SizedBox(height: 10,),
-                      // Next button aligned to the bottom right
+
                       Column(
                         children: [
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Directionality(
-                                  textDirection: TextDirection.ltr,
-                                  child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      widget.onBack();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Color(0xFFd4d4d4), // ##d4d4d4
-                                      padding: EdgeInsets.symmetric(horizontal: 40),
+                                ElevatedButton(
+                                  onPressed: () {
+
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Confirmation'),
+                                            content: Text(
+                                                'Are you sure you want to cancel?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop();
+                                                },
+                                                child: Text('No'),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Get.off(ProfileScreen(email: widget.email));
+                                                },
+                                                child: Text('Yes'),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.redAccent,
+                                    padding: EdgeInsets.symmetric(horizontal: 50),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                    icon: Icon(Icons
-                                        .arrow_back), // Change the icon as needed
-                                    label: Text('Back'),
+                                    elevation: 5,
                                   ),
+                                  child: Text('Cancel'),
                                 ),
                                 Directionality(
                                   textDirection: TextDirection.rtl,
@@ -203,50 +244,19 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                       widget.onNext();
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: Color(0xFF085399), // #085399
+                                      primary: Color(0xFF085399),
                                       padding: EdgeInsets.symmetric(horizontal: 40),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      elevation: 5,
                                     ),
                                     icon: Icon(Icons
-                                        .arrow_back), // Change the icon as needed
+                                        .arrow_back),
                                     label: Text('Next'),
                                   ),
                                 )
                               ]),
-                          ElevatedButton(
-                            onPressed: () {
-                              // Show confirmation dialog
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Confirmation'),
-                                      content: Text(
-                                          'Are you sure you want to cancel?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pop(); // Close the dialog
-                                          },
-                                          child: Text('No'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Get.off(ProfileScreen(email: widget.email));
-                                          },
-                                          child: Text('Yes'),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent, // Set the color to grey
-                              padding: EdgeInsets.symmetric(horizontal: 100),
-                            ),
-                            child: Text('Cancel'),
-                          ),
                         ],
                       ),
                     ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
+import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -21,7 +22,8 @@ class BasicInformationScreen extends StatefulWidget {
   final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
   final email;
-  BasicInformationScreen({super.key, required this.isEdit, required this.formKey, required this.onNext, required this.email});
+  final goToPage;
+  BasicInformationScreen({super.key, required this.isEdit, required this.formKey, required this.onNext, required this.email, required this.goToPage});
   final FormController formController = Get.put(FormController(), tag: 'form-control');
   State<BasicInformationScreen> createState() => _BasicInformationScreenState();
 }
@@ -66,7 +68,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int selectedIndex = 0;
+    int currentStep = 0;
     String firstName = "", lastName = "", phoneNumber = "", contactEmail = "", summary = "";
     firstName = widget.formController.formData['firstName'] ?? '';
     lastName = widget.formController.formData['lastName'] ?? '';
@@ -130,6 +132,22 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     key: widget.formKey,
                     child: Column(
                     children: [
+                      SizedBox(child:Stepper(
+                        steps: const [
+                          Step(title: Text(''), content: Text(''), isActive: true,   ),
+                          Step(title: Text(''), content: Text(''), isActive: true,  ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+                          Step(title: Text(''), content: Text(''), isActive: true, ),
+
+                        ],
+                        currentStep: 2,
+                        onStepTapped: (int index){
+                          widget.goToPage(index);
+                        },
+                        type: StepperType.horizontal,
+
+                      ),height: 75 ,),
                       RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
                       RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
                       RequiredFieldWidget(label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
@@ -137,18 +155,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
                       RequiredFieldWidget(label: 'Summary',keyName: 'summary',controller: summaryController,),
                       // Repeat for other fields
-                      Row(
-                        children: [
-                          Text('City',
-                            style: const TextStyle(color: Color(0xFF085399)), // Label color
-                          ),
-                          const Text(
-                            ' *',
-                            style: TextStyle(color: Colors.red),
-                          ),
-
-                        ],
-                      ),
+                      RequiredFieldLabel(labelText: 'City',),
 
                       if (cities.length > 0) DropdownButtonFormField<Map<String, dynamic>>(
                         items: cityDropdownItems,
@@ -170,13 +177,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                         ),
                       ),
                       SizedBox(height:screenHeight * 0.1 ,),
-                      // Next button aligned to the bottom right
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           ElevatedButton(
                             onPressed: () {
-                              // Show confirmation dialog
+
                               showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -188,7 +195,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                         TextButton(
                                           onPressed: () {
                                             Navigator.of(context)
-                                                .pop(); // Close the dialog
+                                                .pop();
                                           },
                                           child: Text('No'),
                                         ),
@@ -204,28 +211,15 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                               );
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent, // Set the color to grey
+                              primary: Colors.redAccent,
                               padding: EdgeInsets.symmetric(horizontal: 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 5,
                             ),
                             child: Text('Cancel'),
                           ),
-                          // Directionality(
-                          //   textDirection: TextDirection.ltr,
-                          //   child: ElevatedButton.icon(
-                          //     onPressed: () {
-                          //       formKey.currentState!.save();
-                          //       onNext();
-                          //     },
-                          //     style: ElevatedButton.styleFrom(
-                          //       primary: Color(0xFFd4d4d4), // ##d4d4d4
-                          //       padding:EdgeInsets.symmetric(horizontal: 50),
-                          //
-                          //     ),
-                          //     icon: Icon(Icons.arrow_back), // Change the icon as needed
-                          //     label: Text('Back'),
-                          //
-                          //   ),
-                          // ),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: ElevatedButton.icon(
@@ -240,11 +234,14 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 widget.onNext();
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF085399), // #085399
+                                primary: Color(0xFF085399),
                                 padding:EdgeInsets.symmetric(horizontal: 50),
-
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                elevation: 5,
                               ),
-                              icon: Icon(Icons.arrow_back), // Change the icon as needed
+                              icon: Icon(Icons.arrow_back),
                               label: Text('Next'),
 
                             ),

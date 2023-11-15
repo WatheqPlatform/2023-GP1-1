@@ -1,7 +1,5 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 include("../dbConnection.php");
 
 session_start();
@@ -141,8 +139,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Send success message to JavaScript
         echo "success";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error; // we have to delete the sql after we finish!!!
-        echo mysqli_error($conn);
+        echo "Error";
+       // echo "Error: " . $sql . "<br>" . $conn->error; // we have to delete the sql after we finish!!!
+        
     }
 
     $conn->close();

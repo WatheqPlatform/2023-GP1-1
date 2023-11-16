@@ -7,7 +7,7 @@ class Connection {
   static const validateEmail = "$hostConnect/authentication/validation.php";
   static const logIn = "$hostConnect/authentication/log_in.php";
 
-  static const jobOffersData = "$hostConnect/Data/getdata.php";
+  static const jobOffersData = "$hostConnect/Data/getOffers.php";
   static const jobSeekerData = "$hostConnect/Data/jobseeker_data.php";
   static const jobDetailData = "$hostConnect/Data/getdetaildata.php";
   static const jobSeekerName = "$hostConnect/Data/getName.php";

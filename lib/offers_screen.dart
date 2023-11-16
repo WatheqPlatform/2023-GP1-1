@@ -25,6 +25,7 @@ class _OffersScreenState extends State<OffersScreen> {
   String Name = "";
   List allOffers = [];
   List foundOffers = [];
+  String SelectedCity = "";
 
   Future<void> getdata() async {
     var res = await http.get(Uri.parse(Connection.jobOffersData));
@@ -96,6 +97,19 @@ class _OffersScreenState extends State<OffersScreen> {
     });
   }
 
+  void fillter() {
+    List results = [];
+
+    results = allOffers
+        .where((element) => element["CityName"]
+            .toLowerCase()
+            .contains(SelectedCity.toLowerCase()))
+        .toList();
+    setState(() {
+      foundOffers = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -138,13 +152,12 @@ class _OffersScreenState extends State<OffersScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(
-                          Icons.notifications_none_rounded,
-                          size: 35,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {},
-                      ),
+                          icon: const Icon(
+                            Icons.notifications_none_rounded,
+                            size: 35,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {}),
                     ],
                   ),
                   Row(
@@ -155,7 +168,124 @@ class _OffersScreenState extends State<OffersScreen> {
                           size: 36,
                           color: Colors.white,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showModalBottomSheet(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(25))),
+                            context: context,
+                            builder: (context) => Container(
+                                child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text("City", textAlign: TextAlign.left),
+                                  Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
+                                    spacing: 8.0, // gap between adjacent chips
+                                    runSpacing: 4.0, // gap between lines
+                                    children: List<Widget>.generate(
+                                        foundOffers.length, (int index) {
+                                      return InputChip(
+                                        label: Text(
+                                            "${foundOffers[index]["CityName"]}"),
+                                        // You can also handle onDeleted or onPressed events here
+                                        onDeleted: () {},
+                                        selected: SelectedCity ==
+                                            foundOffers[index]["CityName"]
+                                                .toString(),
+                                        onSelected: (bool selected) =>
+                                            setState(() {
+                                          if (selected) {
+                                            SelectedCity ==
+                                                foundOffers[index]["CityName"]
+                                                    .toString();
+                                          }
+                                        }),
+                                      );
+                                    }),
+                                  ),
+                                  Text("Company"),
+                                  Wrap(
+                                    spacing: 8.0, // gap between adjacent chips
+                                    runSpacing: 4.0, // gap between lines
+                                    children: List<Widget>.generate(
+                                        foundOffers.length, (int index) {
+                                      return Chip(
+                                        label: Text(
+                                            "${foundOffers[index]["CompanyName"]}"),
+                                        // You can also handle onDeleted or onPressed events here
+                                        // onDeleted: () {},
+                                        // onPressed: () {},
+                                      );
+                                    }),
+                                  ),
+                                  Text("Job Title"),
+                                  Wrap(
+                                    spacing: 8.0, // gap between adjacent chips
+                                    runSpacing: 4.0, // gap between lines
+                                    children: List<Widget>.generate(
+                                        foundOffers.length, (int index) {
+                                      return Chip(
+                                        label: Text(
+                                            "${foundOffers[index]["JobTitle"]}"),
+                                        // You can also handle onDeleted or onPressed events here
+                                        // onDeleted: () {},
+                                        // onPressed: () {},
+                                      );
+                                    }),
+                                  ),
+                                  Text("Field"),
+                                  Wrap(
+                                    spacing: 8.0, // gap between adjacent chips
+                                    runSpacing: 4.0, // gap between lines
+                                    children: List<Widget>.generate(
+                                        foundOffers.length, (int index) {
+                                      return Chip(
+                                        label: Text(
+                                            "${foundOffers[index]["Field"]}"),
+                                        // You can also handle onDeleted or onPressed events here
+                                        // onDeleted: () {},
+                                        // onPressed: () {},
+                                      );
+                                    }),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      fillter();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF024A8D),
+                                      fixedSize: Size(screenWidth * 0.8,
+                                          screenHeight * 0.056),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      elevation: 5,
+                                    ),
+                                    child: const Text(
+                                      "Apply",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  )
+                                ],
+                              ),
+                            )),
+                          );
+                        },
                       ),
                       const SizedBox(width: 5),
                       SizedBox(

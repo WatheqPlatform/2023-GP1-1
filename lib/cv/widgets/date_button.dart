@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:watheq/cv/widgets/required_label.dart';
 
 import 'date_picker_dialog.dart';
 
@@ -23,19 +24,7 @@ class _DateButtonState extends State<DateButton> {
         margin: EdgeInsets.only(bottom: 16.0),
         child: Column(
           children: [
-            Row(
-              children: [
-                Text(
-                  widget.label,
-                  style:
-                      const TextStyle(color: Color(0xFF085399)), // Label color
-                ),
-                const Text(
-                  ' *',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ],
-            ),
+            RequiredFieldLabel(labelText: widget.label,),
             InkWell(
               borderRadius: BorderRadius.circular(14),
               onTap: () async {

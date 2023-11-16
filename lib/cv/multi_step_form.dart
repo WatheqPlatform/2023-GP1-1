@@ -28,7 +28,18 @@ class _MultiStepFormState extends State<MultiStepForm> {
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
   ];
-
+  void goToPage(int pageIndex) {
+    if (pageIndex >= 0 && pageIndex < _formKeys.length) {
+      _pageController.animateToPage(
+        pageIndex,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+      setState(() {
+        _currentPage = pageIndex;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,59 +52,21 @@ class _MultiStepFormState extends State<MultiStepForm> {
           });
         },
         children: [
-          BasicInformationScreen(formKey: _formKeys[0],onNext: () => _pageController.nextPage(
+          BasicInformationScreen(goToPage: goToPage, formKey: _formKeys[0],onNext: () => _pageController.nextPage(
               duration: Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,email : widget.email),
-          AwardsScreen(formKey: _formKeys[1],onNext: () => _pageController.nextPage(
+          AwardsScreen(goToPage: goToPage,formKey: _formKeys[1],onNext: () => _pageController.nextPage(
               duration: Duration(milliseconds: 500), curve: Curves.ease), isEdit: null, onBack: () => _pageController.previousPage(
               duration: Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
-          QualificationsScreen(formKey: _formKeys[2],onNext: () => _pageController.nextPage(
+          QualificationsScreen(goToPage: goToPage,formKey: _formKeys[2],onNext: () => _pageController.nextPage(
               duration: Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
               duration: Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
-          ProjectsScreen(formKey: _formKeys[3],onNext: () => _pageController.nextPage(
+          ProjectsScreen(goToPage: goToPage,formKey: _formKeys[3],onNext: () => _pageController.nextPage(
               duration: Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
               duration: Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
-          ExperiencesScreen(email: widget.email, onBack: () => _pageController.previousPage(
+          ExperiencesScreen(goToPage: goToPage,email: widget.email, onBack: () => _pageController.previousPage(
               duration: Duration(milliseconds: 500), curve:  Curves.ease)
           ),
         ],
-      ),
-      bottomNavigationBar: Theme(
-        data:Theme.of(context).copyWith(
-          canvasColor: Color(0xFF085399),),
-      child: BottomNavigationBar(
-          useLegacyColorScheme: true,
-          currentIndex: _currentPage,
-
-          onTap: (index) {
-            _pageController.animateToPage(
-              index,
-              duration: Duration(milliseconds: 500),
-              curve: Curves.ease,
-            );
-          },
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Basic Info',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.emoji_events),
-              label: 'Awards',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.school),
-              label: 'Qualifications',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.work),
-              label: 'Projects',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.business),
-              label: 'Experience',
-            ),
-          ],
-        ),
       ),
     );
   }

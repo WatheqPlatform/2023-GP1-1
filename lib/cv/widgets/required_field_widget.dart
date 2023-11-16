@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:watheq/cv/widgets/required_label.dart';
 
 class RequiredFieldWidget extends StatelessWidget {
   final String label;
@@ -32,17 +33,7 @@ class RequiredFieldWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(label,              style: const TextStyle(color: Color(0xFF085399)), // Label color
-              ),
-                 const Text(
-                  ' *',
-                  style: TextStyle(color: Colors.red),
-                ),
-
-            ],
-          ),
+          RequiredFieldLabel(labelText: label,),
             TextFormField(
               keyboardType: keyName == 'phoneNumber' ? TextInputType.phone : keyName == 'contactEmail' ? TextInputType.emailAddress : TextInputType.text,
             validator: (String? val) {
@@ -54,7 +45,7 @@ class RequiredFieldWidget extends StatelessWidget {
 
 
             controller: controller,
-            key: Key(keyName), // Use label as a key
+            key: Key(keyName),
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),

@@ -1,4 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,11 +22,12 @@ class AwardsScreen extends StatefulWidget {
   final VoidCallback onNext;
   final email;
   final VoidCallback onBack;
+  final goToPage;
   AwardsScreen(
       {super.key,
       required this.isEdit,
       required this.formKey,
-      required this.onNext, required this.onBack, required this.email});
+      required this.onNext, required this.onBack, required this.email, required this.goToPage});
 
   @override
   _AwardsScreenState createState() => _AwardsScreenState();
@@ -78,7 +78,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
             keyName: 'awardName',
             controller: awardNameControllers[i],
           ),
-          // Repeat for other fields
+
           DateButton(label: 'Date',dateController: datesController[i],),
           RequiredFieldWidget(
             label: 'Issued By',
@@ -140,7 +140,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Awards Screen",
+                    "Awards",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -173,30 +173,82 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Theme(
+                          data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
+                  canvasColor: Colors.transparent,
+                  colorScheme: ColorScheme.light(
+                    primary: Color(0xFF085399),
+                    
+                  )),
+                        child: SizedBox(child:Stepper(
+                          
+                          steps: const [
+                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
+                      
+                          ],
+                          currentStep: 2,
+                          onStepTapped: (int index){
+                            widget.goToPage(index);
+                          },
+                          type: StepperType.horizontal,
+                      
+                        ),height: 75 ,),
+                      ),
+
                         SizedBox(
                           height: screenHeight*0.6,
                           child: ListView(children: buildsteps()),
                         ),
-                        // Next button aligned to the bottom right
+
                         Column(
                           children: [
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Directionality(
-                                    textDirection: TextDirection.ltr,
-                                    child: ElevatedButton.icon(
-                                      onPressed: () {
-                                        widget.onBack();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        primary: Color(0xFFd4d4d4), // ##d4d4d4
-                                        padding: EdgeInsets.symmetric(horizontal: 40),
+                                  ElevatedButton.icon(
+
+                                    onPressed: () {
+
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('Confirmation'),
+                                              content: Text(
+                                                  'Are you sure you want to cancel?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pop();
+                                                  },
+                                                  child: Text('No'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Get.off(ProfileScreen(email: widget.email));
+                                                  },
+                                                  child: Text('Yes'),
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.redAccent,
+                                      padding: EdgeInsets.symmetric(horizontal: 50),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
                                       ),
-                                      icon: Icon(Icons
-                                          .arrow_back), // Change the icon as needed
-                                      label: Text('Back'),
+                                      elevation: 5,
                                     ),
+                                    icon: Icon(Icons.cancel),
+                                  label: Text(''),
                                   ),
                                   Directionality(
                                     textDirection: TextDirection.rtl,
@@ -219,50 +271,20 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                          widget.onNext();
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color(0xFF085399), // #085399
+                                        primary: Color(0xFF085399),
                                         padding: EdgeInsets.symmetric(horizontal: 40),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15),
+                                        ),
+                                        elevation: 5,
                                       ),
                                       icon: Icon(Icons
-                                          .arrow_back), // Change the icon as needed
+                                          .arrow_back),
                                       label: Text('Next'),
                                     ),
                                   )
                                 ]),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Show confirmation dialog
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Confirmation'),
-                                        content: Text(
-                                            'Are you sure you want to cancel?'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(); // Close the dialog
-                                            },
-                                            child: Text('No'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Get.off(ProfileScreen(email: widget.email));
-                                            },
-                                            child: Text('Yes'),
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.redAccent, // Set the color to grey
-                                padding: EdgeInsets.symmetric(horizontal: 100),
-                              ),
-                              child: Text('Cancel'),
-                            ),
+
                           ],
                         ),
 

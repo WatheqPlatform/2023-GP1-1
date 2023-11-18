@@ -62,60 +62,57 @@ include('CVLogic.php');
             </div>
 
             <div id="CV">
-                <?php          
-                    echo '<div>';
-                    echo '<h2>' . $cvDetails['CV_Info']['FirstName'] . ' ' . $cvDetails['CV_Info']['LastName'] . '</h2>';
-                    echo '<p>Email: ' . $cvDetails['CV_Info']['ContactEmail'] . '</p>';
-                    echo '<p>Phone: 0' . $cvDetails['CV_Info']['PhoneNumber'] . '</p>';
-                    echo '<p>Address: Saudi Arabia, ' . $cvDetails['CV_Info']['CityName'] . '</p>';
-                    echo '<p>Summary: ' . $cvDetails['CV_Info']['Summary'] . '</p>';
-
-                    // Projects
-                    echo '<div>';
-                    echo '<div>Projects:</div>';
-                    if (!empty($cvDetails['Projects'])) {
-                        foreach ($cvDetails['Projects'] as $project) {
-                            echo '<p>' . $project['ProjectName'] . ': ' . $project['Description'] . ' (Date: ' . $project['Date'] . ')</p>';
-                        }
-                    } 
+                <?php
+                    echo '<div id="NameDiv">';
+                    echo '<div id="NameStart"> </div>';
+                    echo '<h2 id="Name">' . $cvDetails['CV_Info']['FirstName'] . ' ' . $cvDetails['CV_Info']['LastName'] . '</h2>';
+                    echo '<div id="NameEnd"> </div>';
                     echo '</div>';
 
+                    echo '<div id="AboutDiv">';
+                    echo '<h4 id="AboutTitle">ABOUT ME</H4>';
+                    echo '<div id="AboutLine"> </div>';
+                    echo '</div>';
+
+                    echo '<div id="CVContent">';
+
+                    echo '<div id="LeftCV">';
+                    echo '<p id=AboutMe>' . $cvDetails['CV_Info']['Summary'] . '</p>';  
                     // Skills
-                    echo '<div>';
-                    echo '<div>Skills:</div>';
                     if (!empty($cvDetails['Skills'])) {
+                        echo '<h4 id="SkillsTitle">  PROFESSIONAL<br>SKILLS</H4>';
                         foreach ($cvDetails['Skills'] as $skill) {
-                            echo '<p>' . $skill['Description'] . '</p>';
+                            echo '<div id="skill"><div id="SkillCircle">•</div><p>' . $skill['Description'] . '</p></div>';
                         }
                     }
+                    echo '</div>';//LeftCV Div end
+
+
+                    echo '<div id="MiddleLine"></div>';
+
+
+                    echo '<div id="RightCV">';
+
+                    echo '<div id="ContactDiv">';
+                    echo '<div id="Letters">' . substr($cvDetails['CV_Info']['FirstName'], 0, 1) . substr($cvDetails['CV_Info']['LastName'], 0, 1) .'</div>';
+                    echo '<div id="ContactInfo">';
+                    echo '<p class="Contact"><span class="ContactTitle">PHONE : </span> 0' . $cvDetails['CV_Info']['PhoneNumber'] . '</p>';
+                    echo '<p class="Contact"><span class="ContactTitle">EMAIL : </span> ' . $cvDetails['CV_Info']['ContactEmail'] . '</p>';  
+                    echo '<p class="Contact"><span class="ContactTitle">ADDRESS : </span> ' . $cvDetails['CV_Info']['CityName'] . ', Saudi Arabia </p>';
+                    echo '</div>';
                     echo '</div>';
 
-                    // Awards
-                    echo '<div>';
-                    echo '<div>Awards:</div>';
-                    if (!empty($cvDetails['Awards'])) {
-                        foreach ($cvDetails['Awards'] as $award) {
-                            echo '<p>' . $award['AwardName'] . ' by ' . $award['IssuedBy'] . ' (Date: ' . $award['Date'] . ')</p>';
-                        }
-                    }
-                    echo '</div>';
-
-                    // Certificates
-                    echo '<div>';
-                    echo '<div>Certificates:</div>';
-                    if (!empty($cvDetails['Certificates'])) {
-                        foreach ($cvDetails['Certificates'] as $certificate) {
-                            echo '<p>' . $certificate['CertificateName'] . ' by ' . $certificate['IssuedBy'] . ' (Date: ' . $certificate['Date'] . ')</p>';
-                        }
-                    }
-                    echo '</div>';
-
+                    
                     // Qualifications
                     echo '<div>';
-                    echo '<div>Qualifications:</div>';
                     if (!empty($cvDetails['Qualifications'])) {
+                        echo '<h3 id="Titles">EDUCATION</h3>';
                         foreach ($cvDetails['Qualifications'] as $qualification) {
-                            echo '<p>' . $qualification['DegreeLevel'] . ' in ' . $qualification['Field'] . ' from ' . $qualification['UniversityName'] . ' (' . $qualification['StartDate'] . ' to ' . $qualification['EndDate'] . ')</p>';
+                            echo '<p id="Issuer">'. $qualification['IssuedBy'].'<p>';
+                            echo '<p id="Info">' . $qualification['DegreeLevel'] . ' degree in ' . $qualification['Field'] .'</p>';
+
+                            $date=!empty($qualification['EndDate']) ? date('Y', strtotime($qualification['EndDate'])) : 'Current';
+                            echo '<p class="date">' . date('Y', strtotime($qualification['StartDate'])) . ' - '. $date . '</p>';
                         }
                     }
                     echo '</div>';
@@ -123,17 +120,63 @@ include('CVLogic.php');
 
                     // Experince
                     echo '<div>';
-                    echo '<div">Experience:</div>';
                     if (!empty($cvDetails['Experience'])) {
+                        echo '<h3 id="Titles">EXPERIENCES</h3>';
                         foreach ($cvDetails['Experience'] as $experience) {
-                            echo '<p>' . $experience['JobTitle'] . ' from ' . $experience['CompanyName'] . ' in ' . $experience['CategoryName'] . ' (' . $experience['StartDate'] . ' to ' . $experience['EndDate'] . ')</p>';
+                            echo '<p id="Issuer">' .$experience['CompanyName'] .'</p>';
+                            echo '<p id="Info">' . $experience['CategoryName'] . ' : ' . $experience['JobTitle'] . '</p>';
+
+                            $date=!empty($experience['EndDate']) ?  date('Y.m', strtotime($experience['EndDate'])) : 'Current';
+                            echo '<p class="date">' . date('Y.m', strtotime($experience['StartDate'])) . ' - ' . $date . '</p>';                 
                         }
                     }
                     echo '</div>';
 
+
+                    // Certificates
+                    echo '<div>';
+                    if (!empty($cvDetails['Certificates'])) {
+                        echo '<h3 id="Titles">CERTIFICATES</h3>';
+                        foreach ($cvDetails['Certificates'] as $certificate) {
+                            echo '<p id="Title">' . $certificate['CertificateName'] . '</p>';
+                            echo '<p id="IssuerDate">' . 'Issued by ' . $certificate['IssuedBy'] . ', ' . date('Y.m.d', strtotime($certificate['Date'])) . '</p>';
+                        }
+                    }
                     echo '</div>';
 
-                    ?>
+
+                    // Awards
+                    echo '<div>';
+                    if (!empty($cvDetails['Awards'])) {
+                        echo '<h3 id="Titles">AWARDS</h3>';
+                        foreach ($cvDetails['Awards'] as $award) {
+                            echo '<p id="Title">' . $award['AwardName'] . '</p>';
+                            echo '<p id="IssuerDate">' . 'Issued by ' . $award['IssuedBy'] . ', ' . date('Y.m.d', strtotime($award['Date'])) . '</p>';
+                        }
+                    }
+                    echo '</div>';
+
+
+                    // Projects
+                    echo '<div>';
+                    if (!empty($cvDetails['Projects'])) {
+                        echo '<h3 id="Titles">PROJECTS</h3>';
+                        foreach ($cvDetails['Projects'] as $project) {
+                            echo '<p id="Title">' . $project['ProjectName'] . '</p>';
+                            echo '<p id="Info">' . $project['Description'] . '</p>';
+                            echo '<p class="date">Completed at ' . date('Y.m.d', strtotime($project['Date'])) . '</p>';
+                        }
+                    } 
+                    echo '</div>';
+
+                
+
+                    echo '</div>';//RightCV Div end
+
+
+                    echo '</div>';//Content Div end
+                ?>
+                
             </div> 
         </div> 
     </div>

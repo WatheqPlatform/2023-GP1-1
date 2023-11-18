@@ -53,7 +53,7 @@ $skills = fetchRelatedData($conn, "SELECT Description FROM skill WHERE CV_ID = ?
 $awards = fetchRelatedData($conn, "SELECT AwardName, IssuedBy, Date FROM award WHERE CV_ID = ?", $cvID);
 $certificates = fetchRelatedData($conn, "SELECT CertificateName, IssuedBy, Date FROM certificate WHERE CV_ID = ?", $cvID);
 $experience = fetchRelatedData($conn, "SELECT JobTitle, CompanyName, StartDate, EndDate, category.CategoryName FROM cvexperience LEFT JOIN category ON cvexperience.CategoryID = category.CategoryID WHERE cvexperience.CV_ID = ?", $cvID);
-$qualifications = fetchRelatedData($conn, "SELECT StartDate, EndDate, UniversityName, DegreeLevel, Field FROM cvqualification INNER JOIN qualification ON cvqualification.QualificationID = qualification.QualificationID WHERE CV_ID = ?", $cvID);
+$qualifications = fetchRelatedData($conn, "SELECT StartDate, EndDate, IssuedBy, DegreeLevel, Field FROM cvqualification INNER JOIN qualification ON cvqualification.QualificationID = qualification.QualificationID WHERE CV_ID = ?", $cvID);
 
 // Combine all data into a single array for the CV
 $cvDetails = [

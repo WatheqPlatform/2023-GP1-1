@@ -72,7 +72,7 @@ include('ApplicationsLogic.php');
                         // Function to display applications
                         function displayApplications($applications, $status) {
                             foreach ($applications as $application) {
-                                echo "<div id='WholeOffer'>";
+                                echo "<div id='WholeApplication'>";
                                 echo "<div id='FirstPart' class='".$application['Status']."'>";
                                 echo "<p id='Title'>Applicant Name</p>";
                                 echo "<p id='ApplicantName'>{$application['Name']}</p>";

@@ -368,7 +368,7 @@ $result3 = $conn->query($query);
                                 <div class="form_container">
                                     <div class="input_wrap">
                                         <label for="notes">Additional Notes</label>
-                                        <textarea id="notes" name="notes" rows="4" cols="50" class="input" id="notes" maxlength="500"></textarea>
+                                        <textarea id="notes" name="notes" rows="4" cols="50" class="input" id="notes" maxlength="300"></textarea>
                                     </div>
                                 </div>
                             </div>

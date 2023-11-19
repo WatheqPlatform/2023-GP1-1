@@ -1,3 +1,4 @@
+import 'package:watheq/offers_screen.dart';
 import 'package:watheq/start_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Poppins',
       ),
-      home: const StartScreen(),
+      home: const OffersScreen(email: "sarona1017@gmail.com"),
     );
   }
 }

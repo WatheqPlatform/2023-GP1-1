@@ -26,6 +26,14 @@ class _OffersScreenState extends State<OffersScreen> {
   List allOffers = [];
   List foundOffers = [];
   String SelectedCity = "";
+  Map<String, bool> selectedChips = {};
+
+  List<String> cityNames = [];
+  List<String> companyNames = [];
+  List<String> employmentTypes = [];
+  List<String> industries = [];
+  List<String> categories = [];
+  List<String> jobTitles = [];
 
   Future<void> getdata() async {
     var res = await http.get(Uri.parse(Connection.jobOffersData));
@@ -37,6 +45,33 @@ class _OffersScreenState extends State<OffersScreen> {
       setState(() {
         allOffers.addAll(red);
         foundOffers.addAll(red);
+      });
+    }
+  }
+
+  Future<void> getfillters() async {
+    var res = await http.get(Uri.parse(Connection.filteredData));
+
+    if (res.statusCode == 200) {
+      var red = json.decode(res.body);
+
+      // Update the allOffers
+      setState(() {
+        for (var item in red) {
+          if (item.containsKey("CityName")) {
+            cityNames.add(item["CityName"]);
+          } else if (item.containsKey("CompanyName")) {
+            companyNames.add(item["CompanyName"]);
+          } else if (item.containsKey("EmploymentType")) {
+            employmentTypes.add(item["EmploymentType"]);
+          } else if (item.containsKey("JobTitle")) {
+            jobTitles.add(item["JobTitle"]);
+          } else if (item.containsKey("CategoryName")) {
+            categories.add(item["CategoryName"]);
+          } else if (item.containsKey("Field")) {
+            industries.add(item["Field"]);
+          }
+        }
       });
     }
   }
@@ -71,6 +106,7 @@ class _OffersScreenState extends State<OffersScreen> {
     super.initState();
     getdata();
     getName();
+    getfillters();
   }
 
   void searchOffer(String searchedWord) {
@@ -97,16 +133,32 @@ class _OffersScreenState extends State<OffersScreen> {
     });
   }
 
-  void fillter() {
-    List results = [];
-
-    results = allOffers
-        .where((element) => element["CityName"]
-            .toLowerCase()
-            .contains(SelectedCity.toLowerCase()))
-        .toList();
+  void filter(List<String> selectedLabels) {
+    List results = allOffers.where((element) {
+      // Check if any selected label is contained in the element
+      return selectedLabels.any((label) {
+        return element["JobTitle"]
+                .toLowerCase()
+                .contains(label.toLowerCase()) ||
+            element["CityName"].toLowerCase().contains(label.toLowerCase()) ||
+            element["EmploymentType"]
+                .toLowerCase()
+                .contains(label.toLowerCase()) ||
+            element["Field"].toLowerCase().contains(label.toLowerCase()) ||
+            element["CompanyName"]
+                .toLowerCase()
+                .contains(label.toLowerCase()) ||
+            element["CategoryName"].toLowerCase().contains(label.toLowerCase());
+      });
+    }).toList();
     setState(() {
       foundOffers = results;
+    });
+  }
+
+  void handleChipSelection(String label, bool isSelected) {
+    setState(() {
+      selectedChips[label] = isSelected;
     });
   }
 
@@ -175,90 +227,259 @@ class _OffersScreenState extends State<OffersScreen> {
                                     top: Radius.circular(25))),
                             context: context,
                             builder: (context) => Container(
-                                child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  SizedBox(
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 13.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        IconButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            icon: const Icon(Icons.close)),
+                                        const Text("Filters",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 18)),
+                                        TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                foundOffers = allOffers;
+                                                selectedChips.clear();
+                                              });
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              "Reset",
+                                              style: TextStyle(
+                                                  color:
+                                                      const Color(0xFF024A8D),
+                                                  fontSize: 15),
+                                            )),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
                                     height: 20,
                                   ),
-                                  Text("City", textAlign: TextAlign.left),
-                                  Wrap(
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    spacing: 8.0, // gap between adjacent chips
-                                    runSpacing: 4.0, // gap between lines
-                                    children: List<Widget>.generate(
-                                        foundOffers.length, (int index) {
-                                      return InputChip(
-                                        label: Text(
-                                            "${foundOffers[index]["CityName"]}"),
-                                        // You can also handle onDeleted or onPressed events here
-                                        onDeleted: () {},
-                                        selected: SelectedCity ==
-                                            foundOffers[index]["CityName"]
-                                                .toString(),
-                                        onSelected: (bool selected) =>
-                                            setState(() {
-                                          if (selected) {
-                                            SelectedCity ==
-                                                foundOffers[index]["CityName"]
-                                                    .toString();
-                                          }
-                                        }),
-                                      );
-                                    }),
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "City",
+                                              style: TextStyle(
+                                                  color: Color(0xFF024A8D),
+                                                  fontSize: 19,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Wrap(
+                                              spacing:
+                                                  8.0, // gap between adjacent chips
+                                              runSpacing:
+                                                  1.0, // gap between lines
+                                              children: List<Widget>.generate(
+                                                  cityNames.length,
+                                                  (int index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: CustomChoiceChip(
+                                                      label: cityNames[index],
+                                                      onSelectionChanged:
+                                                          (isSelected) =>
+                                                              handleChipSelection(
+                                                                  cityNames[
+                                                                      index],
+                                                                  isSelected)),
+                                                );
+                                              }),
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            const Text(
+                                              "Company",
+                                              style: TextStyle(
+                                                  color: Color(0xFF024A8D),
+                                                  fontSize: 19,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Wrap(
+                                              spacing:
+                                                  8.0, // gap between adjacent chips
+                                              runSpacing:
+                                                  1.0, // gap between lines
+                                              children: List<Widget>.generate(
+                                                  companyNames.length,
+                                                  (int index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: CustomChoiceChip(
+                                                      label:
+                                                          companyNames[index],
+                                                      onSelectionChanged:
+                                                          (isSelected) =>
+                                                              handleChipSelection(
+                                                                  companyNames[
+                                                                      index],
+                                                                  isSelected)),
+                                                );
+                                              }),
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            const Text(
+                                              "Employment Type",
+                                              style: TextStyle(
+                                                  color: Color(0xFF024A8D),
+                                                  fontSize: 19,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Wrap(
+                                              spacing:
+                                                  8.0, // gap between adjacent chips
+                                              runSpacing:
+                                                  1.0, // gap between lines
+                                              children: List<Widget>.generate(
+                                                  employmentTypes.length,
+                                                  (int index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: CustomChoiceChip(
+                                                      label: employmentTypes[
+                                                          index],
+                                                      onSelectionChanged:
+                                                          (isSelected) =>
+                                                              handleChipSelection(
+                                                                  employmentTypes[
+                                                                      index],
+                                                                  isSelected)),
+                                                );
+                                              }),
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
+                                            ),
+                                            const Text(
+                                              "Industry",
+                                              style: TextStyle(
+                                                  color: Color(0xFF024A8D),
+                                                  fontSize: 19,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Wrap(
+                                              spacing:
+                                                  8.0, // gap between adjacent chips
+                                              runSpacing:
+                                                  1.0, // gap between lines
+                                              children: List<Widget>.generate(
+                                                  industries.length,
+                                                  (int index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: CustomChoiceChip(
+                                                      label: industries[index],
+                                                      onSelectionChanged:
+                                                          (isSelected) =>
+                                                              handleChipSelection(
+                                                                  industries[
+                                                                      index],
+                                                                  isSelected)),
+                                                );
+                                              }),
+                                            ),
+                                            const Text(
+                                              "Job Title",
+                                              style: TextStyle(
+                                                  color: Color(0xFF024A8D),
+                                                  fontSize: 19,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Wrap(
+                                              spacing:
+                                                  8.0, // gap between adjacent chips
+                                              runSpacing:
+                                                  1.0, // gap between lines
+                                              children: List<Widget>.generate(
+                                                  jobTitles.length,
+                                                  (int index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: CustomChoiceChip(
+                                                      label: jobTitles[index],
+                                                      onSelectionChanged:
+                                                          (isSelected) =>
+                                                              handleChipSelection(
+                                                                  jobTitles[
+                                                                      index],
+                                                                  isSelected)),
+                                                );
+                                              }),
+                                            ),
+                                            const Text(
+                                              "Category",
+                                              style: TextStyle(
+                                                  color: Color(0xFF024A8D),
+                                                  fontSize: 19,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            Wrap(
+                                              spacing:
+                                                  8.0, // gap between adjacent chips
+                                              runSpacing:
+                                                  1.0, // gap between lines
+                                              children: List<Widget>.generate(
+                                                  categories.length,
+                                                  (int index) {
+                                                return Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(2.0),
+                                                  child: CustomChoiceChip(
+                                                      label: categories[index],
+                                                      onSelectionChanged:
+                                                          (isSelected) =>
+                                                              handleChipSelection(
+                                                                  categories[
+                                                                      index],
+                                                                  isSelected)),
+                                                );
+                                              }),
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  Text("Company"),
-                                  Wrap(
-                                    spacing: 8.0, // gap between adjacent chips
-                                    runSpacing: 4.0, // gap between lines
-                                    children: List<Widget>.generate(
-                                        foundOffers.length, (int index) {
-                                      return Chip(
-                                        label: Text(
-                                            "${foundOffers[index]["CompanyName"]}"),
-                                        // You can also handle onDeleted or onPressed events here
-                                        // onDeleted: () {},
-                                        // onPressed: () {},
-                                      );
-                                    }),
-                                  ),
-                                  Text("Job Title"),
-                                  Wrap(
-                                    spacing: 8.0, // gap between adjacent chips
-                                    runSpacing: 4.0, // gap between lines
-                                    children: List<Widget>.generate(
-                                        foundOffers.length, (int index) {
-                                      return Chip(
-                                        label: Text(
-                                            "${foundOffers[index]["JobTitle"]}"),
-                                        // You can also handle onDeleted or onPressed events here
-                                        // onDeleted: () {},
-                                        // onPressed: () {},
-                                      );
-                                    }),
-                                  ),
-                                  Text("Field"),
-                                  Wrap(
-                                    spacing: 8.0, // gap between adjacent chips
-                                    runSpacing: 4.0, // gap between lines
-                                    children: List<Widget>.generate(
-                                        foundOffers.length, (int index) {
-                                      return Chip(
-                                        label: Text(
-                                            "${foundOffers[index]["Field"]}"),
-                                        // You can also handle onDeleted or onPressed events here
-                                        // onDeleted: () {},
-                                        // onPressed: () {},
-                                      );
-                                    }),
-                                  ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      fillter();
+                                      List<String> selectedLabels =
+                                          selectedChips.entries
+                                              .where((entry) => entry.value)
+                                              .map((entry) => entry.key)
+                                              .toList(); // Convert to List
+
+                                      filter(selectedLabels);
+                                      Navigator.of(context).pop();
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFF024A8D),
@@ -270,7 +491,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                       elevation: 5,
                                     ),
                                     child: const Text(
-                                      "Apply",
+                                      "Done",
                                       style: TextStyle(
                                         fontSize: 18,
                                         color:
@@ -278,12 +499,12 @@ class _OffersScreenState extends State<OffersScreen> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   )
                                 ],
                               ),
-                            )),
+                            ),
                           );
                         },
                       ),
@@ -593,6 +814,40 @@ class _OffersScreenState extends State<OffersScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomChoiceChip extends StatefulWidget {
+  final String label;
+  final Function(bool) onSelectionChanged;
+
+  CustomChoiceChip(
+      {super.key, required this.label, required this.onSelectionChanged}) {}
+
+  @override
+  _CustomChoiceChipState createState() => _CustomChoiceChipState();
+}
+
+class _CustomChoiceChipState extends State<CustomChoiceChip> {
+  bool _isSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChoiceChip(
+      label: Text(widget.label),
+      selected: _isSelected,
+      onSelected: (bool selected) {
+        setState(() {
+          _isSelected = selected;
+          widget.onSelectionChanged(selected);
+        });
+      },
+      avatar: _isSelected
+          ? Icon(Icons.close, size: 18.0) // 'x' icon when selected
+          : Icon(Icons.add, size: 18.0), // '+' icon when not selected
+      selectedColor: Colors.grey[400],
+      backgroundColor: Colors.grey[300],
     );
   }
 }

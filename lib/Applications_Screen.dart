@@ -34,7 +34,7 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
       var red = jsonDecode(res.body);
 
       setState(() {
-        list.addAll(red);
+        list = red.reversed.toList();
       });
     }
   }

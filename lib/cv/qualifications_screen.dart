@@ -211,7 +211,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     });
   }
   dynamic fetchCategories() async {
-    final response = await http.get(Uri.parse(Connection.getCategories));
+    final response = await http.get(Uri.parse(Connection.getQualifs));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       return data;

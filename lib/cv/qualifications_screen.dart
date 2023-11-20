@@ -49,6 +49,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       }
   }
   List <Widget> addOrGetCachedSteps () {
+    print({"steps" :steps, "last-steps":lastSteps});
     if (lastSteps == steps) {
       return cachedSteps;
     }
@@ -59,6 +60,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       otherContrllers.add(TextEditingController());
       startDatesController.add(TextEditingController());
       endDatesController.add(TextEditingController());
+      universityControllers.add(TextEditingController());
       cachedSteps.add(
         buildStepItem(steps)
       );
@@ -71,6 +73,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     startDatesController.removeLast();
     endDatesController.removeLast();
     cachedSteps.removeLast();
+    universityControllers.removeLast();
     lastSteps = steps;
     return cachedSteps;
 
@@ -171,11 +174,11 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   );
                 }).toList(),
               ),
-              RequiredFieldWidget(label:  degreeLevelControllers[i].text == 'High School' ? 'School Name' : 'University Name' , keyName: 'u-name', controller: universityControllers[i], starColor: Colors.green,)
+              RequiredFieldWidget(label:  degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text == 'High School' ? 'School Name' : 'University Name' , keyName: 'u-name', controller: universityControllers[i], starColor: Colors.green,)
             ],
           ),
         ) ,
-        // Repeat for other fields
+        
         Visibility(child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other'),),
         Visibility(child: DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.year,lastDate: DateTime.now(),), visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),),
         Visibility(child: DateButton(mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],), visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),) ,
@@ -189,6 +192,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     otherContrllers=[TextEditingController()];
     startDatesController=[TextEditingController()];
     endDatesController=[TextEditingController()];
+    universityControllers= [(TextEditingController())];
     List<Widget> l = [];
 
     for (int i = 1; i <= steps; i++) {

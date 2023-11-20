@@ -183,7 +183,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                               ),
                               RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
                               RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
-                              RequiredFieldWidget(label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
+                              RequiredFieldWidget(keyboardType: TextInputType.phone, label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
                               RequiredFieldWidget(label: 'Contact Email',keyName: 'contactEmail',controller: contactEmailController,),
 
                               RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Summary',keyName: 'summary',controller: summaryController,),

@@ -11,7 +11,7 @@ include("../dbConnection.php");
 $jobProviderEmail = $_SESSION['JPEmail'];
 
 // Query to retrieve job offers history for the logged-in job provider
-$sql = "SELECT OfferID, JobTitle, JobDescription, Date, Status FROM joboffer WHERE JPEmail = ?";
+$sql = "SELECT OfferID, JobTitle, JobDescription, Date, Status FROM joboffer WHERE JPEmail = ? ORDER BY OfferID DESC";
 
 // Prepare and execute the query
 $stmt = $conn->prepare($sql);

@@ -179,7 +179,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           ),
         ) ,
         
-        Visibility(child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other'),),
+        Visibility(child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other' && degreeLevelControllers[i].text != 'None' && degreeLevelControllers[i].text != 'Pre-high school'),),
         Visibility(child: DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.year,lastDate: DateTime.now(),), visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),),
         Visibility(child: DateButton(mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],), visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),) ,
 

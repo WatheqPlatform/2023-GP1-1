@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, void_checks
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/reset_password_screen.dart';
 import 'package:watheq/Authentication/signup_screen.dart';
@@ -188,6 +189,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: screenWidth * 0.8,
                           child: TextFormField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(100)
+                            ],
                             controller: emailController,
                             validator: (value) {
                               if (value == "") {

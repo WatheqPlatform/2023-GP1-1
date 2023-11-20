@@ -1,16 +1,17 @@
 // ignore_for_file: non_constant_identifier_names, prefer_interpolation_to_compose_strings
 
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:watheq/Applications_Screen.dart';
 import 'dart:convert';
-import 'package:watheq/profile_screen.dart';
-import 'offer_details_screen.dart';
-import 'package:watheq/database_connection/connection.dart';
+import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icons.dart';
 import 'package:string_capitalize/string_capitalize.dart';
+import 'package:watheq/Applications_Screen.dart';
+import 'package:watheq/database_connection/connection.dart';
+import 'package:watheq/profile_screen.dart';
+import 'offer_details_screen.dart';
 
 class OffersScreen extends StatefulWidget {
   final String email;
@@ -34,6 +35,18 @@ class _OffersScreenState extends State<OffersScreen> {
   List<String> industries = [];
   List<String> categories = [];
   List<String> jobTitles = [];
+  Map<int, int> experienceMap = {};
+
+  double currentmin = 0;
+  double currentmax = 50;
+  RangeValues currentRangeValues = RangeValues(0, 50);
+
+  bool showAllCityNames = false;
+  bool showAllCategories = false;
+  bool showAllJobTitles = false;
+  bool showAllEmploymentTypes = false;
+  bool showAllIndustries = false;
+  bool showAllCompanies = false;
 
   Future<void> getdata() async {
     var res = await http.get(Uri.parse(Connection.jobOffersData));
@@ -70,6 +83,14 @@ class _OffersScreenState extends State<OffersScreen> {
             categories.add(item["CategoryName"]);
           } else if (item.containsKey("Field")) {
             industries.add(item["Field"]);
+          }
+
+          if (item.containsKey("OfferID")) {
+            int offerId = int.parse(item["OfferID"].toString());
+            int experienceYears = item.containsKey("ExperienceYears")
+                ? int.parse(item["ExperienceYears"].toString())
+                : 0;
+            experienceMap[offerId] = experienceYears;
           }
         }
       });
@@ -134,23 +155,40 @@ class _OffersScreenState extends State<OffersScreen> {
   }
 
   void filter(List<String> selectedLabels) {
-    List results = allOffers.where((element) {
-      // Check if any selected label is contained in the element
-      return selectedLabels.any((label) {
-        return element["JobTitle"]
-                .toLowerCase()
-                .contains(label.toLowerCase()) ||
-            element["CityName"].toLowerCase().contains(label.toLowerCase()) ||
-            element["EmploymentType"]
-                .toLowerCase()
-                .contains(label.toLowerCase()) ||
-            element["Field"].toLowerCase().contains(label.toLowerCase()) ||
-            element["CompanyName"]
-                .toLowerCase()
-                .contains(label.toLowerCase()) ||
-            element["CategoryName"].toLowerCase().contains(label.toLowerCase());
-      });
+    List results = [];
+
+    results = allOffers.where((element) {
+      bool labelMatch = selectedLabels.isEmpty ||
+          selectedLabels.any((label) {
+            return element["JobTitle"]
+                    .toLowerCase()
+                    .contains(label.toLowerCase()) ||
+                element["CityName"]
+                    .toLowerCase()
+                    .contains(label.toLowerCase()) ||
+                element["EmploymentType"]
+                    .toLowerCase()
+                    .contains(label.toLowerCase()) ||
+                element["Field"].toLowerCase().contains(label.toLowerCase()) ||
+                element["CompanyName"]
+                    .toLowerCase()
+                    .contains(label.toLowerCase()) ||
+                element["CategoryName"]
+                    .toLowerCase()
+                    .contains(label.toLowerCase());
+          });
+
+      bool experienceMatch = false;
+      if (experienceMap.isNotEmpty) {
+        int offerId = int.parse(element["OfferID"].toString());
+        int experienceYears = experienceMap[offerId] ?? 0;
+        experienceMatch = experienceYears >= currentRangeValues.start &&
+            experienceYears <= currentRangeValues.end;
+      }
+
+      return labelMatch && experienceMatch;
     }).toList();
+
     setState(() {
       foundOffers = results;
     });
@@ -159,6 +197,22 @@ class _OffersScreenState extends State<OffersScreen> {
   void handleChipSelection(String label, bool isSelected) {
     setState(() {
       selectedChips[label] = isSelected;
+    });
+  }
+
+  void resetFilters() {
+    setState(() {
+      foundOffers = allOffers;
+      selectedChips.clear();
+      double currentmin = 0;
+      double currentmax = 50;
+      currentRangeValues = RangeValues(currentmin, currentmax);
+      showAllCategories = false;
+      showAllCityNames = false;
+      showAllCompanies = false;
+      showAllEmploymentTypes = false;
+      showAllIndustries = false;
+      showAllJobTitles = false;
     });
   }
 
@@ -222,290 +276,673 @@ class _OffersScreenState extends State<OffersScreen> {
                         ),
                         onPressed: () {
                           showModalBottomSheet(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(25))),
-                            context: context,
-                            builder: (context) => Container(
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 13.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(25))),
+                              context: context,
+                              builder: (BuildContext context) {
+                                return StatefulBuilder(
+                                  builder: (BuildContext context,
+                                      StateSetter setState) {
+                                    return Column(
                                       children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            icon: const Icon(Icons.close)),
-                                        const Text("Filters",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 18)),
-                                        TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                foundOffers = allOffers;
-                                                selectedChips.clear();
-                                              });
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text(
-                                              "Reset",
-                                              style: TextStyle(
-                                                  color:
-                                                      const Color(0xFF024A8D),
-                                                  fontSize: 15),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Expanded(
-                                    child: SingleChildScrollView(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            const Text(
-                                              "City",
-                                              style: TextStyle(
-                                                  color: Color(0xFF024A8D),
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Wrap(
-                                              spacing:
-                                                  8.0, // gap between adjacent chips
-                                              runSpacing:
-                                                  1.0, // gap between lines
-                                              children: List<Widget>.generate(
-                                                  cityNames.length,
-                                                  (int index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(2.0),
-                                                  child: CustomChoiceChip(
-                                                      label: cityNames[index],
-                                                      onSelectionChanged:
-                                                          (isSelected) =>
-                                                              handleChipSelection(
-                                                                  cityNames[
-                                                                      index],
-                                                                  isSelected)),
-                                                );
-                                              }),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            const Text(
-                                              "Company",
-                                              style: TextStyle(
-                                                  color: Color(0xFF024A8D),
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Wrap(
-                                              spacing:
-                                                  8.0, // gap between adjacent chips
-                                              runSpacing:
-                                                  1.0, // gap between lines
-                                              children: List<Widget>.generate(
-                                                  companyNames.length,
-                                                  (int index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(2.0),
-                                                  child: CustomChoiceChip(
-                                                      label:
-                                                          companyNames[index],
-                                                      onSelectionChanged:
-                                                          (isSelected) =>
-                                                              handleChipSelection(
-                                                                  companyNames[
-                                                                      index],
-                                                                  isSelected)),
-                                                );
-                                              }),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            const Text(
-                                              "Employment Type",
-                                              style: TextStyle(
-                                                  color: Color(0xFF024A8D),
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Wrap(
-                                              spacing:
-                                                  8.0, // gap between adjacent chips
-                                              runSpacing:
-                                                  1.0, // gap between lines
-                                              children: List<Widget>.generate(
-                                                  employmentTypes.length,
-                                                  (int index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(2.0),
-                                                  child: CustomChoiceChip(
-                                                      label: employmentTypes[
-                                                          index],
-                                                      onSelectionChanged:
-                                                          (isSelected) =>
-                                                              handleChipSelection(
-                                                                  employmentTypes[
-                                                                      index],
-                                                                  isSelected)),
-                                                );
-                                              }),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            const Text(
-                                              "Industry",
-                                              style: TextStyle(
-                                                  color: Color(0xFF024A8D),
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Wrap(
-                                              spacing:
-                                                  8.0, // gap between adjacent chips
-                                              runSpacing:
-                                                  1.0, // gap between lines
-                                              children: List<Widget>.generate(
-                                                  industries.length,
-                                                  (int index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(2.0),
-                                                  child: CustomChoiceChip(
-                                                      label: industries[index],
-                                                      onSelectionChanged:
-                                                          (isSelected) =>
-                                                              handleChipSelection(
-                                                                  industries[
-                                                                      index],
-                                                                  isSelected)),
-                                                );
-                                              }),
-                                            ),
-                                            const Text(
-                                              "Job Title",
-                                              style: TextStyle(
-                                                  color: Color(0xFF024A8D),
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Wrap(
-                                              spacing:
-                                                  8.0, // gap between adjacent chips
-                                              runSpacing:
-                                                  1.0, // gap between lines
-                                              children: List<Widget>.generate(
-                                                  jobTitles.length,
-                                                  (int index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(2.0),
-                                                  child: CustomChoiceChip(
-                                                      label: jobTitles[index],
-                                                      onSelectionChanged:
-                                                          (isSelected) =>
-                                                              handleChipSelection(
-                                                                  jobTitles[
-                                                                      index],
-                                                                  isSelected)),
-                                                );
-                                              }),
-                                            ),
-                                            const Text(
-                                              "Category",
-                                              style: TextStyle(
-                                                  color: Color(0xFF024A8D),
-                                                  fontSize: 19,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                            Wrap(
-                                              spacing:
-                                                  8.0, // gap between adjacent chips
-                                              runSpacing:
-                                                  1.0, // gap between lines
-                                              children: List<Widget>.generate(
-                                                  categories.length,
-                                                  (int index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(2.0),
-                                                  child: CustomChoiceChip(
-                                                      label: categories[index],
-                                                      onSelectionChanged:
-                                                          (isSelected) =>
-                                                              handleChipSelection(
-                                                                  categories[
-                                                                      index],
-                                                                  isSelected)),
-                                                );
-                                              }),
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                          ],
+                                        Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              IconButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  icon:
+                                                      const Icon(Icons.close)),
+                                              const Text("Filters",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 18)),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    resetFilters();
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text(
+                                                    "Reset",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF024A8D),
+                                                        fontSize: 17),
+                                                  )),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      List<String> selectedLabels =
-                                          selectedChips.entries
-                                              .where((entry) => entry.value)
-                                              .map((entry) => entry.key)
-                                              .toList(); // Convert to List
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        Expanded(
+                                          child: SingleChildScrollView(
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 20.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    "City",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF024A8D),
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  Wrap(
+                                                    spacing:
+                                                        8.0, // gap between adjacent chips
+                                                    runSpacing:
+                                                        1.0, // gap between lines
+                                                    children:
+                                                        List<Widget>.generate(
+                                                      showAllCityNames
+                                                          ? cityNames.length
+                                                          : min(
+                                                              cityNames.length,
+                                                              3),
+                                                      (int index) {
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(2.0),
+                                                          child: CustomChoiceChip(
+                                                              label: cityNames[
+                                                                  index],
+                                                              isSelected: selectedChips[
+                                                                      cityNames[
+                                                                          index]] ??
+                                                                  false,
+                                                              onSelectionChanged: (isSelected) =>
+                                                                  handleChipSelection(
+                                                                      cityNames[
+                                                                          index],
+                                                                      isSelected)),
+                                                        );
+                                                      },
+                                                    )..add(cityNames.length > 3
+                                                            ? GestureDetector(
+                                                                onTap: () =>
+                                                                    setState(
+                                                                        () {
+                                                                  showAllCityNames =
+                                                                      !showAllCityNames;
+                                                                }),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      showAllCityNames
+                                                                          ? "Show less"
+                                                                          : "Show more",
+                                                                      style:
+                                                                          const TextStyle(
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            135,
+                                                                            135,
+                                                                            135),
+                                                                      ),
+                                                                    ),
+                                                                    Icon(
+                                                                      showAllCityNames
+                                                                          ? Icons
+                                                                              .keyboard_arrow_up
+                                                                          : Icons
+                                                                              .keyboard_arrow_down,
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          135,
+                                                                          135,
+                                                                          135),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : Container()),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  const Text(
+                                                    "Company",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF024A8D),
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  Wrap(
+                                                    spacing:
+                                                        8.0, // gap between adjacent chips
+                                                    runSpacing:
+                                                        1.0, // gap between lines
+                                                    children:
+                                                        List<Widget>.generate(
+                                                            showAllCompanies
+                                                                ? companyNames
+                                                                    .length
+                                                                : min(
+                                                                    companyNames
+                                                                        .length,
+                                                                    3),
+                                                            (int index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2.0),
+                                                        child: CustomChoiceChip(
+                                                            label: companyNames[
+                                                                index],
+                                                            isSelected: selectedChips[
+                                                                    companyNames[
+                                                                        index]] ??
+                                                                false,
+                                                            onSelectionChanged: (isSelected) =>
+                                                                handleChipSelection(
+                                                                    companyNames[
+                                                                        index],
+                                                                    isSelected)),
+                                                      );
+                                                    })
+                                                          ..add(companyNames
+                                                                      .length >
+                                                                  3
+                                                              ? GestureDetector(
+                                                                  onTap: () =>
+                                                                      setState(
+                                                                          () {
+                                                                    showAllCompanies =
+                                                                        !showAllCompanies;
+                                                                  }),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        showAllCompanies
+                                                                            ? "Show less"
+                                                                            : "Show more",
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              135,
+                                                                              135,
+                                                                              135),
+                                                                        ),
+                                                                      ),
+                                                                      Icon(
+                                                                        showAllCompanies
+                                                                            ? Icons.keyboard_arrow_up
+                                                                            : Icons.keyboard_arrow_down,
+                                                                        color: const Color
+                                                                            .fromARGB(
+                                                                            255,
+                                                                            135,
+                                                                            135,
+                                                                            135),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              : Container()),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  const Text(
+                                                    "Employment Type",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF024A8D),
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  Wrap(
+                                                    spacing:
+                                                        8.0, // gap between adjacent chips
+                                                    runSpacing:
+                                                        1.0, // gap between lines
+                                                    children: List<
+                                                            Widget>.generate(
+                                                        showAllEmploymentTypes
+                                                            ? employmentTypes
+                                                                .length
+                                                            : min(
+                                                                employmentTypes
+                                                                    .length,
+                                                                3),
+                                                        (int index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2.0),
+                                                        child: CustomChoiceChip(
+                                                            label:
+                                                                employmentTypes[
+                                                                    index],
+                                                            isSelected: selectedChips[
+                                                                    employmentTypes[
+                                                                        index]] ??
+                                                                false,
+                                                            onSelectionChanged:
+                                                                (isSelected) =>
+                                                                    handleChipSelection(
+                                                                        employmentTypes[
+                                                                            index],
+                                                                        isSelected)),
+                                                      );
+                                                    })
+                                                      ..add(
+                                                          employmentTypes
+                                                                      .length >
+                                                                  3
+                                                              ? GestureDetector(
+                                                                  onTap: () =>
+                                                                      setState(
+                                                                          () {
+                                                                    showAllEmploymentTypes =
+                                                                        !showAllEmploymentTypes;
+                                                                  }),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        showAllEmploymentTypes
+                                                                            ? "Show less"
+                                                                            : "Show more",
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              135,
+                                                                              135,
+                                                                              135),
+                                                                        ),
+                                                                      ),
+                                                                      Icon(
+                                                                        showAllEmploymentTypes
+                                                                            ? Icons.keyboard_arrow_up
+                                                                            : Icons.keyboard_arrow_down,
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            135,
+                                                                            135,
+                                                                            135),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              : Container()),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  const Text(
+                                                    "Industry",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF024A8D),
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  Wrap(
+                                                    spacing:
+                                                        8.0, // gap between adjacent chips
+                                                    runSpacing:
+                                                        1.0, // gap between lines
+                                                    children:
+                                                        List<Widget>.generate(
+                                                            showAllIndustries
+                                                                ? industries
+                                                                    .length
+                                                                : min(
+                                                                    industries
+                                                                        .length,
+                                                                    3),
+                                                            (int index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2.0),
+                                                        child: CustomChoiceChip(
+                                                            label: industries[
+                                                                index],
+                                                            isSelected: selectedChips[
+                                                                    industries[
+                                                                        index]] ??
+                                                                false,
+                                                            onSelectionChanged:
+                                                                (isSelected) =>
+                                                                    handleChipSelection(
+                                                                        industries[
+                                                                            index],
+                                                                        isSelected)),
+                                                      );
+                                                    })
+                                                          ..add(industries
+                                                                      .length >
+                                                                  3
+                                                              ? GestureDetector(
+                                                                  onTap: () =>
+                                                                      setState(
+                                                                          () {
+                                                                    showAllIndustries =
+                                                                        !showAllIndustries;
+                                                                  }),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        showAllIndustries
+                                                                            ? "Show less"
+                                                                            : "Show more",
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              135,
+                                                                              135,
+                                                                              135),
+                                                                        ),
+                                                                      ),
+                                                                      Icon(
+                                                                        showAllIndustries
+                                                                            ? Icons.keyboard_arrow_up
+                                                                            : Icons.keyboard_arrow_down,
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            135,
+                                                                            135,
+                                                                            135),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              : Container()),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  const Text(
+                                                    "Job Title",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF024A8D),
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  Wrap(
+                                                    spacing:
+                                                        8.0, // gap between adjacent chips
+                                                    runSpacing:
+                                                        1.0, // gap between lines
+                                                    children:
+                                                        List<Widget>.generate(
+                                                            showAllJobTitles
+                                                                ? jobTitles
+                                                                    .length
+                                                                : min(
+                                                                    jobTitles
+                                                                        .length,
+                                                                    3),
+                                                            (int index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2.0),
+                                                        child: CustomChoiceChip(
+                                                            label: jobTitles[
+                                                                index],
+                                                            isSelected: selectedChips[
+                                                                    jobTitles[
+                                                                        index]] ??
+                                                                false,
+                                                            onSelectionChanged:
+                                                                (isSelected) =>
+                                                                    handleChipSelection(
+                                                                        jobTitles[
+                                                                            index],
+                                                                        isSelected)),
+                                                      );
+                                                    })
+                                                          ..add(jobTitles
+                                                                      .length >
+                                                                  3
+                                                              ? GestureDetector(
+                                                                  onTap: () =>
+                                                                      setState(
+                                                                          () {
+                                                                    showAllJobTitles =
+                                                                        !showAllJobTitles;
+                                                                  }),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        showAllJobTitles
+                                                                            ? "Show less"
+                                                                            : "Show more",
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              135,
+                                                                              135,
+                                                                              135),
+                                                                        ),
+                                                                      ),
+                                                                      Icon(
+                                                                        showAllJobTitles
+                                                                            ? Icons.keyboard_arrow_up
+                                                                            : Icons.keyboard_arrow_down,
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            135,
+                                                                            135,
+                                                                            135),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              : Container()),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  const Text(
+                                                    "Category",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF024A8D),
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  Wrap(
+                                                    spacing:
+                                                        8.0, // gap between adjacent chips
+                                                    runSpacing:
+                                                        1.0, // gap between lines
+                                                    children:
+                                                        List<Widget>.generate(
+                                                            showAllCategories
+                                                                ? categories
+                                                                    .length
+                                                                : min(
+                                                                    categories
+                                                                        .length,
+                                                                    3),
+                                                            (int index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(2.0),
+                                                        child: CustomChoiceChip(
+                                                            label: categories[
+                                                                index],
+                                                            isSelected: selectedChips[
+                                                                    categories[
+                                                                        index]] ??
+                                                                false,
+                                                            onSelectionChanged:
+                                                                (isSelected) =>
+                                                                    handleChipSelection(
+                                                                        categories[
+                                                                            index],
+                                                                        isSelected)),
+                                                      );
+                                                    })
+                                                          ..add(categories
+                                                                      .length >
+                                                                  3
+                                                              ? GestureDetector(
+                                                                  onTap: () =>
+                                                                      setState(
+                                                                          () {
+                                                                    showAllCategories =
+                                                                        !showAllCategories;
+                                                                  }),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Text(
+                                                                        showAllCategories
+                                                                            ? "Show less"
+                                                                            : "Show more",
+                                                                        style:
+                                                                            const TextStyle(
+                                                                          color: Color.fromARGB(
+                                                                              255,
+                                                                              135,
+                                                                              135,
+                                                                              135),
+                                                                        ),
+                                                                      ),
+                                                                      Icon(
+                                                                        showAllCategories
+                                                                            ? Icons.keyboard_arrow_up
+                                                                            : Icons.keyboard_arrow_down,
+                                                                        color: Color.fromARGB(
+                                                                            255,
+                                                                            135,
+                                                                            135,
+                                                                            135),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              : Container()),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 15,
+                                                  ),
+                                                  const Text(
+                                                    "Experience Years",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xFF024A8D),
+                                                        fontSize: 19,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                  RangeSlider(
+                                                      values:
+                                                          currentRangeValues,
+                                                      min: currentmin,
+                                                      max: currentmax,
+                                                      divisions: (currentmax -
+                                                              currentmin)
+                                                          .toInt(),
+                                                      labels: RangeLabels(
+                                                        currentRangeValues.start
+                                                            .round()
+                                                            .toString(),
+                                                        currentRangeValues.end
+                                                            .round()
+                                                            .toString(),
+                                                      ),
+                                                      onChanged:
+                                                          (RangeValues values) {
+                                                        setState(() {
+                                                          currentRangeValues =
+                                                              values;
+                                                        });
+                                                      }),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            List<String> selectedLabels =
+                                                selectedChips.entries
+                                                    .where(
+                                                        (entry) => entry.value)
+                                                    .map((entry) => entry.key)
+                                                    .toList(); // Convert to List
 
-                                      filter(selectedLabels);
-                                      Navigator.of(context).pop();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF024A8D),
-                                      fixedSize: Size(screenWidth * 0.8,
-                                          screenHeight * 0.056),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      elevation: 5,
-                                    ),
-                                    child: const Text(
-                                      "Done",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
+                                            filter(selectedLabels);
+                                            Navigator.of(context).pop();
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xFF024A8D),
+                                            fixedSize: Size(screenWidth * 0.8,
+                                                screenHeight * 0.056),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            elevation: 5,
+                                          ),
+                                          child: const Text(
+                                            "Done",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 20,
+                                        )
+                                      ],
+                                    );
+                                  },
+                                );
+                              });
                         },
                       ),
                       const SizedBox(width: 5),
@@ -515,7 +952,7 @@ class _OffersScreenState extends State<OffersScreen> {
                         child: TextField(
                           onChanged: (value) => searchOffer(value),
                           decoration: InputDecoration(
-                            hintText: "Search by title, category, or company",
+                            hintText: "Search by title, industry, or company",
                             border: InputBorder.none,
                             prefixIcon: const Icon(
                               Icons.search,
@@ -821,16 +1258,26 @@ class _OffersScreenState extends State<OffersScreen> {
 class CustomChoiceChip extends StatefulWidget {
   final String label;
   final Function(bool) onSelectionChanged;
+  final bool isSelected;
 
   CustomChoiceChip(
-      {super.key, required this.label, required this.onSelectionChanged}) {}
+      {super.key,
+      required this.label,
+      required this.onSelectionChanged,
+      this.isSelected = false}) {}
 
   @override
   _CustomChoiceChipState createState() => _CustomChoiceChipState();
 }
 
 class _CustomChoiceChipState extends State<CustomChoiceChip> {
-  bool _isSelected = false;
+  late bool _isSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isSelected = widget.isSelected;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -844,8 +1291,8 @@ class _CustomChoiceChipState extends State<CustomChoiceChip> {
         });
       },
       avatar: _isSelected
-          ? Icon(Icons.close, size: 18.0) // 'x' icon when selected
-          : Icon(Icons.add, size: 18.0), // '+' icon when not selected
+          ? Icon(Icons.close, size: 18.0)
+          : Icon(Icons.add, size: 18.0),
       selectedColor: Colors.grey[400],
       backgroundColor: Colors.grey[300],
     );

@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'dart:convert';
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:watheq/Authentication/login_screen.dart';
 import 'package:http/http.dart' as http;
@@ -266,6 +267,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(
                           width: screenWidth * 0.8,
                           child: TextFormField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(50)
+                            ],
                             controller: NameController,
                             validator: (value) {
                               if (value == "") {
@@ -313,6 +317,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(
                           width: screenWidth * 0.8,
                           child: TextFormField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(100)
+                            ],
                             controller: emailController,
                             validator: (value) {
                               if (value == "") {

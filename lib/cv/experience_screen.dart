@@ -38,9 +38,30 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
   List<TextEditingController> startDatesController=[TextEditingController()];
   List<TextEditingController> endDatesController=[TextEditingController()];
   List<TextEditingController> experienceIndustryControllers=[TextEditingController()];
-  int steps = 1;
+
   List<String> fields = [];
   List <dynamic> fieldsWithId = [];
+  String? validatePhone(String? value) {
+    if (value is Null || value.isEmpty) {
+      return null;
+    }
+    RegExp pattern = RegExp(r'^05\d{8}$');
+
+    if (value.length != 10 || !value.startsWith(pattern)) {
+      return 'Please enter a valid Saudi Number';
+    }
+    return null;
+  }
+
+  String? validateEmail(String? value) {
+    if (value is Null || value.isEmpty) {
+      return null;
+    }
+    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
+      return 'Please enter a valid email address';
+    }
+    return null;
+  }
   String? validateCV(Map<String, dynamic> data) {
     List<String> requiredFieldsCV = ['firstName', 'lastName', 'phoneNumber', 'contactEmail', 'seekerEmail', 'summary', 'city'];
 
@@ -50,6 +71,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       }
     }
 
+    if (validateEmail(data['contactEmail']) != null) return validateEmail(data['contactEmail']);
+    if (validatePhone(data['phoneNumber']) != null) return validatePhone(data['phoneNumber']);
     if (data['awards'] != null && data['awards'] is List) {
       for (Map<String, dynamic> award in data['awards']) {
         List<String> requiredFieldsAward = ['awardName', 'issuedBy', 'date'];
@@ -66,7 +89,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       for (Map<String, dynamic> qualification in data['qualifications']) {
         List<String> requiredFieldsQualification = ['DegreeLevel', ];
         if (qualification['DegreeLevel'] != 'Pre-high school') {
-            requiredFieldsQualification.addAll(['Field', 'StartDate', 'EndDate', 'UniversityName']);
+            requiredFieldsQualification.addAll(['Field', 'StartDate', 'EndDate']);
         }
         for (String field in requiredFieldsQualification) {
 
@@ -132,9 +155,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
           );
         },
       );
-      print(body);
       String jsonString = json.encode(body);
-      print(jsonString);
       var response = await http.post(
         Uri.parse(Connection.createCv),
         headers: {
@@ -143,6 +164,15 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         body: jsonString,
       );
       widget.formController.reset();
+      String status = body['ID'] != 0 ? "Edited" : "Created";
+      ErrorMessage.show(
+        context,
+        "Success",
+        18,
+        "You have $status Your cv.",
+        ContentType.success,
+        const Color.fromARGB(255, 15, 152, 20),
+      );
       Get.off(ProfileScreen(email: widget.email));
 
     } catch (e) {
@@ -150,10 +180,112 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     }
   }
 
+  int steps = -1;
+  int lastSteps = -1;
+  Widget buildStepItem(int i) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Experience $i',
+          style: TextStyle(
+              color: Color(0xFF085399), fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 40,),
+        if(fields.length > 0) Column(
+          children: [
+            RequiredFieldLabel(labelText: 'Experience Industry',hideStar: true, ),
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color(0xFF14386E),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color(0xFF14386E),
+                  ),
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal:  8.0,
+                  vertical:  0.012,
+                ),
+              ),
+              value: experienceIndustryControllers[i].text.isNotEmpty ? experienceIndustryControllers[i].text : null,
+              hint: Text('Choose Industry'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  experienceIndustryControllers[i].text = newValue!;
+                });
+              },
+              items: fields.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+            )
+          ],
+        ),
+        SizedBox(height: 5,),
+        RequiredFieldWidget(
+          label: 'Job Title',
+          keyName: 'jobTitle',
+          starColor: Colors.green,
+          controller: jobTitleControllers[i],
+        ),
+
+        RequiredFieldWidget(
+          label: 'Company Name',
+          keyName: 'companyName',
+          starColor: Colors.green,
+          controller: companyNameControllers[i],
+        ),
+        DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.month,),
+        DateButton(starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month),
+      ],
+    );
+  }
+  List<Widget> cachedSteps = [];
+  List<Widget> addOrGetCachedSteps() {
+    if (steps == lastSteps) {
+      return cachedSteps;
+    }
+    if (steps > lastSteps) {
+      steps = lastSteps;
+      jobTitleControllers.add(TextEditingController());
+      companyNameControllers.add(TextEditingController());
+      startDatesController.add(TextEditingController());
+      endDatesController.add(TextEditingController());
+      experienceIndustryControllers.add(TextEditingController());
+      cachedSteps.add(
+          buildStepItem(steps)
+      );
+      return cachedSteps;
+    }
+    steps = lastSteps;
+    jobTitleControllers.removeLast();
+    companyNameControllers.removeLast();
+    startDatesController.removeLast();
+    endDatesController.removeLast();
+    experienceIndustryControllers.removeLast();
+    cachedSteps.removeLast();
+
+    return cachedSteps;
+
+  }
   List<Widget> buildsteps() {
     if (fieldsWithId.length == 0 || fields.length == 0) {
       return [];
     }
+     jobTitleControllers=[TextEditingController()];
+     companyNameControllers=[TextEditingController()];
+     startDatesController=[TextEditingController()];
+    endDatesController=[TextEditingController()];
+    experienceIndustryControllers=[TextEditingController()];
     List<Widget> l = [];
     for (int i = 1; i <= steps; i++) {
       String? category = null, jobTitle = '', company = '', startDate = '', endDate = '';
@@ -173,107 +305,20 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       startDatesController.add(TextEditingController(text: startDate));
       endDatesController.add(TextEditingController(text: endDate));
       experienceIndustryControllers.add(TextEditingController(text: category));
-      l.add(Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Experience $i',
-            style: TextStyle(
-                color: Color(0xFF085399), fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 40,),
-          if(fields.length > 0) Column(
-            children: [
-              RequiredFieldLabel(labelText: 'Experience Industry'),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: Color(0xFF14386E),
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: Color(0xFF14386E),
-                    ),
-                  ),
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal:  8.0,
-                    vertical:  0.012,
-                  ),
-                ),
-                value: experienceIndustryControllers[i].text.isNotEmpty ? experienceIndustryControllers[i].text : null,
-                hint: Text('Choose Industry'),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    experienceIndustryControllers[i].text = newValue!;
-                  });
-                },
-                items: fields.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              )
-            ],
-          ),
-          SizedBox(height: 5,),
-          RequiredFieldWidget(
-            label: 'Job Title',
-            keyName: 'jobTitle',
-            controller: jobTitleControllers[i],
-          ),
-
-          RequiredFieldWidget(
-            label: 'Company Name',
-            keyName: 'companyName',
-            controller: companyNameControllers[i],
-          ),
-          DateButton(label: 'Start Date',dateController: startDatesController[i],),
-          DateButton(label: 'End Date',dateController: endDatesController[i],),
-          i!=1? IconButton(
-              onPressed: () {
-                int index=i;
-                print(steps.toString());
-                setState(() {
-                  steps--;
-                  jobTitleControllers.removeAt(index-1);
-                  companyNameControllers.removeAt(index-1);
-                  l.removeAt(index-1);
-                });
-              },
-              icon: Icon(
-                Icons.remove_circle_outline,
-                color:Colors.red,
-              )):SizedBox(),
-          i==steps? IconButton(
-              onPressed: () {
-                steps++;
-                print(steps.toString());
-                setState(() {
-                });
-              },
-              icon: Icon(
-                Icons.add_circle_outline,
-                color: Color(0xFF085399),
-              )):SizedBox(),
-        ],
-      ));
+      l.add(buildStepItem(i));
     }
     return l;
   }
   @override
   void initState() {
     steps = widget.formController.formData['experiences'].length > 0 ? widget.formController.formData['experiences'].length : 1;
+    lastSteps = steps;
     super.initState();
     fetchCategories().then((val) {
       fields = List<String>.from(val.map((e) {return e['CategoryName']; }));
       fieldsWithId = List<dynamic>.from(val.map((e) {return e;} ));
       setState(() {
-
+          cachedSteps = buildsteps();
       });
     });
   }
@@ -306,7 +351,29 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             const SizedBox(height: 50),
             Row(
               children: [
-                const SizedBox(width: 55),
+                const SizedBox(width: 2),
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 40,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,    builder: (BuildContext context) {
+                      return AlertDialog(        title: Text('Confirmation'),
+                        content: Text(            'Are you sure you want to cancel?'),
+                        actions: [          TextButton(
+                          onPressed: () {              Navigator.of(context)
+                              .pop();            },
+                          child: Text('No'),          ),
+                          TextButton(            onPressed: () {
+                            Get.offAll(ProfileScreen(email: widget.email));            },
+                            child: Text('Yes'),          ),
+                        ],      );
+                    });
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
@@ -343,32 +410,57 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Theme(
-                          data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
-                  canvasColor: Colors.transparent,
-                  colorScheme: ColorScheme.light(
-                    primary: Color(0xFF085399),
-                    
-                  )),
+                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
+                            canvasColor: Colors.transparent,
+                            colorScheme: ColorScheme.light(
+                              primary: Color(0xFF085399),
+
+                            )),
                         child: SizedBox(child:Stepper(
-                          
+
                           steps: const [
                             Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
                             Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
                             Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
                             Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
                             Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                      
+
                           ],
-                          currentStep: 2,
-                          onStepTapped: (int index){
-                            widget.goToPage(index);
-                          },
                           type: StepperType.horizontal,
-                      
+
                         ),height: 75 ,),
-                      ),SizedBox(
+                      ),
+                      SizedBox(
                         height: screenHeight*0.59,
-                        child: ListView(children: buildsteps()),
+                        child: ListView(children: [
+                          ...addOrGetCachedSteps(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              steps != 1 ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    steps--;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Colors.red,
+                                ),
+                              ) :SizedBox(width: 0,height: 0,),
+                              IconButton(
+                                onPressed: () {
+                                  steps++;
+                                  setState(() {});
+                                },
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  color: Color(0xFF085399),
+                                ),
+                              ),
+                            ],
+                          )
+                        ]),
                       ),
                       SizedBox(height: 10,),
 
@@ -376,44 +468,21 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             ElevatedButton.icon(
-                              onPressed: () {
 
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Confirmation'),
-                                        content: Text(
-                                            'Are you sure you want to cancel?'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop();
-                                            },
-                                            child: Text('No'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Get.off(ProfileScreen(email: widget.email));
-                                            },
-                                            child: Text('Yes'),
-                                          ),
-                                        ],
-                                      );
-                                    }
-                                );
+                              onPressed: () {
+                                widget.onBack();
+
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.redAccent,
-                                padding: EdgeInsets.symmetric(horizontal: 50),
+                                padding: EdgeInsets.symmetric(horizontal: 40),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 elevation: 5,
                               ),
-                              icon: Icon(Icons.cancel),
-                            label: Text(''),
+                              icon: Icon(Icons.arrow_back),
+                              label: Text('Back'),
                             ),
                             Directionality(
                               textDirection: TextDirection.rtl,

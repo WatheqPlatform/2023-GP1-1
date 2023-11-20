@@ -23,6 +23,7 @@ class AwardsScreen extends StatefulWidget {
   final email;
   final VoidCallback onBack;
   final goToPage;
+
   AwardsScreen(
       {super.key,
       required this.isEdit,
@@ -38,21 +39,60 @@ class _AwardsScreenState extends State<AwardsScreen> {
   void initState() {
     super.initState();
     steps = formController.formData['awards'].length> 0 ? formController.formData['awards'].length :  1;
+    lastSteps = steps;
+    cachedSteps = buildsteps();
   }
   final FormController formController = Get.find<FormController>(tag: 'form-control');
   List<TextEditingController> awardNameControllers=[TextEditingController()];
   List<TextEditingController> issuedByControllers=[TextEditingController()];
   List<TextEditingController> datesController=[TextEditingController()];
-  int steps = 1;
+  late int steps = -1;
+  late int lastSteps = -1;
+  List<Widget> cachedSteps = [];
+
+  Widget buildStepItem (int i) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Award $i',
+          style: TextStyle(
+              color: Color(0xFF085399), fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 5,),
+        RequiredFieldWidget(
+          label: 'Award Name',
+          controller: awardNameControllers[i],
+          hideStar: true,
+        ),
+
+        DateButton(label: 'Date',dateController: datesController[i], starColor: Colors.green,lastDate: DateTime.now(),),
+        RequiredFieldWidget(
+          label: 'Issued By',
+          controller: issuedByControllers[i],
+          starColor: Colors.green,
+        ),
+
+      ],
+    );
+  }
   List<Widget> buildsteps() {
+    if (steps == -1) {
+      return [];
+    }
+    awardNameControllers=[TextEditingController()];
+    issuedByControllers=[TextEditingController()];
+    datesController=[TextEditingController()];
     List<Widget> l = [];
+    final x = formController.formData.value['awards'];
+
     for (int i = 1; i <= steps; i++) {
       String? awardName = null, issuedBy = null, date = null;
 
-      if (formController.formData['awards'].length >= i) {
-        awardName = formController.formData['awards'][i-1]['awardName'];
-        issuedBy = formController.formData['awards'][i-1]['issuedBy'];
-        date = formController.formData['awards'][i-1]['date'];
+      if (x.length >= i) {
+        awardName = x[i-1]['awardName'];
+        issuedBy = x[i-1]['issuedBy'];
+        date = x[i-1]['date'];
         awardNameControllers.add(TextEditingController(text: awardName));
         issuedByControllers.add(TextEditingController(text: issuedBy));
         datesController.add(TextEditingController(text: date));
@@ -64,64 +104,36 @@ class _AwardsScreenState extends State<AwardsScreen> {
         datesController.add(TextEditingController());
       }
 
-      l.add(Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Award $i',
-            style: TextStyle(
-                color: Color(0xFF085399), fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 5,),
-          RequiredFieldWidget(
-            label: 'Award Name',
-            keyName: 'awardName',
-            controller: awardNameControllers[i],
-          ),
-
-          DateButton(label: 'Date',dateController: datesController[i],),
-          RequiredFieldWidget(
-            label: 'Issued By',
-            keyName: 'issuedBy',
-            controller: issuedByControllers[i],
-          ),
-          i!=1? IconButton(
-              onPressed: () {
-               int index=i;
-               print(steps.toString());
-                setState(() {
-                  steps--;
-                  awardNameControllers.removeAt(index-1);
-                  issuedByControllers.removeAt(index-1);
-                  l.removeAt(index-1);
-                });
-              },
-              icon: Icon(
-                Icons.remove_circle_outline,
-                color:Colors.red,
-              )):SizedBox(),
-         i==steps? IconButton(
-              onPressed: () {
-                steps++;
-                print(steps.toString());
-                setState(() {
-                });
-              },
-              icon: Icon(
-                Icons.add_circle_outline,
-                color: Color(0xFF085399),
-              )):SizedBox(),
-        ],
-      ));
+      l.add(buildStepItem(i));
     }
     return l;
   }
+  List<Widget> addOrGetCachedSteps() {
+    if (lastSteps == steps) return cachedSteps;
 
+    if (steps > lastSteps) {
+      lastSteps = steps;
+      awardNameControllers.add(TextEditingController());
+      issuedByControllers.add(TextEditingController());
+      datesController.add(TextEditingController());
+      cachedSteps.add(
+          buildStepItem(steps)
+      );
+
+      return cachedSteps;
+    }
+    lastSteps = steps;
+    awardNameControllers.removeLast();
+    issuedByControllers.removeLast();
+    datesController.removeLast();
+    cachedSteps.removeLast();
+    return cachedSteps;
+
+  }
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int selectedIndex = 0;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -136,7 +148,29 @@ class _AwardsScreenState extends State<AwardsScreen> {
             const SizedBox(height: 50),
             Row(
               children: [
-                const SizedBox(width: 55),
+                const SizedBox(width: 2),
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 40,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,    builder: (BuildContext context) {
+                      return AlertDialog(        title: Text('Confirmation'),
+                        content: Text(            'Are you sure you want to cancel?'),
+                        actions: [          TextButton(
+                          onPressed: () {              Navigator.of(context)
+                              .pop();            },
+                          child: Text('No'),          ),
+                          TextButton(            onPressed: () {
+                            Get.offAll(ProfileScreen(email: widget.email));            },
+                            child: Text('Yes'),          ),
+                        ],      );
+                    });
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
@@ -148,6 +182,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     ),
                   ),
                 ),
+
               ],
             ),
             const SizedBox(
@@ -173,82 +208,79 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Theme(
-                          data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
-                  canvasColor: Colors.transparent,
-                  colorScheme: ColorScheme.light(
-                    primary: Color(0xFF085399),
-                    
-                  )),
-                        child: SizedBox(child:Stepper(
-                          
-                          steps: const [
-                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                      
-                          ],
-                          currentStep: 2,
-                          onStepTapped: (int index){
-                            widget.goToPage(index);
-                          },
-                          type: StepperType.horizontal,
-                      
-                        ),height: 75 ,),
-                      ),
+                    Theme(
+                    data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
+                      canvasColor: Colors.transparent,
+                      colorScheme: ColorScheme.light(
+                        primary: Color(0xFF085399),
+
+                      )),
+                  child: SizedBox(child:Stepper(
+
+                    steps: const [
+                      Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
+                      Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
+                      Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
+                      Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
+                      Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
+
+                    ],
+                    type: StepperType.horizontal,
+
+                  ),height: 75 ,),
+                ),
 
                         SizedBox(
                           height: screenHeight*0.6,
-                          child: ListView(children: buildsteps()),
-                        ),
+                          child: ListView(children: [...addOrGetCachedSteps(), Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              steps != 1 ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    steps--;
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.remove_circle_outline,
+                                  color: Colors.red,
+                                ),
+                              ) :SizedBox(width: 0,height: 0,),
+                              IconButton(
+                                onPressed: () {
+                                  steps++;
+                                  setState(() {});
+                                },
+                                icon: Icon(
+                                  Icons.add_circle_outline,
+                                  color: Color(0xFF085399),
+                                ),
+                              )
+                            ]),
+                        ])),
 
                         Column(
                           children: [
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
+
                                   ElevatedButton.icon(
 
                                     onPressed: () {
+                                        widget.onBack();
 
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text('Confirmation'),
-                                              content: Text(
-                                                  'Are you sure you want to cancel?'),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pop();
-                                                  },
-                                                  child: Text('No'),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Get.off(ProfileScreen(email: widget.email));
-                                                  },
-                                                  child: Text('Yes'),
-                                                ),
-                                              ],
-                                            );
-                                          }
-                                      );
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.redAccent,
-                                      padding: EdgeInsets.symmetric(horizontal: 50),
+                                      padding: EdgeInsets.symmetric(horizontal: 40),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       elevation: 5,
                                     ),
-                                    icon: Icon(Icons.cancel),
-                                  label: Text(''),
+                                    icon: Icon(Icons.arrow_back),
+                                  label: Text('Back'),
                                   ),
                                   Directionality(
                                     textDirection: TextDirection.rtl,

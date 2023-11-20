@@ -3,15 +3,20 @@ import 'package:watheq/cv/widgets/required_label.dart';
 
 class RequiredFieldWidget extends StatelessWidget {
   final String label;
-  final String keyName;
+  final String? keyName;
+  int maxLines ;
+  TextInputType keyboardType;
+  bool hideStar;
+  Color starColor ;
   final TextEditingController controller;
-  RequiredFieldWidget({required this.label, required this.keyName, required this.controller});
+  RequiredFieldWidget({super.key, required this.label, this.keyName, required this.controller, this.keyboardType =  TextInputType.text, this.maxLines = 1, this.hideStar = false, this.starColor = Colors.red});
   String? validatePhone(String? value) {
     if (value is Null || value.isEmpty) {
       return null;
     }
-    if (value.length != 10 || !value.startsWith(RegExp(r'[0-9]'))) {
-      return 'Please enter a valid 10-digit phone number';
+    RegExp pattern = RegExp(r'^05\d{8}$');
+    if (value.length != 10 || !value.startsWith(pattern)) {
+      return 'Please enter a valid Saudi Number';
     }
     return null;
   }
@@ -25,27 +30,52 @@ class RequiredFieldWidget extends StatelessWidget {
     }
     return null;
   }
-
+  String ? validateShortText(String? value) {
+    if (value is Null || value.isEmpty) {
+      return null;
+    }
+    if (value.length > 50) {
+      return 'Maximum Text size is 50 for this field';
+    }
+    return null;
+  }
+  String ? validateLongText(String? value) {
+    if (value is Null || value.isEmpty) {
+      return null;
+    }
+    if (value.length > 500) {
+      return 'Maximum Text size is 500 for this field';
+    }
+    return null;
+  }
   @override
   Widget build(BuildContext context) {
+    print(hideStar);
     return Container(
       margin: EdgeInsets.only(bottom: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          RequiredFieldLabel(labelText: label,),
+          RequiredFieldLabel(labelText: label, starColor: starColor,hideStar: hideStar,),
             TextFormField(
-              keyboardType: keyName == 'phoneNumber' ? TextInputType.phone : keyName == 'contactEmail' ? TextInputType.emailAddress : TextInputType.text,
+              keyboardType: keyboardType,
+            maxLines: maxLines,
             validator: (String? val) {
               print(val);
                 if (keyName == 'phoneNumber') return validatePhone(val);
                 if (keyName == 'contactEmail') return validateEmail(val);
+                if (maxLines == 1) {
+                  return validateShortText(val);
+                }
+                if (maxLines == 5) {
+                  return validateLongText(val);
+                }
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
 
 
             controller: controller,
-            key: Key(keyName),
+            key: keyName != null ? Key(keyName!) : null,
             decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),

@@ -1,3 +1,4 @@
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:watheq/start_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,9 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Poppins',
       ),
+      localizationsDelegates: [
+        MonthYearPickerLocalizations.delegate,
+      ],
       home: const StartScreen(),
     );
   }

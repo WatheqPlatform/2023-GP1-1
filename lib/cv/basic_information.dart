@@ -95,7 +95,29 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             const SizedBox(height: 50),
             Row(
               children: [
-                const SizedBox(width: 55),
+                const SizedBox(width: 2),
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 40,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,    builder: (BuildContext context) {
+                      return AlertDialog(        title: Text('Confirmation'),
+                        content: Text(            'Are you sure you want to cancel?'),
+                        actions: [          TextButton(
+                          onPressed: () {              Navigator.of(context)
+                              .pop();            },
+                          child: Text('No'),          ),
+                          TextButton(            onPressed: () {
+                            Get.offAll(ProfileScreen(email: widget.email));            },
+                            child: Text('Yes'),          ),
+                        ],      );
+                    });
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
@@ -132,108 +154,83 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     key: widget.formKey,
                     child: Column(
                     children: [
-                      Theme(
-                          data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
-                  canvasColor: Colors.transparent,
-                  colorScheme: ColorScheme.light(
-                    primary: Color(0xFF085399),
-                    
-                  )),
-                        child: SizedBox(child:Stepper(
-                          
-                          steps: const [
-                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                      
-                          ],
-                          currentStep: 2,
-                          onStepTapped: (int index){
-                            widget.goToPage(index);
-                          },
-                          type: StepperType.horizontal,
-                      
-                        ),height: 75 ,),
-                      ),
-                      RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
-                      RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
-                      RequiredFieldWidget(label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
-                      RequiredFieldWidget(label: 'Contact Email',keyName: 'contactEmail',controller: contactEmailController,),
 
-                      RequiredFieldWidget(label: 'Summary',keyName: 'summary',controller: summaryController,),
-                      // Repeat for other fields
-                      RequiredFieldLabel(labelText: 'City',),
+                      SizedBox(
+                        height: screenHeight*0.68,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Theme(
+                                data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
+                                    canvasColor: Colors.transparent,
+                                    colorScheme: ColorScheme.light(
+                                      primary: Color(0xFF085399),
 
-                      if (cities.length > 0) DropdownButtonFormField<Map<String, dynamic>>(
-                        items: cityDropdownItems,
-                        value: (cities.firstWhereOrNull((element) => element['CityId'] == widget.formController.formData['city'].toString()) ),
-                        key: Key('city'),
-                        onChanged: (Map<String, dynamic>? selectedCity) {
-                          if (selectedCity != null) {
-                            widget.formController.updateFormData({'city': selectedCity['CityId']});
-                          }
-                        },
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF085399)),
+                                    )),
+                                child: SizedBox(child:Stepper(
+
+                                  steps: const [
+                                    Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
+                                    Step(title: SizedBox(), content: SizedBox(), isActive: false,  ),
+                                    Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
+                                    Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
+                                    Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
+
+                                  ],
+                                  type: StepperType.horizontal,
+
+                                ),height: 75 ,),
+                              ),
+                              RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
+                              RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
+                              RequiredFieldWidget(label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
+                              RequiredFieldWidget(label: 'Contact Email',keyName: 'contactEmail',controller: contactEmailController,),
+
+                              RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Summary',keyName: 'summary',controller: summaryController,),
+                              // Repeat for other fields
+                              RequiredFieldLabel(labelText: 'City',),
+
+                              if (cities.length > 0) DropdownButtonFormField<Map<String, dynamic>>(
+                                items: cityDropdownItems,
+                                value: (cities.firstWhereOrNull((element) => element['CityId'] == widget.formController.formData['city'].toString()) ),
+                                key: Key('city'),
+                                onChanged: (Map<String, dynamic>? selectedCity) {
+                                  if (selectedCity != null) {
+                                    widget.formController.updateFormData({'city': selectedCity['CityId']});
+                                  }
+                                },
+                                decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Color(0xFF085399)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Color(0xFF085399)),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+                                ),
+                              ),
+                              SizedBox(height:screenHeight * 0.07 ,),
+                            ],
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF085399)),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+
                         ),
                       ),
-                      SizedBox(height:screenHeight * 0.07 ,),
+
 
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          ElevatedButton.icon(
-                            onPressed: () {
-
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Confirmation'),
-                                      content: Text(
-                                          'Are you sure you want to cancel?'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context)
-                                                .pop();
-                                          },
-                                          child: Text('No'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Get.off(ProfileScreen(email: widget.email));
-                                          },
-                                          child: Text('Yes'),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent,
-                              padding: EdgeInsets.symmetric(horizontal: 50),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              elevation: 5,
-                            ),
-                            icon: Icon(Icons.cancel),
-                            label: Text(''),
-                          ),
                           Directionality(
                             textDirection: TextDirection.rtl,
                             child: ElevatedButton.icon(
+
                               onPressed: () {
+                                if (widget.formKey.currentState!.validate()) {
+                                  print('valid');
+                                }
+                                else {
+                                  print('not - valid');
+                                }
                                 widget.formKey.currentState!.save();
                                 widget.formController.updateFormData({ 'firstName': firstNameController.text });
                                 widget.formController.updateFormData({'lastName': lastNameController.text});
@@ -251,6 +248,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 ),
                                 elevation: 5,
                               ),
+
                               icon: Icon(Icons.arrow_back),
                               label: Text('Next'),
 

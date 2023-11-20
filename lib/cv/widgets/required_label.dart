@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class RequiredFieldLabel extends StatefulWidget {
   final String labelText;
-
-  RequiredFieldLabel({required this.labelText});
+  bool hideStar;
+  Color starColor ;
+  RequiredFieldLabel({required this.labelText, this.hideStar = false, this.starColor = Colors.red});
 
   @override
   _RequiredFieldLabelState createState() => _RequiredFieldLabelState();
@@ -29,9 +30,9 @@ class _RequiredFieldLabelState extends State<RequiredFieldLabel> {
                 widget.labelText,
                 style: const TextStyle(color: Color(0xFF085399)), // Label color
               ),
-              Text(
+              if (!widget.hideStar)Text(
                 ' *' + (showMessage ? message : ''),
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: widget.starColor),
               ),
             ],
           ),

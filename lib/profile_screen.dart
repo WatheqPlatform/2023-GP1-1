@@ -43,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
       else {
         formController.formData.value = data['data'];
+        data['data']['phoneNumber'] = '0' + data['data']['phoneNumber'].toString();
         setState(() {
           isEdit = true;
         });

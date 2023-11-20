@@ -34,9 +34,43 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   List<TextEditingController> projectNameControllers=[TextEditingController()];
   List<TextEditingController> descriptionControllers=[TextEditingController()];
   List<TextEditingController> datesControllers=[TextEditingController()];
-  int steps = 1;
+  int steps = -1;
+  int lastSteps = -1;
+  List<Widget> cachedSteps = [];
+  Widget buildStepItem(int i) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Project $i',
+          style: TextStyle(
+              color: Color(0xFF085399), fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 5,),
+        RequiredFieldWidget(
+          label: 'Project Name',
+          keyName: 'projectName',
+          hideStar: true,
+          controller: projectNameControllers[i],
+        ),
+        // Repeat for other fields
+        RequiredFieldWidget(
+          label: 'Description',
+          keyName: 'description',
+          controller: descriptionControllers[i],
+          starColor: Colors.green,
+          maxLines: 5,
+          keyboardType: TextInputType.multiline,
+        ),
+        DateButton(label: 'Completion Date',dateController: datesControllers[i],starColor: Colors.green,),
+      ],
+    );
+  }
   List<Widget> buildsteps() {
     List<Widget> l = [];
+     projectNameControllers=[TextEditingController()];
+     descriptionControllers=[TextEditingController()];
+     datesControllers=[TextEditingController()];
     for (int i = 1; i <= steps; i++) {
       String projectName = "", description = "", date = "";
       if (widget.formController.formData['projects'].length >= i) {
@@ -47,62 +81,35 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       projectNameControllers.add(TextEditingController(text: projectName));
       descriptionControllers.add(TextEditingController(text: description));
       datesControllers.add(TextEditingController(text: date));
-      l.add(Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Project $i',
-            style: TextStyle(
-                color: Color(0xFF085399), fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 5,),
-          RequiredFieldWidget(
-            label: 'Project Name',
-            keyName: 'projectName',
-            controller: projectNameControllers[i],
-          ),
-          // Repeat for other fields
-          RequiredFieldWidget(
-            label: 'Description',
-            keyName: 'description',
-            controller: descriptionControllers[i],
-          ),
-          DateButton(label: 'Date',dateController: datesControllers[i],),
-          i!=1? IconButton(
-              onPressed: () {
-                int index=i;
-                print(steps.toString());
-                setState(() {
-                  steps--;
-                  projectNameControllers.removeAt(index-1);
-                  descriptionControllers.removeAt(index-1);
-                  l.removeAt(index-1);
-                });
-              },
-              icon: Icon(
-                Icons.remove_circle_outline,
-                color:Colors.red,
-              )):SizedBox(),
-          i==steps? IconButton(
-              onPressed: () {
-                steps++;
-                print(steps.toString());
-                setState(() {
-                });
-              },
-              icon: Icon(
-                Icons.add_circle_outline,
-                color: Color(0xFF085399),
-              )):SizedBox(),
-        ],
-      ));
+      l.add(buildStepItem(i));
     }
     return l;
+  }
+  List<Widget> addOrGetCachedSteps() {
+    if (steps == lastSteps) {
+      return cachedSteps;
+    }
+
+    if (steps > lastSteps) {
+      lastSteps = steps;
+      datesControllers.add(TextEditingController());
+      projectNameControllers.add(TextEditingController());
+      descriptionControllers.add(TextEditingController());
+      cachedSteps.add(buildStepItem(steps));
+      return cachedSteps;
+    }
+    lastSteps = steps;
+    datesControllers.removeLast();
+    projectNameControllers.removeLast();
+    descriptionControllers.removeLast();
+    cachedSteps.removeLast();
+    return cachedSteps;
   }
   @override
   void initState() {
     steps = widget.formController.formData['projects'].length > 0 ? widget.formController.formData['projects'].length : 1;
-
+    lastSteps = steps;
+    cachedSteps = buildsteps();
     super.initState();
   }
 
@@ -125,7 +132,29 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
             const SizedBox(height: 50),
             Row(
               children: [
-                const SizedBox(width: 55),
+                const SizedBox(width: 2),
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios_rounded,
+                    size: 40,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                  ),
+                  onPressed: () {
+                    showDialog(
+                        context: context,    builder: (BuildContext context) {
+                      return AlertDialog(        title: Text('Confirmation'),
+                        content: Text(            'Are you sure you want to cancel?'),
+                        actions: [          TextButton(
+                          onPressed: () {              Navigator.of(context)
+                              .pop();            },
+                          child: Text('No'),          ),
+                          TextButton(            onPressed: () {
+                            Get.offAll(ProfileScreen(email: widget.email));            },
+                            child: Text('Yes'),          ),
+                        ],      );
+                    });
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
@@ -161,34 +190,57 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                  Theme(
-                          data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
-                  canvasColor: Colors.transparent,
-                  colorScheme: ColorScheme.light(
-                    primary: Color(0xFF085399),
-                    
-                  )),
+                      Theme(
+                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
+                            canvasColor: Colors.transparent,
+                            colorScheme: ColorScheme.light(
+                              primary: Color(0xFF085399),
+
+                            )),
                         child: SizedBox(child:Stepper(
-                          
+
                           steps: const [
                             Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
                             Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
                             Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
                             Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                      
+                            Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
+
                           ],
-                          currentStep: 2,
-                          onStepTapped: (int index){
-                            widget.goToPage(index);
-                          },
                           type: StepperType.horizontal,
-                      
+
                         ),height: 75 ,),
                       ),
                       SizedBox(
                         height: screenHeight*0.57,
-                        child: ListView(children: buildsteps()),
+                        child: ListView(children: [
+                          ...addOrGetCachedSteps(),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                steps != 1 ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      steps--;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    Icons.remove_circle_outline,
+                                    color: Colors.red,
+                                  ),
+                                ) :SizedBox(width: 0,height: 0,),
+                                IconButton(
+                                  onPressed: () {
+                                    steps++;
+                                    setState(() {});
+                                  },
+                                  icon: Icon(
+                                    Icons.add_circle_outline,
+                                    color: Color(0xFF085399),
+                                  ),
+                                )
+                              ])
+                        ]),
                       ),
                       SizedBox(height: 10,),
 
@@ -198,44 +250,21 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 ElevatedButton.icon(
-                                  onPressed: () {
 
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Confirmation'),
-                                            content: Text(
-                                                'Are you sure you want to cancel?'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop();
-                                                },
-                                                child: Text('No'),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Get.off(ProfileScreen(email: widget.email));
-                                                },
-                                                child: Text('Yes'),
-                                              ),
-                                            ],
-                                          );
-                                        }
-                                    );
+                                  onPressed: () {
+                                    widget.onBack();
+
                                   },
                                   style: ElevatedButton.styleFrom(
                                     primary: Colors.redAccent,
-                                    padding: EdgeInsets.symmetric(horizontal: 50),
+                                    padding: EdgeInsets.symmetric(horizontal: 40),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     elevation: 5,
                                   ),
-                                  icon: Icon(Icons.cancel),
-                                  label: Text(''),
+                                  icon: Icon(Icons.arrow_back),
+                                  label: Text('Back'),
                                 ),
                                 Directionality(
                                   textDirection: TextDirection.rtl,

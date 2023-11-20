@@ -37,93 +37,86 @@ $(document).ready(function () {
 
         } else {
 
-            if (parseFloat($("#minSalary").val()) > parseFloat($("#maxSalary").val()))
+            if ((!$("#maxSalary").val().match(/^\d+$/)))
             {
-                alert("Minimum salary cannot be greater than the maximum salary.");
+                alert("Please enter a valid number for maximum salary");
 
             } else {
+                if ((!$("#minSalary").val().match(/^\d+$/))) {
+                    alert("Please enter a valid number for minimum salary");
+                } else {
+                    if (parseFloat($("#minSalary").val()) > parseFloat($("#maxSalary").val())) {
+
+                        alert("Minimum salary cannot be greater than the maximum salary.");
+                    } else {
 
 
+                        var skills = getSkills();
 
-                var skills = getSkills();
 
+                        // Call the saveQualifications() function and log the returned data
+                        var qualifications = saveQualifications();
+                        // check that if there's at least one feild filled, the other should be filled too
+                        var checkQualification = checkQualifications(qualifications);
 
-                // Call the saveQualifications() function and log the returned data
-                var qualifications = saveQualifications();
-                // check that if there's at least one feild filled, the other should be filled too
-                var checkQualification = checkQualifications(qualifications);
+                        // Call the saveExperiences() function and log the returned data
+                        var experiences = saveExperiences();
+                        // check that if there's at least one feild filled, the other should be filled too
+                        var checkExperiences = checkExperience(experiences);
+                        if (checkQualification === true && checkExperiences === true) {
 
-                // Call the saveExperiences() function and log the returned data
-                var experiences = saveExperiences();
-                // check that if there's at least one feild filled, the other should be filled too
-                var checkExperiences = checkExperience(experiences);
-                if (checkQualification === true && checkExperiences === true) {
-console.log("jobTitle: " + inputValues[0]);
-console.log("jobDescription: " + inputValues[1]);
-console.log("jobAddress: " + inputValues[2]);
-console.log("jobType: " + inputValues[3]);
-console.log("minSalary: " + inputValues[4]);
-console.log("maxSalary: " + inputValues[5]);
-console.log("jobCategories: " + inputValues[6]);
-console.log("jobCity: " + inputValues[7]);
+                            //Send the information to PHP File
+                            $.post("AddOfferLogic.php", {
+                                jobTitle: inputValues[0],
+                                jobDescription: inputValues[1],
+                                jobAddress: inputValues[2],
+                                jobType: inputValues[3],
+                                minSalary: inputValues[4],
+                                maxSalary: inputValues[5],
+                                jobCategories: inputValues[6],
+                                jobCity: inputValues[7],
 
-console.log("startingDate: " + $("#date").val());
-console.log("workingHours: " + $("#workingHours").val());
-console.log("notes: " + $("#notes").val());
-console.log("workingDays: " + getWorkingDays());
+                                // non required feilds we won't check if they are empty 
+                                startingDate: $("#date").val(),
+                                workingHours: $("#workingHours").val(),
+                                notes: $("#notes").val(),
+                                workingDays: getWorkingDays(),
 
-console.log("skills: ", skills);
-console.log("qualifications: ", qualifications);
-console.log("experiences: ", experiences);
-                    //Send the information to PHP File
-                    $.post("AddOfferLogic.php", {
-                        jobTitle: inputValues[0],
-                        jobDescription: inputValues[1],
-                        jobAddress: inputValues[2],
-                        jobType: inputValues[3],
-                        minSalary: inputValues[4],
-                        maxSalary: inputValues[5],
-                        jobCategories: inputValues[6],
-                        jobCity: inputValues[7],
+                                skills: skills,
+                                qualifications: qualifications,
+                                experiences: experiences
 
-                        // non required feilds we won't check if they are empty 
-                        startingDate: $("#date").val(),
-                        workingHours: $("#workingHours").val(),
-                        notes: $("#notes").val(),
-                        workingDays: getWorkingDays(),
+                            }, function (data) {
 
-                        skills: skills,
-                        qualifications: qualifications,
-                        experiences: experiences
+                                if (data === "success") { // Update the condition to trim the data
+                                    $('#AddForm')[0].reset(); // Delete information from the form
+                                    var modal_wrapper = document.querySelector(".modal_wrapper");
+                                    var success_wrap = document.querySelector(".success_wrap");
+                                    var shadow = document.querySelector(".shadow");
 
-                    }, function (data) {
+                                    modal_wrapper.classList.add("active");
+                                    success_wrap.classList.add("active");
 
-                        if (data === "success") { // Update the condition to trim the data
-                            $('#AddForm')[0].reset(); // Delete information from the form
-                            var modal_wrapper = document.querySelector(".modal_wrapper");
-                            var success_wrap = document.querySelector(".success_wrap");
-                            var shadow = document.querySelector(".shadow");
+                                    // Clicking anywhere on the screen remove the message
+                                    shadow.addEventListener("click", function () {
+                                        modal_wrapper.classList.remove("active");
+                                        success_wrap.classList.remove("active");
+                                        window.location.href = "../History Page/History.php";
+                                    });
+                                } else {
+                                    // Handle error case
+                                    alert("An error occurred during form submission. Please try again");
+                                    console.error("Form submission error:", data);
+                                }
 
-                            modal_wrapper.classList.add("active");
-                            success_wrap.classList.add("active");
-
-                            // Clicking anywhere on the screen remove the message
-                            shadow.addEventListener("click", function () {
-                                modal_wrapper.classList.remove("active");
-                                success_wrap.classList.remove("active");
-                                window.location.href = "../History Page/History.php";
                             });
-                        } else {
-                            // Handle error case
-                            alert("An error occurred during form submission. Please try again");
-                            console.error("Form submission error:", data);
                         }
 
-                    });
+                    }
                 }
 
             }
-
+// end of else 
 
             function getWorkingDays() {
                 let days = $("input[name='day']:checked").map(function () {
@@ -160,11 +153,12 @@ console.log("experiences: ", experiences);
                     } else if (qualification.level && !qualification.field) {
                         alert("Qualification Degree Field is missing.");
                         return false;
+                    } else if (!qualification.other && qualification.field === "Other")
+                    {
+                        alert("Qualification Degree field is missing.\nYou should enter your Degree Feild or choose from the provided Feilds.");
+                        return false;
                     }
-                    else if (!qualification.other && qualification.field==="Other")
-                    {  alert("Qualification Degree field is missing.\nYou should enter your Degree Feild or choose from the provided Feilds.");
-                        return false;}
-                    
+
                 }
                 return true;
             }
@@ -226,6 +220,9 @@ console.log("experiences: ", experiences);
                         return false;
                     } else if (!ex.years) {
                         alert("Experience Minimum Years is missing.");
+                        return false;
+                    } else if (!ex.years.match(/^\d+$/)) {
+                        alert("Please enter a valid number for Experience Minimum Years");
                         return false;
                     }
                 }

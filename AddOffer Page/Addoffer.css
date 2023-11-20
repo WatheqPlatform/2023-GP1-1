@@ -529,7 +529,7 @@ input[type=button]:hover{
 }
 
 /*Number validation*/
-#warningMessage1, #warningMessage2, #warningMessage3, #warningMessage4, .EnterMessage{
+#warningMessage1, #warningMessage2, #warningMessage3, #warningMessage4, .EnterMessage, #warningMessageMaxSalary{
 	color: red; 
 	display: none;
 	font-size: 14px;

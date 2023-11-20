@@ -1,6 +1,6 @@
 class Connection {
   static const hostConnect =
-      "https://www.watheqplatform.com/watheq_api"; // ip of the host device
+      "http://www.watheqplatform.com/watheq_api"; // ip of the host device
 
   static const signUp = "$hostConnect/authentication/sign_up.php";
 

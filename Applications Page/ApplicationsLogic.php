@@ -11,7 +11,7 @@ include("../dbConnection.php");
 $sql = 'SELECT Application.*, cv.CV_ID, cv.FirstName, cv.LastName, cv.ContactEmail, cv.PhoneNumber, cv.Summary
         FROM application
         INNER JOIN cv ON application.JobSeekerEmail = cv.JobSeekerEmail
-        WHERE application.OfferID = ?';
+        WHERE application.OfferID = ? ORDER BY Application.ApplicationID DESC';
 
 // Prepare and execute the query
 $stmt = $conn->prepare($sql);

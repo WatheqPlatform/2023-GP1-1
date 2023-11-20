@@ -191,7 +191,7 @@ $(document).ready(function () {
 
                     if (
                             !existingQualification &&
-                            (degreeLevel !== null || degreeField !== "" || qualificationOther !== "")
+                            (degreeLevel !== "" || degreeField !== "" || qualificationOther !== "")
                             ) {
                         qualifications.push({
                             level: degreeLevel,
@@ -245,7 +245,7 @@ $(document).ready(function () {
                         return experience.Category === Category && experience.JobTitle === JobTitle && experience.years === years;
                     });
 
-                    if (!exists && (Category !== null || JobTitle !== "" || years !== "")) {
+                    if (!exists && (Category !== "" || JobTitle !== "" || years !== "")) {
                         experiences.push({
                             Category: Category,
                             JobTitle: JobTitle,

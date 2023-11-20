@@ -58,23 +58,7 @@ $(document).ready(function () {
                 // check that if there's at least one feild filled, the other should be filled too
                 var checkExperiences = checkExperience(experiences);
                 if (checkQualification === true && checkExperiences === true) {
-console.log("jobTitle: " + inputValues[0]);
-console.log("jobDescription: " + inputValues[1]);
-console.log("jobAddress: " + inputValues[2]);
-console.log("jobType: " + inputValues[3]);
-console.log("minSalary: " + inputValues[4]);
-console.log("maxSalary: " + inputValues[5]);
-console.log("jobCategories: " + inputValues[6]);
-console.log("jobCity: " + inputValues[7]);
 
-console.log("startingDate: " + $("#date").val());
-console.log("workingHours: " + $("#workingHours").val());
-console.log("notes: " + $("#notes").val());
-console.log("workingDays: " + getWorkingDays());
-
-console.log("skills: ", skills);
-console.log("qualifications: ", qualifications);
-console.log("experiences: ", experiences);
                     //Send the information to PHP File
                     $.post("AddOfferLogic.php", {
                         jobTitle: inputValues[0],

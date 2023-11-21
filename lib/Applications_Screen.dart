@@ -234,7 +234,7 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                                                         ],
                                                       ),
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       height: 9,
                                                     ),
                                                   ],

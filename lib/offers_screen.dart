@@ -33,7 +33,6 @@ class _OffersScreenState extends State<OffersScreen> {
   List<String> companyNames = [];
   List<String> employmentTypes = [];
   List<String> industries = [];
-  List<String> categories = [];
   List<String> jobTitles = [];
   Map<int, int> experienceMap = {};
 
@@ -42,10 +41,9 @@ class _OffersScreenState extends State<OffersScreen> {
   RangeValues currentRangeValues = const RangeValues(0, 50);
 
   bool showAllCityNames = false;
-  bool showAllCategories = false;
+  bool showAllIndustries = false;
   bool showAllJobTitles = false;
   bool showAllEmploymentTypes = false;
-  bool showAllIndustries = false;
   bool showAllCompanies = false;
 
   Future<void> getdata() async {
@@ -54,7 +52,6 @@ class _OffersScreenState extends State<OffersScreen> {
     if (res.statusCode == 200) {
       var red = json.decode(res.body);
 
-      // Update the allOffers
       setState(() {
         allOffers.addAll(red);
         foundOffers.addAll(red);
@@ -68,7 +65,6 @@ class _OffersScreenState extends State<OffersScreen> {
     if (res.statusCode == 200) {
       var red = json.decode(res.body);
 
-      // Update the allOffers
       setState(() {
         for (var item in red) {
           if (item.containsKey("CityName")) {
@@ -80,9 +76,7 @@ class _OffersScreenState extends State<OffersScreen> {
           } else if (item.containsKey("JobTitle")) {
             jobTitles.add(item["JobTitle"]);
           } else if (item.containsKey("CategoryName")) {
-            categories.add(item["CategoryName"]);
-          } else if (item.containsKey("Field")) {
-            industries.add(item["Field"]);
+            industries.add(item["CategoryName"]); //categoty
           }
 
           if (item.containsKey("OfferID")) {
@@ -169,7 +163,6 @@ class _OffersScreenState extends State<OffersScreen> {
                 element["EmploymentType"]
                     .toLowerCase()
                     .contains(label.toLowerCase()) ||
-                element["Field"].toLowerCase().contains(label.toLowerCase()) ||
                 element["CompanyName"]
                     .toLowerCase()
                     .contains(label.toLowerCase()) ||
@@ -207,11 +200,10 @@ class _OffersScreenState extends State<OffersScreen> {
       double currentmin = 0;
       double currentmax = 50;
       currentRangeValues = RangeValues(currentmin, currentmax);
-      showAllCategories = false;
+      showAllIndustries = false;
       showAllCityNames = false;
       showAllCompanies = false;
       showAllEmploymentTypes = false;
-      showAllIndustries = false;
       showAllJobTitles = false;
     });
   }
@@ -599,96 +591,6 @@ class _OffersScreenState extends State<OffersScreen> {
                                                     height: 15,
                                                   ),
                                                   const Text(
-                                                    "Industry",
-                                                    style: TextStyle(
-                                                        color:
-                                                            Color(0xFF024A8D),
-                                                        fontSize: 19,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                  Wrap(
-                                                    spacing:
-                                                        8.0, // gap between adjacent chips
-                                                    runSpacing:
-                                                        1.0, // gap between lines
-                                                    children:
-                                                        List<Widget>.generate(
-                                                            showAllIndustries
-                                                                ? industries
-                                                                    .length
-                                                                : min(
-                                                                    industries
-                                                                        .length,
-                                                                    3),
-                                                            (int index) {
-                                                      return Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(2.0),
-                                                        child: CustomChoiceChip(
-                                                            label: industries[
-                                                                index],
-                                                            isSelected: selectedChips[
-                                                                    industries[
-                                                                        index]] ??
-                                                                false,
-                                                            onSelectionChanged:
-                                                                (isSelected) =>
-                                                                    handleChipSelection(
-                                                                        industries[
-                                                                            index],
-                                                                        isSelected)),
-                                                      );
-                                                    })
-                                                          ..add(industries
-                                                                      .length >
-                                                                  3
-                                                              ? GestureDetector(
-                                                                  onTap: () =>
-                                                                      setState(
-                                                                          () {
-                                                                    showAllIndustries =
-                                                                        !showAllIndustries;
-                                                                  }),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Text(
-                                                                        showAllIndustries
-                                                                            ? "Show less"
-                                                                            : "Show more",
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          color: Color.fromARGB(
-                                                                              255,
-                                                                              135,
-                                                                              135,
-                                                                              135),
-                                                                        ),
-                                                                      ),
-                                                                      Icon(
-                                                                        showAllIndustries
-                                                                            ? Icons.keyboard_arrow_up
-                                                                            : Icons.keyboard_arrow_down,
-                                                                        color: const Color
-                                                                            .fromARGB(
-                                                                            255,
-                                                                            135,
-                                                                            135,
-                                                                            135),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                              : Container()),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 15,
-                                                  ),
-                                                  const Text(
                                                     "Job Title",
                                                     style: TextStyle(
                                                         color:
@@ -777,7 +679,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                                     height: 15,
                                                   ),
                                                   const Text(
-                                                    "Category",
+                                                    "Industry",
                                                     style: TextStyle(
                                                         color:
                                                             Color(0xFF024A8D),
@@ -792,11 +694,11 @@ class _OffersScreenState extends State<OffersScreen> {
                                                         1.0, // gap between lines
                                                     children:
                                                         List<Widget>.generate(
-                                                            showAllCategories
-                                                                ? categories
+                                                            showAllIndustries
+                                                                ? industries
                                                                     .length
                                                                 : min(
-                                                                    categories
+                                                                    industries
                                                                         .length,
                                                                     3),
                                                             (int index) {
@@ -805,29 +707,29 @@ class _OffersScreenState extends State<OffersScreen> {
                                                             const EdgeInsets
                                                                 .all(2.0),
                                                         child: CustomChoiceChip(
-                                                            label: categories[
+                                                            label: industries[
                                                                 index],
                                                             isSelected: selectedChips[
-                                                                    categories[
+                                                                    industries[
                                                                         index]] ??
                                                                 false,
                                                             onSelectionChanged:
                                                                 (isSelected) =>
                                                                     handleChipSelection(
-                                                                        categories[
+                                                                        industries[
                                                                             index],
                                                                         isSelected)),
                                                       );
                                                     })
-                                                          ..add(categories
+                                                          ..add(industries
                                                                       .length >
                                                                   3
                                                               ? GestureDetector(
                                                                   onTap: () =>
                                                                       setState(
                                                                           () {
-                                                                    showAllCategories =
-                                                                        !showAllCategories;
+                                                                    showAllIndustries =
+                                                                        !showAllIndustries;
                                                                   }),
                                                                   child: Row(
                                                                     mainAxisAlignment:
@@ -835,7 +737,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                             .center,
                                                                     children: [
                                                                       Text(
-                                                                        showAllCategories
+                                                                        showAllIndustries
                                                                             ? "Show less"
                                                                             : "Show more",
                                                                         style:
@@ -848,7 +750,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                         ),
                                                                       ),
                                                                       Icon(
-                                                                        showAllCategories
+                                                                        showAllIndustries
                                                                             ? Icons.keyboard_arrow_up
                                                                             : Icons.keyboard_arrow_down,
                                                                         color: const Color
@@ -1141,7 +1043,6 @@ class _OffersScreenState extends State<OffersScreen> {
                                                           foundOffers[index]
                                                               ["OfferID"],
                                                       email: widget.email,
-                                                      isAccepted: false,
                                                     ),
                                                   );
                                                 },

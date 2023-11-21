@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, unused_local_variable, non_constant_identifier_names, empty_catches
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +12,6 @@ import 'package:line_icons/line_icons.dart';
 import 'package:string_capitalize/string_capitalize.dart';
 import 'package:watheq/Applications_Screen.dart';
 
-import 'cv/basic_information.dart';
 import 'cv/controller/form_controller.dart';
 import 'cv/multi_step_form.dart';
 
@@ -30,30 +29,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String letters = "";
   String email = '';
   bool isEdit = false;
-  final FormController formController = Get.put(FormController(), tag: 'form-control');
+  final FormController formController =
+      Get.put(FormController(), tag: 'form-control');
   Future<void> fetchCV() async {
     try {
       formController.reset();
-      Uri url = Uri.parse('${Connection.getCv}?jobSeekerEmail=${widget.email}'); 
-      var response = await http
-          .get(url);
+      Uri url = Uri.parse('${Connection.getCv}?jobSeekerEmail=${widget.email}');
+      var response = await http.get(url);
       var data = json.decode(response.body);
-      print(data);
       if (data['data'] is List) {
-
-      }
-      else {
+      } else {
         formController.formData.value = data['data'];
-        data['data']['phoneNumber'] = '0' + data['data']['phoneNumber'].toString();
+        data['data']['phoneNumber'] = '0${data['data']['phoneNumber']}';
         setState(() {
           isEdit = true;
         });
       }
-
-    }
-    catch(e) {
-
-    }
+    } catch (e) {}
   }
 
   Future<void> fetchUserData() async {
@@ -90,8 +82,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     fetchCV();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -108,17 +98,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const SizedBox(height: 50),
-            Row(
+            const SizedBox(height: 42),
+            const Row(
               children: [
-                const SizedBox(width: 55),
+                SizedBox(width: 55),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 1),
+                  padding: EdgeInsets.only(top: 10, left: 1),
                   child: Text(
                     "Profile",
                     style: TextStyle(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      fontSize: screenWidth * 0.07,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 27,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -126,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
             const SizedBox(
-              height: 15,
+              height: 10,
             ),
             Expanded(
               child: Container(
@@ -230,12 +220,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         color: Color.fromARGB(255, 37, 42, 74),
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 60,
+                                    SizedBox(
+                                      height: screenHeight * 0.11,
                                     ),
                                     OutlinedButton(
                                       onPressed: () {
-                                          Get.to(()=> MultiStepForm(email: email,));
+                                        Get.to(() => MultiStepForm(
+                                              email: email,
+                                            ));
                                       },
                                       style: OutlinedButton.styleFrom(
                                         side: const BorderSide(
@@ -249,22 +241,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               BorderRadius.circular(15),
                                         ),
                                       ),
-                                      child: isEdit ? Text(
-                                        "Edit CV",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color(0xFF024A8D),
-                                        ),
-                                      ) : Text(
-                                        "Create CV",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color(0xFF024A8D),
-                                        ),
-                                      ),
+                                      child: isEdit
+                                          ? const Text(
+                                              "Edit CV",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Color(0xFF024A8D),
+                                              ),
+                                            )
+                                          : const Text(
+                                              "Create CV",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Color(0xFF024A8D),
+                                              ),
+                                            ),
                                     ),
                                     const SizedBox(
-                                      height: 15,
+                                      height: 10,
                                     ),
                                     OutlinedButton(
                                       onPressed: () {
@@ -303,9 +297,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         horizontal: 5,
                         vertical: 5,
                       ),
-                      width: 370,
+                      width: 350,
                       margin: EdgeInsets.only(
-                        top: screenHeight * 0.76,
+                        left: screenWidth * 0.01,
+                        top: screenHeight * 0.795,
                         bottom: 5,
                       ),
                       decoration: BoxDecoration(

@@ -1,19 +1,15 @@
 
 
+// ignore_for_file: unused_local_variable, prefer_typing_uninitialized_variables, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:watheq/offers_screen.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:string_capitalize/string_capitalize.dart';
-import 'package:watheq/Applications_Screen.dart';
 
 import '../profile_screen.dart';
 import 'controller/form_controller.dart';
@@ -49,7 +45,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       }
   }
   List <Widget> addOrGetCachedSteps () {
-    print({"steps" :steps, "last-steps":lastSteps});
     if (lastSteps == steps) {
       return cachedSteps;
     }
@@ -84,10 +79,10 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       children: [
         Text(
           'Qualification $i',
-          style: TextStyle(
+          style: const TextStyle(
               color: Color(0xFF085399), fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 5,),
+        const SizedBox(height: 5,),
         RequiredFieldLabel(labelText: 'Degree Level', hideStar: true,),
         DropdownButtonFormField<String>(
           decoration: InputDecoration(
@@ -103,19 +98,20 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                 color: Color(0xFF14386E),
               ),
             ),
-            contentPadding: EdgeInsets.symmetric(
+            contentPadding: const EdgeInsets.symmetric(
               horizontal:  8.0,
               vertical:  0.012,
             ),
           ),
           value: degreeLevelControllers[i].text.isNotEmpty ? degreeLevelControllers[i].text : null,
-          hint: Text('Choose Degree level'),
+          hint: const Text('Choose Degree level'),
           onChanged: (String? newValue) {
-            if (newValue != null)
+            if (newValue != null) {
               setState(() {
                   degreeLevelControllers[i].text = newValue;
-                  this.rebuildStepWidget(i);
+                  rebuildStepWidget(i);
               });
+            }
 
           },
           items: [
@@ -134,8 +130,8 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
             );
           }).toList(),
         ),
-        SizedBox(height: 20,),
-        if (fields.length > 0) Visibility(
+        const SizedBox(height: 20,),
+        if (fields.isNotEmpty) Visibility(
           visible:( degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None'),
           child: Column(
             children: [
@@ -155,16 +151,16 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                       color: Color(0xFF14386E),
                     ),
                   ),
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal:  8.0,
                     vertical:  0.012,
                   ),
                 ),
-                hint: Text('Choose Field'),
+                hint: const Text('Choose Field'),
                 onChanged: (String? newValue) {
                   setState(() {
                     degreeFieldControllers[i].text = newValue!;
-                    this.rebuildStepWidget(i);
+                    rebuildStepWidget(i);
                   });
                 },
                 items: fields.map<DropdownMenuItem<String>>((String value) {
@@ -179,9 +175,9 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           ),
         ) ,
         
-        Visibility(child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other' && degreeLevelControllers[i].text != 'None' && degreeLevelControllers[i].text != 'Pre-high school'),),
-        Visibility(child: DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.year,lastDate: DateTime.now(),), visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),),
-        Visibility(child: DateButton(mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],), visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),) ,
+        Visibility(visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other' && degreeLevelControllers[i].text != 'None' && degreeLevelControllers[i].text != 'Pre-high school'),child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),),
+        Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.year,lastDate: DateTime.now(),),),
+        Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],),) ,
 
       ],
     );
@@ -196,7 +192,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     List<Widget> l = [];
 
     for (int i = 1; i <= steps; i++) {
-      String? level = null, field = null, other = "", sDate = "", endDate ="", uName = "";
+      String? level, field, other = "", sDate = "", endDate ="", uName = "";
       if (widget.formController.formData['qualifications'].length >= i) {
         level = widget.formController.formData['qualifications'][i-1]['DegreeLevel'];
         sDate = widget.formController.formData['qualifications'][i-1]['StartDate'];
@@ -273,15 +269,15 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   onPressed: () {
                     showDialog(
                         context: context,    builder: (BuildContext context) {
-                      return AlertDialog(        title: Text('Confirmation'),
-                        content: Text(            'Are you sure you want to cancel?'),
+                      return AlertDialog(        title: const Text('Confirmation'),
+                        content: const Text(            'Are you sure you want to cancel?'),
                         actions: [          TextButton(
                           onPressed: () {              Navigator.of(context)
                               .pop();            },
-                          child: Text('No'),          ),
+                          child: const Text('No'),          ),
                           TextButton(            onPressed: () {
                             Get.offAll(ProfileScreen(email: widget.email));            },
-                            child: Text('Yes'),          ),
+                            child: const Text('Yes'),          ),
                         ],      );
                     });
                   },
@@ -304,7 +300,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
             ),
             Expanded(
               child:SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 30,
@@ -323,13 +319,12 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Theme(
-                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
-                            canvasColor: Colors.transparent,
-                            colorScheme: ColorScheme.light(
+                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
+                            canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
                               primary: Color(0xFF085399),
 
-                            )),
-                        child: SizedBox(child:Stepper(
+                            ).copyWith(background: Colors.transparent)),
+                        child: SizedBox(height: 75 ,child:Stepper(
 
                           steps: const [
                             Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
@@ -341,7 +336,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                           ],
                           type: StepperType.horizontal,
 
-                        ),height: 75 ,),
+                        ),),
                       ),
 
                       SizedBox(
@@ -356,17 +351,17 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                       steps--;
                                     });
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.remove_circle_outline,
                                     color: Colors.red,
                                   ),
-                                ) :SizedBox(width: 0,height: 0,),
+                                ) :const SizedBox(width: 0,height: 0,),
                                 IconButton(
                                   onPressed: () {
                                     steps++;
                                     setState(() {});
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.add_circle_outline,
                                     color: Color(0xFF085399),
                                   ),
@@ -376,7 +371,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                             )
                       ),
 
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
 
                       Column(
                         children: [
@@ -390,15 +385,15 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
 
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.redAccent,
-                                    padding: EdgeInsets.symmetric(horizontal: 40),
+                                    backgroundColor: Colors.redAccent,
+                                    padding: const EdgeInsets.symmetric(horizontal: 40),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                     elevation: 5,
                                   ),
-                                  icon: Icon(Icons.arrow_back),
-                                  label: Text('Back'),
+                                  icon: const Icon(Icons.arrow_back),
+                                  label: const Text('Back'),
                                 ),
                                 Directionality(
                                   textDirection: TextDirection.rtl,
@@ -406,9 +401,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                     onPressed: () {
                                       widget.formController.formData['qualifications'] = [];
                                         for (int i = 1; i <= steps; i++) {
-                                          print({
-                                            'degree-level': degreeLevelControllers[i].text,
-                                          });
                                           if (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'None') {
                                             widget.formController.addQualification(
                                                 {
@@ -425,16 +417,16 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                         widget.onNext();
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: Color(0xFF085399),
-                                      padding: EdgeInsets.symmetric(horizontal: 40),
+                                      backgroundColor: const Color(0xFF085399),
+                                      padding: const EdgeInsets.symmetric(horizontal: 40),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       elevation: 5,
                                     ),
-                                    icon: Icon(Icons
+                                    icon: const Icon(Icons
                                         .arrow_back),
-                                    label: Text('Next'),
+                                    label: const Text('Next'),
                                   ),
                                 )
                               ]),

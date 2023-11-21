@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
 
@@ -11,7 +13,7 @@ class RequiredFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   RequiredFieldWidget({super.key, required this.label, this.keyName, required this.controller, this.keyboardType =  TextInputType.text, this.maxLines = 1, this.hideStar = false, this.starColor = Colors.red});
   String? validatePhone(String? value) {
-    if (value is Null || value.isEmpty) {
+    if (value == null || value.isEmpty) {
       return null;
     }
     RegExp pattern = RegExp(r'^05\d{8}$');
@@ -22,7 +24,7 @@ class RequiredFieldWidget extends StatelessWidget {
   }
 
   String? validateEmail(String? value) {
-    if (value is Null || value.isEmpty) {
+    if (value == null || value.isEmpty) {
       return null;
     }
     if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
@@ -31,7 +33,7 @@ class RequiredFieldWidget extends StatelessWidget {
     return null;
   }
   String ? validateShortText(String? value) {
-    if (value is Null || value.isEmpty) {
+    if (value == null || value.isEmpty) {
       return null;
     }
     if (value.length > 50) {
@@ -40,7 +42,7 @@ class RequiredFieldWidget extends StatelessWidget {
     return null;
   }
   String ? validateLongText(String? value) {
-    if (value is Null || value.isEmpty) {
+    if (value == null || value.isEmpty) {
       return null;
     }
     if (value.length > 500) {
@@ -50,9 +52,8 @@ class RequiredFieldWidget extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    print(hideStar);
     return Container(
-      margin: EdgeInsets.only(bottom: 16.0),
+      margin: const EdgeInsets.only(bottom: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -61,7 +62,6 @@ class RequiredFieldWidget extends StatelessWidget {
               keyboardType: keyboardType,
             maxLines: maxLines,
             validator: (String? val) {
-              print(val);
                 if (keyName == 'phoneNumber') return validatePhone(val);
                 if (keyName == 'contactEmail') return validateEmail(val);
                 if (maxLines == 1) {
@@ -70,6 +70,7 @@ class RequiredFieldWidget extends StatelessWidget {
                 if (maxLines == 5) {
                   return validateLongText(val);
                 }
+                return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
 
@@ -89,7 +90,7 @@ class RequiredFieldWidget extends StatelessWidget {
                   color: Color(0xFF14386E),
                 ),
               ),
-              contentPadding: EdgeInsets.symmetric(
+              contentPadding: const EdgeInsets.symmetric(
                 horizontal:  8.0,
                 vertical:  0.012,
               ),

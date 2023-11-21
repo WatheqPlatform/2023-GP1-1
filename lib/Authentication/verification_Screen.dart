@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, use_full_hex_values_for_flutter_colors, void_checks
+
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -44,14 +46,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
         } else {
           if (context.mounted) {
             ErrorMessage.show(context, "Error", 18, res["error"],
-                ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+                ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
           }
         }
       }
     } catch (e) {
       if (context.mounted) {
         ErrorMessage.show(context, "Error", 18, "Please check your connection.",
-            ContentType.failure, Color.fromARGB(255, 209, 24, 24));
+            ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -78,7 +80,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               18,
               "The email has been sent successfully.",
               ContentType.success,
-              Color.fromARGB(255, 15, 152, 20),
+              const Color.fromARGB(255, 15, 152, 20),
             );
           }
         }
@@ -91,7 +93,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             18,
             "The email is incorrect, please try again.",
             ContentType.failure,
-            Color.fromARGB(255, 209, 24, 24));
+            const Color.fromARGB(255, 209, 24, 24));
       }
     }
   }
@@ -245,7 +247,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                     18,
                                     "Please enter the verification code.",
                                     ContentType.failure,
-                                    Color.fromARGB(255, 209, 24, 24));
+                                    const Color.fromARGB(255, 209, 24, 24));
                               }
                             }
                           },

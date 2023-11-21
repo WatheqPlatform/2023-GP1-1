@@ -1,18 +1,14 @@
 
 
+// ignore_for_file: unused_local_variable, prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:watheq/offers_screen.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:string_capitalize/string_capitalize.dart';
-import 'package:watheq/Applications_Screen.dart';
 
 import '../profile_screen.dart';
 import 'controller/form_controller.dart';
@@ -25,6 +21,7 @@ class BasicInformationScreen extends StatefulWidget {
   final goToPage;
   BasicInformationScreen({super.key, required this.isEdit, required this.formKey, required this.onNext, required this.email, required this.goToPage});
   final FormController formController = Get.put(FormController(), tag: 'form-control');
+  @override
   State<BasicInformationScreen> createState() => _BasicInformationScreenState();
 }
 
@@ -105,15 +102,15 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                   onPressed: () {
                     showDialog(
                         context: context,    builder: (BuildContext context) {
-                      return AlertDialog(        title: Text('Confirmation'),
-                        content: Text(            'Are you sure you want to cancel?'),
+                      return AlertDialog(        title: const Text('Confirmation'),
+                        content: const Text(            'Are you sure you want to cancel?'),
                         actions: [          TextButton(
                           onPressed: () {              Navigator.of(context)
                               .pop();            },
-                          child: Text('No'),          ),
+                          child: const Text('No'),          ),
                           TextButton(            onPressed: () {
                             Get.offAll(ProfileScreen(email: widget.email));            },
-                            child: Text('Yes'),          ),
+                            child: const Text('Yes'),          ),
                         ],      );
                     });
                   },
@@ -137,7 +134,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
             Expanded(
               child: SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,
@@ -161,13 +158,12 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                           child: Column(
                             children: [
                               Theme(
-                                data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
-                                    canvasColor: Colors.transparent,
-                                    colorScheme: ColorScheme.light(
+                                data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
+                                    canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
                                       primary: Color(0xFF085399),
 
-                                    )),
-                                child: SizedBox(child:Stepper(
+                                    ).copyWith(background: Colors.transparent)),
+                                child: SizedBox(height: 75 ,child:Stepper(
 
                                   steps: const [
                                     Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
@@ -179,7 +175,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   ],
                                   type: StepperType.horizontal,
 
-                                ),height: 75 ,),
+                                ),),
                               ),
                               RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
                               RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
@@ -190,16 +186,16 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                               // Repeat for other fields
                               RequiredFieldLabel(labelText: 'City',),
 
-                              if (cities.length > 0) DropdownButtonFormField<Map<String, dynamic>>(
+                              if (cities.isNotEmpty) DropdownButtonFormField<Map<String, dynamic>>(
                                 items: cityDropdownItems,
                                 value: (cities.firstWhereOrNull((element) => element['CityId'] == widget.formController.formData['city'].toString()) ),
-                                key: Key('city'),
+                                key: const Key('city'),
                                 onChanged: (Map<String, dynamic>? selectedCity) {
                                   if (selectedCity != null) {
                                     widget.formController.updateFormData({'city': selectedCity['CityId']});
                                   }
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(color: Color(0xFF085399)),
                                   ),
@@ -226,10 +222,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
                               onPressed: () {
                                 if (widget.formKey.currentState!.validate()) {
-                                  print('valid');
                                 }
                                 else {
-                                  print('not - valid');
                                 }
                                 widget.formKey.currentState!.save();
                                 widget.formController.updateFormData({ 'firstName': firstNameController.text });
@@ -237,20 +231,19 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 widget.formController.updateFormData({'summary': summaryController.text});
                                 widget.formController.updateFormData({'phoneNumber': phoneNumberController.text});
                                 widget.formController.updateFormData({'contactEmail': contactEmailController.text});
-                                print(widget.formController.formData);
                                 widget.onNext();
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Color(0xFF085399),
-                                padding:EdgeInsets.symmetric(horizontal: 50),
+                                backgroundColor: const Color(0xFF085399),
+                                padding:const EdgeInsets.symmetric(horizontal: 50),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 elevation: 5,
                               ),
 
-                              icon: Icon(Icons.arrow_back),
-                              label: Text('Next'),
+                              icon: const Icon(Icons.arrow_back),
+                              label: const Text('Next'),
 
                             ),
                           )

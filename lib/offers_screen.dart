@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names, prefer_interpolation_to_compose_strings
+// ignore_for_file: non_constant_identifier_names, prefer_interpolation_to_compose_strings, unused_local_variable, library_private_types_in_public_api
 
 import 'dart:convert';
 import 'dart:math';
@@ -39,7 +39,7 @@ class _OffersScreenState extends State<OffersScreen> {
 
   double currentmin = 0;
   double currentmax = 50;
-  RangeValues currentRangeValues = RangeValues(0, 50);
+  RangeValues currentRangeValues = const RangeValues(0, 50);
 
   bool showAllCityNames = false;
   bool showAllCategories = false;
@@ -298,7 +298,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                                   },
                                                   icon:
                                                       const Icon(Icons.close)),
-                                              const Text("Filters",
+                                              const Text("Filter",
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.w600,
@@ -402,7 +402,8 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                               .keyboard_arrow_up
                                                                           : Icons
                                                                               .keyboard_arrow_down,
-                                                                      color: Color.fromARGB(
+                                                                      color: const Color
+                                                                          .fromARGB(
                                                                           255,
                                                                           135,
                                                                           135,
@@ -549,49 +550,50 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                         isSelected)),
                                                       );
                                                     })
-                                                      ..add(
-                                                          employmentTypes
-                                                                      .length >
-                                                                  3
-                                                              ? GestureDetector(
-                                                                  onTap: () =>
-                                                                      setState(
-                                                                          () {
-                                                                    showAllEmploymentTypes =
-                                                                        !showAllEmploymentTypes;
-                                                                  }),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Text(
-                                                                        showAllEmploymentTypes
-                                                                            ? "Show less"
-                                                                            : "Show more",
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          color: Color.fromARGB(
-                                                                              255,
-                                                                              135,
-                                                                              135,
-                                                                              135),
-                                                                        ),
-                                                                      ),
-                                                                      Icon(
-                                                                        showAllEmploymentTypes
-                                                                            ? Icons.keyboard_arrow_up
-                                                                            : Icons.keyboard_arrow_down,
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            135,
-                                                                            135,
-                                                                            135),
-                                                                      ),
-                                                                    ],
+                                                      ..add(employmentTypes
+                                                                  .length >
+                                                              3
+                                                          ? GestureDetector(
+                                                              onTap: () =>
+                                                                  setState(() {
+                                                                showAllEmploymentTypes =
+                                                                    !showAllEmploymentTypes;
+                                                              }),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    showAllEmploymentTypes
+                                                                        ? "Show less"
+                                                                        : "Show more",
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          135,
+                                                                          135,
+                                                                          135),
+                                                                    ),
                                                                   ),
-                                                                )
-                                                              : Container()),
+                                                                  Icon(
+                                                                    showAllEmploymentTypes
+                                                                        ? Icons
+                                                                            .keyboard_arrow_up
+                                                                        : Icons
+                                                                            .keyboard_arrow_down,
+                                                                    color: const Color
+                                                                        .fromARGB(
+                                                                        255,
+                                                                        135,
+                                                                        135,
+                                                                        135),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          : Container()),
                                                   ),
                                                   const SizedBox(
                                                     height: 15,
@@ -671,7 +673,8 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                         showAllIndustries
                                                                             ? Icons.keyboard_arrow_up
                                                                             : Icons.keyboard_arrow_down,
-                                                                        color: Color.fromARGB(
+                                                                        color: const Color
+                                                                            .fromARGB(
                                                                             255,
                                                                             135,
                                                                             135,
@@ -699,16 +702,15 @@ class _OffersScreenState extends State<OffersScreen> {
                                                         8.0, // gap between adjacent chips
                                                     runSpacing:
                                                         1.0, // gap between lines
-                                                    children:
-                                                        List<Widget>.generate(
-                                                            showAllJobTitles
-                                                                ? jobTitles
-                                                                    .length
-                                                                : min(
-                                                                    jobTitles
-                                                                        .length,
-                                                                    3),
-                                                            (int index) {
+                                                    children: List<
+                                                            Widget>.generate(
+                                                        showAllJobTitles
+                                                            ? jobTitles.length
+                                                            : min(
+                                                                jobTitles
+                                                                    .length,
+                                                                3),
+                                                        (int index) {
                                                       return Padding(
                                                         padding:
                                                             const EdgeInsets
@@ -728,48 +730,48 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                         isSelected)),
                                                       );
                                                     })
-                                                          ..add(jobTitles
-                                                                      .length >
-                                                                  3
-                                                              ? GestureDetector(
-                                                                  onTap: () =>
-                                                                      setState(
-                                                                          () {
-                                                                    showAllJobTitles =
-                                                                        !showAllJobTitles;
-                                                                  }),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Text(
-                                                                        showAllJobTitles
-                                                                            ? "Show less"
-                                                                            : "Show more",
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          color: Color.fromARGB(
-                                                                              255,
-                                                                              135,
-                                                                              135,
-                                                                              135),
-                                                                        ),
-                                                                      ),
-                                                                      Icon(
-                                                                        showAllJobTitles
-                                                                            ? Icons.keyboard_arrow_up
-                                                                            : Icons.keyboard_arrow_down,
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            135,
-                                                                            135,
-                                                                            135),
-                                                                      ),
-                                                                    ],
+                                                      ..add(jobTitles.length > 3
+                                                          ? GestureDetector(
+                                                              onTap: () =>
+                                                                  setState(() {
+                                                                showAllJobTitles =
+                                                                    !showAllJobTitles;
+                                                              }),
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(
+                                                                    showAllJobTitles
+                                                                        ? "Show less"
+                                                                        : "Show more",
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      color: Color.fromARGB(
+                                                                          255,
+                                                                          135,
+                                                                          135,
+                                                                          135),
+                                                                    ),
                                                                   ),
-                                                                )
-                                                              : Container()),
+                                                                  Icon(
+                                                                    showAllJobTitles
+                                                                        ? Icons
+                                                                            .keyboard_arrow_up
+                                                                        : Icons
+                                                                            .keyboard_arrow_down,
+                                                                    color: const Color
+                                                                        .fromARGB(
+                                                                        255,
+                                                                        135,
+                                                                        135,
+                                                                        135),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          : Container()),
                                                   ),
                                                   const SizedBox(
                                                     height: 15,
@@ -849,7 +851,8 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                         showAllCategories
                                                                             ? Icons.keyboard_arrow_up
                                                                             : Icons.keyboard_arrow_down,
-                                                                        color: Color.fromARGB(
+                                                                        color: const Color
+                                                                            .fromARGB(
                                                                             255,
                                                                             135,
                                                                             135,
@@ -991,7 +994,7 @@ class _OffersScreenState extends State<OffersScreen> {
             ),
             Container(
               width: double.infinity,
-              height: screenHeight * 0.80,
+              height: screenHeight * 0.815,
               padding: EdgeInsets.symmetric(
                 horizontal: screenWidth * 0.01,
               ),
@@ -1018,7 +1021,7 @@ class _OffersScreenState extends State<OffersScreen> {
                         )
                       : Expanded(
                           child: SizedBox(
-                            height: screenHeight * 0.71,
+                            height: screenHeight * 0.73,
                             child: ClipRRect(
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(80.0),
@@ -1080,7 +1083,6 @@ class _OffersScreenState extends State<OffersScreen> {
                                                   Text(
                                                     "${foundOffers[index]["CompanyName"]} \n${foundOffers[index]["CategoryName"]}"
                                                         .capitalizeEach(),
-                                                    //"
                                                     style: const TextStyle(
                                                       color: Color.fromARGB(
                                                           255, 155, 155, 155),
@@ -1164,8 +1166,8 @@ class _OffersScreenState extends State<OffersScreen> {
                     width: 350,
                     margin: EdgeInsets.only(
                       left: screenWidth * 0.07,
-                      top: screenHeight * 0.71,
-                      bottom: 5,
+                      top: screenHeight * 0.735,
+                      bottom: 3,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -1260,11 +1262,11 @@ class CustomChoiceChip extends StatefulWidget {
   final Function(bool) onSelectionChanged;
   final bool isSelected;
 
-  CustomChoiceChip(
+  const CustomChoiceChip(
       {super.key,
       required this.label,
       required this.onSelectionChanged,
-      this.isSelected = false}) {}
+      this.isSelected = false});
 
   @override
   _CustomChoiceChipState createState() => _CustomChoiceChipState();
@@ -1291,8 +1293,8 @@ class _CustomChoiceChipState extends State<CustomChoiceChip> {
         });
       },
       avatar: _isSelected
-          ? Icon(Icons.close, size: 18.0)
-          : Icon(Icons.add, size: 18.0),
+          ? const Icon(Icons.close, size: 18.0)
+          : const Icon(Icons.add, size: 18.0),
       selectedColor: Colors.grey[400],
       backgroundColor: Colors.grey[300],
     );

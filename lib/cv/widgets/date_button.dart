@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -34,7 +36,7 @@ class _DateButtonState extends State<DateButton> {
   Widget build(BuildContext context) {
     final f =  DateFormat('yyyy/MM/dd');
     return Container(
-        margin: EdgeInsets.only(bottom: 16.0),
+        margin: const EdgeInsets.only(bottom: 16.0),
         child: Column(
           children: [
             RequiredFieldLabel(labelText: widget.label,hideStar: widget.hideStar, starColor: widget.starColor,),
@@ -64,11 +66,11 @@ class _DateButtonState extends State<DateButton> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Color(0xFF14386E),
+                    color: const Color(0xFF14386E),
                   ),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal:  8.0,
                     vertical:  0.012,
                   ),

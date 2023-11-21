@@ -13,7 +13,7 @@ class JobOfferDetailScreen extends StatefulWidget {
   final String email;
   final bool isAccepted;
 
-  JobOfferDetailScreen({
+  const JobOfferDetailScreen({
     super.key,
     required this.offerID,
     required this.email,
@@ -445,12 +445,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: empty
-          ? Container(
-              //   color: Color.fromARGB(255, 62, 61, 61).withOpacity(0.5),
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xFF024A8D),
-                ),
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Color(0xFF024A8D),
               ),
             )
           : Container(
@@ -534,7 +531,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                       vertical: 10,
                       horizontal: 30,
                     ),
-                    height: screenHeight * 0.82,
+                    height: screenHeight * 0.833,
                     decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.only(
@@ -545,21 +542,55 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(
-                          height: 40,
+                          height: 38,
                         ),
+
+                        if (widget.isAccepted)
+                          const Padding(
+                            padding: EdgeInsets.only(
+                              left: 5.0,
+                              bottom: 1,
+                            ),
+                            child: Text(
+                              "Congratulations, you are accepted!",
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontSize: 16, // Adjust the font size as needed
+                              ),
+                            ),
+                          )
+                        else if (isClosed)
+                          const Padding(
+                            padding: EdgeInsets.only(
+                              left: 5.0,
+                              bottom: 1,
+                            ),
+                            child: Text(
+                              "This job offer is closed.",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 16, // Adjust the font size as needed
+                              ),
+                            ),
+                          ),
 
                         Expanded(
                           child: ListView(
-                            padding: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.only(
+                              left: 5,
+                              right: 5,
+                              bottom: 5,
+                            ),
                             children: [
-                              Text(
-                                "Posted on ${offerDetails[0]["Date"]}",
-                                style: const TextStyle(
-                                    fontSize: 15.0,
-                                    color: Color.fromARGB(169, 158, 158, 158),
-                                    fontWeight: FontWeight.w400),
-                                textAlign: TextAlign.left,
-                              ),
+                              if (!isClosed && !widget.isAccepted)
+                                Text(
+                                  "Posted on ${offerDetails[0]["Date"]}",
+                                  style: const TextStyle(
+                                      fontSize: 15.0,
+                                      color: Color.fromARGB(169, 158, 158, 158),
+                                      fontWeight: FontWeight.w400),
+                                  textAlign: TextAlign.left,
+                                ),
                               const SizedBox(
                                 height: 5,
                               ),
@@ -678,235 +709,257 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                           ),
                         ),
                         //Buttons
-                        const SizedBox(
-                          height: 20,
+                        SizedBox(
+                          height: screenHeight * 0.02,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 15),
+                          padding: const EdgeInsets.only(left: 14),
                           child: Column(
                             children: [
-                              isClosed
-                                  ? const Center(
-                                      child: Text(
-                                      "This job offer is closed.",
-                                      style: TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 209, 24, 24)),
-                                    ))
-                                  : hasApplied
-                                      ? Container(
-                                          child: Column(
-                                            children: [
-                                              OutlinedButton(
-                                                onPressed: () {},
-                                                style: OutlinedButton.styleFrom(
-                                                  side: const BorderSide(
-                                                    width: 1.5,
-                                                    color: Color(0xFF024A8D),
-                                                  ),
-                                                  fixedSize: Size(
-                                                      screenWidth * 0.8,
-                                                      screenHeight * 0.052),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                ),
-                                                child: const Text(
-                                                  "Mock Interview ",
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Color(0xFF024A8D),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                height: 17,
-                                              ),
-                                              !widget.isAccepted
-                                                  ? OutlinedButton(
-                                                      onPressed: () {
-                                                        showDialog<void>(
-                                                          context: context,
-                                                          barrierDismissible:
-                                                              false,
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return AlertDialog(
-                                                              title: const Text(
-                                                                'Cancel Application',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize: 18,
-                                                                  color: Color(
-                                                                      0xFF14386E),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
-                                                              content:
-                                                                  const SingleChildScrollView(
-                                                                child: ListBody(
-                                                                  children: <Widget>[
-                                                                    Text(
-                                                                      'Are you sure you want to cancel your application?',
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              15,
-                                                                          color: Color(
-                                                                              0xFF14386E),
-                                                                          letterSpacing:
-                                                                              1.15),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              actions: <Widget>[
-                                                                TextButton(
-                                                                  child:
-                                                                      const Text(
-                                                                    'No',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Color(
-                                                                          0xFF14386E),
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                    ),
-                                                                  ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop(); // Close the dialog
-                                                                  },
-                                                                ),
-                                                                TextButton(
-                                                                  child:
-                                                                      const Text(
-                                                                    'Yes',
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      color: Color(
-                                                                          0xFF14386E),
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                    ),
-                                                                  ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    cancelApplication();
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .pop();
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            );
-                                                          },
-                                                        );
-                                                      },
-                                                      style: OutlinedButton
-                                                          .styleFrom(
-                                                        side: const BorderSide(
-                                                          width: 1.5,
-                                                          color: Color.fromARGB(
-                                                              255, 209, 24, 24),
-                                                        ),
-                                                        fixedSize: Size(
-                                                            screenWidth * 0.8,
-                                                            screenHeight *
-                                                                0.052),
-                                                        shape:
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
-                                                        ),
-                                                      ),
-                                                      child: const Text(
-                                                        " Cancel Application",
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: Color.fromARGB(
-                                                              255, 209, 24, 24),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  : Container(),
-                                            ],
+                              if (widget.isAccepted) ...[
+                                ElevatedButton(
+                                  onPressed: null, // Disabled
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.grey, // Gray color when disabled
+                                    fixedSize: Size(screenWidth * 0.8,
+                                        screenHeight * 0.056),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 3,
+                                  ),
+                                  child: const Text(
+                                    "Apply",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    // Add functionality for Mock Interview
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                      width: 1.5,
+                                      color: Color(0xFF024A8D),
+                                    ),
+                                    fixedSize: Size(screenWidth * 0.8,
+                                        screenHeight * 0.052),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "Mock Interview",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xFF024A8D),
+                                    ),
+                                  ),
+                                ),
+                              ] else if (isClosed) ...[
+                                ElevatedButton(
+                                  onPressed: null, // Disabled
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.grey,
+                                    fixedSize: Size(screenWidth * 0.8,
+                                        screenHeight * 0.056),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 3,
+                                  ),
+                                  child: const Text(
+                                    "Apply",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                OutlinedButton(
+                                  onPressed: null, // Disabled
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                      width: 1.5,
+                                      color: Colors.grey,
+                                    ),
+                                    fixedSize: Size(screenWidth * 0.8,
+                                        screenHeight * 0.052),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "Mock Interview",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                              ] else if (!hasApplied) ...[
+                                ElevatedButton(
+                                  onPressed: () {
+                                    apply();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF024A8D),
+                                    fixedSize: Size(screenWidth * 0.8,
+                                        screenHeight * 0.056),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 3,
+                                  ),
+                                  child: const Text(
+                                    "Apply",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    // Add functionality for Mock Interview
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                      width: 1.5,
+                                      color: Color(0xFF024A8D),
+                                    ),
+                                    fixedSize: Size(screenWidth * 0.8,
+                                        screenHeight * 0.052),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "Mock Interview",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xFF024A8D),
+                                    ),
+                                  ),
+                                ),
+                              ] else if (!widget.isAccepted) ...[
+                                OutlinedButton(
+                                  onPressed: () {
+                                    showDialog<void>(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                            'Cancel Application',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Color(0xFF14386E),
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
-                                        )
-                                      : Container(
-                                          child: Column(
-                                            children: [
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  apply();
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      const Color(0xFF024A8D),
-                                                  fixedSize: Size(
-                                                      screenWidth * 0.8,
-                                                      screenHeight * 0.056),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                  elevation: 5,
-                                                ),
-                                                child: const Text(
-                                                  "Apply",
+                                          content: const SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                Text(
+                                                  'Are you sure you want to cancel your application?',
                                                   style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Color.fromARGB(
-                                                        255, 255, 255, 255),
+                                                    fontSize: 15,
+                                                    color: Color(0xFF14386E),
+                                                    letterSpacing: 1.15,
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                height: 17,
-                                              ),
-                                              OutlinedButton(
-                                                onPressed: () {},
-                                                style: OutlinedButton.styleFrom(
-                                                  side: const BorderSide(
-                                                    width: 1.5,
-                                                    color: Color(0xFF024A8D),
-                                                  ),
-                                                  fixedSize: Size(
-                                                      screenWidth * 0.8,
-                                                      screenHeight * 0.052),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15),
-                                                  ),
-                                                ),
-                                                child: const Text(
-                                                  "Mock Interview ",
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Color(0xFF024A8D),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text(
+                                                'No',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Color(0xFF14386E),
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // Close the dialog
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: const Text(
+                                                'Yes',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Color(0xFF14386E),
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                cancelApplication();
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                      width: 1.5,
+                                      color: Color.fromARGB(255, 209, 24, 24),
+                                    ),
+                                    fixedSize: Size(screenWidth * 0.8,
+                                        screenHeight * 0.052),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "Cancel Application",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color.fromARGB(255, 209, 24, 24),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    // Add functionality for Mock Interview
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(
+                                      width: 1.5,
+                                      color: Color(0xFF024A8D),
+                                    ),
+                                    fixedSize: Size(screenWidth * 0.8,
+                                        screenHeight * 0.052),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    "Mock Interview",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Color(0xFF024A8D),
+                                    ),
+                                  ),
+                                ),
+                              ],
                               const SizedBox(
-                                height: 25,
-                              ),
+                                height: 15,
+                              )
                             ],
                           ),
                         )

@@ -1,3 +1,5 @@
+// ignore_for_file: use_full_hex_values_for_flutter_colors
+
 import 'package:flutter/material.dart';
 import 'package:watheq/Authentication/signup_screen.dart';
 import 'package:watheq/Authentication/login_screen.dart';

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, void_checks
+// ignore_for_file: use_build_context_synchronously, void_checks, use_full_hex_values_for_flutter_colors
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
       showDialog(
         context: context,
         builder: (context) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               color: Color(0xFF024A8D),
             ),

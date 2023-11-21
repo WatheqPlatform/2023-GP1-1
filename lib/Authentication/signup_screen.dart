@@ -1,4 +1,4 @@
-// ignore_for_file: void_checks, non_constant_identifier_names
+// ignore_for_file: void_checks, non_constant_identifier_names, use_build_context_synchronously, use_full_hex_values_for_flutter_colors
 
 import 'dart:async';
 import 'dart:convert';
@@ -83,7 +83,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
       }
     } catch (e) {
-      print(e);
       if (context.mounted) {
         ErrorMessage.show(context, "Error", 18, "Please check your connection.",
             ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
@@ -103,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       showDialog(
         context: context,
         builder: (context) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               color: Color(0xFF024A8D),
             ),

@@ -1,21 +1,17 @@
 
 
+// ignore_for_file: unused_local_variable, invalid_use_of_protected_member, prefer_typing_uninitialized_variables, library_private_types_in_public_api, use_build_context_synchronously, empty_catches, void_checks
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:watheq/offers_screen.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:string_capitalize/string_capitalize.dart';
-import 'package:watheq/Applications_Screen.dart';
 import 'package:watheq/profile_screen.dart';
 
 import '../error_messages.dart';
@@ -42,7 +38,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
   List<String> fields = [];
   List <dynamic> fieldsWithId = [];
   String? validatePhone(String? value) {
-    if (value is Null || value.isEmpty) {
+    if (value == null || value.isEmpty) {
       return null;
     }
     RegExp pattern = RegExp(r'^05\d{8}$');
@@ -54,7 +50,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
   }
 
   String? validateEmail(String? value) {
-    if (value is Null || value.isEmpty) {
+    if (value == null || value.isEmpty) {
       return null;
     }
     if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
@@ -148,7 +144,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       showDialog(
         context: context,
         builder: (context) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               color: Color(0xFF024A8D),
             ),
@@ -176,7 +172,6 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       Get.off(ProfileScreen(email: widget.email));
 
     } catch (e) {
-      print(e);
     }
   }
 
@@ -188,11 +183,11 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       children: [
         Text(
           'Experience $i',
-          style: TextStyle(
+          style: const TextStyle(
               color: Color(0xFF085399), fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 40,),
-        if(fields.length > 0) Column(
+        const SizedBox(height: 40,),
+        if(fields.isNotEmpty) Column(
           children: [
             RequiredFieldLabel(labelText: 'Experience Industry',hideStar: true, ),
             DropdownButtonFormField<String>(
@@ -209,13 +204,13 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                     color: Color(0xFF14386E),
                   ),
                 ),
-                contentPadding: EdgeInsets.symmetric(
+                contentPadding: const EdgeInsets.symmetric(
                   horizontal:  8.0,
                   vertical:  0.012,
                 ),
               ),
               value: experienceIndustryControllers[i].text.isNotEmpty ? experienceIndustryControllers[i].text : null,
-              hint: Text('Choose Industry'),
+              hint: const Text('Choose Industry'),
               onChanged: (String? newValue) {
                 setState(() {
                   experienceIndustryControllers[i].text = newValue!;
@@ -230,7 +225,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             )
           ],
         ),
-        SizedBox(height: 5,),
+        const SizedBox(height: 5,),
         RequiredFieldWidget(
           label: 'Job Title',
           keyName: 'jobTitle',
@@ -278,7 +273,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
 
   }
   List<Widget> buildsteps() {
-    if (fieldsWithId.length == 0 || fields.length == 0) {
+    if (fieldsWithId.isEmpty || fields.isEmpty) {
       return [];
     }
      jobTitleControllers=[TextEditingController()];
@@ -288,7 +283,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     experienceIndustryControllers=[TextEditingController()];
     List<Widget> l = [];
     for (int i = 1; i <= steps; i++) {
-      String? category = null, jobTitle = '', company = '', startDate = '', endDate = '';
+      String? category, jobTitle = '', company = '', startDate = '', endDate = '';
 
       if (widget.formController.formData['experiences'].length >= i) {
         final experience = widget.formController.formData['experiences'][i-1];
@@ -361,15 +356,15 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                   onPressed: () {
                     showDialog(
                         context: context,    builder: (BuildContext context) {
-                      return AlertDialog(        title: Text('Confirmation'),
-                        content: Text(            'Are you sure you want to cancel?'),
+                      return AlertDialog(        title: const Text('Confirmation'),
+                        content: const Text(            'Are you sure you want to cancel?'),
                         actions: [          TextButton(
                           onPressed: () {              Navigator.of(context)
                               .pop();            },
-                          child: Text('No'),          ),
+                          child: const Text('No'),          ),
                           TextButton(            onPressed: () {
                             Get.offAll(ProfileScreen(email: widget.email));            },
-                            child: Text('Yes'),          ),
+                            child: const Text('Yes'),          ),
                         ],      );
                     });
                   },
@@ -391,7 +386,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
               height: 15,
             ),
             Expanded(child:SingleChildScrollView(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 30,
@@ -410,13 +405,12 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Theme(
-                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
-                            canvasColor: Colors.transparent,
-                            colorScheme: ColorScheme.light(
+                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
+                            canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
                               primary: Color(0xFF085399),
 
-                            )),
-                        child: SizedBox(child:Stepper(
+                            ).copyWith(background: Colors.transparent)),
+                        child: SizedBox(height: 75 ,child:Stepper(
 
                           steps: const [
                             Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
@@ -428,7 +422,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                           ],
                           type: StepperType.horizontal,
 
-                        ),height: 75 ,),
+                        ),),
                       ),
                       SizedBox(
                         height: screenHeight*0.59,
@@ -443,17 +437,17 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                     steps--;
                                   });
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.remove_circle_outline,
                                   color: Colors.red,
                                 ),
-                              ) :SizedBox(width: 0,height: 0,),
+                              ) :const SizedBox(width: 0,height: 0,),
                               IconButton(
                                 onPressed: () {
                                   steps++;
                                   setState(() {});
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.add_circle_outline,
                                   color: Color(0xFF085399),
                                 ),
@@ -462,7 +456,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                           )
                         ]),
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
 
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -474,15 +468,15 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
 
                               },
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.redAccent,
-                                padding: EdgeInsets.symmetric(horizontal: 40),
+                                backgroundColor: Colors.redAccent,
+                                padding: const EdgeInsets.symmetric(horizontal: 40),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 elevation: 5,
                               ),
-                              icon: Icon(Icons.arrow_back),
-                              label: Text('Back'),
+                              icon: const Icon(Icons.arrow_back),
+                              label: const Text('Back'),
                             ),
                             Directionality(
                               textDirection: TextDirection.rtl,
@@ -516,15 +510,15 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  primary: Color(0xFF085399),
-                                  padding: EdgeInsets.symmetric(horizontal: 40),
+                                  backgroundColor: const Color(0xFF085399),
+                                  padding: const EdgeInsets.symmetric(horizontal: 40),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   elevation: 5,
                                 ),
 
-                                 child: Text('Create CV'),
+                                 child: const Text('Create CV'),
                               ),
                             )
                           ]),

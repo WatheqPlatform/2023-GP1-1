@@ -47,6 +47,7 @@ dependencies:
   line_icons: ^2.0.2 #Menu Icons
   string_capitalize: ^0.0.10 #Capitalize words
   month_year_picker: ^0.3.0+1
+  intl: ^0.18.1
   
 dev_dependencies:
   flutter_test:

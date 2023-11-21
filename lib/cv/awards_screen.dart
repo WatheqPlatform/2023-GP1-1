@@ -1,17 +1,10 @@
 
+// ignore_for_file: invalid_use_of_protected_member, prefer_typing_uninitialized_variables, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
-import 'package:watheq/database_connection/connection.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:watheq/offers_screen.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
-import 'package:string_capitalize/string_capitalize.dart';
-import 'package:watheq/Applications_Screen.dart';
 import 'package:watheq/profile_screen.dart';
 
 import 'controller/form_controller.dart';
@@ -24,7 +17,7 @@ class AwardsScreen extends StatefulWidget {
   final VoidCallback onBack;
   final goToPage;
 
-  AwardsScreen(
+  const AwardsScreen(
       {super.key,
       required this.isEdit,
       required this.formKey,
@@ -56,10 +49,10 @@ class _AwardsScreenState extends State<AwardsScreen> {
       children: [
         Text(
           'Award $i',
-          style: TextStyle(
+          style: const TextStyle(
               color: Color(0xFF085399), fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 5,),
+        const SizedBox(height: 5,),
         RequiredFieldWidget(
           label: 'Award Name',
           controller: awardNameControllers[i],
@@ -87,7 +80,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
     final x = formController.formData.value['awards'];
 
     for (int i = 1; i <= steps; i++) {
-      String? awardName = null, issuedBy = null, date = null;
+      String? awardName, issuedBy, date;
 
       if (x.length >= i) {
         awardName = x[i-1]['awardName'];
@@ -158,15 +151,15 @@ class _AwardsScreenState extends State<AwardsScreen> {
                   onPressed: () {
                     showDialog(
                         context: context,    builder: (BuildContext context) {
-                      return AlertDialog(        title: Text('Confirmation'),
-                        content: Text(            'Are you sure you want to cancel?'),
+                      return AlertDialog(        title: const Text('Confirmation'),
+                        content: const Text(            'Are you sure you want to cancel?'),
                         actions: [          TextButton(
                           onPressed: () {              Navigator.of(context)
                               .pop();            },
-                          child: Text('No'),          ),
+                          child: const Text('No'),          ),
                           TextButton(            onPressed: () {
                             Get.offAll(ProfileScreen(email: widget.email));            },
-                            child: Text('Yes'),          ),
+                            child: const Text('Yes'),          ),
                         ],      );
                     });
                   },
@@ -190,7 +183,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,
@@ -209,13 +202,12 @@ class _AwardsScreenState extends State<AwardsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                     Theme(
-                    data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),backgroundColor: Colors.transparent,
-                      canvasColor: Colors.transparent,
-                      colorScheme: ColorScheme.light(
+                    data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
+                      canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
                         primary: Color(0xFF085399),
 
-                      )),
-                  child: SizedBox(child:Stepper(
+                      ).copyWith(background: Colors.transparent)),
+                  child: SizedBox(height: 75 ,child:Stepper(
 
                     steps: const [
                       Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
@@ -227,7 +219,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     ],
                     type: StepperType.horizontal,
 
-                  ),height: 75 ,),
+                  ),),
                 ),
 
                         SizedBox(
@@ -241,17 +233,17 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                     steps--;
                                   });
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.remove_circle_outline,
                                   color: Colors.red,
                                 ),
-                              ) :SizedBox(width: 0,height: 0,),
+                              ) :const SizedBox(width: 0,height: 0,),
                               IconButton(
                                 onPressed: () {
                                   steps++;
                                   setState(() {});
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.add_circle_outline,
                                   color: Color(0xFF085399),
                                 ),
@@ -272,15 +264,15 @@ class _AwardsScreenState extends State<AwardsScreen> {
 
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: Colors.redAccent,
-                                      padding: EdgeInsets.symmetric(horizontal: 40),
+                                      backgroundColor: Colors.redAccent,
+                                      padding: const EdgeInsets.symmetric(horizontal: 40),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       elevation: 5,
                                     ),
-                                    icon: Icon(Icons.arrow_back),
-                                  label: Text('Back'),
+                                    icon: const Icon(Icons.arrow_back),
+                                  label: const Text('Back'),
                                   ),
                                   Directionality(
                                     textDirection: TextDirection.rtl,
@@ -303,16 +295,16 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                          widget.onNext();
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color(0xFF085399),
-                                        padding: EdgeInsets.symmetric(horizontal: 40),
+                                        backgroundColor: const Color(0xFF085399),
+                                        padding: const EdgeInsets.symmetric(horizontal: 40),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(15),
                                         ),
                                         elevation: 5,
                                       ),
-                                      icon: Icon(Icons
+                                      icon: const Icon(Icons
                                           .arrow_back),
-                                      label: Text('Next'),
+                                      label: const Text('Next'),
                                     ),
                                   )
                                 ]),

@@ -1,5 +1,6 @@
+// ignore_for_file: unused_field, prefer_typing_uninitialized_variables, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:watheq/cv/projects_screen.dart';
 import 'package:watheq/cv/qualifications_screen.dart';
 
@@ -19,9 +20,9 @@ class MultiStepForm extends StatefulWidget {
 }
 
 class _MultiStepFormState extends State<MultiStepForm> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _currentPage = 0;
-  List<GlobalKey<FormState>> _formKeys = [
+  final List<GlobalKey<FormState>> _formKeys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
@@ -32,7 +33,7 @@ class _MultiStepFormState extends State<MultiStepForm> {
     if (pageIndex >= 0 && pageIndex < _formKeys.length) {
       _pageController.animateToPage(
         pageIndex,
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.ease,
       );
       setState(() {
@@ -45,7 +46,7 @@ class _MultiStepFormState extends State<MultiStepForm> {
     return Scaffold(
       body: PageView(
         controller: _pageController,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (int page) {
           setState(() {
             _currentPage = page;
@@ -53,18 +54,18 @@ class _MultiStepFormState extends State<MultiStepForm> {
         },
         children: [
           BasicInformationScreen(goToPage: goToPage, formKey: _formKeys[0],onNext: () => _pageController.nextPage(
-              duration: Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,email : widget.email),
+              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,email : widget.email),
           AwardsScreen(goToPage: goToPage,formKey: _formKeys[1],onNext: () => _pageController.nextPage(
-              duration: Duration(milliseconds: 500), curve: Curves.ease), isEdit: null, onBack: () => _pageController.previousPage(
-              duration: Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
+              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null, onBack: () => _pageController.previousPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
           QualificationsScreen(goToPage: goToPage,formKey: _formKeys[2],onNext: () => _pageController.nextPage(
-              duration: Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
-              duration: Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
+              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
           ProjectsScreen(goToPage: goToPage,formKey: _formKeys[3],onNext: () => _pageController.nextPage(
-              duration: Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
-              duration: Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
+              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
           ExperiencesScreen(goToPage: goToPage,email: widget.email, onBack: () => _pageController.previousPage(
-              duration: Duration(milliseconds: 500), curve:  Curves.ease)
+              duration: const Duration(milliseconds: 500), curve:  Curves.ease)
           ),
         ],
       ),

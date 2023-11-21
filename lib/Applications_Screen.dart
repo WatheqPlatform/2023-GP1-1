@@ -1,6 +1,6 @@
+// ignore_for_file: file_names, non_constant_identifier_names, unused_local_variable
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -39,6 +39,7 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
     }
   }
 
+  @override
   void initState() {
     super.initState();
     ReadData();
@@ -47,15 +48,15 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
   Color getStatusColor(String status) {
     switch (status) {
       case 'Accepted':
-        return Color.fromARGB(255, 15, 152, 20);
+        return const Color.fromARGB(255, 15, 152, 20);
       case 'Rejected':
-        return Color.fromARGB(255, 209, 24, 24);
+        return const Color.fromARGB(255, 209, 24, 24);
 
       case 'Cancelled':
-        return Color.fromARGB(255, 209, 24, 24);
+        return const Color.fromARGB(255, 209, 24, 24);
 
       default:
-        return Color.fromARGB(255, 155, 155, 155);
+        return const Color.fromARGB(255, 155, 155, 155);
     }
   }
 
@@ -75,17 +76,24 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const SizedBox(height: 50),
-            Row(
+            const SizedBox(
+              height: 42,
+            ),
+            const Row(
               children: [
-                const SizedBox(width: 55),
+                SizedBox(
+                  width: 55,
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 1),
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    left: 1,
+                  ),
                   child: Text(
                     "Job Applications",
                     style: TextStyle(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      fontSize: screenWidth * 0.07,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      fontSize: 27,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -93,12 +101,12 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
               ],
             ),
             const SizedBox(
-              height: 15,
+              height: 10,
             ),
             Expanded(
               child: Container(
                 width: double.infinity,
-                height: screenHeight * 0.86,
+                height: screenHeight * 0.95,
                 padding: EdgeInsets.symmetric(
                   horizontal: screenWidth * 0.01,
                 ),
@@ -124,7 +132,7 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                           )
                         : Expanded(
                             child: SizedBox(
-                              height: screenHeight * 0.71,
+                              height: screenHeight * 0.80,
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(80.0),
@@ -183,9 +191,8 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                                                       ),
                                                     ),
                                                     Text(
-                                                      "${list[index]["CompanyName"]}"
+                                                      "${list[index]["CompanyName"]} \n${list[index]["Category"]}"
                                                           .capitalizeEach(),
-                                                      //"
                                                       style: const TextStyle(
                                                         color: Color.fromARGB(
                                                             255, 155, 155, 155),
@@ -197,20 +204,38 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                                                     const SizedBox(
                                                       height: 5,
                                                     ),
-                                                    Container(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              bottom: 8),
-                                                      child: Text(
-                                                        "${list[index]["ApplicationStatus"]}",
-                                                        style: TextStyle(
-                                                          color: getStatusColor(
-                                                              "${list[index]["ApplicationStatus"]}"),
-                                                          fontSize: 13.0,
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        style: const TextStyle(
+                                                          fontSize: 15.0,
                                                           fontWeight:
                                                               FontWeight.w400,
                                                         ),
+                                                        children: <TextSpan>[
+                                                          const TextSpan(
+                                                            text: "Status: ",
+                                                            style: TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      155,
+                                                                      155,
+                                                                      155),
+                                                            ),
+                                                          ),
+                                                          TextSpan(
+                                                            text:
+                                                                "${list[index]["ApplicationStatus"]}",
+                                                            style: TextStyle(
+                                                              color: getStatusColor(
+                                                                  "${list[index]["ApplicationStatus"]}"),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 9,
                                                     ),
                                                   ],
                                                 ),
@@ -281,8 +306,8 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                       ),
                       width: 350,
                       margin: EdgeInsets.only(
-                        left: screenWidth * 0.07,
-                        top: screenHeight * 0.775,
+                        left: screenWidth * 0.072,
+                        top: screenHeight * 0.8055,
                         bottom: 5,
                       ),
                       decoration: BoxDecoration(
@@ -370,103 +395,6 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
             ),
           ],
         ),
-
-        /*
-      list.isEmpty
-          ? Center(
-              child: Text('No Applications Found.'),
-            )
-          : ListView.builder(
-              itemCount: list.length,
-              itemBuilder: (context, index) {
-                //loop
-                return ListTile(
-                  title: Text(list[index]['CompanyName']),
-                  subtitle: Text(list[index]['JobTitle']),
-                  trailing: Text(list[index]['ApplicationStatus']),
-                );
-              },
-            ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 5,
-          vertical: 5,
-        ),
-        width: 370,
-        margin: EdgeInsets.only(
-          top: screenHeight * 0.76,
-          bottom: 5,
-        ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: const [
-            BoxShadow(
-              color: Color.fromARGB(29, 0, 0, 0),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: Offset(1, 1),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(100),
-          child: GNav(
-            backgroundColor: const Color.fromARGB(0, 255, 255, 255),
-            color: const Color.fromARGB(255, 66, 66, 66),
-            activeColor: const Color(0xFF14386E),
-            tabBackgroundColor: const Color(0xFF14386E).withOpacity(0.1),
-            gap: 8,
-            iconSize: 24,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 20,
-              vertical: 10,
-            ),
-            tabs: const [
-              GButton(
-                icon: LineIcons.home,
-                text: 'Home',
-              ),
-              GButton(
-                icon: LineIcons.list,
-                text: 'Applications',
-              ),
-              GButton(
-                icon: LineIcons.user,
-                text: 'Profile',
-              ),
-            ],
-            selectedIndex: 1,
-            onTabChange: (index) {
-              setState(
-                () {
-                  selectedIndex = index; // Update the selected index
-                },
-              );
-              if (index == 0) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => OffersScreen(email: widget.email),
-                  ),
-                );
-              } else if (index == 1) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ApplicationsScreen(email: widget.email),
-                  ),
-                );
-              } else if (index == 2) {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => ProfileScreen(email: widget.email),
-                  ),
-                );
-              }
-            },
-          ),
-        ),
-      ),
-      */
       ),
     );
   }

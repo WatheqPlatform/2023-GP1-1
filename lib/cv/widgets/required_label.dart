@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 class RequiredFieldLabel extends StatefulWidget {
   final String labelText;
   bool hideStar;
   Color starColor ;
-  RequiredFieldLabel({required this.labelText, this.hideStar = false, this.starColor = Colors.red});
+  RequiredFieldLabel({super.key, required this.labelText, this.hideStar = false, this.starColor = Colors.red});
 
   @override
   _RequiredFieldLabelState createState() => _RequiredFieldLabelState();
@@ -31,7 +33,7 @@ class _RequiredFieldLabelState extends State<RequiredFieldLabel> {
                 style: const TextStyle(color: Color(0xFF085399)), // Label color
               ),
               if (!widget.hideStar)Text(
-                ' *' + (showMessage ? message : ''),
+                ' *${showMessage ? message : ''}',
                 style: TextStyle(color: widget.starColor),
               ),
             ],

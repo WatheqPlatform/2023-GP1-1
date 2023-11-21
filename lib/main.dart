@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Poppins',
       ),
-      localizationsDelegates: [
+      localizationsDelegates: const [
         MonthYearPickerLocalizations.delegate,
       ],
       home: const StartScreen(),

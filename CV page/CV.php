@@ -112,7 +112,7 @@ include('CVLogic.php');
                             echo '<p id="Info">' . $qualification['DegreeLevel'] . ' degree in ' . $qualification['Field'] .'</p>';
 
                             $date=!empty($qualification['EndDate']) ? date('Y', strtotime($qualification['EndDate'])) : 'Current';
-                            echo '<p class="date">' . date('Y', strtotime($qualification['StartDate'])) . ' - '. $date . '</p>';
+                            echo '<p class="date">' . date('Y.m', strtotime($qualification['StartDate'])) . ' - '. $date . '</p>';
                         }
                     }
                     echo '</div>';

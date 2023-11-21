@@ -48,12 +48,12 @@ function fetchRelatedData($conn, $sql, $cvID) {
 
 
 // Fetch related data for the CV
-$projects = fetchRelatedData($conn, "SELECT ProjectName, Description, Date FROM project WHERE CV_ID = ?", $cvID);
+$projects = fetchRelatedData($conn, "SELECT ProjectName, Description, Date FROM project WHERE CV_ID = ? ORDER BY Date DESC", $cvID);
 $skills = fetchRelatedData($conn, "SELECT Description FROM skill WHERE CV_ID = ?", $cvID);
-$awards = fetchRelatedData($conn, "SELECT AwardName, IssuedBy, Date FROM award WHERE CV_ID = ?", $cvID);
-$certificates = fetchRelatedData($conn, "SELECT CertificateName, IssuedBy, Date FROM certificate WHERE CV_ID = ?", $cvID);
-$experience = fetchRelatedData($conn, "SELECT JobTitle, CompanyName, StartDate, EndDate, category.CategoryName FROM cvexperience LEFT JOIN category ON cvexperience.CategoryID = category.CategoryID WHERE cvexperience.CV_ID = ?", $cvID);
-$qualifications = fetchRelatedData($conn, "SELECT StartDate, EndDate, IssuedBy, DegreeLevel, Field FROM cvqualification INNER JOIN qualification ON cvqualification.QualificationID = qualification.QualificationID WHERE CV_ID = ?", $cvID);
+$awards = fetchRelatedData($conn, "SELECT AwardName, IssuedBy, Date FROM award WHERE CV_ID = ? ORDER BY Date DESC", $cvID);
+$certificates = fetchRelatedData($conn, "SELECT CertificateName, IssuedBy, Date FROM certificate WHERE CV_ID = ? ORDER BY Date DESC", $cvID);
+$experience = fetchRelatedData($conn, "SELECT JobTitle, CompanyName, StartDate, EndDate, category.CategoryName FROM cvexperience LEFT JOIN category ON cvexperience.CategoryID = category.CategoryID WHERE cvexperience.CV_ID = ? ORDER BY EndDate IS NULL DESC, StartDate DESC, EndDate DESC", $cvID);
+$qualifications = fetchRelatedData($conn, "SELECT StartDate, EndDate, IssuedBy, DegreeLevel, Field FROM cvqualification INNER JOIN qualification ON cvqualification.QualificationID = qualification.QualificationID WHERE CV_ID = ? ORDER BY EndDate IS NULL DESC, StartDate DESC, EndDate DESC", $cvID);
 
 // Combine all data into a single array for the CV
 $cvDetails = [

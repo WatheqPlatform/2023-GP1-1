@@ -420,7 +420,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                                 : "Show more",
                                                                             style:
                                                                                 const TextStyle(
-                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                              color: Color.fromARGB(255, 135, 135, 135),
                                                                             ),
                                                                           ),
                                                                           Icon(

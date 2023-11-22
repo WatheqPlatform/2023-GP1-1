@@ -94,7 +94,7 @@ class StartScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 17),
+                  const SizedBox(height: 13),
                   OutlinedButton(
                     onPressed: () {
                       Navigator.push(

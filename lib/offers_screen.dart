@@ -47,7 +47,10 @@ class _OffersScreenState extends State<OffersScreen> {
   bool showAllCompanies = false;
 
   Future<void> getdata() async {
-    var res = await http.get(Uri.parse(Connection.jobOffersData));
+    var res = await http.post(
+      Uri.parse(Connection.jobOffersData),
+      body: {"email": widget.email},
+    );
 
     if (res.statusCode == 200) {
       var red = json.decode(res.body);

@@ -22,7 +22,6 @@ class ApplicationsScreen extends StatefulWidget {
 
 class _ApplicationsScreen extends State<ApplicationsScreen> {
   List list = [];
-  bool isAccepted = false;
 
   Future ReadData() async {
     var res = await http.post(
@@ -261,10 +260,6 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                                                       Icons.arrow_forward),
                                                   iconSize: 20,
                                                   onPressed: () {
-                                                    list[index]["ApplicationStatus"] ==
-                                                            "Accepted"
-                                                        ? isAccepted = true
-                                                        : isAccepted = false;
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -274,8 +269,6 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                                                                     "${list[index]["OfferID"]}",
                                                                 email: widget
                                                                     .email,
-                                                                isAccepted:
-                                                                    isAccepted,
                                                               ))),
                                                     ).then((value) {
                                                       // This block will be executed when returning back to this screen

@@ -11,13 +11,11 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 class JobOfferDetailScreen extends StatefulWidget {
   final String offerID;
   final String email;
-  final bool isAccepted;
 
   const JobOfferDetailScreen({
     super.key,
     required this.offerID,
     required this.email,
-    required this.isAccepted,
   });
 
   @override
@@ -30,6 +28,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
   bool empty = true;
 
   bool hasApplied = false;
+  bool isAccepted = false;
+  bool isRejected = false;
 
   bool isClosed = false;
 
@@ -75,15 +75,11 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
         // communication is succefull
         var resBodyOfCheck = jsonDecode(response.body.trim());
 
-        if (resBodyOfCheck == 1) {
-          setState(() {
-            hasApplied = true;
-          });
-        } else {
-          setState(() {
-            hasApplied = false;
-          });
-        }
+        setState(() {
+          hasApplied = resBodyOfCheck['applied'];
+          isAccepted = resBodyOfCheck['accepted'];
+          isRejected = resBodyOfCheck['rejected'];
+        });
       }
     } catch (e) {
       if (context.mounted) {
@@ -545,7 +541,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                           height: 38,
                         ),
 
-                        if (widget.isAccepted)
+                        if (isAccepted)
                           const Padding(
                             padding: EdgeInsets.only(
                               left: 5.0,
@@ -572,6 +568,20 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 fontSize: 16, // Adjust the font size as needed
                               ),
                             ),
+                          )
+                        else if (isRejected)
+                          const Padding(
+                            padding: EdgeInsets.only(
+                              left: 5.0,
+                              bottom: 1,
+                            ),
+                            child: Text(
+                              "Sorry, your application is rejected.",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 16, // Adjust the font size as needed
+                              ),
+                            ),
                           ),
 
                         Expanded(
@@ -582,7 +592,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                               bottom: 5,
                             ),
                             children: [
-                              if (!isClosed && !widget.isAccepted)
+                              if (!isClosed && !isAccepted && !isRejected)
                                 Text(
                                   "Posted on ${offerDetails[0]["Date"]}",
                                   style: const TextStyle(
@@ -713,16 +723,16 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                           height: screenHeight * 0.02,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 14),
+                          padding: const EdgeInsets.only(left: 5),
                           child: Column(
                             children: [
-                              if (widget.isAccepted) ...[
+                              if (isAccepted) ...[
                                 ElevatedButton(
                                   onPressed: null, // Disabled
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor:
                                         Colors.grey, // Gray color when disabled
-                                    fixedSize: Size(screenWidth * 0.8,
+                                    fixedSize: Size(screenWidth * 0.93,
                                         screenHeight * 0.056),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -747,7 +757,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                       width: 1.5,
                                       color: Color(0xFF024A8D),
                                     ),
-                                    fixedSize: Size(screenWidth * 0.8,
+                                    fixedSize: Size(screenWidth * 0.93,
                                         screenHeight * 0.052),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -761,12 +771,12 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                     ),
                                   ),
                                 ),
-                              ] else if (isClosed) ...[
+                              ] else if (isClosed || isRejected) ...[
                                 ElevatedButton(
                                   onPressed: null, // Disabled
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.grey,
-                                    fixedSize: Size(screenWidth * 0.8,
+                                    fixedSize: Size(screenWidth * 0.93,
                                         screenHeight * 0.056),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -789,7 +799,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                       width: 1.5,
                                       color: Colors.grey,
                                     ),
-                                    fixedSize: Size(screenWidth * 0.8,
+                                    fixedSize: Size(screenWidth * 0.93,
                                         screenHeight * 0.052),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -810,7 +820,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: const Color(0xFF024A8D),
-                                    fixedSize: Size(screenWidth * 0.8,
+                                    fixedSize: Size(screenWidth * 0.93,
                                         screenHeight * 0.056),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -835,7 +845,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                       width: 1.5,
                                       color: Color(0xFF024A8D),
                                     ),
-                                    fixedSize: Size(screenWidth * 0.8,
+                                    fixedSize: Size(screenWidth * 0.93,
                                         screenHeight * 0.052),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -849,7 +859,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                     ),
                                   ),
                                 ),
-                              ] else if (!widget.isAccepted) ...[
+                              ] else if (!isAccepted) ...[
                                 OutlinedButton(
                                   onPressed: () {
                                     showDialog<void>(
@@ -918,7 +928,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                       width: 1.5,
                                       color: Color.fromARGB(255, 209, 24, 24),
                                     ),
-                                    fixedSize: Size(screenWidth * 0.8,
+                                    fixedSize: Size(screenWidth * 0.93,
                                         screenHeight * 0.052),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -942,7 +952,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                       width: 1.5,
                                       color: Color(0xFF024A8D),
                                     ),
-                                    fixedSize: Size(screenWidth * 0.8,
+                                    fixedSize: Size(screenWidth * 0.93,
                                         screenHeight * 0.052),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),

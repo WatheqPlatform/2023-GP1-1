@@ -92,6 +92,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (i != 1) SizedBox(height: 40,),
         Text(
           'Qualification $j',
           style: const TextStyle(
@@ -185,6 +186,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   );
                 }).toList(),
               ),
+              const SizedBox(height: 16,),
               RequiredFieldWidget(label:  degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text == 'High School' ? 'School Name' : 'University Name' , keyName: 'u-name', controller: universityControllers[i], starColor: Colors.green,)
             ],
           ),
@@ -349,6 +351,16 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                         child: Column(
                           children: [
                             ConnectedCircles(pos: 2,),
+                            const Center(
+                              child: Text(
+                                'Required Qualifications',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Color(0xFF14386E),
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
 
                             SizedBox(
                                 height: screenHeight*0.59,

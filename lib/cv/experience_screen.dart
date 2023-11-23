@@ -182,11 +182,11 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
   int selectedIndex = 0;
   Widget buildStepItem(int i, int? j) {
     j ??= i;
-    print({'asdadasdas': i});
     return Column(
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (i != 1)SizedBox(height: 40,),
         Text(
           'Experience $j',
           style: const TextStyle(
@@ -439,6 +439,16 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                         child: Column(
                           children: [
                             ConnectedCircles(pos: 4,),
+                            Center(
+                              child: const Text(
+                                'Required Expereince',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Color(0xFF14386E),
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                             SizedBox(
                               height: screenHeight*0.59,
                               child: ListView(children: [

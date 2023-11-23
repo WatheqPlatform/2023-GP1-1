@@ -53,7 +53,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (i != 1) SizedBox(height: 75,),
+        if (i != 1) SizedBox(height: 40,),
         Text(
           'Award $j',
           style: const TextStyle(
@@ -236,6 +236,16 @@ class _AwardsScreenState extends State<AwardsScreen> {
                           child: Column(
                             children: [
                               ConnectedCircles(pos: 1,),
+                              Center(
+                                child: const Text(
+                                  'Required Awards',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Color(0xFF14386E),
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
                               SizedBox(
                                   height: screenHeight*0.6,
                                   child: ListView(children: [...addOrGetCachedSteps(), Row(

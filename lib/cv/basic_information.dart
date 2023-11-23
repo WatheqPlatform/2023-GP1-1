@@ -155,39 +155,54 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
 
                       SizedBox(
                         height: screenHeight*0.73,
-                        child: Column(
-                          children: [
-                            ConnectedCircles(pos: 0,),
-
-                            RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
-                            RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
-                            RequiredFieldWidget(keyboardType: TextInputType.phone, label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
-                            RequiredFieldWidget(label: 'Contact Email',keyName: 'contactEmail',controller: contactEmailController,),
-
-                            RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Summary',keyName: 'summary',controller: summaryController,),
-                            // Repeat for other fields
-                            RequiredFieldLabel(labelText: 'City',),
-
-                            if (cities.isNotEmpty) DropdownButtonFormField<Map<String, dynamic>>(
-                              items: cityDropdownItems,
-                              value: (cities.firstWhereOrNull((element) => element['CityId'] == widget.formController.formData['city'].toString()) ),
-                              key: const Key('city'),
-                              onChanged: (Map<String, dynamic>? selectedCity) {
-                                if (selectedCity != null) {
-                                  widget.formController.updateFormData({'city': selectedCity['CityId']});
-                                }
-                              },
-                              decoration: const InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xFF085399)),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Color(0xFF085399)),
-                                ),
-                                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Center(
+                                child: ConnectedCircles(pos: 0,),
                               ),
-                            ),
-                          ],
+                              Center(
+                                child: const Text(
+                                  'Personal Information',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Color(0xFF14386E),
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+
+
+                              RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
+                              RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
+                              RequiredFieldWidget(keyboardType: TextInputType.phone, label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
+                              RequiredFieldWidget(label: 'Contact Email',keyName: 'contactEmail',controller: contactEmailController,),
+
+                              RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Summary',keyName: 'summary',controller: summaryController,),
+                              // Repeat for other fields
+                              RequiredFieldLabel(labelText: 'City',),
+
+                              if (cities.isNotEmpty) DropdownButtonFormField<Map<String, dynamic>>(
+                                items: cityDropdownItems,
+                                value: (cities.firstWhereOrNull((element) => element['CityId'] == widget.formController.formData['city'].toString()) ),
+                                key: const Key('city'),
+                                onChanged: (Map<String, dynamic>? selectedCity) {
+                                  if (selectedCity != null) {
+                                    widget.formController.updateFormData({'city': selectedCity['CityId']});
+                                  }
+                                },
+                                decoration: const InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Color(0xFF085399)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Color(0xFF085399)),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
 

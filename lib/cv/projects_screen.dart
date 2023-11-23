@@ -37,6 +37,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (i != 1) SizedBox(height: 40,),
         Text(
           'Project $j',
           style: const TextStyle(
@@ -216,6 +217,16 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                         child: Column(
                           children: [
                             ConnectedCircles(pos: 3,),
+                            const Center(
+                              child: Text(
+                                'Required Projects',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color: Color(0xFF14386E),
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                             SizedBox(
                               height: screenHeight*0.57,
                               child: ListView(children: [

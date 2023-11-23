@@ -11,7 +11,8 @@ class RequiredFieldWidget extends StatelessWidget {
   bool hideStar;
   Color starColor ;
   final TextEditingController controller;
-  RequiredFieldWidget({super.key, required this.label, this.keyName, required this.controller, this.keyboardType =  TextInputType.text, this.maxLines = 1, this.hideStar = false, this.starColor = Colors.red});
+  bool removeGutter = false;
+  RequiredFieldWidget({super.key, required this.label, this.keyName, required this.controller, this.keyboardType =  TextInputType.text, this.maxLines = 1, this.hideStar = false, this.starColor = Colors.red, this.removeGutter = false});
   String? validatePhone(String? value) {
     if (value == null || value.isEmpty) {
       return null;
@@ -53,7 +54,7 @@ class RequiredFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
+      margin:  EdgeInsets.only(bottom:removeGutter? 0: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -90,7 +91,7 @@ class RequiredFieldWidget extends StatelessWidget {
                   color: Color(0xFF14386E),
                 ),
               ),
-              contentPadding: const EdgeInsets.symmetric(
+              contentPadding:  const EdgeInsets.symmetric(
                 horizontal:  8.0,
                 vertical:  0.012,
               ),

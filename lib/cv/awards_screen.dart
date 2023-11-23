@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:watheq/cv/widgets/circles_bar.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/profile_screen.dart';
@@ -32,6 +33,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
   void initState() {
     super.initState();
     steps = formController.formData['awards'].length> 0 ? formController.formData['awards'].length :  1;
+    MAX_STEPS = steps;
     lastSteps = steps;
     cachedSteps = buildsteps();
   }
@@ -40,15 +42,20 @@ class _AwardsScreenState extends State<AwardsScreen> {
   List<TextEditingController> issuedByControllers=[TextEditingController()];
   List<TextEditingController> datesController=[TextEditingController()];
   late int steps = -1;
+  int MAX_STEPS = 0;
   late int lastSteps = -1;
+
   List<Widget> cachedSteps = [];
 
-  Widget buildStepItem (int i) {
+  Widget buildStepItem (int i, int? j) {
+    j ??= i;
     return Column(
+      key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (i != 1) SizedBox(height: 75,),
         Text(
-          'Award $i',
+          'Award $j',
           style: const TextStyle(
               color: Color(0xFF085399), fontWeight: FontWeight.bold),
         ),
@@ -64,7 +71,20 @@ class _AwardsScreenState extends State<AwardsScreen> {
           label: 'Issued By',
           controller: issuedByControllers[i],
           starColor: Colors.green,
+          removeGutter: true,
         ),
+        i != 1 ? IconButton(
+          onPressed: () {
+            setState(() {
+                selectedIndex = i;
+                steps--;
+            });
+          },
+          icon: const Icon(
+            Icons.cancel_outlined,
+            color: Colors.red,
+          ),
+        ) :const SizedBox(width: 0,height: 0,),
 
       ],
     );
@@ -97,9 +117,21 @@ class _AwardsScreenState extends State<AwardsScreen> {
         datesController.add(TextEditingController());
       }
 
-      l.add(buildStepItem(i));
+      l.add(buildStepItem(i, i));
     }
     return l;
+  }
+  int selectedIndex = 0;
+  void removeWidget(int i) {
+    for (int j = 0; j < cachedSteps.length; j++) {
+      if (cachedSteps[j].key == Key(i.toString())){
+        awardNameControllers.removeAt(j+1);
+        issuedByControllers.removeAt(j+1);
+        datesController.removeAt(j+1);
+        cachedSteps.removeAt(j);
+        return;
+      }
+    }
   }
   List<Widget> addOrGetCachedSteps() {
     if (lastSteps == steps) return cachedSteps;
@@ -110,16 +142,13 @@ class _AwardsScreenState extends State<AwardsScreen> {
       issuedByControllers.add(TextEditingController());
       datesController.add(TextEditingController());
       cachedSteps.add(
-          buildStepItem(steps)
+          buildStepItem(steps, MAX_STEPS)
       );
 
       return cachedSteps;
     }
     lastSteps = steps;
-    awardNameControllers.removeLast();
-    issuedByControllers.removeLast();
-    datesController.removeLast();
-    cachedSteps.removeLast();
+    removeWidget(selectedIndex);
     return cachedSteps;
 
   }
@@ -167,7 +196,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Awards",
+                      formController.isEdit() ? "Edit CV" : "Create CV",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -201,57 +230,38 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Theme(
-                    data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
-                      canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
-                        primary: Color(0xFF085399),
 
-                      ).copyWith(background: Colors.transparent)),
-                  child: SizedBox(height: 75 ,child:Stepper(
-
-                    steps: const [
-                      Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
-                      Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
-                      Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
-                      Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
-                      Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
-
-                    ],
-                    type: StepperType.horizontal,
-
-                  ),),
-                ),
-
-                        SizedBox(
-                          height: screenHeight*0.6,
-                          child: ListView(children: [...addOrGetCachedSteps(), Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                        Container(
+                          height: screenHeight * 0.73,
+                          child: Column(
                             children: [
-                              steps != 1 ? IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    steps--;
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.remove_circle_outline,
-                                  color: Colors.red,
-                                ),
-                              ) :const SizedBox(width: 0,height: 0,),
-                              IconButton(
-                                onPressed: () {
-                                  steps++;
-                                  setState(() {});
-                                },
-                                icon: const Icon(
-                                  Icons.add_circle_outline,
-                                  color: Color(0xFF085399),
-                                ),
-                              )
-                            ]),
-                        ])),
+                              ConnectedCircles(pos: 1,),
+                              SizedBox(
+                                  height: screenHeight*0.6,
+                                  child: ListView(children: [...addOrGetCachedSteps(), Row(
 
-                        Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+
+                                        IconButton(
+                                          onPressed: () {
+                                            steps++;
+                                            MAX_STEPS++;
+                                            setState(() {});
+                                          },
+                                          icon: const Icon(
+                                            Icons.add_circle_outline,
+                                            color: Color(0xFF085399),
+                                          ),
+                                        )
+                                      ]),
+                                  ])),
+                            ],
+                          ),
+
+                        ),
+
+                    Column(
                           children: [
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -264,7 +274,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
 
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.redAccent,
+                                      backgroundColor: const Color(0xFF085399),
                                       padding: const EdgeInsets.symmetric(horizontal: 40),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),

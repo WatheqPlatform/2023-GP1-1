@@ -52,4 +52,7 @@ class FormController extends GetxController {
     formData.addAll(newData);
     update();
   }
+  bool isEdit () {
+    return formData.value['ID'] != 0;
+  }
 }

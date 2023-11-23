@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:watheq/cv/widgets/circles_bar.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
 
@@ -30,12 +31,14 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   int steps = -1;
   int lastSteps = -1;
   List<Widget> cachedSteps = [];
-  Widget buildStepItem(int i) {
+  Widget buildStepItem(int i, int ?j) {
+    j ??= i;
     return Column(
+      key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Project $i',
+          'Project $j',
           style: const TextStyle(
               color: Color(0xFF085399), fontWeight: FontWeight.bold),
         ),
@@ -46,16 +49,28 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           hideStar: true,
           controller: projectNameControllers[i],
         ),
-        // Repeat for other fields
-        RequiredFieldWidget(
+        DateButton(label: 'Completion Date',dateController: datesControllers[i],starColor: Colors.green,), RequiredFieldWidget(
           label: 'Description',
           keyName: 'description',
           controller: descriptionControllers[i],
           starColor: Colors.green,
           maxLines: 5,
           keyboardType: TextInputType.multiline,
+          removeGutter: true,
         ),
-        DateButton(label: 'Completion Date',dateController: datesControllers[i],starColor: Colors.green,),
+
+        i != 1 ? IconButton(
+          onPressed: () {
+            setState(() {
+              steps--;
+              selectedIndex = i;
+            });
+          },
+          icon: const Icon(
+            Icons.cancel_outlined,
+            color: Colors.red,
+          ),
+        ) :const SizedBox(width: 0,height: 0,),
       ],
     );
   }
@@ -74,7 +89,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       projectNameControllers.add(TextEditingController(text: projectName));
       descriptionControllers.add(TextEditingController(text: description));
       datesControllers.add(TextEditingController(text: date));
-      l.add(buildStepItem(i));
+      l.add(buildStepItem(i, i));
     }
     return l;
   }
@@ -88,20 +103,34 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
       datesControllers.add(TextEditingController());
       projectNameControllers.add(TextEditingController());
       descriptionControllers.add(TextEditingController());
-      cachedSteps.add(buildStepItem(steps));
+      cachedSteps.add(buildStepItem(steps, MAX_STEPS));
       return cachedSteps;
     }
     lastSteps = steps;
-    datesControllers.removeLast();
-    projectNameControllers.removeLast();
-    descriptionControllers.removeLast();
-    cachedSteps.removeLast();
+    removeWidget();
     return cachedSteps;
   }
+
+  void removeWidget() {
+    for (int j = 0; j < cachedSteps.length; j++) {
+      if (cachedSteps[j].key == Key(selectedIndex.toString())) {
+        j++;
+        datesControllers.removeAt(j);
+        projectNameControllers.removeAt(j);
+        descriptionControllers.removeAt(j);
+        cachedSteps.removeAt(j - 1);
+        return;
+      }
+    }
+  }
+
+  int selectedIndex = 0;
+  int MAX_STEPS = 0;
   @override
   void initState() {
     steps = widget.formController.formData['projects'].length > 0 ? widget.formController.formData['projects'].length : 1;
     lastSteps = steps;
+    MAX_STEPS = steps;
     cachedSteps = buildsteps();
     super.initState();
   }
@@ -110,7 +139,6 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int selectedIndex = 0;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -151,7 +179,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Projects",
+                    widget.formController.isEdit() ? "Edit CV" : "Create CV",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -183,58 +211,36 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Theme(
-                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
-                            canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
-                              primary: Color(0xFF085399),
+                      Container(
+                        height: screenHeight * 0.73,
+                        child: Column(
+                          children: [
+                            ConnectedCircles(pos: 3,),
+                            SizedBox(
+                              height: screenHeight*0.57,
+                              child: ListView(children: [
+                                ...addOrGetCachedSteps(),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
 
-                            ).copyWith(background: Colors.transparent)),
-                        child: SizedBox(height: 75 ,child:Stepper(
-
-                          steps: const [
-                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
-
+                                      IconButton(
+                                        onPressed: () {
+                                          steps++;
+                                          MAX_STEPS++;
+                                          setState(() {});
+                                        },
+                                        icon: const Icon(
+                                          Icons.add_circle_outline,
+                                          color: Color(0xFF085399),
+                                        ),
+                                      )
+                                    ])
+                              ]),
+                            ),
                           ],
-                          type: StepperType.horizontal,
-
-                        ),),
+                        ),
                       ),
-                      SizedBox(
-                        height: screenHeight*0.57,
-                        child: ListView(children: [
-                          ...addOrGetCachedSteps(),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                steps != 1 ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      steps--;
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.remove_circle_outline,
-                                    color: Colors.red,
-                                  ),
-                                ) :const SizedBox(width: 0,height: 0,),
-                                IconButton(
-                                  onPressed: () {
-                                    steps++;
-                                    setState(() {});
-                                  },
-                                  icon: const Icon(
-                                    Icons.add_circle_outline,
-                                    color: Color(0xFF085399),
-                                  ),
-                                )
-                              ])
-                        ]),
-                      ),
-                      const SizedBox(height: 10,),
 
                       Column(
                         children: [
@@ -248,7 +254,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
 
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.redAccent,
+                                    backgroundColor: const Color(0xFF085399),
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),

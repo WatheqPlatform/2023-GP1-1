@@ -441,7 +441,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                             ConnectedCircles(pos: 4,),
                             Center(
                               child: const Text(
-                                'Experience',
+                                'Experiences',
                                 style: TextStyle(
                                     fontSize: 25,
                                     color:Color(0xFF085399),

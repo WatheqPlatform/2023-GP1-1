@@ -141,7 +141,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     vertical: 30,
                     horizontal: 30,
                   ),
-                  height: screenHeight * 0.86,
+                  height: screenHeight * 0.89,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -154,7 +154,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     children: [
 
                       SizedBox(
-                        height: screenHeight*0.73,
+                        height: screenHeight*0.7701,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [

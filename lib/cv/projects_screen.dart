@@ -60,16 +60,20 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           removeGutter: true,
         ),
 
-        i != 1 ? IconButton(
-          onPressed: () {
+        i != 1 ? InkWell(
+          onTap: () {
             setState(() {
               steps--;
               selectedIndex = i;
             });
           },
-          icon: const Icon(
-            Icons.cancel_outlined,
-            color: Colors.red,
+
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0,10,0,0),
+            child: const Icon(
+              Icons.cancel_outlined,
+              color: Colors.red,
+            ),
           ),
         ) :const SizedBox(width: 0,height: 0,),
       ],
@@ -200,7 +204,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   vertical: 30,
                   horizontal: 30,
                 ),
-                height: screenHeight * 0.86,
+                height: screenHeight * 0.89,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -213,7 +217,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: screenHeight * 0.73,
+                        height: screenHeight * 0.77,
                         child: Column(
                           children: [
                             ConnectedCircles(pos: 3,),
@@ -234,16 +238,19 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-
-                                      IconButton(
-                                        onPressed: () {
+                                      InkWell(
+                                        onTap: () {
                                           steps++;
                                           MAX_STEPS++;
                                           setState(() {});
                                         },
-                                        icon: const Icon(
-                                          Icons.add_circle_outline,
-                                          color: Color(0xFF085399),
+
+                                        child: Container(
+                                          padding: EdgeInsets.fromLTRB(0,10,0,0),
+                                          child: const Icon(
+                                            Icons.add_circle_outline,
+                                            color: Color(0xFF085399),
+                                          ),
                                         ),
                                       )
                                     ])

@@ -146,7 +146,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
             );
           }).toList(),
         ),
-        const SizedBox(height: 16,),
+        Visibility(child: const SizedBox(height: 16,), visible: degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None',),
         if (fields.isNotEmpty)Visibility(
           visible:( degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None'),
           child: Column(
@@ -194,17 +194,21 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         
         Visibility(visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other' && degreeLevelControllers[i].text != 'None' && degreeLevelControllers[i].text != 'Pre-high school'),child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),),
         Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.year,lastDate: DateTime.now(),),),
-        Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],),) ,
-        i != 1 ? IconButton(
-          onPressed: () {
+        Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],removeGutter: true,),) ,
+        i != 1 ? InkWell(
+          onTap: () {
             setState(() {
               steps--;
               selectedIndex = i;
             });
           },
-          icon: const Icon(
-            Icons.cancel_outlined,
-            color: Colors.red,
+
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0,10,0,0),
+            child: const Icon(
+              Icons.cancel_outlined,
+              color: Colors.red,
+            ),
           ),
         ) :const SizedBox(width: 0,height: 0,),
       ],
@@ -334,7 +338,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   vertical: 30,
                   horizontal: 30,
                 ),
-                height: screenHeight * 0.86,
+                height: screenHeight * 0.899,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -347,7 +351,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: screenHeight * 0.73,
+                        height: screenHeight * 0.77,
                         child: Column(
                           children: [
                             ConnectedCircles(pos: 2,),
@@ -368,18 +372,21 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                 ListView(children: [...addOrGetCachedSteps(),  Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-
-                                    IconButton(
-                                      onPressed: () {
+                                    InkWell(
+                                      onTap: () {
                                         steps++;
                                         MAX_STEPS++;
                                         setState(() {});
                                       },
-                                      icon: const Icon(
-                                        Icons.add_circle_outline,
-                                        color: Color(0xFF085399),
+                                      child: Container(
+                                        padding: EdgeInsets.fromLTRB(0,10,0,0),
+                                        child: const Icon(
+                                          Icons.add_circle_outline,
+                                          color: Color(0xFF085399),
+
+                                        ),
                                       ),
-                                    ),
+                                    )
                                   ],
                                 )]
                                 )

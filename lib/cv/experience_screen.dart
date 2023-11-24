@@ -85,13 +85,21 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     if (data['qualifications'] != null && data['qualifications'] is List) {
       for (Map<String, dynamic> qualification in data['qualifications']) {
         List<String> requiredFieldsQualification = ['DegreeLevel', ];
+        final messages = {
+          'Field': (final v) => 'Degree Field',
+          'IssuedBy': (final v) {
+              if (v['DegreeLevel'] == 'High School') {
+                return "School Name";
+              }
+              return "University Name";
+          }
+        };
         if (qualification['DegreeLevel'] != 'Pre-high school') {
-            requiredFieldsQualification.addAll(['Field', 'StartDate', 'EndDate']);
+            requiredFieldsQualification.addAll(['Field','IssuedBy', 'StartDate', 'EndDate']);
         }
         for (String field in requiredFieldsQualification) {
-
           if (qualification[field] == null || qualification[field].toString().isEmpty) {
-            return "Missing or empty field in qualifications: $field";
+            return "Missing or empty field in qualifications: ${messages[field]?.call(qualification) ?? field} ";
           }
         }
         if (qualification['StartDate'].isNotEmpty && qualification['EndDate'].isNotEmpty) {
@@ -247,16 +255,19 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         ),
         DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.month,),
         DateButton(removeGutter: true, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month),
-         (i != 1) ? IconButton(
-          onPressed: () {
+         (i != 1) ? InkWell(
+          onTap: () {
             setState(() {
               steps--;
               selectedIndex = i;
             });
           },
-          icon: const Icon(
-            Icons.cancel_outlined,
-            color: Colors.red,
+          child: Container(
+            margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: const Icon(
+              Icons.cancel_outlined,
+              color: Colors.red,
+            ),
           ),
         ) : SizedBox(height: 0,width: 0,)
       ],
@@ -421,7 +432,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                   vertical: 30,
                   horizontal: 30,
                 ),
-                height: screenHeight * 0.86,
+                height: screenHeight * 0.89,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -435,7 +446,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                     children: [
 
                       Container(
-                        height: screenHeight * .73,
+                        height: screenHeight * .77,
                         child: Column(
                           children: [
                             ConnectedCircles(pos: 4,),
@@ -457,15 +468,18 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
 
-                                    IconButton(
-                                      onPressed: () {
+                                    InkWell(
+                                      onTap: () {
                                         steps++;
                                         MAX_STEPS++;
                                         setState(() {});
                                       },
-                                      icon: const Icon(
-                                        Icons.add_circle_outline,
-                                        color: Color(0xFF085399),
+                                      child: Container(
+                                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                        child: const Icon(
+                                          Icons.add_circle_outline,
+                                          color: Color(0xFF085399),
+                                        ),
                                       ),
                                     ),
                                   ],

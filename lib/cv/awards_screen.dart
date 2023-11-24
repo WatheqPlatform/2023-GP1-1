@@ -1,5 +1,4 @@
 
-// ignore_for_file: invalid_use_of_protected_member, prefer_typing_uninitialized_variables, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -241,10 +240,10 @@ class _AwardsScreenState extends State<AwardsScreen> {
                               ConnectedCircles(pos: 1,),
                               Center(
                                 child: const Text(
-                                  'Required Awards',
+                                  'Awards',
                                   style: TextStyle(
                                       fontSize: 25,
-                                      color: Color(0xFF14386E),
+                                      color:Color(0xFF085399),
                                       fontWeight: FontWeight.w500),
                                   textAlign: TextAlign.center,
                                 ),

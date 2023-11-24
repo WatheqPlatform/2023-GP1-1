@@ -1,6 +1,5 @@
 
 
-// ignore_for_file: unused_local_variable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -166,7 +165,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   'Personal Information',
                                   style: TextStyle(
                                       fontSize: 25,
-                                      color: Color(0xFF14386E),
+                                      color:Color(0xFF085399),
                                       fontWeight: FontWeight.w500),
                                   textAlign: TextAlign.center,
                                 ),
@@ -179,7 +178,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                               RequiredFieldWidget(label: 'Contact Email',keyName: 'contactEmail',controller: contactEmailController,),
 
                               RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Summary',keyName: 'summary',controller: summaryController,),
-                              // Repeat for other fields
                               RequiredFieldLabel(labelText: 'City',),
 
                               if (cities.isNotEmpty) DropdownButtonFormField<Map<String, dynamic>>(

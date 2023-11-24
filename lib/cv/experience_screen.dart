@@ -1,6 +1,6 @@
 
 
-// ignore_for_file: unused_local_variable, invalid_use_of_protected_member, prefer_typing_uninitialized_variables, library_private_types_in_public_api, use_build_context_synchronously, empty_catches, void_checks
+
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
@@ -452,10 +452,10 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                             ConnectedCircles(pos: 4,),
                             Center(
                               child: const Text(
-                                'Required Expereince',
+                                'Experiences',
                                 style: TextStyle(
                                     fontSize: 25,
-                                    color: Color(0xFF14386E),
+                                    color:Color(0xFF085399),
                                     fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.center,
                               ),

@@ -1,6 +1,5 @@
 
 
-// ignore_for_file: unused_local_variable, prefer_typing_uninitialized_variables, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -357,10 +356,10 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                             ConnectedCircles(pos: 2,),
                             const Center(
                               child: Text(
-                                'Required Qualifications',
+                                'Qualifications',
                                 style: TextStyle(
                                     fontSize: 25,
-                                    color: Color(0xFF14386E),
+                                    color:Color(0xFF085399),
                                     fontWeight: FontWeight.w500),
                                 textAlign: TextAlign.center,
                               ),

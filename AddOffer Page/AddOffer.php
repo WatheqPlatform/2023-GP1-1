@@ -220,7 +220,7 @@ $result3 = $conn->query($query);
                                     </div>
                                     <div class="input_wrap">  
                                         <label for="maxSalary">Maximum Salary<span class="required"></span></label>
-                                        <input type="number" name="maxSalary" class="input" id="maxSalary" onkeyup="validateNumericInput(this, '2')">
+                                        <input type="number" name="maxSalary" class="input" id="maxSalary" onkeyup="validateNumericInput(this, '2')" >
                                         <span id="warningMessage2">Please enter a valid number</span>
                                         <span id="warningMessageMaxSalary">Maximum salary must be greater than minimum salary</span>
                                     </div>

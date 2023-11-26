@@ -1,41 +1,95 @@
 $(document).ready(function () {
     $("#SubmitButton").click(function () {
 
-        let inputValues = [
-            // REQUIRED FEILDS ONLY
-            $("#jobTitle").val(),
-            $("#jobDescription").val(),
-            $("#jobAddress").val(),
-            $("#jobType").val(),
-            $("#minSalary").val(),
-            $("#maxSalary").val(),
-            $("#job-categories").val(),
-            $("#jobCity").val()
-        ];
 
-        let isEmpty = false;
-        // Check if any item in the array is empty
-        inputValues.forEach(value => {
-            if (value == undefined || value == null || value === "") {
-                isEmpty = true;
-            }
-        });
 
-        if (isEmpty) {
-            var modal_wrapper = document.querySelector(".modal_wrapper");
-            var faliure_wrap = document.querySelector(".faliure_wrap");
-            var shadow = document.querySelector(".shadow");
 
-            modal_wrapper.classList.add("active");
-            faliure_wrap.classList.add("active");
+//        // Check if any item in the array is empty
+//        inputValues.forEach(value => {
+//            if (value == undefined || value == null || value === "") {
+//                isEmpty = true;
+//            }
+//        });
+//        
+// Get the field values
+        var jobTitle = $("#jobTitle").val();
+        var jobDescription = $("#jobDescription").val();
+        var jobAddress = $("#jobAddress").val();
+        var jobType = $("#jobType").val();
+        var minSalary = $("#minSalary").val();
+        var maxSalary = $("#maxSalary").val();
+        var jobCategories = $("#job-categories").val();
+        var jobCity = $("#jobCity").val();
 
-            //Clicking anywhere on the screen remove the sessamge
-            shadow.addEventListener("click", function () {
-                modal_wrapper.classList.remove("active");
-                faliure_wrap.classList.remove("active");
-            });
+// Create an array to store the missing fields
+        var missingFields = [];
 
-        } else {
+// Check each field if it is empty
+        if (jobTitle === "") {
+            missingFields.push("Job Title");
+        }
+        if (jobType === "" || jobType === undefined || jobType === null) {
+            missingFields.push("Employment Type");
+        }
+
+        if (jobCategories === "" || jobCategories === undefined || jobCategories === null) {
+            missingFields.push("Job Industry");
+        }
+
+        if (jobCity === "" || jobCity === undefined || jobCity === null) {
+            missingFields.push("Job City");
+        }
+        if (jobAddress === "" || jobAddress === undefined || jobAddress === null) {
+            missingFields.push("Job Address");
+        }
+
+        if (jobDescription === "" || jobDescription === undefined || jobDescription === null) {
+            missingFields.push("Job Description");
+        }
+        if (minSalary === "" || minSalary === undefined || minSalary === null) {
+            missingFields.push("Minimum Salary");
+        }
+        if (maxSalary === "" || maxSalary === undefined || maxSalary === null) {
+            missingFields.push("Maximum Salary");
+        }
+
+// Check if any fields are missing
+        if (missingFields.length > 0) {
+
+            // Construct the error message
+            var errorMessage = "Please fill in the following fields: " + missingFields.join(", ");
+
+            // Display the error message
+            alert(errorMessage);
+        }
+
+//        if (isEmpty) {
+//            var modal_wrapper = document.querySelector(".modal_wrapper");
+//            var faliure_wrap = document.querySelector(".faliure_wrap");
+//            var shadow = document.querySelector(".shadow");
+//
+//            modal_wrapper.classList.add("active");
+//            faliure_wrap.classList.add("active");
+//
+//            //Clicking anywhere on the screen remove the sessamge
+//            shadow.addEventListener("click", function () {
+//                modal_wrapper.classList.remove("active");
+//                faliure_wrap.classList.remove("active");
+//            });
+//
+//        } 
+        else {
+            let inputValues = [
+                // REQUIRED FEILDS ONLY
+                $("#jobTitle").val(),
+                $("#jobDescription").val(),
+                $("#jobAddress").val(),
+                $("#jobType").val(),
+                $("#minSalary").val(),
+                $("#maxSalary").val(),
+                $("#job-categories").val(),
+                $("#jobCity").val()
+            ];
 
             if ((!$("#maxSalary").val().match(/^\d+$/)))
             {

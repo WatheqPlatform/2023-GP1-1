@@ -103,7 +103,12 @@ $(document).ready(function () {
 
                         alert("Minimum salary cannot be greater than the maximum salary.");
                     } else {
+                        if ($("#workingHours").val() !=="" && !$("#workingHours").val().match(/^\d+$/))
+                        {
+                        alert("Please enter a valid number for the working hours");
 
+                        }
+                        else{
 
                         var skills = getSkills();
 
@@ -166,7 +171,8 @@ $(document).ready(function () {
                             });
                         }
 
-                    }
+                    }//
+                }
                 }
 
             }

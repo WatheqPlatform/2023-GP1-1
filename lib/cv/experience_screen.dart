@@ -1,11 +1,12 @@
 
 
-// ignore_for_file: unused_local_variable, invalid_use_of_protected_member, prefer_typing_uninitialized_variables, library_private_types_in_public_api, use_build_context_synchronously, empty_catches, void_checks
+
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:watheq/cv/widgets/circles_bar.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
@@ -84,13 +85,21 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     if (data['qualifications'] != null && data['qualifications'] is List) {
       for (Map<String, dynamic> qualification in data['qualifications']) {
         List<String> requiredFieldsQualification = ['DegreeLevel', ];
+        final messages = {
+          'Field': (final v) => 'Degree Field',
+          'IssuedBy': (final v) {
+              if (v['DegreeLevel'] == 'High School') {
+                return "School Name";
+              }
+              return "University Name";
+          }
+        };
         if (qualification['DegreeLevel'] != 'Pre-high school') {
-            requiredFieldsQualification.addAll(['Field', 'StartDate', 'EndDate']);
+            requiredFieldsQualification.addAll(['Field','IssuedBy', 'StartDate', 'EndDate']);
         }
         for (String field in requiredFieldsQualification) {
-
           if (qualification[field] == null || qualification[field].toString().isEmpty) {
-            return "Missing or empty field in qualifications: $field";
+            return "Missing or empty field in qualifications: ${messages[field]?.call(qualification) ?? field} ";
           }
         }
         if (qualification['StartDate'].isNotEmpty && qualification['EndDate'].isNotEmpty) {
@@ -165,7 +174,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         context,
         "Success",
         18,
-        "You have $status Your cv.",
+        " Your CV is successfully $status.",
         ContentType.success,
         const Color.fromARGB(255, 15, 152, 20),
       );
@@ -177,16 +186,21 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
 
   int steps = -1;
   int lastSteps = -1;
-  Widget buildStepItem(int i) {
+  int MAX_STEPS = 0;
+  int selectedIndex = 0;
+  Widget buildStepItem(int i, int? j) {
+    j ??= i;
     return Column(
+      key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (i != 1)SizedBox(height: 40,),
         Text(
-          'Experience $i',
+          'Experience $j',
           style: const TextStyle(
               color: Color(0xFF085399), fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 40,),
+        const SizedBox(height: 5,),
         if(fields.isNotEmpty) Column(
           children: [
             RequiredFieldLabel(labelText: 'Experience Industry',hideStar: true, ),
@@ -225,7 +239,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             )
           ],
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(height: 16,),
         RequiredFieldWidget(
           label: 'Job Title',
           keyName: 'jobTitle',
@@ -240,7 +254,22 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
           controller: companyNameControllers[i],
         ),
         DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.month,),
-        DateButton(starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month),
+        DateButton(removeGutter: true, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month),
+         (i != 1) ? InkWell(
+          onTap: () {
+            setState(() {
+              steps--;
+              selectedIndex = i;
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+            child: const Icon(
+              Icons.cancel_outlined,
+              color: Colors.red,
+            ),
+          ),
+        ) : SizedBox(height: 0,width: 0,)
       ],
     );
   }
@@ -249,27 +278,37 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     if (steps == lastSteps) {
       return cachedSteps;
     }
+    print({'object': steps, 'asdasd': lastSteps});
     if (steps > lastSteps) {
-      steps = lastSteps;
+
       jobTitleControllers.add(TextEditingController());
       companyNameControllers.add(TextEditingController());
       startDatesController.add(TextEditingController());
       endDatesController.add(TextEditingController());
       experienceIndustryControllers.add(TextEditingController());
       cachedSteps.add(
-          buildStepItem(steps)
+          buildStepItem(steps, MAX_STEPS)
       );
+      steps = lastSteps;
       return cachedSteps;
     }
     steps = lastSteps;
-    jobTitleControllers.removeLast();
-    companyNameControllers.removeLast();
-    startDatesController.removeLast();
-    endDatesController.removeLast();
-    experienceIndustryControllers.removeLast();
-    cachedSteps.removeLast();
-
+    removeWidget();
     return cachedSteps;
+
+  }
+  void removeWidget() {
+    for (int j = 0; j < cachedSteps.length; j++) {
+      if (cachedSteps[j].key == Key(selectedIndex.toString())) {
+        j++;
+        companyNameControllers.removeAt(j);
+        jobTitleControllers.removeAt(j);
+        startDatesController.removeAt(j);
+        endDatesController.removeAt(j);
+        experienceIndustryControllers.removeAt(j);
+        cachedSteps.removeAt(j-1);
+      }
+    }
 
   }
   List<Widget> buildsteps() {
@@ -300,7 +339,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       startDatesController.add(TextEditingController(text: startDate));
       endDatesController.add(TextEditingController(text: endDate));
       experienceIndustryControllers.add(TextEditingController(text: category));
-      l.add(buildStepItem(i));
+      l.add(buildStepItem(i, i));
     }
     return l;
   }
@@ -308,9 +347,11 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
   void initState() {
     steps = widget.formController.formData['experiences'].length > 0 ? widget.formController.formData['experiences'].length : 1;
     lastSteps = steps;
+    MAX_STEPS = steps;
     super.initState();
     fetchCategories().then((val) {
-      fields = List<String>.from(val.map((e) {return e['CategoryName']; }));
+      fields =['None',... List<String>.from(val.map((e) {return e['CategoryName']; }))];
+
       fieldsWithId = List<dynamic>.from(val.map((e) {return e;} ));
       setState(() {
           cachedSteps = buildsteps();
@@ -331,7 +372,6 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int selectedIndex = 0;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -372,7 +412,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Experiences",
+                    widget.formController.isEdit() ? "Edit CV" : "Create CV",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -392,7 +432,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                   vertical: 30,
                   horizontal: 30,
                 ),
-                height: screenHeight * 0.86,
+                height: screenHeight * 0.89,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -404,59 +444,51 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Theme(
-                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
-                            canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
-                              primary: Color(0xFF085399),
 
-                            ).copyWith(background: Colors.transparent)),
-                        child: SizedBox(height: 75 ,child:Stepper(
-
-                          steps: const [
-                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-
-                          ],
-                          type: StepperType.horizontal,
-
-                        ),),
-                      ),
-                      SizedBox(
-                        height: screenHeight*0.59,
-                        child: ListView(children: [
-                          ...addOrGetCachedSteps(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              steps != 1 ? IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    steps--;
-                                  });
-                                },
-                                icon: const Icon(
-                                  Icons.remove_circle_outline,
-                                  color: Colors.red,
-                                ),
-                              ) :const SizedBox(width: 0,height: 0,),
-                              IconButton(
-                                onPressed: () {
-                                  steps++;
-                                  setState(() {});
-                                },
-                                icon: const Icon(
-                                  Icons.add_circle_outline,
-                                  color: Color(0xFF085399),
-                                ),
+                      Container(
+                        height: screenHeight * .77,
+                        child: Column(
+                          children: [
+                            ConnectedCircles(pos: 4,),
+                            Center(
+                              child: const Text(
+                                'Experiences',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color:Color(0xFF085399),
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
                               ),
-                            ],
-                          )
-                        ]),
+                            ),
+                            SizedBox(
+                              height: screenHeight*0.59,
+                              child: ListView(children: [
+                                ...addOrGetCachedSteps(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+
+                                    InkWell(
+                                      onTap: () {
+                                        steps++;
+                                        MAX_STEPS++;
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                        child: const Icon(
+                                          Icons.add_circle_outline,
+                                          color: Color(0xFF085399),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ]),
+                            ),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 10,),
 
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -468,7 +500,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
 
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.redAccent,
+                                backgroundColor: const Color(0xFF085399),
                                 padding: const EdgeInsets.symmetric(horizontal: 40),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
@@ -484,7 +516,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                 onPressed: () {
                                   widget.formController.formData['experiences'] = [];
                                   for (int i = 1; i <= steps; i++) {
-                                    if (experienceIndustryControllers[i].text.isNotEmpty) {
+                                    if (experienceIndustryControllers[i].text.isNotEmpty && experienceIndustryControllers[i].text != 'None') {
                                       widget.formController.addExperience({
                                         'CategoryID': fieldsWithId.where((element) => element['CategoryName'] == experienceIndustryControllers[i].text).first['CategoryID'],
                                         'JobTitle': jobTitleControllers[i].text,
@@ -518,7 +550,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                   elevation: 5,
                                 ),
 
-                                 child: const Text('Create CV'),
+                                 child:  Text(widget.formController.isEdit() ? "Edit CV" : "Create CV",),
                               ),
                             )
                           ]),

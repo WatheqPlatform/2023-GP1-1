@@ -1,9 +1,9 @@
 
 
-// ignore_for_file: unused_local_variable, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:watheq/cv/widgets/circles_bar.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
@@ -118,7 +118,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Basic Information",
+                    widget.formController.isEdit() ? "Edit CV" : "Create CV",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -140,7 +140,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     vertical: 30,
                     horizontal: 30,
                   ),
-                  height: screenHeight * 0.86,
+                  height: screenHeight * 0.89,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -153,37 +153,31 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     children: [
 
                       SizedBox(
-                        height: screenHeight*0.68,
+                        height: screenHeight*0.7701,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              Theme(
-                                data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
-                                    canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
-                                      primary: Color(0xFF085399),
-
-                                    ).copyWith(background: Colors.transparent)),
-                                child: SizedBox(height: 75 ,child:Stepper(
-
-                                  steps: const [
-                                    Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
-                                    Step(title: SizedBox(), content: SizedBox(), isActive: false,  ),
-                                    Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
-                                    Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
-                                    Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
-
-                                  ],
-                                  type: StepperType.horizontal,
-
-                                ),),
+                              Center(
+                                child: ConnectedCircles(pos: 0,),
                               ),
+                              Center(
+                                child: const Text(
+                                  'Personal Information',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color:Color(0xFF085399),
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+
+
                               RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
                               RequiredFieldWidget(label: 'Last Name',keyName: 'lastName',controller: lastNameController,),
                               RequiredFieldWidget(keyboardType: TextInputType.phone, label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
                               RequiredFieldWidget(label: 'Contact Email',keyName: 'contactEmail',controller: contactEmailController,),
 
                               RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Summary',keyName: 'summary',controller: summaryController,),
-                              // Repeat for other fields
                               RequiredFieldLabel(labelText: 'City',),
 
                               if (cities.isNotEmpty) DropdownButtonFormField<Map<String, dynamic>>(
@@ -205,10 +199,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
                                 ),
                               ),
-                              SizedBox(height:screenHeight * 0.07 ,),
                             ],
                           ),
-
                         ),
                       ),
 

@@ -1,9 +1,9 @@
 
 
-// ignore_for_file: unused_local_variable, prefer_typing_uninitialized_variables, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:watheq/cv/widgets/circles_bar.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
@@ -38,10 +38,12 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
 
   int steps = -1;
   int lastSteps = -1;
+  int MAX_STEPS = 0;
+  int selectedIndex = -1;
   List<Widget> cachedSteps = [];
   void rebuildStepWidget(int idx) {
       if (idx > 0 && idx <= steps) {
-        cachedSteps[idx-1] = buildStepItem(idx);
+        cachedSteps[idx-1] = buildStepItem(idx, idx);
       }
   }
   List <Widget> addOrGetCachedSteps () {
@@ -57,28 +59,41 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       endDatesController.add(TextEditingController());
       universityControllers.add(TextEditingController());
       cachedSteps.add(
-        buildStepItem(steps)
+        buildStepItem(steps, MAX_STEPS)
       );
       lastSteps = steps;
       return cachedSteps;
     }
-    degreeLevelControllers.removeLast();
-    degreeFieldControllers.removeLast();
-    otherContrllers.removeLast();
-    startDatesController.removeLast();
-    endDatesController.removeLast();
-    cachedSteps.removeLast();
-    universityControllers.removeLast();
+
     lastSteps = steps;
+    removeWidget(selectedIndex);
     return cachedSteps;
 
   }
-  Widget buildStepItem(int i) {
+  void removeWidget(int i) {
+    for (int j = 0; j < cachedSteps.length; j++) {
+      if (cachedSteps[j].key == Key(i.toString())) {
+        j++;
+        degreeLevelControllers.removeAt(j);
+        degreeFieldControllers.removeAt(j);
+        otherContrllers.removeAt(j);
+        startDatesController.removeAt(j);
+        endDatesController.removeAt(j);
+        cachedSteps.removeAt(j-1);
+        universityControllers.removeAt(j);
+        return;
+      }
+    }
+  }
+  Widget buildStepItem(int i, int ?j) {
+    j ??= i;
     return Column(
+      key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (i != 1) SizedBox(height: 40,),
         Text(
-          'Qualification $i',
+          'Qualification $j',
           style: const TextStyle(
               color: Color(0xFF085399), fontWeight: FontWeight.bold),
         ),
@@ -130,8 +145,8 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
             );
           }).toList(),
         ),
-        const SizedBox(height: 20,),
-        if (fields.isNotEmpty) Visibility(
+        Visibility(child: const SizedBox(height: 16,), visible: degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None',),
+        if (fields.isNotEmpty)Visibility(
           visible:( degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None'),
           child: Column(
             children: [
@@ -170,6 +185,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   );
                 }).toList(),
               ),
+              const SizedBox(height: 16,),
               RequiredFieldWidget(label:  degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text == 'High School' ? 'School Name' : 'University Name' , keyName: 'u-name', controller: universityControllers[i], starColor: Colors.green,)
             ],
           ),
@@ -177,8 +193,23 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         
         Visibility(visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other' && degreeLevelControllers[i].text != 'None' && degreeLevelControllers[i].text != 'Pre-high school'),child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),),
         Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.year,lastDate: DateTime.now(),),),
-        Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],),) ,
+        Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],removeGutter: true,),) ,
+        i != 1 ? InkWell(
+          onTap: () {
+            setState(() {
+              steps--;
+              selectedIndex = i;
+            });
+          },
 
+          child: Container(
+            padding: EdgeInsets.fromLTRB(0,10,0,0),
+            child: const Icon(
+              Icons.cancel_outlined,
+              color: Colors.red,
+            ),
+          ),
+        ) :const SizedBox(width: 0,height: 0,),
       ],
     );
   }
@@ -213,7 +244,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       endDatesController.add(TextEditingController(text: endDate));
       universityControllers.add(TextEditingController(text: uName));
 
-      l.add(buildStepItem(i));
+      l.add(buildStepItem(i, i));
     }
     return l;
   }
@@ -222,8 +253,9 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     super.initState();
     steps = widget.formController.formData['qualifications'].length > 0 ? widget.formController.formData['qualifications'].length : 1;
     lastSteps = steps;
+    MAX_STEPS = steps;
     fetchCategories().then((val) {
-      fields = List<String>.from(val.map((e) {return e['CategoryName']; }));
+      fields = List<String>.from(val.map((e) {return e['CategoryName']; })).where((element) => element != 'None' && element != '').toList();
       fields.add('other');
       setState(() {
         cachedSteps = buildsteps();
@@ -244,7 +276,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int selectedIndex = 0;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -285,7 +316,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
-                    "Qualifications",
+                    widget.formController.isEdit() ? "Edit CV" : "Create CV",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -306,7 +337,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   vertical: 30,
                   horizontal: 30,
                 ),
-                height: screenHeight * 0.86,
+                height: screenHeight * 0.899,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -318,61 +349,51 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Theme(
-                        data: ThemeData(  shadowColor: const Color.fromARGB(0, 255, 255, 255),
-                            canvasColor: Colors.transparent, colorScheme: const ColorScheme.light(
-                              primary: Color(0xFF085399),
+                      Container(
+                        height: screenHeight * 0.77,
+                        child: Column(
+                          children: [
+                            ConnectedCircles(pos: 2,),
+                            const Center(
+                              child: Text(
+                                'Qualifications',
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    color:Color(0xFF085399),
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
 
-                            ).copyWith(background: Colors.transparent)),
-                        child: SizedBox(height: 75 ,child:Stepper(
+                            SizedBox(
+                                height: screenHeight*0.59,
+                                child:
+                                ListView(children: [...addOrGetCachedSteps(),  Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        steps++;
+                                        MAX_STEPS++;
+                                        setState(() {});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.fromLTRB(0,10,0,0),
+                                        child: const Icon(
+                                          Icons.add_circle_outline,
+                                          color: Color(0xFF085399),
 
-                          steps: const [
-                            Step(title: SizedBox(width: 0,), content: SizedBox(), isActive: true,   ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true,  ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: true, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
-                            Step(title: SizedBox(), content: SizedBox(), isActive: false, ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )]
+                                )
+                            ),
 
                           ],
-                          type: StepperType.horizontal,
-
-                        ),),
+                        ),
                       ),
-
-                      SizedBox(
-                        height: screenHeight*0.59,
-                        child:
-                            ListView(children: [...addOrGetCachedSteps(),  Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                steps != 1 ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      steps--;
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.remove_circle_outline,
-                                    color: Colors.red,
-                                  ),
-                                ) :const SizedBox(width: 0,height: 0,),
-                                IconButton(
-                                  onPressed: () {
-                                    steps++;
-                                    setState(() {});
-                                  },
-                                  icon: const Icon(
-                                    Icons.add_circle_outline,
-                                    color: Color(0xFF085399),
-                                  ),
-                                ),
-                              ],
-                            )]
-                            )
-                      ),
-
-                      const SizedBox(height: 10,),
-
                       Column(
                         children: [
                           Row(
@@ -385,7 +406,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
 
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.redAccent,
+                                    backgroundColor: const Color(0xFF085399),
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),

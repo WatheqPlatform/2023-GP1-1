@@ -14,9 +14,13 @@ class RequiredFieldLabel extends StatefulWidget {
 
 class _RequiredFieldLabelState extends State<RequiredFieldLabel> {
   bool showMessage = false;
-  final message = "this field is Required";
+  String message = "this field is Required";
+
   @override
   Widget build(BuildContext context) {
+    if (widget.starColor == Colors.green) {
+      message = 'This field is Required for addition';
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

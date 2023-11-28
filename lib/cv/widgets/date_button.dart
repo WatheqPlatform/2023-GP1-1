@@ -22,7 +22,8 @@ class DateButton extends StatefulWidget {
   Color starColor ;
   DatePickerButtonMode mode ;
   DateTime? lastDate ;
-   DateButton({Key? key, required this.label, required this.dateController,this.hideStar = false, this.starColor = Colors.red, this.mode = DatePickerButtonMode.day, this.lastDate}) : super(key: key);
+  bool removeGutter = false;
+   DateButton({Key? key, required this.label, required this.dateController,this.hideStar = false, this.starColor = Colors.red, this.mode = DatePickerButtonMode.day, this.lastDate, this.removeGutter = false}) : super(key: key);
 
   @override
   State<DateButton> createState() => _DateButtonState();
@@ -36,7 +37,7 @@ class _DateButtonState extends State<DateButton> {
   Widget build(BuildContext context) {
     final f =  DateFormat('yyyy/MM/dd');
     return Container(
-        margin: const EdgeInsets.only(bottom: 16.0),
+        margin:  EdgeInsets.only(bottom:widget.removeGutter ? 0 : 16.0),
         child: Column(
           children: [
             RequiredFieldLabel(labelText: widget.label,hideStar: widget.hideStar, starColor: widget.starColor,),

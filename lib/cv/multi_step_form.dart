@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:watheq/cv/projects_screen.dart';
 import 'package:watheq/cv/qualifications_screen.dart';
-
 import 'awards_screen.dart';
 import 'basic_information.dart';
 import 'experience_screen.dart';
+import 'skills_screen.dart';
 
 class MultiStepForm extends StatefulWidget {
   final isEdit = false;
@@ -23,6 +23,7 @@ class _MultiStepFormState extends State<MultiStepForm> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
   final List<GlobalKey<FormState>> _formKeys = [
+    GlobalKey<FormState>(),
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
@@ -55,7 +56,7 @@ class _MultiStepFormState extends State<MultiStepForm> {
         children: [
           BasicInformationScreen(goToPage: goToPage, formKey: _formKeys[0],onNext: () => _pageController.nextPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,email : widget.email),
-          AwardsScreen(goToPage: goToPage,formKey: _formKeys[1],onNext: () => _pageController.nextPage(
+          SkillsScreen(goToPage: goToPage,onNext: () => _pageController.nextPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null, onBack: () => _pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
           QualificationsScreen(goToPage: goToPage,formKey: _formKeys[2],onNext: () => _pageController.nextPage(
@@ -63,6 +64,9 @@ class _MultiStepFormState extends State<MultiStepForm> {
               duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
           ProjectsScreen(goToPage: goToPage,formKey: _formKeys[3],onNext: () => _pageController.nextPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
+          AwardsScreen(goToPage: goToPage,formKey: _formKeys[1],onNext: () => _pageController.nextPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null, onBack: () => _pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
           ExperiencesScreen(goToPage: goToPage,email: widget.email, onBack: () => _pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve:  Curves.ease)

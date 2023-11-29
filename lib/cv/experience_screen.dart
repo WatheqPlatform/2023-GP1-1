@@ -449,7 +449,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                         height: screenHeight * .77,
                         child: Column(
                           children: [
-                            ConnectedCircles(pos: 4,),
+                            ConnectedCircles(pos: 5,),
                             Center(
                               child: const Text(
                                 'Experiences',

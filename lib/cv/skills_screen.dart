@@ -9,38 +9,35 @@ import 'package:watheq/profile_screen.dart';
 
 import 'controller/form_controller.dart';
 
-class AwardsScreen extends StatefulWidget {
+class SkillsScreen extends StatefulWidget {
   final isEdit;
-  final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
   final email;
   final VoidCallback onBack;
   final goToPage;
 
-  const AwardsScreen(
+  const SkillsScreen(
       {super.key,
       required this.isEdit,
-      required this.formKey,
+
       required this.onNext, required this.onBack, required this.email, required this.goToPage});
 
   @override
-  _AwardsScreenState createState() => _AwardsScreenState();
+  _SkillsScreenState createState() => _SkillsScreenState();
 }
 
-class _AwardsScreenState extends State<AwardsScreen> {
+class _SkillsScreenState extends State<SkillsScreen> {
   @override
   void initState() {
     super.initState();
-    steps = formController.formData['awards'].length> 0 ? formController.formData['awards'].length :  1;
+    steps = formController.formData['skills'].length> 0 ? formController.formData['skills'].length :  1;
     MAX_STEPS = steps;
     lastSteps = steps;
     cachedSteps = buildsteps();
   }
   final FormController formController = Get.find<FormController>(tag: 'form-control');
-  List<TextEditingController> awardNameControllers=[TextEditingController()];
-  List<TextEditingController> issuedByControllers=[TextEditingController()];
-  List<TextEditingController> datesController=[TextEditingController()];
-  late int steps = -1;
+  List<TextEditingController> descriptionControllers=[TextEditingController()];
+  late int steps = 1;
   int MAX_STEPS = 0;
   late int lastSteps = -1;
 
@@ -54,24 +51,17 @@ class _AwardsScreenState extends State<AwardsScreen> {
       children: [
         if (i != 1) SizedBox(height: 40,),
         Text(
-          'Award $j',
+          'Skill $j',
           style: const TextStyle(
               color: Color(0xFF085399), fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 5,),
         RequiredFieldWidget(
-          label: 'Award Name',
-          controller: awardNameControllers[i],
+          label: 'Description',
+          controller: descriptionControllers[i],
           hideStar: true,
         ),
 
-        DateButton(label: 'Date',dateController: datesController[i], starColor: Colors.green,lastDate: DateTime.now(),),
-        RequiredFieldWidget(
-          label: 'Issued By',
-          controller: issuedByControllers[i],
-          starColor: Colors.green,
-          removeGutter: true,
-        ),
         i != 1 ? InkWell(
           onTap: () {
               setState(() {
@@ -95,28 +85,20 @@ class _AwardsScreenState extends State<AwardsScreen> {
     if (steps == -1) {
       return [];
     }
-    awardNameControllers=[TextEditingController()];
-    issuedByControllers=[TextEditingController()];
-    datesController=[TextEditingController()];
+    descriptionControllers=[TextEditingController()];
     List<Widget> l = [];
-    final x = formController.formData.value['awards'];
+    final x = formController.formData.value['skills'];
 
     for (int i = 1; i <= steps; i++) {
-      String? awardName, issuedBy, date;
+      String? Description;
 
       if (x.length >= i) {
-        awardName = x[i-1]['awardName'];
-        issuedBy = x[i-1]['issuedBy'];
-        date = x[i-1]['date'];
-        awardNameControllers.add(TextEditingController(text: awardName));
-        issuedByControllers.add(TextEditingController(text: issuedBy));
-        datesController.add(TextEditingController(text: date));
+        Description = x[i-1]['Description'];
+        descriptionControllers.add(TextEditingController(text: Description));
+
       }
       else {
-
-        awardNameControllers.add(TextEditingController());
-        issuedByControllers.add(TextEditingController());
-        datesController.add(TextEditingController());
+        descriptionControllers.add(TextEditingController());
       }
 
       l.add(buildStepItem(i, i));
@@ -127,9 +109,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
   void removeWidget(int i) {
     for (int j = 0; j < cachedSteps.length; j++) {
       if (cachedSteps[j].key == Key(i.toString())){
-        awardNameControllers.removeAt(j+1);
-        issuedByControllers.removeAt(j+1);
-        datesController.removeAt(j+1);
+        descriptionControllers.removeAt(j+1);
         cachedSteps.removeAt(j);
         return;
       }
@@ -140,9 +120,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
 
     if (steps > lastSteps) {
       lastSteps = steps;
-      awardNameControllers.add(TextEditingController());
-      issuedByControllers.add(TextEditingController());
-      datesController.add(TextEditingController());
+      descriptionControllers.add(TextEditingController());
       cachedSteps.add(
           buildStepItem(steps, MAX_STEPS)
       );
@@ -228,7 +206,6 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     ),
                   ),
                   child: Form(
-                    key: widget.formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -237,10 +214,10 @@ class _AwardsScreenState extends State<AwardsScreen> {
                           height: screenHeight * 0.77,
                           child: Column(
                             children: [
-                              ConnectedCircles(pos: 4,),
+                              ConnectedCircles(pos: 1,),
                               Center(
                                 child: const Text(
-                                  'Awards',
+                                  'Skills',
                                   style: TextStyle(
                                       fontSize: 25,
                                       color:Color(0xFF085399),
@@ -304,17 +281,13 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                     textDirection: TextDirection.rtl,
                                     child: ElevatedButton.icon(
                                       onPressed: () {
-                                        widget.formKey.currentState!.save();
-                                        formController.formData.value['awards'] = [];
+                                        formController.formData.value['skills'] = [];
                                         for( int i=1;i<=steps;i++) {
-
                                           final data = {
-                                            'awardName': awardNameControllers[i].text,
-                                            'issuedBy': issuedByControllers[i].text,
-                                            'date': datesController[i].text
+                                            'Description': descriptionControllers[i].text,
                                           };
-                                          if (awardNameControllers[i].text.isNotEmpty) {
-                                            formController.addAward(data);
+                                          if (descriptionControllers[i].text.isNotEmpty) {
+                                            formController.addSkill(data);
                                           }
 
                                         }

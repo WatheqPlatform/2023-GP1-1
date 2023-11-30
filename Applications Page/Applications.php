@@ -66,8 +66,14 @@ include('ApplicationsLogic.php');
                 <?php
                     // Check if there are any applications
                     if (!empty($PendingApplications) || !empty($RejectedApplications) || !empty($AcceptedApplications)) {
-                        echo "<h1>Job Applications</h1>";
-                        echo "<h3 id='JobTitle'>".$_GET["JobTitle"]."</h3>";
+                        echo "<h1>". $_GET["JobTitle"]." Applications</h1>";
+                        echo "<div id='links'>";
+                        echo "<a id='link1' href='#PendingSegment'>Pending Applications</a>";
+                        echo "<div id='linksLine'></div>";
+                        echo "<a id='link2' href='#AccpetedSegment'>Accepted Applications</a>";
+                        echo "<div id='linksLine1'></div>";
+                        echo "<a id='link3' href='#CloseSegment'>Rejected Applications</a>";
+                        echo "</div>";
 
                         // Function to display applications
                         function displayApplications($applications, $status) {
@@ -102,15 +108,15 @@ include('ApplicationsLogic.php');
 
                         // Call function for each application status
                         if (!empty($PendingApplications)) {
-                            echo "<h2>Pending Applications</h2>";
+                            echo "<h2 id='PendingSegment'>Pending Applications</h2>";
                             displayApplications($PendingApplications, 'Pending');
                         }
                         if (!empty($AcceptedApplications)) {
-                            echo "<h2>Accepted Applications</h2>";
+                            echo "<h2 id='AccpetedSegment'>Accepted Applications</h2>";
                             displayApplications($AcceptedApplications, 'Accepted');
                         }
                         if (!empty($RejectedApplications)) {
-                            echo "<h2>Rejected Applications</h2>";
+                            echo "<h2 id='CloseSegment'>Rejected Applications</h2>";
                             displayApplications($RejectedApplications, 'Rejected');
                         }
                         

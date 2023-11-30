@@ -196,6 +196,41 @@ body {
     border-radius: 2px;
 }
 
+/*Navigation links*/
+#links{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+#link1{
+    color: #085399;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#linksLine{
+    width: 2px;
+    background-color: #085399;
+    border-radius: 50px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+
+#link2{
+    color: #085399;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#link1:hover, #link2:hover{
+    color: #003884;
+}
+
+
 h2{
     color: #024a8d;
     padding-left: 20px;

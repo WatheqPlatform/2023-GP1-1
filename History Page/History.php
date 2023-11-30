@@ -68,6 +68,13 @@ include('HistoryLogic.php');
                     if (!empty($availableOffers) || !empty($closedOffers)) {
                         echo "<h1>Posted Job Offers</h1>";
 
+                        echo "<div id='links'>";
+                        echo "<a id='link1' href='#ActiveSegment'>Active Job Offers</a>";
+                        echo "<div id='linksLine'></div>";
+                        echo "<a id='link2' href='#CloseSegment'>Closed Job Offers</a>";
+                        echo "</div>";
+                        
+
                         function displayOffers($Offers, $status) {
                             foreach ($Offers as $offer) {
                                 echo "<div id='WholeOffer'>";
@@ -93,12 +100,12 @@ include('HistoryLogic.php');
                         }
 
                         if (!empty($availableOffers)) {
-                            echo "<h2>Active Job Offers</h2>";
+                            echo "<h2 id='ActiveSegment'>Active Job Offers</h2>";
                             displayOffers($availableOffers, 'Active');
                         }
     
                         if (!empty($closedOffers)) {
-                            echo "<h2>Closed Job Offers</h2>";
+                            echo "<h2 id='CloseSegment'>Closed Job Offers</h2>";
                             displayOffers($closedOffers, 'Closed');
                         } 
                     }else{

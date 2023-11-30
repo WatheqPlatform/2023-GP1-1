@@ -194,16 +194,57 @@ body {
     font-size: 35px;
     font-weight: 900;
     border-radius: 2px;
-    margin-bottom: 0;
 }
 
-h3#JobTitle{
-    color: #085399;
-    text-align: center;
-    font-size: 25px;
-    font-weight: 300;
-    margin-top: 7px;
+/*Navigation links*/
+#links{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: -10px;
+    margin-bottom: 10px;
 }
+
+#link1{
+    color: #085399;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#linksLine{
+    width: 2px;
+    background-color: #085399;
+    border-radius: 50px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+
+#link2{
+    color: #085399;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#linksLine1{
+    width: 1.5px;
+    background-color: #085399;
+    border-radius: 50px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+
+#link3{
+    color: #085399;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#link1:hover, #link2:hover, #link3:hover{
+    color: #003884;
+}
+
 
 h2{
     color: #024a8d;

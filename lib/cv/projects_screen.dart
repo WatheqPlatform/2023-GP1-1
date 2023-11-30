@@ -59,9 +59,16 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           removeGutter: true,
         ),
 
-        i != 1 ? InkWell(
+        InkWell(
           onTap: () {
             setState(() {
+              if (i == 1) {
+                projectNameControllers[i].text="";
+                descriptionControllers[i].text="";
+                datesControllers[i].text="";
+                cachedSteps[i-1] = buildStepItem(i,i);
+                return;
+              }
               steps--;
               selectedIndex = i;
             });
@@ -74,7 +81,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               color: Colors.red,
             ),
           ),
-        ) :const SizedBox(width: 0,height: 0,),
+        )
       ],
     );
   }
@@ -216,7 +223,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: screenHeight * 0.77,
+                        height: screenHeight * 0.73,
                         child: Column(
                           children: [
                             ConnectedCircles(pos: 3,),
@@ -231,8 +238,8 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: screenHeight*0.57,
-                              child: ListView(children: [
+                              height: screenHeight*0.54,
+                              child: ListView(padding: EdgeInsets.zero,children: [
                                 ...addOrGetCachedSteps(),
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.start,

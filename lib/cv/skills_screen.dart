@@ -62,9 +62,13 @@ class _SkillsScreenState extends State<SkillsScreen> {
           hideStar: true,
         ),
 
-        i != 1 ? InkWell(
+        InkWell(
           onTap: () {
               setState(() {
+                if (i == 1) {
+                  descriptionControllers[i].text="";
+                  return;
+                }
                 selectedIndex = i;
                 steps--;
               });
@@ -76,7 +80,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
               color: Colors.red,
             ),
           ),
-        ) :const SizedBox(width: 0,height: 0,),
+        )
 
       ],
     );
@@ -198,7 +202,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                     vertical: 30,
                     horizontal: 30,
                   ),
-                  height: screenHeight * 0.96,
+                  height: screenHeight * 0.89,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -211,23 +215,25 @@ class _SkillsScreenState extends State<SkillsScreen> {
                       children: [
 
                         Container(
-                          height: screenHeight * 0.77,
+                          height: screenHeight * 0.73,
                           child: Column(
                             children: [
                               ConnectedCircles(pos: 1,),
-                              Center(
-                                child: const Text(
+                              Text(
                                   'Skills',
                                   style: TextStyle(
                                       fontSize: 25,
+
                                       color:Color(0xFF085399),
                                       fontWeight: FontWeight.w500),
                                   textAlign: TextAlign.center,
                                 ),
-                              ),
                               SizedBox(
-                                  height: screenHeight*0.6,
-                                  child: ListView(children: [...addOrGetCachedSteps(), Row(
+                                  height: screenHeight*0.57,
+
+                                  child: ListView(
+                                    padding: EdgeInsets.zero,
+                                      children: [...addOrGetCachedSteps(), Row(
 
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [

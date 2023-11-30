@@ -255,9 +255,18 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         ),
         DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.month,),
         DateButton(removeGutter: true, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month),
-         (i != 1) ? InkWell(
+        InkWell(
           onTap: () {
             setState(() {
+              if (i == 1) {
+                jobTitleControllers[i].text="";
+                companyNameControllers[i].text="";
+                startDatesController[i].text="";
+                endDatesController[i].text="";
+                experienceIndustryControllers[i].text="None";
+                cachedSteps[i-1] = buildStepItem(i, i);
+                return;
+              }
               steps--;
               selectedIndex = i;
             });
@@ -269,7 +278,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
               color: Colors.red,
             ),
           ),
-        ) : SizedBox(height: 0,width: 0,)
+        )
       ],
     );
   }
@@ -278,7 +287,6 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     if (steps == lastSteps) {
       return cachedSteps;
     }
-    print({'object': steps, 'asdasd': lastSteps});
     if (steps > lastSteps) {
 
       jobTitleControllers.add(TextEditingController());
@@ -446,7 +454,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                     children: [
 
                       Container(
-                        height: screenHeight * .77,
+                        height: screenHeight * .73,
                         child: Column(
                           children: [
                             ConnectedCircles(pos: 5,),
@@ -461,8 +469,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                               ),
                             ),
                             SizedBox(
-                              height: screenHeight*0.59,
-                              child: ListView(children: [
+                              height: screenHeight*0.57,
+                              child: ListView(padding: EdgeInsets.zero,children: [
                                 ...addOrGetCachedSteps(),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,

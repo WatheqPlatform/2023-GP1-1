@@ -72,9 +72,16 @@ class _AwardsScreenState extends State<AwardsScreen> {
           starColor: Colors.green,
           removeGutter: true,
         ),
-        i != 1 ? InkWell(
+        InkWell(
           onTap: () {
               setState(() {
+                if (i == 1) {
+                  datesController[i].text = "";
+                  issuedByControllers[i].text ="";
+                  awardNameControllers[i].text="";
+                  cachedSteps[i-1] = buildStepItem(i, i);
+                  return;
+                }
                 selectedIndex = i;
                 steps--;
               });
@@ -86,7 +93,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
               color: Colors.red,
             ),
           ),
-        ) :const SizedBox(width: 0,height: 0,),
+        )
 
       ],
     );
@@ -234,7 +241,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                       children: [
 
                         Container(
-                          height: screenHeight * 0.77,
+                          height: screenHeight * 0.73,
                           child: Column(
                             children: [
                               ConnectedCircles(pos: 4,),
@@ -249,8 +256,8 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                 ),
                               ),
                               SizedBox(
-                                  height: screenHeight*0.6,
-                                  child: ListView(children: [...addOrGetCachedSteps(), Row(
+                                  height: screenHeight*0.57,
+                                  child: ListView(padding: EdgeInsets.zero,children: [...addOrGetCachedSteps(), Row(
 
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [

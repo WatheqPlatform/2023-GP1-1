@@ -94,7 +94,7 @@ include('CVLogic.php');
                     echo '<div id="RightCV">';
 
                     echo '<div id="ContactDiv">';
-                    echo '<div id="Letters">' . substr($cvDetails['CV_Info']['FirstName'], 0, 1) . substr($cvDetails['CV_Info']['LastName'], 0, 1) .'</div>';
+                    echo '<div id="Letters">' . ucfirst(substr($cvDetails['CV_Info']['FirstName'], 0, 1)). ucfirst(substr($cvDetails['CV_Info']['LastName'], 0, 1)) .'</div>';
                     echo '<div id="ContactInfo">';
                     echo '<p class="Contact"><span class="ContactTitle">PHONE : </span> 0' . $cvDetails['CV_Info']['PhoneNumber'] . '</p>';
                     echo '<p class="Contact"><span class="ContactTitle">EMAIL : </span> ' . $cvDetails['CV_Info']['ContactEmail'] . '</p>';  

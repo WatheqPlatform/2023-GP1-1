@@ -49,7 +49,7 @@ function fetchRelatedData($conn, $sql, $cvID) {
 
 // Fetch related data for the CV
 $projects = fetchRelatedData($conn, "SELECT ProjectName, Description, Date FROM project WHERE CV_ID = ? ORDER BY Date DESC", $cvID);
-$skills = fetchRelatedData($conn, "SELECT Description FROM skill WHERE CV_ID = ?", $cvID);
+$skills = fetchRelatedData($conn, "SELECT Description FROM skill WHERE CV_ID = ? ORDER BY LENGTH(Description) DESC", $cvID);
 $awards = fetchRelatedData($conn, "SELECT AwardName, IssuedBy, Date FROM award WHERE CV_ID = ? ORDER BY Date DESC", $cvID);
 $certificates = fetchRelatedData($conn, "SELECT CertificateName, IssuedBy, Date FROM certificate WHERE CV_ID = ? ORDER BY Date DESC", $cvID);
 $experience = fetchRelatedData($conn, "SELECT JobTitle, CompanyName, StartDate, EndDate, category.CategoryName FROM cvexperience LEFT JOIN category ON cvexperience.CategoryID = category.CategoryID WHERE cvexperience.CV_ID = ? ORDER BY EndDate IS NULL DESC, StartDate DESC, EndDate DESC", $cvID);

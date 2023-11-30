@@ -199,22 +199,31 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.year,lastDate: DateTime.now(),),),
         Visibility(
           visible: degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ,
-          child:  Row(
+          child:  Container(
+            margin:  EdgeInsets.only(bottom: 16.0),
+            child: Row(
 
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Checkbox(
-              value: stillWorking[i].value,
-              onChanged: (value) {
-                setState(() {
-                  stillWorking[i].value = value ?? false;
-                  rebuildStepWidget(i);
-                });
-              },
-            ),
-            Text('I still work here'),
-          ],
-        ),),
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+
+              children: [
+              Checkbox(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+
+                value: stillWorking[i].value,
+                onChanged: (value) {
+                  setState(() {
+                    stillWorking[i].value = value ?? false;
+                    rebuildStepWidget(i);
+                  });
+                },
+              ),
+              Text('I am still studying here'),
+
+            ],
+        ),
+          ),),
         Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),
           child: DateButton( disabled: stillWorking[i].value, mode: DatePickerButtonMode.year, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],removeGutter: true,),) ,
         InkWell(
@@ -253,10 +262,11 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     startDatesController=[TextEditingController()];
     endDatesController=[TextEditingController()];
     universityControllers= [(TextEditingController())];
+    stillWorking = [ValueNotifier(true)];
     List<Widget> l = [];
-
     for (int i = 1; i <= steps; i++) {
       String? level, field, other = "", sDate = "", endDate ="", uName = "";
+      print(widget.formController.formData['qualifications']);
       if (widget.formController.formData['qualifications'].length >= i) {
         level = widget.formController.formData['qualifications'][i-1]['DegreeLevel'];
         sDate = widget.formController.formData['qualifications'][i-1]['StartDate'];
@@ -270,6 +280,14 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           field = 'other';
         }
       }
+      print({
+        'level': level,
+        'field': field,
+        'other': other,
+        'sDate': sDate,
+        'endDate': endDate,
+        'uName': uName
+      });
       stillWorking.add(ValueNotifier(endDate == null));
       degreeLevelControllers.add(TextEditingController(text: level));
       degreeFieldControllers.add(TextEditingController(text: field));
@@ -460,8 +478,9 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                           if (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'None') {
                                             widget.formController.addQualification(
                                                 {
+                                                  'workingHere': stillWorking[i].value,
                                                   'DegreeLevel': degreeLevelControllers[i].text,
-                                                  'Field':   degreeLevelControllers[i].text != 'Select' ?(   degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text : degreeFieldControllers[i].text) : null,
+                                                  'Field':   degreeFieldControllers[i].text != 'Select' ?(   degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text : degreeFieldControllers[i].text) : null,
                                                   'FieldFlag': degreeFieldControllers[i].text == 'other' ? 1 : 0,
                                                   'StartDate': startDatesController[i].text,
                                                   'EndDate':  !stillWorking[i].value ? endDatesController[i].text : null,

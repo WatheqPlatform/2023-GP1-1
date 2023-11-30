@@ -6,13 +6,13 @@ class ConnectedCircles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final arr =[0,1,2,3,4,5];
+    final arr =[0,1,2,3,4,5,6];
     return Container(
-      width: 340,
+      width: 400,
       height: 75.0,
       child: Stack(
         children: [
-          ...[0,1,2,3,4,5].map((e) => Positioned(
+          ...[0,1,2,3,4,5,6].map((e) => Positioned(
             top: 30,
             left: 20 + e * 56,
             right: -20 + 56.0 * (4 - e),

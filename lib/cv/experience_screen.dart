@@ -22,8 +22,9 @@ import 'controller/form_controller.dart';
 class ExperiencesScreen extends StatefulWidget {
   final String email;
   final VoidCallback onBack;
+  final VoidCallback onNext;
   final goToPage;
-  ExperiencesScreen({super.key, required this.onBack, required this.email, required this.goToPage});
+  ExperiencesScreen({super.key, required this.onBack, required this.email, required this.goToPage, required this.onNext});
   final FormController formController = Get.find( tag: 'form-control' );
   @override
   _ExperiencesScreenState createState() => _ExperiencesScreenState();
@@ -35,154 +36,11 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
   List<TextEditingController> startDatesController=[TextEditingController()];
   List<TextEditingController> endDatesController=[TextEditingController()];
   List<TextEditingController> experienceIndustryControllers=[TextEditingController()];
-
+  List<ValueNotifier<bool>> stillWorking = [
+    ValueNotifier(false)
+  ];
   List<String> fields = [];
   List <dynamic> fieldsWithId = [];
-  String? validatePhone(String? value) {
-    if (value == null || value.isEmpty) {
-      return null;
-    }
-    RegExp pattern = RegExp(r'^05\d{8}$');
-
-    if (value.length != 10 || !value.startsWith(pattern)) {
-      return 'Please enter a valid Saudi Number';
-    }
-    return null;
-  }
-
-  String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return null;
-    }
-    if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(value)) {
-      return 'Please enter a valid email address';
-    }
-    return null;
-  }
-  String? validateCV(Map<String, dynamic> data) {
-    List<String> requiredFieldsCV = ['firstName', 'lastName', 'phoneNumber', 'contactEmail', 'seekerEmail', 'summary', 'city'];
-
-    for (String field in requiredFieldsCV) {
-      if (data[field] == null || data[field].toString().isEmpty) {
-        return "Missing or empty field for CV: $field";
-      }
-    }
-
-    if (validateEmail(data['contactEmail']) != null) return validateEmail(data['contactEmail']);
-    if (validatePhone(data['phoneNumber']) != null) return validatePhone(data['phoneNumber']);
-    if (data['awards'] != null && data['awards'] is List) {
-      for (Map<String, dynamic> award in data['awards']) {
-        List<String> requiredFieldsAward = ['awardName', 'issuedBy', 'date'];
-
-        for (String field in requiredFieldsAward) {
-          if (award[field] == null || award[field].toString().isEmpty) {
-            return "Missing or empty field in awards: $field";
-          }
-        }
-      }
-    }
-
-    if (data['qualifications'] != null && data['qualifications'] is List) {
-      for (Map<String, dynamic> qualification in data['qualifications']) {
-        List<String> requiredFieldsQualification = ['DegreeLevel', ];
-        final messages = {
-          'Field': (final v) => 'Degree Field',
-          'IssuedBy': (final v) {
-              if (v['DegreeLevel'] == 'High School') {
-                return "School Name";
-              }
-              return "University Name";
-          }
-        };
-        if (qualification['DegreeLevel'] != 'Pre-high school') {
-            requiredFieldsQualification.addAll(['Field','IssuedBy', 'StartDate', 'EndDate']);
-        }
-        for (String field in requiredFieldsQualification) {
-          if (qualification[field] == null || qualification[field].toString().isEmpty) {
-            return "Missing or empty field in qualifications: ${messages[field]?.call(qualification) ?? field} ";
-          }
-        }
-        if (qualification['StartDate'].isNotEmpty && qualification['EndDate'].isNotEmpty) {
-          DateTime startDate = intl.DateFormat('yyyy/MM/dd').parse(qualification['StartDate']);
-          DateTime endDate = intl.DateFormat('yyyy/MM/dd').parse(qualification['EndDate']);
-
-          if (startDate.isAfter(endDate)) {
-            return "StartDate must be before EndDate in qualifications";
-          }
-        }
-      }
-    }
-    if (data['projects'] != null && data['projects'] is List) {
-      for (Map<String, dynamic> project in data['projects']) {
-        List<String> requiredFieldsProject = ['ProjectName', 'Description', 'Date'];
-
-        for (String field in requiredFieldsProject) {
-          if (project[field] == null || project[field].toString().isEmpty) {
-            return "Missing or empty field in projects: $field";
-          }
-        }
-
-      }
-    }
-    if (data['experiences'] != null && data['experiences'] is List) {
-      for (Map<String, dynamic> experience in data['experiences']) {
-        List<String> requiredFieldsExperience = ['CategoryID', 'JobTitle', 'CompanyName', 'StartDate', 'EndDate'];
-
-        for (String field in requiredFieldsExperience) {
-          if (experience[field] == null || experience[field].toString().isEmpty) {
-            return "Missing or empty field in experiences: $field";
-          }
-        }
-        if (experience['StartDate'] != null && experience['EndDate'] != null) {
-          DateTime startDate = intl.DateFormat('yyyy/MM/dd').parse(experience['StartDate']);
-          DateTime endDate = intl.DateFormat('yyyy/MM/dd').parse(experience['EndDate']);
-
-          if (startDate.isAfter(endDate)) {
-            return "StartDate must be before EndDate in experiences";
-          }
-        }
-      }
-    }
-
-
-    return null;
-  }
-
-  addCV(dynamic body) async {
-    try {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Color(0xFF024A8D),
-            ),
-          );
-        },
-      );
-      String jsonString = json.encode(body);
-      var response = await http.post(
-        Uri.parse(Connection.createCv),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: jsonString,
-      );
-      widget.formController.reset();
-      String status = body['ID'] != 0 ? "Edited" : "Created";
-      ErrorMessage.show(
-        context,
-        "Success",
-        18,
-        " Your CV is successfully $status.",
-        ContentType.success,
-        const Color.fromARGB(255, 15, 152, 20),
-      );
-      Get.off(ProfileScreen(email: widget.email));
-
-    } catch (e) {
-    }
-  }
 
   int steps = -1;
   int lastSteps = -1;
@@ -254,7 +112,32 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
           controller: companyNameControllers[i],
         ),
         DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.month,),
-        DateButton(removeGutter: true, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month),
+        Container(
+          margin:  EdgeInsets.only(bottom: 16.0),
+          child: Row(
+
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+
+            children: [
+              Checkbox(
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+
+                value: stillWorking[i].value,
+                onChanged: (value) {
+                  setState(() {
+                    stillWorking[i].value = value ?? false;
+                    cachedSteps[i-1] = buildStepItem(i, i);
+                  });
+                },
+              ),
+              Text('I am still working here'),
+
+            ],
+          ),
+        ),
+        DateButton(disabled: stillWorking[i].value,removeGutter: true, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month),
         InkWell(
           onTap: () {
             setState(() {
@@ -294,6 +177,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       startDatesController.add(TextEditingController());
       endDatesController.add(TextEditingController());
       experienceIndustryControllers.add(TextEditingController());
+      stillWorking.add(ValueNotifier(false));
       cachedSteps.add(
           buildStepItem(steps, MAX_STEPS)
       );
@@ -314,6 +198,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         startDatesController.removeAt(j);
         endDatesController.removeAt(j);
         experienceIndustryControllers.removeAt(j);
+        stillWorking.removeAt(j);
         cachedSteps.removeAt(j-1);
       }
     }
@@ -328,6 +213,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
      startDatesController=[TextEditingController()];
     endDatesController=[TextEditingController()];
     experienceIndustryControllers=[TextEditingController()];
+    stillWorking = [ValueNotifier(false)];
     List<Widget> l = [];
     for (int i = 1; i <= steps; i++) {
       String? category, jobTitle = '', company = '', startDate = '', endDate = '';
@@ -341,7 +227,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         startDate = experience['StartDate'];
         endDate = experience['EndDate'];
       }
-
+      stillWorking.add(ValueNotifier(endDate == null));
       jobTitleControllers.add(TextEditingController(text: jobTitle));
       companyNameControllers.add(TextEditingController(text: company));
       startDatesController.add(TextEditingController(text: startDate));
@@ -457,7 +343,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                         height: screenHeight * .73,
                         child: Column(
                           children: [
-                            ConnectedCircles(pos: 5,),
+                            ConnectedCircles(pos: 3,),
                             Center(
                               child: const Text(
                                 'Experiences',
@@ -520,34 +406,24 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                             ),
                             Directionality(
                               textDirection: TextDirection.rtl,
-                              child: ElevatedButton(
+                              child: ElevatedButton.icon(
                                 onPressed: () {
                                   widget.formController.formData['experiences'] = [];
                                   for (int i = 1; i <= steps; i++) {
                                     if (experienceIndustryControllers[i].text.isNotEmpty && experienceIndustryControllers[i].text != 'None') {
                                       widget.formController.addExperience({
+                                        'workingHere': stillWorking[i].value,
                                         'CategoryID': fieldsWithId.where((element) => element['CategoryName'] == experienceIndustryControllers[i].text).first['CategoryID'],
                                         'JobTitle': jobTitleControllers[i].text,
                                         'CompanyName': companyNameControllers[i].text,
                                         'StartDate': startDatesController[i].text,
-                                        'EndDate': endDatesController[i].text,
-                                    });
+                                        'EndDate': stillWorking[i].value ? null : endDatesController[i].text,
+                                      });
                                     }
                                   }
-                                  final body = widget.formController.formData.value;
-                                  body['seekerEmail'] = widget.email;
-                                  String? validationError = validateCV(body);
-                                  if (validationError == null) {
-                                      addCV(body);
-                                  } else {
-                                    return ErrorMessage.show(
-                                        context,
-                                        "Error",
-                                        14,
-                                        validationError,
-                                        ContentType.failure,
-                                        const Color.fromARGB(255, 209, 24, 24));
-                                  }
+
+
+                                  widget.onNext();
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF085399),
@@ -557,8 +433,9 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                   ),
                                   elevation: 5,
                                 ),
-
-                                 child:  Text(widget.formController.isEdit() ? "Edit CV" : "Create CV",),
+                                icon: const Icon(Icons
+                                    .arrow_back),
+                                label: const Text('Next'),
                               ),
                             )
                           ]),

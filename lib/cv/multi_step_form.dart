@@ -1,6 +1,7 @@
 // ignore_for_file: unused_field, prefer_typing_uninitialized_variables, library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:watheq/cv/certificates_screen.dart';
 import 'package:watheq/cv/projects_screen.dart';
 import 'package:watheq/cv/qualifications_screen.dart';
 import 'awards_screen.dart';
@@ -62,15 +63,21 @@ class _MultiStepFormState extends State<MultiStepForm> {
           QualificationsScreen(goToPage: goToPage,formKey: _formKeys[2],onNext: () => _pageController.nextPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
+          ExperiencesScreen(goToPage: goToPage,email: widget.email, onBack: () => _pageController.previousPage(
+            duration: const Duration(milliseconds: 500), curve:  Curves.ease,),  onNext: () => _pageController.nextPage(
+              duration: const Duration(milliseconds: 500) ,curve: Curves.ease)
+          ),
           ProjectsScreen(goToPage: goToPage,formKey: _formKeys[3],onNext: () => _pageController.nextPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
+
+          CertificatesScreen(goToPage: goToPage,formKey: _formKeys[4],onNext: () => _pageController.nextPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null, onBack: () => _pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
           AwardsScreen(goToPage: goToPage,formKey: _formKeys[1],onNext: () => _pageController.nextPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null, onBack: () => _pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
-          ExperiencesScreen(goToPage: goToPage,email: widget.email, onBack: () => _pageController.previousPage(
-              duration: const Duration(milliseconds: 500), curve:  Curves.ease)
-          ),
+
         ],
       ),
     );

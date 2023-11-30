@@ -199,6 +199,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
                                 ),
                               ),
+                              SizedBox(height: 16,),
                               RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Professional Summary',keyName: 'summary',controller: summaryController,),
                             ],
                           ),

@@ -226,7 +226,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                         height: screenHeight * 0.73,
                         child: Column(
                           children: [
-                            ConnectedCircles(pos: 3,),
+                            ConnectedCircles(pos: 4,),
                             const Center(
                               child: Text(
                                 'Projects',

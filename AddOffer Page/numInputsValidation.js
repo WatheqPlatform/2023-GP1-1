@@ -11,7 +11,7 @@ function validateNumericInput(input, num) {
         warningMessage.style.display = "none";
     }
 
-    if (maxSalary < minSalary)
+    if (maxSalary!=="" && minSalary!=="" && maxSalary < minSalary)
 
     {
         WarningMax.style.display = "block";

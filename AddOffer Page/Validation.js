@@ -55,30 +55,51 @@ $(document).ready(function () {
 
 // Check if any fields are missing
         if (missingFields.length > 0) {
+            if (missingFields.length !== 8) {
 
-            // Construct the error message
-            var errorMessage = "Please fill in the following fields: " + missingFields.join(", ");
+                var failureMessageElement = document.querySelector(".faliure_wrap p");
+                failureMessageElement.textContent = "Please fill in the following fields: " + missingFields.join(", ");
 
-            // Display the error message
-            alert(errorMessage);
-        }
+                var modal_wrapper = document.querySelector(".modal_wrapper");
+                var faliure_wrap = document.querySelector(".faliure_wrap");
+                var shadow = document.querySelector(".shadow");
 
-//        if (isEmpty) {
-//            var modal_wrapper = document.querySelector(".modal_wrapper");
-//            var faliure_wrap = document.querySelector(".faliure_wrap");
-//            var shadow = document.querySelector(".shadow");
-//
-//            modal_wrapper.classList.add("active");
-//            faliure_wrap.classList.add("active");
-//
-//            //Clicking anywhere on the screen remove the sessamge
-//            shadow.addEventListener("click", function () {
-//                modal_wrapper.classList.remove("active");
-//                faliure_wrap.classList.remove("active");
-//            });
-//
-//        } 
-        else {
+
+
+                modal_wrapper.classList.add("active");
+                faliure_wrap.classList.add("active");
+
+                //Clicking anywhere on the screen remove the sessamge
+                shadow.addEventListener("click", function () {
+                    modal_wrapper.classList.remove("active");
+                    faliure_wrap.classList.remove("active");
+                });
+                // Construct the error message
+//            var errorMessage = "Please fill in the following fields: " + missingFields.join(", ");
+
+                // Display the error message
+//            alert(errorMessage);
+            } else {
+
+
+                var modal_wrapper = document.querySelector(".modal_wrapper");
+                var faliure_wrap = document.querySelector(".faliure_wrap");
+                var shadow = document.querySelector(".shadow");
+
+
+
+                modal_wrapper.classList.add("active");
+                faliure_wrap.classList.add("active");
+
+                //Clicking anywhere on the screen remove the sessamge
+                shadow.addEventListener("click", function () {
+                    modal_wrapper.classList.remove("active");
+                    faliure_wrap.classList.remove("active");
+                });
+
+
+            }
+        } else {
             let inputValues = [
                 // REQUIRED FEILDS ONLY
                 $("#jobTitle").val(),
@@ -93,86 +114,172 @@ $(document).ready(function () {
 
             if ((!$("#maxSalary").val().match(/^\d+$/)))
             {
-                alert("Please enter a valid number for maximum salary");
+              
+                
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Please enter a valid number for maximum salary";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
 
             } else {
                 if ((!$("#minSalary").val().match(/^\d+$/))) {
-                    alert("Please enter a valid number for minimum salary");
+                   
+                      var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Please enter a valid number for minimum salary";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
                 } else {
                     if (parseFloat($("#minSalary").val()) > parseFloat($("#maxSalary").val())) {
 
-                        alert("Minimum salary cannot be greater than the maximum salary.");
+                       
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Minimum salary cannot be greater than the maximum salary.";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
                     } else {
-                        if ($("#workingHours").val() !=="" && !$("#workingHours").val().match(/^\d+$/))
+                        if ($("#workingHours").val() !== "" && !$("#workingHours").val().match(/^\d+$/))
                         {
-                        alert("Please enter a valid number for the working hours");
+                           
+                            var failureMessageElement = document.querySelector(".faliure_wrap p");
+                            failureMessageElement.textContent = "Please enter a valid number for the working hours";
 
-                        }
-                        else{
+                            var modal_wrapper = document.querySelector(".modal_wrapper");
+                            var faliure_wrap = document.querySelector(".faliure_wrap");
+                            var shadow = document.querySelector(".shadow");
 
-                        var skills = getSkills();
 
 
-                        // Call the saveQualifications() function and log the returned data
-                        var qualifications = saveQualifications();
-                        // check that if there's at least one feild filled, the other should be filled too
-                        var checkQualification = checkQualifications(qualifications);
+                            modal_wrapper.classList.add("active");
+                            faliure_wrap.classList.add("active");
 
-                        // Call the saveExperiences() function and log the returned data
-                        var experiences = saveExperiences();
-                        // check that if there's at least one feild filled, the other should be filled too
-                        var checkExperiences = checkExperience(experiences);
-                        if (checkQualification === true && checkExperiences === true) {
-
-                            //Send the information to PHP File
-                            $.post("AddOfferLogic.php", {
-                                jobTitle: inputValues[0],
-                                jobDescription: inputValues[1],
-                                jobAddress: inputValues[2],
-                                jobType: inputValues[3],
-                                minSalary: inputValues[4],
-                                maxSalary: inputValues[5],
-                                jobCategories: inputValues[6],
-                                jobCity: inputValues[7],
-
-                                // non required feilds we won't check if they are empty 
-                                startingDate: $("#date").val(),
-                                workingHours: $("#workingHours").val(),
-                                notes: $("#notes").val(),
-                                workingDays: getWorkingDays(),
-
-                                skills: skills,
-                                qualifications: qualifications,
-                                experiences: experiences
-
-                            }, function (data) {
-
-                                if (data === "success") { // Update the condition to trim the data
-                                    $('#AddForm')[0].reset(); // Delete information from the form
-                                    var modal_wrapper = document.querySelector(".modal_wrapper");
-                                    var success_wrap = document.querySelector(".success_wrap");
-                                    var shadow = document.querySelector(".shadow");
-
-                                    modal_wrapper.classList.add("active");
-                                    success_wrap.classList.add("active");
-
-                                    // Clicking anywhere on the screen remove the message
-                                    shadow.addEventListener("click", function () {
-                                        modal_wrapper.classList.remove("active");
-                                        success_wrap.classList.remove("active");
-                                        window.location.href = "../History Page/History.php";
-                                    });
-                                } else {
-                                    // Handle error case
-                                    alert("An error occurred during form submission. Please try again");
-                                    console.error("Form submission error:", data);
-                                }
-
+                            //Clicking anywhere on the screen remove the sessamge
+                            shadow.addEventListener("click", function () {
+                                modal_wrapper.classList.remove("active");
+                                faliure_wrap.classList.remove("active");
                             });
-                        }
 
-                    }//
-                }
+                        } else {
+
+                            var skills = getSkills();
+
+
+                            // Call the saveQualifications() function and log the returned data
+                            var qualifications = saveQualifications();
+                            // check that if there's at least one feild filled, the other should be filled too
+                            var checkQualification = checkQualifications(qualifications);
+
+                            // Call the saveExperiences() function and log the returned data
+                            var experiences = saveExperiences();
+                            // check that if there's at least one feild filled, the other should be filled too
+                            var checkExperiences = checkExperience(experiences);
+                            if (checkQualification === true && checkExperiences === true) {
+
+                                //Send the information to PHP File
+                                $.post("AddOfferLogic.php", {
+                                    jobTitle: inputValues[0],
+                                    jobDescription: inputValues[1],
+                                    jobAddress: inputValues[2],
+                                    jobType: inputValues[3],
+                                    minSalary: inputValues[4],
+                                    maxSalary: inputValues[5],
+                                    jobCategories: inputValues[6],
+                                    jobCity: inputValues[7],
+
+                                    // non required feilds we won't check if they are empty 
+                                    startingDate: $("#date").val(),
+                                    workingHours: $("#workingHours").val(),
+                                    notes: $("#notes").val(),
+                                    workingDays: getWorkingDays(),
+
+                                    skills: skills,
+                                    qualifications: qualifications,
+                                    experiences: experiences
+
+                                }, function (data) {
+
+                                    if (data === "success") { // Update the condition to trim the data
+                                        $('#AddForm')[0].reset(); // Delete information from the form
+                                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                                        var success_wrap = document.querySelector(".success_wrap");
+                                        var shadow = document.querySelector(".shadow");
+
+                                        modal_wrapper.classList.add("active");
+                                        success_wrap.classList.add("active");
+
+                                        // Clicking anywhere on the screen remove the message
+                                        shadow.addEventListener("click", function () {
+                                            modal_wrapper.classList.remove("active");
+                                            success_wrap.classList.remove("active");
+                                            window.location.href = "../History Page/History.php";
+                                        });
+                                    } else {
+                                        // Handle error case
+                                     
+                                         var failureMessageElement = document.querySelector(".faliure_wrap p");
+                            failureMessageElement.textContent = "An error occurred during form submission. Please try again";
+
+                            var modal_wrapper = document.querySelector(".modal_wrapper");
+                            var faliure_wrap = document.querySelector(".faliure_wrap");
+                            var shadow = document.querySelector(".shadow");
+
+
+
+                            modal_wrapper.classList.add("active");
+                            faliure_wrap.classList.add("active");
+
+                            //Clicking anywhere on the screen remove the sessamge
+                            shadow.addEventListener("click", function () {
+                                modal_wrapper.classList.remove("active");
+                                faliure_wrap.classList.remove("active");
+                            });
+                                        
+                                        console.error("Form submission error:", data);
+                                    }
+
+                                });
+                            }
+
+                        }//
+                    }
                 }
 
             }
@@ -207,15 +314,66 @@ $(document).ready(function () {
                 }
                 for (var i = 0; i < qualifications.length; i++) {
                     var qualification = qualifications[i];
-                    if (!qualification.level && qualification.field) {
-                        alert("Qualification Degree Level is missiing.");
+                    if (!qualification.level) {
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Qualification Degree Level is missing.";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
+
                         return false;
-                    } else if (qualification.level && !qualification.field) {
-                        alert("Qualification Degree Field is missing.");
+                    } else if (!qualification.field) {
+
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Qualification Degree Field is missing.";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
                         return false;
                     } else if (!qualification.other && qualification.field === "Other")
                     {
-                        alert("Qualification Degree field is missing.\nYou should enter your Degree Feild or choose from the provided Feilds.");
+
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Qualification Degree Field is missing.";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
                         return false;
                     }
 
@@ -273,16 +431,85 @@ $(document).ready(function () {
                 {
                     var ex = experience[i];
                     if (!ex.Category) {
-                        alert("Experience Industry is missing.");
+
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Experience Industry is missing.";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
+
                         return false;
                     } else if (!ex.JobTitle) {
-                        alert("Experience Job Title is missing.");
+
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Experience Job Title is missing.";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
                         return false;
                     } else if (!ex.years) {
-                        alert("Experience Minimum Years is missing.");
+
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Experience Minimum Years is missing.";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
                         return false;
                     } else if (!ex.years.match(/^\d+$/)) {
-                        alert("Please enter a valid number for Experience Minimum Years");
+
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "Please enter a valid number for Experience Minimum Years";
+
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
                         return false;
                     }
                 }

@@ -194,8 +194,6 @@ a{
 #DonloadImage{
     padding: 40px 0px;
 }
- 
-
 
 /*Who We Are Content*/
 #WhoWeAreSection{
@@ -296,7 +294,7 @@ footer {
 
 
 
-/*Responsive Code*/
+/*Responsive Code
 @media screen and (max-width: 1388px) {
     #PhraseImage{
         margin-top: 60px;
@@ -307,18 +305,18 @@ footer {
     }
 
     img{
-        max-width: 500px;
+        max-width: 50%;
     }
 }
 
 @media screen and (max-width: 1388px) {
     img{
-        max-width: 700px;
+        max-width: 100%;
     }
 }
 
 @media screen and (max-width: 700px) {
-     /*Centralize header*/
+     Centralize header
      #header {
         display: flex;
         flex-direction: column;
@@ -365,3 +363,4 @@ footer {
         margin-bottom: 50px;       
     }
 }
+*/

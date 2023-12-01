@@ -68,11 +68,23 @@ include('ApplicationsLogic.php');
                     if (!empty($PendingApplications) || !empty($RejectedApplications) || !empty($AcceptedApplications)) {
                         echo "<h1>". $_GET["JobTitle"]." Applications</h1>";
                         echo "<div id='links'>";
-                        echo "<a id='link1' href='#PendingSegment'>Pending Applications</a>";
+                        echo "<a id='link1' href='#PendingSegment'  class='tooltip'>Pending Applications";
+                        if (empty($PendingApplications)){
+                            echo "<span class='tooltiptext'>There are no pending applications</span>";
+                        }
+                        echo "</a>";
                         echo "<div id='linksLine'></div>";
-                        echo "<a id='link2' href='#AccpetedSegment'>Accepted Applications</a>";
+                        echo "<a id='link2' href='#AccpetedSegment'  class='tooltip'>Accepted Applications";
+                        if (empty($AcceptedApplications)){
+                            echo "<span class='tooltiptext'>There are no accepted applications</span>";
+                        }
+                        echo "</a>";
                         echo "<div id='linksLine1'></div>";
-                        echo "<a id='link3' href='#CloseSegment'>Rejected Applications</a>";
+                        echo "<a id='link3' href='#CloseSegment'  class='tooltip'>Rejected Applications";
+                        if (empty($RejectedApplications)){
+                            echo "<span class='tooltiptext'>There are no rejected applications</span>";
+                        }
+                        echo "</a>";
                         echo "</div>";
 
                         // Function to display applications

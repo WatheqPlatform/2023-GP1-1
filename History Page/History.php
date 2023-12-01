@@ -69,9 +69,17 @@ include('HistoryLogic.php');
                         echo "<h1>Posted Job Offers</h1>";
 
                         echo "<div id='links'>";
-                        echo "<a id='link1' href='#ActiveSegment'>Active Job Offers</a>";
+                        echo "<a id='link1' href='#ActiveSegment' class='tooltip'>Active Job Offers";
+                        if (empty($availableOffers)){
+                            echo "<span class='tooltiptext'>There are no active offers</span>";
+                        }
+                        echo "</a>";
                         echo "<div id='linksLine'></div>";
-                        echo "<a id='link2' href='#CloseSegment'>Closed Job Offers</a>";
+                        echo "<a id='link2' href='#CloseSegment' class='tooltip'>Closed Job Offers";
+                        if (empty($closedOffers)){
+                            echo "<span class='tooltiptext'>There are no closed offers</span>";
+                        }
+                        echo "</a>";
                         echo "</div>";
                         
 

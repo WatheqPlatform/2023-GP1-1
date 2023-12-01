@@ -1,8 +1,11 @@
 // ignore_for_file: file_names, use_full_hex_values_for_flutter_colors, void_checks
 
+import 'dart:async';
+
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:watheq/Authentication/login_screen.dart';
 import 'package:watheq/Authentication/new_password_screen.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'dart:convert';
@@ -20,13 +23,41 @@ class _VerificationScreenState extends State<VerificationScreen> {
   var formKey = GlobalKey<FormState>();
   var codeController = TextEditingController(); // users inputs
   var isObsecure = true.obs;
-
   bool codefilled = false;
+
+  Timer? _timer;
+  int _remainingTime = 30;
+  bool _isResendButtonEnabled = false;
 
   @override
   void initState() {
     codefilled = false;
     super.initState();
+    _startTimer();
+  }
+
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _startTimer() {
+    setState(() {
+      _isResendButtonEnabled = false;
+      _remainingTime = 30;
+    });
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingTime > 0) {
+        setState(() {
+          _remainingTime--;
+        });
+      } else {
+        setState(() {
+          _isResendButtonEnabled = true;
+        });
+        _timer?.cancel();
+      }
+    });
   }
 
   //Verify code function
@@ -125,7 +156,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.pop(context);
+                    Get.to(LoginScreen());
                   },
                 ),
                 const Padding(
@@ -188,7 +219,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     child: Column(
                       children: [
                         const Padding(
-                          padding: EdgeInsets.only(right: 160, bottom: 3),
+                          padding: EdgeInsets.only(right: 158, bottom: 3),
                           child: Text(
                             "Verification Code",
                             style: TextStyle(
@@ -233,6 +264,20 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 18,
+                          child: !_isResendButtonEnabled
+                              ? Text(
+                                  'Resend code in $_remainingTime seconds',
+                                  style: TextStyle(
+                                    color: Colors
+                                        .red, // You can choose your own styling
+                                    fontSize: 16,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                )
+                              : null,
+                        ),
                         const SizedBox(height: 28),
                         ElevatedButton(
                           onPressed: () {
@@ -268,30 +313,52 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ),
                         ),
                         const SizedBox(height: 17),
-                        OutlinedButton(
-                          onPressed: () {
-                            forgetPassword();
-                            codeController.clear();
-                          },
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(
-                              width: 1.5,
-                              color: Color(0xFF024A8D),
-                            ),
-                            fixedSize:
-                                Size(screenWidth * 0.8, screenHeight * 0.052),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                          ),
-                          child: const Text(
-                            "Re-Send",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFF024A8D),
-                            ),
-                          ),
-                        ),
+                        _isResendButtonEnabled
+                            ? OutlinedButton(
+                                onPressed: () {
+                                  forgetPassword();
+                                  _startTimer();
+                                  codeController.clear();
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  side: const BorderSide(
+                                    width: 1.5,
+                                    color: Color(0xFF024A8D),
+                                  ),
+                                  fixedSize: Size(
+                                      screenWidth * 0.8, screenHeight * 0.052),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Re-Send",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color(0xFF024A8D),
+                                  ),
+                                ),
+                              )
+                            : ElevatedButton(
+                                onPressed: null, // Disabled
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Colors.grey, // Gray color when disabled
+                                  fixedSize: Size(
+                                      screenWidth * 0.93, screenHeight * 0.056),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  elevation: 3,
+                                ),
+                                child: const Text(
+                                  "Re-Send",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                  ),
+                                ),
+                              )
                       ],
                     ),
                   ),

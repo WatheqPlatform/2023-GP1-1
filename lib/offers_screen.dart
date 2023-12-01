@@ -27,7 +27,14 @@ class _OffersScreenState extends State<OffersScreen> {
   List allOffers = [];
   List foundOffers = [];
   String SelectedCity = "";
-  Map<String, bool> selectedChips = {};
+
+  Map<String, List<String>> selectedChips = {
+    'cities': [],
+    'jobTitles': [],
+    'companies': [],
+    'industries': [],
+    'employmentTypes': []
+  };
 
   List<String> cityNames = [];
   List<String> companyNames = [];
@@ -35,6 +42,8 @@ class _OffersScreenState extends State<OffersScreen> {
   List<String> industries = [];
   List<String> jobTitles = [];
   Map<int, int> experienceMap = {};
+
+  Map<String, bool> chipSelectionState = {};
 
   double currentmin = 0;
   double currentmax = 50;
@@ -125,6 +134,13 @@ class _OffersScreenState extends State<OffersScreen> {
     getdata();
     getName();
     getfillters();
+    selectedChips = {
+      'cities': [],
+      'jobTitles': [],
+      'companies': [],
+      'industries': [],
+      'employmentTypes': []
+    };
   }
 
   void searchOffer(String searchedWord) {
@@ -151,32 +167,41 @@ class _OffersScreenState extends State<OffersScreen> {
     });
   }
 
-  void filter(List<String> selectedLabels) {
+  void filter(Map<String, List<String>> selectedLabelsMap) {
     List results = [];
 
     results = allOffers.where((element) {
-      bool labelMatch = selectedLabels.isEmpty ||
-          selectedLabels.any((label) {
-            return element["JobTitle"]
-                    .toLowerCase()
-                    .contains(label.toLowerCase()) ||
-                element["CityName"]
-                    .toLowerCase()
-                    .contains(label.toLowerCase()) ||
-                element["EmploymentType"]
-                    .toLowerCase()
-                    .contains(label.toLowerCase()) ||
-                element["CompanyName"]
-                    .toLowerCase()
-                    .contains(label.toLowerCase()) ||
-                element["CategoryName"]
-                    .toLowerCase()
-                    .contains(label.toLowerCase());
-          });
+      bool labelMatch = true;
+
+      // Check each field
+      selectedLabelsMap.forEach((category, labels) {
+        if (labels.isNotEmpty) {
+          switch (category) {
+            case 'cities':
+              labelMatch = labelMatch && labels.contains(element['CityName']);
+              break;
+            case 'jobTitles':
+              labelMatch = labelMatch && labels.contains(element['JobTitle']);
+              break;
+            case 'companies':
+              labelMatch =
+                  labelMatch && labels.contains(element['CompanyName']);
+              break;
+            case 'industries':
+              labelMatch =
+                  labelMatch && labels.contains(element['CategoryName']);
+              break;
+            case 'employmentTypes':
+              labelMatch =
+                  labelMatch && labels.contains(element['EmploymentType']);
+              break;
+          }
+        }
+      });
 
       bool experienceMatch = false;
       if (experienceMap.isNotEmpty) {
-        int offerId = int.parse(element["OfferID"].toString());
+        int offerId = int.parse(element['OfferID'].toString());
         int experienceYears = experienceMap[offerId] ?? 0;
         experienceMatch = experienceYears >= currentRangeValues.start &&
             experienceYears <= currentRangeValues.end;
@@ -190,16 +215,23 @@ class _OffersScreenState extends State<OffersScreen> {
     });
   }
 
-  void handleChipSelection(String label, bool isSelected) {
+  void handleChipSelection(String category, String label, bool isSelected) {
     setState(() {
-      selectedChips[label] = isSelected;
+      chipSelectionState['$category|$label'] = isSelected;
     });
   }
 
   void resetFilters() {
     setState(() {
+      selectedChips = {
+        'cities': [],
+        'jobTitles': [],
+        'companies': [],
+        'industries': [],
+        'employmentTypes': []
+      };
+      chipSelectionState.clear();
       foundOffers = allOffers;
-      selectedChips.clear();
       double currentmin = 0;
       double currentmax = 50;
       currentRangeValues = RangeValues(currentmin, currentmax);
@@ -270,6 +302,15 @@ class _OffersScreenState extends State<OffersScreen> {
                           color: Colors.white,
                         ),
                         onPressed: () {
+                          setState(() {
+                            // Initialize chipSelectionState based on selectedChips
+                            chipSelectionState.clear();
+                            selectedChips.forEach((category, labels) {
+                              for (var label in labels) {
+                                chipSelectionState['$category|$label'] = true;
+                              }
+                            });
+                          });
                           showModalBottomSheet(
                               shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.vertical(
@@ -386,15 +427,14 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                 CustomChoiceChip(
                                                               label: cityNames[
                                                                   index],
-                                                              isSelected: selectedChips[
-                                                                      cityNames[
-                                                                          index]] ??
-                                                                  false,
-                                                              onSelectionChanged: (isSelected) =>
-                                                                  handleChipSelection(
-                                                                      cityNames[
-                                                                          index],
-                                                                      isSelected),
+                                                              category:
+                                                                  'cities',
+                                                              isSelected:
+                                                                  chipSelectionState[
+                                                                          'cities|${cityNames[index]}'] ??
+                                                                      false,
+                                                              onSelectionChanged:
+                                                                  handleChipSelection,
                                                             ),
                                                           );
                                                         },
@@ -478,23 +518,23 @@ class _OffersScreenState extends State<OffersScreen> {
                                                                 3),
                                                         (int index) {
                                                           return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(2.0),
-                                                            child: CustomChoiceChip(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(2.0),
+                                                              child:
+                                                                  CustomChoiceChip(
                                                                 label:
                                                                     companyNames[
                                                                         index],
-                                                                isSelected: selectedChips[
-                                                                        companyNames[
-                                                                            index]] ??
-                                                                    false,
-                                                                onSelectionChanged: (isSelected) =>
-                                                                    handleChipSelection(
-                                                                        companyNames[
-                                                                            index],
-                                                                        isSelected)),
-                                                          );
+                                                                category:
+                                                                    'companies',
+                                                                isSelected:
+                                                                    chipSelectionState[
+                                                                            'companies|${companyNames[index]}'] ??
+                                                                        false,
+                                                                onSelectionChanged:
+                                                                    handleChipSelection,
+                                                              ));
                                                         },
                                                       )..add(companyNames
                                                                       .length >
@@ -582,20 +622,20 @@ class _OffersScreenState extends State<OffersScreen> {
                                                           padding:
                                                               const EdgeInsets
                                                                   .all(2.0),
-                                                          child: CustomChoiceChip(
-                                                              label:
-                                                                  employmentTypes[
-                                                                      index],
-                                                              isSelected: selectedChips[
-                                                                      employmentTypes[
-                                                                          index]] ??
-                                                                  false,
-                                                              onSelectionChanged:
-                                                                  (isSelected) =>
-                                                                      handleChipSelection(
-                                                                          employmentTypes[
-                                                                              index],
-                                                                          isSelected)),
+                                                          child:
+                                                              CustomChoiceChip(
+                                                            label:
+                                                                employmentTypes[
+                                                                    index],
+                                                            category:
+                                                                'employmentTypes',
+                                                            isSelected:
+                                                                chipSelectionState[
+                                                                        'employmentTypes|${employmentTypes[index]}'] ??
+                                                                    false,
+                                                            onSelectionChanged:
+                                                                handleChipSelection,
+                                                          ),
                                                         );
                                                       })
                                                         ..add(employmentTypes
@@ -685,18 +725,19 @@ class _OffersScreenState extends State<OffersScreen> {
                                                           padding:
                                                               const EdgeInsets
                                                                   .all(2.0),
-                                                          child: CustomChoiceChip(
-                                                              label: jobTitles[
-                                                                  index],
-                                                              isSelected: selectedChips[
-                                                                      jobTitles[
-                                                                          index]] ??
-                                                                  false,
-                                                              onSelectionChanged: (isSelected) =>
-                                                                  handleChipSelection(
-                                                                      jobTitles[
-                                                                          index],
-                                                                      isSelected)),
+                                                          child:
+                                                              CustomChoiceChip(
+                                                            label: jobTitles[
+                                                                index],
+                                                            category:
+                                                                'jobTitles',
+                                                            isSelected:
+                                                                chipSelectionState[
+                                                                        'jobTitles|${jobTitles[index]}'] ??
+                                                                    false,
+                                                            onSelectionChanged:
+                                                                handleChipSelection,
+                                                          ),
                                                         );
                                                       })
                                                         ..add(jobTitles.length >
@@ -786,18 +827,19 @@ class _OffersScreenState extends State<OffersScreen> {
                                                           padding:
                                                               const EdgeInsets
                                                                   .all(2.0),
-                                                          child: CustomChoiceChip(
-                                                              label: industries[
-                                                                  index],
-                                                              isSelected: selectedChips[
-                                                                      industries[
-                                                                          index]] ??
-                                                                  false,
-                                                              onSelectionChanged: (isSelected) =>
-                                                                  handleChipSelection(
-                                                                      industries[
-                                                                          index],
-                                                                      isSelected)),
+                                                          child:
+                                                              CustomChoiceChip(
+                                                            label: industries[
+                                                                index],
+                                                            category:
+                                                                'industries',
+                                                            isSelected:
+                                                                chipSelectionState[
+                                                                        'industries|${industries[index]}'] ??
+                                                                    false,
+                                                            onSelectionChanged:
+                                                                handleChipSelection,
+                                                          ),
                                                         );
                                                       })
                                                         ..add(industries
@@ -899,14 +941,26 @@ class _OffersScreenState extends State<OffersScreen> {
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
-                                            List<String> selectedLabels =
-                                                selectedChips.entries
-                                                    .where(
-                                                        (entry) => entry.value)
-                                                    .map((entry) => entry.key)
-                                                    .toList(); // Convert to List
+                                            setState(() {
+                                              selectedChips = {
+                                                'cities': [],
+                                                'jobTitles': [],
+                                                'companies': [],
+                                                'industries': [],
+                                                'employmentTypes': []
+                                              };
 
-                                            filter(selectedLabels);
+                                              chipSelectionState
+                                                  .forEach((key, isSelected) {
+                                                if (isSelected) {
+                                                  var parts = key.split('|');
+                                                  selectedChips[parts[0]]
+                                                      ?.add(parts[1]);
+                                                }
+                                              });
+
+                                              filter(selectedChips);
+                                            });
                                             Navigator.of(context).pop();
                                           },
                                           style: ElevatedButton.styleFrom(
@@ -1249,40 +1303,35 @@ class _OffersScreenState extends State<OffersScreen> {
 
 class CustomChoiceChip extends StatefulWidget {
   final String label;
-  final Function(bool) onSelectionChanged;
-  final bool isSelected;
+  final String category;
+  final Function(String, String, bool) onSelectionChanged;
+  bool isSelected;
 
-  const CustomChoiceChip(
-      {super.key,
-      required this.label,
-      required this.onSelectionChanged,
-      this.isSelected = false});
+  CustomChoiceChip({
+    super.key,
+    required this.label,
+    required this.category,
+    required this.onSelectionChanged,
+    this.isSelected = false,
+  });
 
   @override
   _CustomChoiceChipState createState() => _CustomChoiceChipState();
 }
 
 class _CustomChoiceChipState extends State<CustomChoiceChip> {
-  late bool _isSelected = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _isSelected = widget.isSelected;
-  }
-
   @override
   Widget build(BuildContext context) {
     return ChoiceChip(
       label: Text(widget.label),
-      selected: _isSelected,
+      selected: widget.isSelected ?? false,
       onSelected: (bool selected) {
         setState(() {
-          _isSelected = selected;
-          widget.onSelectionChanged(selected);
+          widget.isSelected = selected;
+          widget.onSelectionChanged(widget.category, widget.label, selected);
         });
       },
-      avatar: _isSelected
+      avatar: widget.isSelected
           ? const Icon(Icons.close, size: 18.0)
           : const Icon(Icons.add, size: 18.0),
       selectedColor: Colors.grey[400],

@@ -20,8 +20,6 @@ if (isset($_POST['offerId']) && isset($_POST['confirmClose']) && $_POST['confirm
 
     // Check if the query to close the offer was successful
     if ($stmtCloseOffer->affected_rows > 0) {
-       // echo "Offer closed successfully.";
-
         // Prepare and execute the SQL query to update application status
         $sqlUpdateApplications = "UPDATE application SET Status = 'Rejected' WHERE offerID = ? AND Status = 'Pending';";
         $stmtUpdateApplications = $conn->prepare($sqlUpdateApplications);

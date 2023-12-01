@@ -94,6 +94,7 @@ include('ApplicationsLogic.php');
                         function displayApplications($applications, $status) {
                             foreach ($applications as $application) {
                                 echo "<div id='WholeApplication'>";
+
                                 echo "<div id='FirstPart' class='".$application['Status']."'>";
                                 echo "<p id='Title'>Applicant Name</p>";
                                 echo "<p id='ApplicantName'>{$application['Name']}</p>";
@@ -101,8 +102,9 @@ include('ApplicationsLogic.php');
                                 echo "</div>";
 
                                 echo "<div id='SecondPart'>";
+                                
                                 echo "<p id='Status'class='".$application['Status']."'>{$application['Status']} Application</p>";
-                                echo "<p id='Summary'>".preg_replace('/\s+/', ' ', $application['Summary'])."</p>";
+                                echo "<p id='Summary'>" . trim(preg_replace('/\s+/', ' ', $application['Summary'])) . "</p>";
                             
                                 echo "<div id='BottomDiv'>";
                                 echo "<div id='ContactDiv'>";
@@ -115,9 +117,9 @@ include('ApplicationsLogic.php');
                                     echo "<button type='button' class='reject-button' data-application-id='{$application['ApplicationID']}'>Reject</button>";
                                     echo "</div>";
                                 }
-                                echo "</div>";
-                                echo "</div>";
-                                echo "</div>";
+                                echo "</div>"; //end of BottomDiv
+                                echo "</div>"; //end of SecondPart
+                                echo "</div>"; //end of WholeApplication
                             }
                         }
 

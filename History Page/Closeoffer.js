@@ -2,8 +2,7 @@
 // Function to close the offer using AJAX
 function closeOffer(offerId, jobTitle) {
     var failureMessageElement = document.querySelector(".faliure_wrap p");
-
-    failureMessageElement.textContent = "Are you sure you want to close the offer for '" + jobTitle + "'?\nBy closing this offer, all its pending applications will be rejected";
+    failureMessageElement.textContent = "By closing '"+ jobTitle + "' job offer, all its pending applications will be rejected. You cannot undo this operation.";
 
     var modal_wrapper = document.querySelector(".modal_wrapper");
     var failure_wrap = document.querySelector(".faliure_wrap");
@@ -15,13 +14,6 @@ function closeOffer(offerId, jobTitle) {
     modal_wrapper.classList.add("active");
     failure_wrap.classList.add("active");
 
-
-    //Clicking anywhere on the screen remove the sessamge
-    shadow.addEventListener("click", function () {
-
-        modal_wrapper.classList.remove("active");
-        failure_wrap.classList.remove("active");
-    });
     // var confirmClose = confirm("Are you sure you want to close the offer for '" + jobTitle + "'?");
     confirmButton.addEventListener("click", function () {
         $.ajax({
@@ -47,7 +39,7 @@ function closeOffer(offerId, jobTitle) {
             },
             error: function (xhr, status, error) {
                 var errorMessage = xhr.status + ': ' + xhr.statusText;
-                alert("An error occurred while closing the offer. Error: " + errorMessage);
+                alert("An error occurred while closing the offer.");
             }
         });
     });

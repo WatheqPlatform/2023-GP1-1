@@ -452,7 +452,7 @@ input[type=button]:hover{
 	width: 100%;
 	height: 100%;
 	visibility: hidden;
-    color: #085399;
+    color: black;
 }
 
 .modal_wrapper .shadow{
@@ -534,5 +534,5 @@ input[type=button]:hover{
 	display: none;
 	font-size: 14px;
 	margin-top: 5px;
-        margin-bottom: 5px;
+    margin-bottom: 5px;
 }

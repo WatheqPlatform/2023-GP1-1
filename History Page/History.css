@@ -241,19 +241,21 @@ h2{
     display: flex;
     justify-content: space-between;
     color: #085399;
-    min-height: 28vh;
+    min-height: 27vh;
     height: auto;
     margin-bottom: 3vh;
     filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.193));
 }
 
 #FirstPart{
+    display: flex;
+    flex-direction: column;
     background-color: #085399;
-    width: 20%;
-    padding: 2vh 6vh;
+    width: 26.6%;
+    padding: 2vh 3vw;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
-
+    box-sizing: border-box;
 }
 
 #Title{
@@ -270,15 +272,14 @@ h2{
     text-align: left;
     font-size: 23px;
     margin-top: -4px;
-    height: 29%;
     color: white;
+    flex-grow: 1;
 }
 
 #FirstPart a{
     display: block;
     font-size: 13px;
     color: white;
-    padding: 35px 0px 5px 2px;
     text-decoration: none;
     letter-spacing: 1.3px;
     color: white;
@@ -286,15 +287,15 @@ h2{
 }
 
 
-
 #SecondPart{
     display: flex;
     flex-direction: column;
-    width: 75%;
-    padding: 2vh 6vh;
+    width: 74.4%;
+    padding: 2vh 3vw;
     background-color: white;   
     border-top-right-radius: 30px;
     border-bottom-right-radius: 30px;
+    box-sizing: border-box;
 }
 
 #BottomDiv{
@@ -330,7 +331,7 @@ h2{
     line-height: 1.25;
     margin-top: 0px;
     color: #0c3a7b;
-    height: 43%;
+    flex-grow:1;
 }
 
 #CloseButton{
@@ -340,7 +341,7 @@ h2{
     color: rgb(148, 6, 6);
     padding: 5px 30px;
     font-size: 14px;
-    margin-top: 10px;
+    margin-bottom: 8px;
     transition: all .4s ease-in-out;
     align-self: flex-end;
 }
@@ -407,7 +408,7 @@ h2{
 	width: 100%;
 	height: 100%;
 	visibility: hidden;
-    color: #085399;
+    color: black;
 }
 
 .modal_wrapper .shadow{
@@ -421,7 +422,7 @@ h2{
 	transition: 0.2s ease;
 }
 
-.modal_wrapper .success_wrap, .modal_wrapper .faliure_wrap{
+.modal_wrapper .success_wrap{
 	position: absolute;
 	visibility: hidden;
 	width: 30%;
@@ -437,25 +438,27 @@ h2{
 	transition: 0.5s ease;
 }
 
+
+.modal_wrapper .faliure_wrap{
+	position: absolute;
+	visibility: hidden;
+	width: 30%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-800px);
+	background:white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 5px;
+	transition: 0.5s ease;
+}
+
 .modal_wrapper .success_wrap .modal_icon{
 	margin-right: 20px;
 	width: 50px;
 	height: 50px;
 	background: #4CBB17;
-	color: white;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 32px;
-	font-weight: 700;
-}
-
-.modal_wrapper .faliure_wrap .modal_icon{
-	margin-right: 20px;
-	width: 50px;
-	height: 50px;
-	background: rgb(188, 5, 5);
 	color: white;
 	border-radius: 50%;
 	display: flex;
@@ -483,38 +486,72 @@ h2{
 	opacity: 1;
 }
 
-.cancel_button,
-.confirm_button {
- display: inline-block;
-  margin-top: 10px;
-  
-  margin-right: 5px;
-  padding: 10px 10px;
-  
-  font-size: 12px;
-  font-weight: bold;
-  border: 2px solid #085399;
-  color: #085399;
-  background-color: #fff;
-  border-radius: 20px;
-  cursor: pointer;
-   width: fit-content;
-  height: fit-content;
-}
 .text_container {
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#Confirmation{
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 10px 30px;
+}
+
+#ConfirmationTitle{
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 0;
+    background-color: rgb(188, 5, 5);
+    border-top-left-radius:5px;
+    border-top-right-radius: 5px;
+    color: white;
+    padding: 8px 30px;
+    box-sizing: border-box;
 }
 
 .button_container {
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom:0 ;
+    align-self: center;
+    padding: 10px 30px 20px;
 }
- .confirm_button:hover ,.cancel_button:hover{
-    box-shadow: 0 0 10px rgba(16, 16, 158, 0.473);
+
+
+.confirm_button, .cancel_button{
+	border: 0;
+	padding: 9px 10px;
+	background: rgb(188, 5, 5);
+	color: white;
+	width: 100px;
+	justify-content: center;
+	display: flex;
+	align-items: center;
+	font-size: 12px;
+	border-radius: 5px;
+	transition: 0.5s ease;
+	cursor: pointer;
+    letter-spacing:1px;
+}
+
+
+/*Form buttons*/
+.cancel_button{
+	background: #d4d4d4;
+	transition: 0.5s ease;
+    margin-right: 10px;
+}
+
+
+.confirm_button:hover{
+	box-shadow: 0 0 15px rgba(188, 5, 5, 0.479);;
     transform: translate3d(0, -2px, 0);
-    cursor: pointer;
+}
+
+.cancel_button:hover{
+	box-shadow: 0 0 15px #8b8c8c6b;
+    transform: translate3d(0, -2px, 0);
 }

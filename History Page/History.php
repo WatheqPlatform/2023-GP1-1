@@ -130,17 +130,15 @@ include('HistoryLogic.php');
             <div class="shadow"></div> <!--To make the screen dark when message displayed-->
             <div class="success_wrap">
                 <span class="modal_icon"> <ion-icon name="checkmark-sharp"></ion-icon> </span> <!--Checkmark icon-->
-                <p> The Offer Closed Successfully! </p>
+                <p> The offer closed successfully! </p>
             </div>
             <div class="faliure_wrap">
-                <!--Cross icon-->
                 <div class="text_container">
-                    
-                    <p></p>
-
-                    <div class="button_container">
-                        <button class="confirm_button">Close Offer</button>
+                    <h3 id="ConfirmationTitle">Are you sure?</h3>
+                    <p id="Confirmation"></p>
+                    <div class="button_container">          
                         <button class="cancel_button">Cancel</button>
+                        <button class="confirm_button">Close Offer</button>
                     </div>
                 </div>
             </div>

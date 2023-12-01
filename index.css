@@ -171,20 +171,21 @@ a{
     align-items: flex-start;
 }
 
-#DiscoverButton{
+#DiscoverButton {
     border: 0;
-    border-radius: 30px;
-    padding: 13px 65px;
-    margin-left: 68px;
-    margin-bottom: 30px;
-    margin-top: 20px;
-    font-size: 17px;
+    border-radius: 1.875rem; /* 30px converted to rem */
+    padding: 0.8125rem 4.0625rem; /* 13px 65px converted to rem */
+    margin-left: 4.25rem; /* 68px converted to rem */
+    margin-bottom: 1.875rem; /* 30px converted to rem */
+    margin-top: 1.25rem; /* 20px converted to rem */
+    font-size: 1.0625rem; /* 17px converted to rem */
     color: white;
     transition: all .4s ease-in-out;
-    background-image: linear-gradient(to right, #003884 0%, #2B77BF  51%, #003884  100%);
-    box-shadow: 0 0 15px #eeeeee3c;
-    background-size: 200% auto;   
+    background-image: linear-gradient(to right, #003884 0%, #2B77BF 51%, #003884 100%);
+    box-shadow: 0 0 0.9375rem #eeeeee3c; /* 15px converted to rem */
+    background-size: 200% auto;
 }
+
 
 #DiscoverButton:hover {
     background-position: right center; 
@@ -232,7 +233,7 @@ a{
 #FeaturesSection h1{
     color: #085399;
     text-align: center;
-    font-size: 43px;
+    font-size: 2.6875rem;
     padding-top: 90px;
 }
 
@@ -294,7 +295,7 @@ footer {
 
 
 
-/*Responsive Code
+/*Responsive Code*/
 @media screen and (max-width: 1388px) {
     #PhraseImage{
         margin-top: 60px;
@@ -311,12 +312,12 @@ footer {
 
 @media screen and (max-width: 1388px) {
     img{
-        max-width: 100%;
+        max-width: 47vw;
     }
 }
 
 @media screen and (max-width: 700px) {
-     Centralize header
+     /*Centralize header*/
      #header {
         display: flex;
         flex-direction: column;
@@ -324,7 +325,7 @@ footer {
     }
 
     img{
-        max-width: 650px;
+        max-width: 85vw;
     }
 
     #PhraseImage{
@@ -332,13 +333,15 @@ footer {
     }
 
     #DiscoverButton{
-        margin-bottom: 50px;       
+        margin-bottom: 50px;   
+        margin-top: 2px;  
+        margin-left: 8.5vw;  
     }
 }
 
 @media screen and (max-width: 610px) {
     img{
-        max-width: 450px;
+        max-width: 85vw;
     }
 
     #PhraseImage{
@@ -352,7 +355,7 @@ footer {
 
 @media screen and (max-width: 580px) {
     img{
-        max-width: 450px;
+        max-width: 85vw;
     }
 
     #PhraseImage{
@@ -363,4 +366,3 @@ footer {
         margin-bottom: 50px;       
     }
 }
-*/

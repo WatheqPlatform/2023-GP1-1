@@ -4,7 +4,7 @@ $(document).ready(function () {
         email=$("#email").val();
         let isEmpty = false;
 
-        if (email == undefined || email == null || email === "") {
+        if (email === undefined || email === null || email === "") {
             isEmpty = true;
         }
 
@@ -25,7 +25,7 @@ $(document).ready(function () {
         else {
             // Send the information to PHP File
             $.post("ForgotPassword.php", {
-                email: email,
+                email: email
             }, function (data) {
                 if (data === "success") {
                     var modal_wrapper = document.querySelector(".modal_wrapper");

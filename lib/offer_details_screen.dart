@@ -110,7 +110,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                 "Success",
                 18,
                 "You have successfully applied to the job offer.",
-                ContentType.failure,
+                ContentType.success,
                 const Color.fromARGB(255, 15, 152, 20));
           }
         } else {

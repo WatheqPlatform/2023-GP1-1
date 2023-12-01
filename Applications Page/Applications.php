@@ -19,6 +19,7 @@ include('ApplicationsLogic.php');
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script>    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery for AJAX functionality -->
     <script src="ApplicationStatusLogic.js"></script>
+   
 </head>
 <body>
     <div id="Main">
@@ -141,5 +142,6 @@ include('ApplicationsLogic.php');
             </div> 
         </div> 
     </div>
+       
 </body>
 </html>

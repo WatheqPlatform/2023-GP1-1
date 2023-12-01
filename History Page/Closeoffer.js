@@ -3,7 +3,7 @@
 function closeOffer(offerId, jobTitle) {
     var failureMessageElement = document.querySelector(".faliure_wrap p");
 
-    failureMessageElement.textContent = "Are you sure you want to close the offer for '" + jobTitle + "'?";
+    failureMessageElement.textContent = "Are you sure you want to close the offer for '" + jobTitle + "'?\nBy closing this offer, all its pending applications will be rejected";
 
     var modal_wrapper = document.querySelector(".modal_wrapper");
     var failure_wrap = document.querySelector(".faliure_wrap");

@@ -135,10 +135,11 @@ include('HistoryLogic.php');
             <div class="faliure_wrap">
                 <!--Cross icon-->
                 <div class="text_container">
-                    <p> </p>
+                    
+                    <p></p>
 
                     <div class="button_container">
-                        <button class="confirm_button">Confirm</button>
+                        <button class="confirm_button">Close Offer</button>
                         <button class="cancel_button">Cancel</button>
                     </div>
                 </div>

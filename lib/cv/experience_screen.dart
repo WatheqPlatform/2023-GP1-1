@@ -132,12 +132,12 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                   });
                 },
               ),
-              Text('I am still working here'),
+              Text('I am still working in this experience'),
 
             ],
           ),
         ),
-        DateButton(disabled: stillWorking[i].value,removeGutter: true, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month),
+        DateButton(disabled: stillWorking[i].value,removeGutter: true, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month, lastDate: DateTime.now(),),
         InkWell(
           onTap: () {
             setState(() {

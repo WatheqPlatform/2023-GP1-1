@@ -74,7 +74,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
               });
           },
           child: Container(
-            padding: EdgeInsets.fromLTRB(0,10,0,0),
+            
             child: Icon(
               Icons.cancel_outlined,
               color: Colors.red,

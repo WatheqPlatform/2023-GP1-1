@@ -8,20 +8,20 @@ class ConnectedCircles extends StatelessWidget {
 
     final arr =[0,1,2,3,4,5,6];
     return Container(
-      width: 400,
+      width: 334,
       height: 75.0,
       child: Stack(
         children: [
           ...[0,1,2,3,4,5,6].map((e) => Positioned(
             top: 30,
-            left: 20 + e * 56,
-            right: -20 + 56.0 * (4 - e),
+            left: 20 + e * 33,
+            right: -20 + 33.0 * (4 - e),
             child: Container(
                 height: 2.0,
                 color: e > pos -1 ? Colors.grey :Color(0xFF085399)
             ),
           )).toList(),
-          ...arr.map((e) => Positioned(top: 10, left: e * 60, child: CircleWithText(number: (e + 1).toString(), color:  e > pos ? Colors.grey :Color(0xFF085399)))).toList(),
+          ...arr.map((e) => Positioned(top: 10, left: e * 49, child: CircleWithText(number: (e + 1).toString(), color:  e > pos ? Colors.grey :Color(0xFF085399)))).toList(),
 
 
         ],

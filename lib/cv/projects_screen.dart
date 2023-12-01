@@ -210,7 +210,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   vertical: 30,
                   horizontal: 30,
                 ),
-                height: screenHeight * 0.89,
+                height: screenHeight * 0.9,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -265,61 +265,59 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                           ],
                         ),
                       ),
+                      Spacer( ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton.icon(
 
-                      Column(
-                        children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ElevatedButton.icon(
+                              onPressed: () {
+                                widget.onBack();
 
-                                  onPressed: () {
-                                    widget.onBack();
-
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:Color(0xFF9E9E9E),
-                                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    elevation: 5,
-                                  ),
-                                  icon: const Icon(Icons.arrow_back),
-                                  label: const Text('Back'),
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:Color(0xFF9E9E9E),
+                                padding: const EdgeInsets.symmetric(horizontal: 40),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      widget.formController.formData['projects'] = [];
-                                      for (int i = 1; i <= steps; i++) {
-                                        if (projectNameControllers[i].text.isNotEmpty) {
-                                          widget.formController.addProject({
-                                          'ProjectName': projectNameControllers[i].text,
-                                          'Description': descriptionControllers[i].text,
-                                          'Date': datesControllers[i].text,
-                                        });
-                                        }
-                                      }
-                                      widget.onNext();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF085399),
-                                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      elevation: 5,
-                                    ),
-                                    icon: const Icon(Icons
-                                        .arrow_back),
-                                    label: const Text('Next'),
+                                elevation: 5,
+                              ),
+                              icon: const Icon(Icons.arrow_back),
+                              label: const Text('Back'),
+                            ),
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  final beforeList = [...widget.formController.formData.value['projects']];
+                                  widget.formController.formData['projects'] = [];
+                                  for (int i = 1; i <= steps; i++) {
+                                    if (projectNameControllers[i].text.isNotEmpty) {
+                                      widget.formController.addProject({
+                                      'ProjectName': projectNameControllers[i].text,
+                                      'Description': descriptionControllers[i].text,
+                                      'Date': datesControllers[i].text,
+                                      'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null
+                                    });
+                                    }
+                                  }
+                                  widget.onNext();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF085399),
+                                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                )
-                              ]),
-                        ],
-                      ),
+                                  elevation: 5,
+                                ),
+                                icon: const Icon(Icons
+                                    .arrow_back),
+                                label: const Text('Next'),
+                              ),
+                            )
+                          ]),
                     ],
                   ),
                 ),

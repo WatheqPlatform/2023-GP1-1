@@ -285,10 +285,11 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         'field': field,
         'other': other,
         'sDate': sDate,
+        'sDate': sDate,
         'endDate': endDate,
         'uName': uName
       });
-      stillWorking.add(ValueNotifier(endDate == null));
+      stillWorking.add(ValueNotifier(endDate == null || endDate.isEmpty));
       degreeLevelControllers.add(TextEditingController(text: level));
       degreeFieldControllers.add(TextEditingController(text: field));
       otherContrllers.add(TextEditingController(text: other));
@@ -390,7 +391,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   vertical: 30,
                   horizontal: 30,
                 ),
-                height: screenHeight * 0.899,
+                height: screenHeight * 0.9,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -419,7 +420,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                             ),
 
                             SizedBox(
-                                height: screenHeight*0.57,
+                                height: screenHeight*0.58,
                                 child:
                                 ListView(padding: EdgeInsets.zero,children: [...addOrGetCachedSteps(),  Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -447,67 +448,65 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                           ],
                         ),
                       ),
-                      Column(
-                        children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ElevatedButton.icon(
+                      Spacer(),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton.icon(
 
-                                  onPressed: () {
-                                    widget.onBack();
+                              onPressed: () {
+                                widget.onBack();
 
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Color(0xFF9E9E9E),
-                                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    elevation: 5,
-                                  ),
-                                  icon: const Icon(Icons.arrow_back),
-                                  label: const Text('Back'),
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF9E9E9E),
+                                padding: const EdgeInsets.symmetric(horizontal: 40),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: ElevatedButton.icon(
-                                    onPressed: () {
-                                      widget.formController.formData['qualifications'] = [];
-                                        for (int i = 1; i <= steps; i++) {
-                                          if (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'None') {
-                                            widget.formController.addQualification(
-                                                {
-                                                  'workingHere': stillWorking[i].value,
-                                                  'DegreeLevel': degreeLevelControllers[i].text,
-                                                  'Field':   degreeFieldControllers[i].text != 'Select' ?(   degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text : degreeFieldControllers[i].text) : null,
-                                                  'FieldFlag': degreeFieldControllers[i].text == 'other' ? 1 : 0,
-                                                  'StartDate': startDatesController[i].text,
-                                                  'EndDate':  !stillWorking[i].value ? endDatesController[i].text : null,
-                                                  'IssuedBy': universityControllers[i].text
+                                elevation: 5,
+                              ),
+                              icon: const Icon(Icons.arrow_back),
+                              label: const Text('Back'),
+                            ),
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  final beforeList = [...widget.formController.formData.value['qualifications']];
+                                  widget.formController.formData['qualifications'] = [];
+                                    for (int i = 1; i <= steps; i++) {
+                                      if (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'None') {
+                                        widget.formController.addQualification(
+                                            {
+                                              'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
+                                              'workingHere': stillWorking[i].value,
+                                              'DegreeLevel': degreeLevelControllers[i].text,
+                                              'Field':   degreeFieldControllers[i].text != 'Select' ?(   degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text : degreeFieldControllers[i].text) : null,
+                                              'FieldFlag': degreeFieldControllers[i].text == 'other' ? 1 : 0,
+                                              'StartDate': startDatesController[i].text,
+                                              'EndDate':  !stillWorking[i].value ? endDatesController[i].text : null,
+                                              'IssuedBy': universityControllers[i].text
 
-                                                });
-                                          }
-                                        }
-                                        widget.onNext();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF085399),
-                                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      elevation: 5,
-                                    ),
-                                    icon: const Icon(Icons
-                                        .arrow_back),
-                                    label: const Text('Next'),
+                                            });
+                                      }
+                                    }
+                                    widget.onNext();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF085399),
+                                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                )
-                              ]),
-
-                        ],
-                      ),
+                                  elevation: 5,
+                                ),
+                                icon: const Icon(Icons
+                                    .arrow_back),
+                                label: const Text('Next'),
+                              ),
+                            )
+                          ]),
                     ],
                   ),
                 ),

@@ -202,7 +202,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                     vertical: 30,
                     horizontal: 30,
                   ),
-                  height: screenHeight * 0.89,
+                  height: screenHeight * 0.9,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -229,7 +229,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                                   textAlign: TextAlign.center,
                                 ),
                               SizedBox(
-                                  height: screenHeight*0.57,
+                                  height: screenHeight*0.58,
 
                                   child: ListView(
                                     padding: EdgeInsets.zero,
@@ -259,66 +259,61 @@ class _SkillsScreenState extends State<SkillsScreen> {
                           ),
 
                         ),
+                    Spacer(),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
 
-                    Column(
-                          children: [
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
+                          ElevatedButton.icon(
 
-                                  ElevatedButton.icon(
+                            onPressed: () {
+                                widget.onBack();
 
-                                    onPressed: () {
-                                        widget.onBack();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF9E9E9E),
+                              padding: const EdgeInsets.symmetric(horizontal: 40),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 5,
+                            ),
+                            icon: const Icon(Icons.arrow_back),
+                          label: const Text('Back'),
+                          ),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                final beforeList = [...formController.formData.value['skills']];
+                                formController.formData.value['skills'] = [];
+                                for( int i=1;i<=steps;i++) {
+                                  final data = {
+                                    'Description': descriptionControllers[i].text,
+                                    'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null
+                                  };
+                                  print(data);
+                                  if (descriptionControllers[i].text.isNotEmpty) {
+                                    formController.addSkill(data);
+                                  }
 
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFF9E9E9E),
-                                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      elevation: 5,
-                                    ),
-                                    icon: const Icon(Icons.arrow_back),
-                                  label: const Text('Back'),
-                                  ),
-                                  Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: ElevatedButton.icon(
-                                      onPressed: () {
-                                        final beforeList = [...formController.formData.value['skills']];
-                                        formController.formData.value['skills'] = [];
-                                        for( int i=1;i<=steps;i++) {
-                                          final data = {
-                                            'Description': descriptionControllers[i].text,
-                                            'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null
-                                          };
-                                          print(data);
-                                          if (descriptionControllers[i].text.isNotEmpty) {
-                                            formController.addSkill(data);
-                                          }
-
-                                        }
-                                         widget.onNext();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFF085399),
-                                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
-                                        ),
-                                        elevation: 5,
-                                      ),
-                                      icon: const Icon(Icons
-                                          .arrow_back),
-                                      label: const Text('Next'),
-                                    ),
-                                  )
-                                ]),
-
-                          ],
-                        ),
+                                }
+                                 widget.onNext();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF085399),
+                                padding: const EdgeInsets.symmetric(horizontal: 40),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                elevation: 5,
+                              ),
+                              icon: const Icon(Icons
+                                  .arrow_back),
+                              label: const Text('Next'),
+                            ),
+                          )
+                        ]),
 
                       ],
                     ),

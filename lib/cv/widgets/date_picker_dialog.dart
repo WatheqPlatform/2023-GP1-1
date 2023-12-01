@@ -17,6 +17,9 @@ Future<DateTime?> showBookPublishDatePicker(DateTime? lastDate) async {
 Future<DateTime?> showMonthlyYearlyPicker(DateTime? lastDate, MonthYearPickerMode mode) async {
 
   DateTime? selectedDate = await showMonthYearPicker(
+    builder: (BuildContext context, Widget? child) => Theme(
+        data: Theme.of(context).copyWith(materialTapTargetSize: MaterialTapTargetSize.shrinkWrap),
+        child: child!),
     context: Get.context!,
     initialDate: DateTime(DateTime.now().year),
     firstDate: DateTime(1980),

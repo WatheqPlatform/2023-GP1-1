@@ -62,6 +62,7 @@ class RequiredFieldWidget extends StatelessWidget {
             TextFormField(
               keyboardType: keyboardType,
             maxLines: maxLines,
+            maxLength: 50,
             validator: (String? val) {
                 if (keyName == 'phoneNumber') return validatePhone(val);
                 if (keyName == 'contactEmail') return validateEmail(val);
@@ -69,7 +70,7 @@ class RequiredFieldWidget extends StatelessWidget {
                   return validateShortText(val);
                 }
                 if (maxLines == 5) {
-                  return validateLongText(val);
+                  return validateShortText(val);
                 }
                 return null;
             },
@@ -79,6 +80,7 @@ class RequiredFieldWidget extends StatelessWidget {
             controller: controller,
             key: keyName != null ? Key(keyName!) : null,
             decoration: InputDecoration(
+              counterText: '',
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(

@@ -289,7 +289,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         'endDate': endDate,
         'uName': uName
       });
-      stillWorking.add(ValueNotifier(endDate == null));
+      stillWorking.add(ValueNotifier(endDate == null || endDate.isEmpty));
       degreeLevelControllers.add(TextEditingController(text: level));
       degreeFieldControllers.add(TextEditingController(text: field));
       otherContrllers.add(TextEditingController(text: other));
@@ -420,7 +420,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                             ),
 
                             SizedBox(
-                                height: screenHeight*0.6,
+                                height: screenHeight*0.58,
                                 child:
                                 ListView(padding: EdgeInsets.zero,children: [...addOrGetCachedSteps(),  Row(
                                   mainAxisAlignment: MainAxisAlignment.start,

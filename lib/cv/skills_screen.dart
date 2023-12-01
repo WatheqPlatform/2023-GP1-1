@@ -229,7 +229,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                                   textAlign: TextAlign.center,
                                 ),
                               SizedBox(
-                                  height: screenHeight*0.6,
+                                  height: screenHeight*0.58,
 
                                   child: ListView(
                                     padding: EdgeInsets.zero,

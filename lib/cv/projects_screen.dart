@@ -49,7 +49,8 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           hideStar: true,
           controller: projectNameControllers[i],
         ),
-        DateButton(label: 'Completion Date',dateController: datesControllers[i],starColor: Colors.green,), RequiredFieldWidget(
+        DateButton(label: 'Completion Date',dateController: datesControllers[i],starColor: Colors.green,),
+        RequiredFieldWidget(
           label: 'Description',
           keyName: 'description',
           controller: descriptionControllers[i],
@@ -57,6 +58,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           maxLines: 5,
           keyboardType: TextInputType.multiline,
           removeGutter: true,
+          maxLength: 500,
         ),
 
         InkWell(

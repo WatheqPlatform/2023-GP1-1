@@ -200,7 +200,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 ),
                               ),
                               SizedBox(height: 16,),
-                              RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Professional Summary',keyName: 'summary',controller: summaryController,),
+                              RequiredFieldWidget(maxLength: 500, keyboardType: TextInputType.multiline,maxLines: 5, label: 'Professional Summary',keyName: 'summary',controller: summaryController,),
                             ],
                           ),
                         ),

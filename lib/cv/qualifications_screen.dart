@@ -190,12 +190,13 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                 }).toList(),
               ),
               const SizedBox(height: 16,),
+              RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),
               RequiredFieldWidget(label:  degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text == 'High School' ? 'School Name' : 'University Name' , keyName: 'u-name', controller: universityControllers[i], starColor: Colors.green,)
             ],
           ),
         ) ,
         
-        Visibility(visible: (degreeFieldControllers[i].text.isNotEmpty && degreeFieldControllers[i].text == 'other' && degreeLevelControllers[i].text != 'None' && degreeLevelControllers[i].text != 'Pre-high school'),child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),),
+
         Visibility(visible: (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ),child: DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.year,lastDate: DateTime.now(),),),
         Visibility(
           visible: degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ,

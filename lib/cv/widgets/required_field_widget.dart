@@ -11,8 +11,10 @@ class RequiredFieldWidget extends StatelessWidget {
   bool hideStar;
   Color starColor ;
   final TextEditingController controller;
+  final int maxLength;
   bool removeGutter = false;
-  RequiredFieldWidget({super.key, required this.label, this.keyName, required this.controller, this.keyboardType =  TextInputType.text, this.maxLines = 1, this.hideStar = false, this.starColor = Colors.red, this.removeGutter = false});
+
+  RequiredFieldWidget({super.key, required this.label, this.keyName, required this.controller, this.keyboardType =  TextInputType.text, this.maxLines = 1, this.hideStar = false, this.starColor = Colors.red, this.removeGutter = false, this.maxLength = 50});
   String? validatePhone(String? value) {
     if (value == null || value.isEmpty) {
       return null;
@@ -37,8 +39,8 @@ class RequiredFieldWidget extends StatelessWidget {
     if (value == null || value.isEmpty) {
       return null;
     }
-    if (value.length > 50) {
-      return 'Maximum text size is 50 for this field';
+    if (value.length > maxLength) {
+      return 'Maximum text size is ${maxLength} for this field';
     }
     return null;
   }
@@ -62,7 +64,7 @@ class RequiredFieldWidget extends StatelessWidget {
             TextFormField(
               keyboardType: keyboardType,
             maxLines: maxLines,
-            maxLength: 50,
+            maxLength: maxLength,
             validator: (String? val) {
                 if (keyName == 'phoneNumber') return validatePhone(val);
                 if (keyName == 'contactEmail') return validateEmail(val);

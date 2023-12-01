@@ -3,7 +3,7 @@ $(document).ready(function () {
         password=$("#passwordInput").val();
         let isEmpty = false;
 
-        if (password == undefined || password == null || password === "") {
+        if (password === undefined || password === null || password === "") {
             
             isEmpty = true;
         }

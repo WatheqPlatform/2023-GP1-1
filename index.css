@@ -173,17 +173,17 @@ a{
 
 #DiscoverButton {
     border: 0;
-    border-radius: 1.875rem; /* 30px converted to rem */
-    padding: 0.8125rem 4.0625rem; /* 13px 65px converted to rem */
-    margin-left: 4.25rem; /* 68px converted to rem */
-    margin-bottom: 1.875rem; /* 30px converted to rem */
-    margin-top: 1.25rem; /* 20px converted to rem */
-    font-size: 1.0625rem; /* 17px converted to rem */
+    border-radius: calc(1.25rem + 0.2vw); /* More subtle increase */
+    padding: calc(0.64rem + 0.2vw) calc(3.8rem + 0.2vw); /* Reduced initial padding */
+    margin-left: calc(4.1rem + 0.2vw); /* Reduced initial margin-left */
+    margin-bottom: calc(2rem + 0.2vw); /* Reduced initial margin-bottom */
+    margin-top: calc(0.5rem + 0.2vw); /* Reduced initial margin-top */
+    font-size: calc(0.87rem + 0.2vw); /* Reduced initial font size */
     color: white;
     transition: all .4s ease-in-out;
     background-image: linear-gradient(to right, #003884 0%, #2B77BF 51%, #003884 100%);
-    box-shadow: 0 0 0.9375rem #eeeeee3c; /* 15px converted to rem */
-    background-size: 200% auto;
+    box-shadow: 0 0 15px #eeeeee3c;
+    background-size: 200% auto;   
 }
 
 
@@ -201,19 +201,22 @@ a{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     background-color: white;
 }
 
 #WhoWeAreSection h1{
     color: #085399;
+    width:80%;
     text-align: center;
-    font-size: 43px;
+    font-size: calc(2.2rem + 0.5vw);
     padding-top: 50px;
+    margin-bottom: 10px;
 }
  
 #WhoWeAreSection p{
     color: #085399;
-    margin: -9px 11% 10px 11% ;
+    width:80%;
     font-size: 20px;
     text-align: justify;
     line-height: 27px;
@@ -226,14 +229,17 @@ a{
 #FeaturesSection{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     background-color: white;
+    padding-bottom: 160px;
 }
 
 #FeaturesSection h1{
     color: #085399;
     text-align: center;
-    font-size: 2.6875rem;
+    width:80%;
+    font-size: calc(2.2rem + 0.5vw);
     padding-top: 90px;
 }
 
@@ -242,11 +248,12 @@ a{
     display: flex;
     justify-content: space-around; 
     flex-wrap: wrap;
-    margin: -9px 10% 150px 10% ;
+    width:80%;
 }
 
 #Features div{
-    max-width: 310px;
+    max-width: 25%;
+    min-width: 25%;
     background-color: rgb(246, 246, 246);
     color: #085399;
     padding: 20px 35px;
@@ -262,14 +269,14 @@ a{
 
 #Features h2{
     text-align: center;
-    font-size: 25px;
+    font-size: 20px;
     letter-spacing: 1.1px;
 }
 
 #Features p{
     text-align: justify;
     text-align-last: center;
-    font-size: 17px;
+    font-size:  17px;
     line-height: 25px;
     color: #085399;
 }
@@ -337,6 +344,10 @@ footer {
         margin-top: 2px;  
         margin-left: 8.5vw;  
     }
+
+    #Features div{
+        max-width: 80%;
+    }
 }
 
 @media screen and (max-width: 610px) {
@@ -351,6 +362,10 @@ footer {
     #DiscoverButton{
         margin-bottom: 50px;       
     }
+
+    #Features div{
+        max-width: 80%;
+    }
 }
 
 @media screen and (max-width: 580px) {
@@ -364,5 +379,9 @@ footer {
 
     #DiscoverButton{
         margin-bottom: 50px;       
+    }
+
+    #Features div{
+        max-width: 80%;
     }
 }

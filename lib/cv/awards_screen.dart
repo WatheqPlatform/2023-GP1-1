@@ -14,6 +14,7 @@ import '../database_connection/connection.dart';
 import '../error_messages.dart';
 import 'package:http/http.dart' as http;
 import 'controller/form_controller.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class AwardsScreen extends StatefulWidget {
   final isEdit;
@@ -353,28 +354,38 @@ class _AwardsScreenState extends State<AwardsScreen> {
             Row(
               children: [
                 const SizedBox(width: 2),
-                IconButton(
-                  icon: const Icon(
+                AnimatedButton(
+                  pressEvent: () {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.topSlide,
+                      showCloseIcon: true,
+                      title: 'Confirmation',
+                      desc: 'Are you sure you want to cancel?',
+                      btnCancelOnPress: () {
+                        
+                      },
+                      btnOkOnPress: () {
+                            Navigator.of(context).pop();
+                            
+                               },
+                               btnCancelColor: Colors.grey,
+                                  btnOkColor: Colors.red,
+                                  btnCancelText: 'NO',
+                                  btnOkText: 'YES',
+                    )..show();
+                  },
+                      height: 40,
+                  width: 40,
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(5),
+                  child: Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,
                     color: Color.fromARGB(255, 255, 255, 255),
-                  ),
-                  onPressed: () {
-                    showDialog(
-                        context: context,    builder: (BuildContext context) {
-                      return AlertDialog(        title: const Text('Confirmation'),
-                        content: const Text(            'Are you sure you want to cancel?'),
-                        actions: [          TextButton(
-                          onPressed: () {              Navigator.of(context)
-                              .pop();            },
-                          child: const Text('No'),          ),
-                          TextButton(            onPressed: () {
-                            Get.offAll(ProfileScreen(email: widget.email));            },
-                            child: const Text('Yes'),          ),
-                        ],      );
-                    });
-                  },
-                ),
+                  ),          
+                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10, left: 1),
                   child: Text(
@@ -541,6 +552,40 @@ class _AwardsScreenState extends State<AwardsScreen> {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+class AnimatedButton extends StatelessWidget {
+  final VoidCallback pressEvent;
+  final double height;
+  final double width;
+  final Color color;
+  final BorderRadius borderRadius;
+  final Widget child;
+
+  const AnimatedButton({
+    Key? key,
+    required this.pressEvent,
+    required this.height,
+    required this.width,
+    required this.color,
+    required this.borderRadius,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: pressEvent,
+      child: Container(
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: borderRadius,
+        ),
+        child: child,
       ),
     );
   }

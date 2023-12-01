@@ -1,9 +1,6 @@
 $(document).ready(function () {
     $("#SubmitButton").click(function () {
 
-
-
-
 //        // Check if any item in the array is empty
 //        inputValues.forEach(value => {
 //            if (value == undefined || value == null || value === "") {
@@ -11,7 +8,7 @@ $(document).ready(function () {
 //            }
 //        });
 //        
-// Get the field values
+        // Get the field values
         var jobTitle = $("#jobTitle").val();
         var jobDescription = $("#jobDescription").val();
         var jobAddress = $("#jobAddress").val();
@@ -21,10 +18,10 @@ $(document).ready(function () {
         var jobCategories = $("#job-categories").val();
         var jobCity = $("#jobCity").val();
 
-// Create an array to store the missing fields
+        // Create an array to store the missing fields
         var missingFields = [];
 
-// Check each field if it is empty
+        // Check each field if it is empty
         if (jobTitle === "") {
             missingFields.push("Job Title");
         }
@@ -53,7 +50,7 @@ $(document).ready(function () {
             missingFields.push("Maximum Salary");
         }
 
-// Check if any fields are missing
+        // Check if any fields are missing
         if (missingFields.length > 0) {
             if (missingFields.length !== 8) {
 

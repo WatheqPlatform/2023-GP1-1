@@ -199,12 +199,13 @@ body {
 }
 
 #Statstic div{
-    width: 39vh;
-    height: 24.3vh;
+    width: 18.77vw;
+    min-height: 24.3vh;
+    height: auto;
     background-color: rgb(249, 249, 249); 
     color: #085399;
     box-sizing: border-box;
-    padding: 4px 35px 24.3vh 35px;
+    padding: 4px 35px 2px 35px;
     margin: 10px 1px 10px 1px;
     border-radius: 8px;
     transition: transform 0.3s ease-in-out;

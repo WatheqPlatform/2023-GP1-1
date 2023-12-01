@@ -82,7 +82,7 @@ class _DateButtonState extends State<DateButton> {
                     vertical:  0.012,
                   ),
 
-                  child: Center(
+                  child: widget.disabled ? SizedBox(height: 0,): Center(
                     child: Row(
 
                       children: [

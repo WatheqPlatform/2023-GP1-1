@@ -26,7 +26,7 @@ $(document).ready(function () {
 
             // Send the information to PHP File
             $.post("ResetPassword.php", {
-                password: password,
+                password: password
             }, function (data) {
                 if (data === "success") {
                     var modal_wrapper = document.querySelector(".modal_wrapper");

@@ -14,6 +14,8 @@ class FormController extends GetxController {
     'qualifications': [],
     'projects': [],
     'experiences': [],
+    'skills': [],
+    'certificates': [],
   }.obs;
   void reset() {
     formData.value = {'firstName': '',
@@ -27,10 +29,16 @@ class FormController extends GetxController {
     'awards': [],
     'qualifications': [],
     'projects': [],
+      'skills': [],
+      'certificates': [],
     'experiences': []};
   }
   void addAward(Map<String, dynamic> award) {
     formData['awards'].add(award);
+    update();
+  }
+  void addSkill(Map<String, dynamic> a) {
+    formData['skills'].add(a);
     update();
   }
 
@@ -50,6 +58,10 @@ class FormController extends GetxController {
   }
   void updateFormData(Map<String, dynamic> newData) {
     formData.addAll(newData);
+    update();
+  }
+  void addCertificate(Map<String, dynamic> x) {
+    formData['certificates'].add(x);
     update();
   }
   bool isEdit () {

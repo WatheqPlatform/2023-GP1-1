@@ -23,7 +23,8 @@ class DateButton extends StatefulWidget {
   DatePickerButtonMode mode ;
   DateTime? lastDate ;
   bool removeGutter = false;
-   DateButton({Key? key, required this.label, required this.dateController,this.hideStar = false, this.starColor = Colors.red, this.mode = DatePickerButtonMode.day, this.lastDate, this.removeGutter = false}) : super(key: key);
+  bool disabled = false;
+   DateButton({Key? key, required this.label, required this.dateController,this.hideStar = false, this.starColor = Colors.red, this.mode = DatePickerButtonMode.day, this.lastDate, this.removeGutter = false, this.disabled=false}) : super(key: key);
 
   @override
   State<DateButton> createState() => _DateButtonState();
@@ -44,6 +45,9 @@ class _DateButtonState extends State<DateButton> {
             InkWell(
               borderRadius: BorderRadius.circular(14),
               onTap: () async {
+                if (widget.disabled) {
+                  return;
+                }
                 if (widget.mode == DatePickerButtonMode.day) {
                   date = await showBookPublishDatePicker(widget.lastDate);
                 }
@@ -69,14 +73,18 @@ class _DateButtonState extends State<DateButton> {
                   border: Border.all(
                     color: const Color(0xFF14386E),
                   ),
+                  color: widget.disabled ? Colors.grey : Colors.transparent,
+
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal:  8.0,
                     vertical:  0.012,
                   ),
-                  child: Center(
+
+                  child: widget.disabled ? SizedBox(height: 0,): Center(
                     child: Row(
+
                       children: [
                         if (widget.mode == DatePickerButtonMode.year && widget.dateController.text.isNotEmpty) Text(widget.dateController.text.substring(0,4))
                         else if (widget.mode == DatePickerButtonMode.month&& widget.dateController.text.isNotEmpty) Text(widget.dateController.text.substring(0,7))

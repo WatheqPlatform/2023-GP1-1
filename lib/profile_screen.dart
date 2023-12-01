@@ -37,6 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Uri url = Uri.parse('${Connection.getCv}?jobSeekerEmail=${widget.email}');
       var response = await http.get(url);
       var data = json.decode(response.body);
+      print(data);
       if (data['data'] is List) {
       } else {
         formController.formData.value = data['data'];

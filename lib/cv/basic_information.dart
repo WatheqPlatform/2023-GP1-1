@@ -140,7 +140,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     vertical: 30,
                     horizontal: 30,
                   ),
-                  height: screenHeight * 0.89,
+                  height: screenHeight * 0.9,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -153,7 +153,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     children: [
 
                       SizedBox(
-                        height: screenHeight*0.7701,
+                        height: screenHeight*0.73,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
@@ -177,7 +177,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                               RequiredFieldWidget(keyboardType: TextInputType.phone, label: 'Phone Number',keyName: 'phoneNumber',controller: phoneNumberController,),
                               RequiredFieldWidget(label: 'Contact Email',keyName: 'contactEmail',controller: contactEmailController,),
 
-                              RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Summary',keyName: 'summary',controller: summaryController,),
+
                               RequiredFieldLabel(labelText: 'City',),
 
                               if (cities.isNotEmpty) DropdownButtonFormField<Map<String, dynamic>>(
@@ -199,6 +199,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
                                 ),
                               ),
+                              SizedBox(height: 16,),
+                              RequiredFieldWidget( keyboardType: TextInputType.multiline,maxLines: 5, label: 'Professional Summary',keyName: 'summary',controller: summaryController,),
                             ],
                           ),
                         ),

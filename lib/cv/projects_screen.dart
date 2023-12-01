@@ -278,7 +278,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
 
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xFF085399),
+                                    backgroundColor:Color(0xFF9E9E9E),
                                     padding: const EdgeInsets.symmetric(horizontal: 40),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),

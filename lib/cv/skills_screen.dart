@@ -74,7 +74,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
               });
           },
           child: Container(
-            
+
             child: Icon(
               Icons.cancel_outlined,
               color: Colors.red,
@@ -273,7 +273,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
 
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFF085399),
+                                      backgroundColor: Color(0xFF9E9E9E),
                                       padding: const EdgeInsets.symmetric(horizontal: 40),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
@@ -287,11 +287,14 @@ class _SkillsScreenState extends State<SkillsScreen> {
                                     textDirection: TextDirection.rtl,
                                     child: ElevatedButton.icon(
                                       onPressed: () {
+                                        final beforeList = [...formController.formData.value['skills']];
                                         formController.formData.value['skills'] = [];
                                         for( int i=1;i<=steps;i++) {
                                           final data = {
                                             'Description': descriptionControllers[i].text,
+                                            'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null
                                           };
+                                          print(data);
                                           if (descriptionControllers[i].text.isNotEmpty) {
                                             formController.addSkill(data);
                                           }

@@ -19,7 +19,7 @@ class RequiredFieldWidget extends StatelessWidget {
     }
     RegExp pattern = RegExp(r'^05\d{8}$');
     if (value.length != 10 || !value.startsWith(pattern)) {
-      return 'Please enter a valid Saudi Number';
+      return 'Please enter a valid saudi number';
     }
     return null;
   }
@@ -38,7 +38,7 @@ class RequiredFieldWidget extends StatelessWidget {
       return null;
     }
     if (value.length > 50) {
-      return 'Maximum Text size is 50 for this field';
+      return 'Maximum text size is 50 for this field';
     }
     return null;
   }
@@ -47,7 +47,7 @@ class RequiredFieldWidget extends StatelessWidget {
       return null;
     }
     if (value.length > 500) {
-      return 'Maximum Text size is 500 for this field';
+      return 'Maximum text size is 500 for this field';
     }
     return null;
   }

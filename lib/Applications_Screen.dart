@@ -363,13 +363,6 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                                       OffersScreen(email: widget.email),
                                 ),
                               );
-                            } else if (index == 1) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      ApplicationsScreen(email: widget.email),
-                                ),
-                              );
                             } else if (index == 2) {
                               Navigator.of(context).push(
                                 MaterialPageRoute(

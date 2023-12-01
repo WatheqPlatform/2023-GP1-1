@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +22,43 @@ class JobOfferDetailScreen extends StatefulWidget {
   @override
   State<JobOfferDetailScreen> createState() => _StateJobOfferDetailScreen();
 }
+class AnimatedButton extends StatelessWidget {
+  final VoidCallback pressEvent;
+  final double height;
+  final double width;
+  final Color color;
+  final BorderRadius borderRadius;
+  final Color borderColor;
+  final Widget child;
 
+  const AnimatedButton({
+    Key? key,
+    required this.pressEvent,
+    required this.height,
+    required this.width,
+    required this.color,
+    required this.borderRadius,
+    required this.borderColor,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: pressEvent,
+      child: Container(
+        height: height,
+        width: width,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: borderRadius,
+          border: Border.all(color: borderColor),
+        ),
+        child: child,
+      ),
+    );
+  }
+}
 class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
   List offerDetails = [];
 
@@ -110,7 +147,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                 "Success",
                 18,
                 "You have successfully applied to the job offer.",
-                ContentType.success,
+                ContentType.failure,
                 const Color.fromARGB(255, 15, 152, 20));
           }
         } else {
@@ -860,88 +897,46 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                   ),
                                 ),
                               ] else if (!isAccepted) ...[
-                                OutlinedButton(
-                                  onPressed: () {
-                                    showDialog<void>(
-                                      context: context,
-                                      barrierDismissible: false,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text(
-                                            'Cancel Application',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color(0xFF14386E),
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          content: const SingleChildScrollView(
-                                            child: ListBody(
-                                              children: <Widget>[
-                                                Text(
-                                                  'Are you sure you want to cancel your application?',
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    color: Color(0xFF14386E),
-                                                    letterSpacing: 1.15,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              child: const Text(
-                                                'No',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Color(0xFF14386E),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .pop(); // Close the dialog
-                                              },
-                                            ),
-                                            TextButton(
-                                              child: const Text(
-                                                'Yes',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: Color(0xFF14386E),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                cancelApplication();
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
+                                AnimatedButton(
+                                pressEvent: () {
+                                AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.error, 
+                                 animType: AnimType.topSlide,
+                                 showCloseIcon: true,
+                                 title:"Cancel Application" ,
+                                 
+                              desc: 'Are you sure you want to cancel your application?',
+                              btnCancelOnPress: () {
+                                     
                                   },
-                                  style: OutlinedButton.styleFrom(
-                                    side: const BorderSide(
-                                      width: 1.5,
-                                      color: Color.fromARGB(255, 209, 24, 24),
-                                    ),
-                                    fixedSize: Size(screenWidth * 0.93,
-                                        screenHeight * 0.052),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    "Cancel Application",
-                                    style: TextStyle(
+                                  
+                             btnOkOnPress: () {
+                            cancelApplication();
+                            
+                               },
+                                btnCancelColor: Colors.grey,
+                                  btnOkColor: Colors.red,
+                                  btnCancelText: 'NO',
+                                  btnOkText: 'YES',
+                              ).show();
+                            },
+                            height: screenHeight * 0.052,
+                            width: screenWidth * 0.93,
+                           color: Colors.transparent,
+                           borderRadius: BorderRadius.circular(15),
+                          borderColor: Color.fromARGB(255, 209, 24, 24),
+                         child: Center(
+                          child: Text(
+                           "Cancel Application",
+                              style: TextStyle(
                                       fontSize: 18,
-                                      color: Color.fromARGB(255, 209, 24, 24),
-                                    ),
-                                  ),
-                                ),
+                           color: Color.fromARGB(255, 209, 24, 24),
+      ),
+    ),
+  ),
+),
+
                                 const SizedBox(height: 10),
                                 OutlinedButton(
                                   onPressed: () {

@@ -227,7 +227,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                     vertical: 30,
                     horizontal: 30,
                   ),
-                  height: screenHeight * 0.96,
+                  height: screenHeight * 0.9,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -273,7 +273,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                                             child: const Icon(
                                               Icons.add_circle_outline,
                                               color: Color(0xFF085399),
-                                              
+
                                             ),
                                           ),
                                         )
@@ -283,67 +283,65 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                           ),
 
                         ),
+                        Spacer( ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
 
-                    Column(
-                          children: [
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
+                          ElevatedButton.icon(
 
-                                  ElevatedButton.icon(
+                            onPressed: () {
+                                widget.onBack();
 
-                                    onPressed: () {
-                                        widget.onBack();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:Color(0xFF9E9E9E),
+                              padding: const EdgeInsets.symmetric(horizontal: 40),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              elevation: 5,
+                            ),
+                            icon: const Icon(Icons.arrow_back),
+                          label: const Text('Back'),
+                          ),
+                          Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                widget.formKey.currentState!.save();
+                                final beforeList = [...formController.formData.value['certificates']];
+                                formController.formData.value['certificates'] = [];
 
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:Color(0xFF9E9E9E),
-                                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      elevation: 5,
-                                    ),
-                                    icon: const Icon(Icons.arrow_back),
-                                  label: const Text('Back'),
-                                  ),
-                                  Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: ElevatedButton.icon(
-                                      onPressed: () {
-                                        widget.formKey.currentState!.save();
-                                        formController.formData.value['certificates'] = [];
-                                        for( int i=1;i<=steps;i++) {
+                                for( int i=1;i<=steps;i++) {
 
-                                          final data = {
-                                            'certificateName': certificateNameControllers[i].text,
-                                            'issuedBy': issuedByControllers[i].text,
-                                            'date': datesController[i].text
-                                          };
-                                          if (certificateNameControllers[i].text.isNotEmpty) {
-                                            formController.addCertificate(data);
-                                          }
+                                  final data = {
+                                    'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
+                                    'certificateName': certificateNameControllers[i].text,
+                                    'issuedBy': issuedByControllers[i].text,
+                                    'date': datesController[i].text
+                                  };
+                                  if (certificateNameControllers[i].text.isNotEmpty) {
+                                    formController.addCertificate(data);
+                                  }
 
-                                        }
-                                         widget.onNext();
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFF085399),
-                                        padding: const EdgeInsets.symmetric(horizontal: 40),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
-                                        ),
-                                        elevation: 5,
-                                      ),
-                                      icon: const Icon(Icons
-                                          .arrow_back),
-                                      label: const Text('Next'),
-                                    ),
-                                  )
-                                ]),
-
-                          ],
-                        ),
+                                }
+                                 widget.onNext();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF085399),
+                                padding: const EdgeInsets.symmetric(horizontal: 40),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                elevation: 5,
+                              ),
+                              icon: const Icon(Icons
+                                  .arrow_back),
+                              label: const Text('Next'),
+                            ),
+                          )
+                        ]),
 
                       ],
                     ),

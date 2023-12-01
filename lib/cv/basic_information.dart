@@ -151,25 +151,25 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     key: widget.formKey,
                     child: Column(
                     children: [
-
+                      Center(
+                        child: ConnectedCircles(pos: 0,),
+                      ),
+                      Center(
+                        child: const Text(
+                          'Personal Information',
+                          style: TextStyle(
+                              fontSize: 25,
+                              color:Color(0xFF085399),
+                              fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                       SizedBox(
-                        height: screenHeight*0.73,
+                        height: screenHeight*0.63,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              Center(
-                                child: ConnectedCircles(pos: 0,),
-                              ),
-                              Center(
-                                child: const Text(
-                                  'Personal Information',
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      color:Color(0xFF085399),
-                                      fontWeight: FontWeight.w500),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
+
 
 
                               RequiredFieldWidget(label: 'First Name',keyName: 'firstName',controller: firstNameController,),
@@ -206,7 +206,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                         ),
                       ),
 
-
+                    Spacer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [

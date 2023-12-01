@@ -400,7 +400,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     vertical: 30,
                     horizontal: 30,
                   ),
-                  height: screenHeight * 0.96,
+                  height: screenHeight * 0.9,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -456,7 +456,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                           ),
 
                         ),
-
+                        Spacer( ),
                     Column(
                           children: [
                             Row(
@@ -484,9 +484,12 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                     textDirection: TextDirection.rtl,
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        final beforeList = [...formController.formData.value['awards']];
                                         formController.formData.value['awards'] = [];
+
                                         for( int i=1;i<=steps;i++) {
                                           final data = {
+                                            'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
                                             'awardName': awardNameControllers[i]
                                                 .text,
                                             'issuedBy': issuedByControllers[i]

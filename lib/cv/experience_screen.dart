@@ -326,7 +326,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                   vertical: 30,
                   horizontal: 30,
                 ),
-                height: screenHeight * 0.89,
+                height: screenHeight * 0.9,
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -383,7 +383,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                           ],
                         ),
                       ),
-
+                      Spacer( ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -408,10 +408,13 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                               textDirection: TextDirection.rtl,
                               child: ElevatedButton.icon(
                                 onPressed: () {
+                                  final beforeList = [...widget.formController.formData.value['experiences']];
                                   widget.formController.formData['experiences'] = [];
+
                                   for (int i = 1; i <= steps; i++) {
                                     if (experienceIndustryControllers[i].text.isNotEmpty && experienceIndustryControllers[i].text != 'None') {
                                       widget.formController.addExperience({
+                                        'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
                                         'workingHere': stillWorking[i].value,
                                         'CategoryID': fieldsWithId.where((element) => element['CategoryName'] == experienceIndustryControllers[i].text).first['CategoryID'],
                                         'JobTitle': jobTitleControllers[i].text,

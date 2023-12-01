@@ -88,7 +88,7 @@ include('HistoryLogic.php');
                                 echo "<div id='FirstPart'>";
                                 echo "<p id='Title'>Job Title</p>";
                                 echo "<p id='JobTitle'>{$offer['JobTitle']}</p>";
-                                echo "<p><a href='../Applications Page/Applications.php?ID=" . $offer["OfferID"] . "&JobTitle=" . $offer["JobTitle"] . "'>View Applications <i class='fa-solid fa-arrow-right'></i></a></p>";
+                                echo "<p><a href='../Applications Page/Applications.php?ID=" . $offer["OfferID"] . "&JobTitle=" . $offer["JobTitle"] . "&Status=" . $offer["Status"] .  "'>View Applications <i class='fa-solid fa-arrow-right'></i></a></p>";
                                 echo "</div>";
 
                                 echo "<div id='SecondPart'>";

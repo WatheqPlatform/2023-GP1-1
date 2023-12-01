@@ -326,9 +326,16 @@ footer {
 @media screen and (max-width: 700px) {
      /*Centralize header*/
      #header {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        margin-left: 45px;
+    }
+
+    #SignUpButton{
+        display:none ;
+    }
+
+    
+    #SignInButton{
+        margin-left: 20px;
     }
 
     img{
@@ -337,12 +344,13 @@ footer {
 
     #PhraseImage{
         margin-top: 40px;
+        margin-left: -20px;
     }
 
     #DiscoverButton{
         margin-bottom: 50px;   
         margin-top: 2px;  
-        margin-left: 8.5vw;  
+        margin-left: 3vw;  
     }
 
     #Features div{

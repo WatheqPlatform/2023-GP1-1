@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
 
         // Separate job offers based on their status
         if ($status === "Active") {
-            $availableOffers[] = array("OfferID" => $offerID, "JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status, "Date" => $Date);
+            $availableOffers[] = array("OfferID" => $offerID, "JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status, "Date" => $Date );
         } elseif ($status === "Closed") {
             $closedOffers[] = array("OfferID" => $offerID, "JobTitle" => $jobTitle, "JobDescription" => $jobDescription, "Status" => $status,"Date" => $Date );
         }

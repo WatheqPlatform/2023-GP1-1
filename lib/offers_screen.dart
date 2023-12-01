@@ -1265,14 +1265,7 @@ class _OffersScreenState extends State<OffersScreen> {
                                   index; // Update the selected index
                             },
                           );
-                          if (index == 0) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    OffersScreen(email: widget.email),
-                              ),
-                            );
-                          } else if (index == 1) {
+                          if (index == 1) {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) =>

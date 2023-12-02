@@ -41,7 +41,7 @@ $TotalApplications =0;
 // SQL query
 $sqlTotal = "SELECT COUNT(a.ApplicationID) AS TotalApplications
         FROM Application a
-        JOIN joboffer j ON j.JPEmail = '$email' AND j.OfferID = a.OfferID";
+        JOIN joboffer j ON j.JPEmail = '$email' AND j.OfferID = a.OfferID WHERE a.status != 'Cancelled'";
 
 // Execute the query
 $result = $conn->query($sqlTotal);

@@ -7,7 +7,6 @@ $(document).ready(function () {
         if (password === undefined || password === null || password === "") {  
             isEmpty = true;
         }
-        alert(token);
         if (isEmpty) {
             var modal_wrapper = document.querySelector(".modal_wrapper");
             var faliure_wrap = document.querySelector(".faliure_wrap");

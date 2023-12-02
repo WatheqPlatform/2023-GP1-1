@@ -230,7 +230,7 @@ $result3 = $conn->query($query);
                                     </div>
                                     <div class="input_wrap">
                                         <label for="workingHours">Working Hours Per Day</label> 
-                                        <input type="number" name="workingHours" class="input" id="workingHours" onkeyup="validateNumericInput(this, '3')">
+                                        <input type="number" name="workingHours" class="input" id="workingHours" onkeyup="validateNumericInput(this, '3')" max="24">
                                         <span id="warningMessage3">Please enter a valid number</span>
                                     </div>
                                     <div class="input_wrap checklist">

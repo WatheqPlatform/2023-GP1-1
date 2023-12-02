@@ -10,8 +10,8 @@ function validateNumericInput(input, num) {
     } else {
         warningMessage.style.display = "none";
     }
-
-    if (maxSalary!=="" && minSalary!=="" && maxSalary < minSalary)
+    
+if (maxSalary!=="" && minSalary!=="" && parseFloat(maxSalary) < parseFloat(minSalary))
 
     {
         WarningMax.style.display = "block";

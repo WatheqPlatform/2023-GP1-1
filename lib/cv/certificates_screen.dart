@@ -383,9 +383,13 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                                               issuedByControllers[i].text,
                                           'date': datesController[i].text
                                         };
-                                        if (certificateNameControllers[i]
-                                            .text
-                                            .isNotEmpty) {
+                                        List<String> reqs = [
+                                          certificateNameControllers[i].text,
+                                          issuedByControllers[i].text,
+                                          datesController[i].text
+                                        ];
+                                        if (reqs.any(
+                                            (element) => element.isNotEmpty)) {
                                           formController.addCertificate(data);
                                         }
                                       }

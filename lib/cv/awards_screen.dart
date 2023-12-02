@@ -133,6 +133,9 @@ class _AwardsScreenState extends State<AwardsScreen> {
       }
     }
     if (data['experiences'] != null && data['experiences'] is List) {
+      final messages = {
+        'CategoryID': 'Industry',
+      };
       for (Map<String, dynamic> experience in data['experiences']) {
         List<String> requiredFieldsExperience = [
           'CategoryID',
@@ -220,8 +223,8 @@ class _AwardsScreenState extends State<AwardsScreen> {
         },
       );
       String jsonString = json.encode(body);
-      print(jsonString);
-      var response = await http.post(
+
+      await http.post(
         Uri.parse(Connection.createCv),
         headers: {
           'Content-Type': 'application/json',

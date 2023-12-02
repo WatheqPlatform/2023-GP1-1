@@ -5,28 +5,15 @@ import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq/offer_details_screen.dart';
 import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import '../profile_screen.dart';
 import 'controller/form_controller.dart';
 
 class BasicInformationScreen extends StatefulWidget {
-  final isEdit;
-  final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
-  final email;
-  final goToPage;
-  BasicInformationScreen(
-      {super.key,
-      required this.isEdit,
-      required this.formKey,
-      required this.onNext,
-      required this.email,
-      required this.goToPage});
-  final FormController formController =
-      Get.put(FormController(), tag: 'form-control');
+  late final String email;
+  BasicInformationScreen({super.key, required this.onNext, required this.email});
+  final FormController formController = Get.put(FormController(), tag: 'form-control');
   @override
   State<BasicInformationScreen> createState() => _BasicInformationScreenState();
 }
@@ -68,12 +55,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int currentStep = 0;
-    String firstName = "",
-        lastName = "",
-        phoneNumber = "",
-        contactEmail = "",
-        summary = "";
+    String firstName = "", lastName = "", phoneNumber = "", contactEmail = "", summary = "";
     firstName = widget.formController.formData['firstName'] ?? '';
     lastName = widget.formController.formData['lastName'] ?? '';
     phoneNumber =
@@ -130,6 +112,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                   width: 40,
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
+                  child: const Icon(
                   child: const Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,

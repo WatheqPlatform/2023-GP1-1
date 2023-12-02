@@ -8,25 +8,14 @@ import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import '../profile_screen.dart';
 import 'controller/form_controller.dart';
 
 class QualificationsScreen extends StatefulWidget {
-  final isEdit;
-  final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
   final VoidCallback onBack;
-  final email;
-  final goToPage;
-  QualificationsScreen(
-      {super.key,
-      required this.isEdit,
-      required this.formKey,
-      required this.onNext,
-      required this.onBack,
-      required this.email,
-      required this.goToPage});
-  final FormController formController = Get.find(tag: 'form-control');
+  final String email;
+  QualificationsScreen({super.key, required this.onNext, required this.onBack, required this.email,});
+  final FormController formController = Get.find( tag: 'form-control' );
   @override
   _QualificationsScreenState createState() => _QualificationsScreenState();
 }
@@ -100,10 +89,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (i != 1)
-          SizedBox(
-            height: 40,
-          ),
+        if (i != 1) const SizedBox(height: 40,),
         Text(
           'Qualification $j',
           style: const TextStyle(
@@ -337,8 +323,8 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     stillWorking = [ValueNotifier(true)];
     List<Widget> l = [];
     for (int i = 1; i <= steps; i++) {
-      String? level, field, other = "", sDate = "", endDate = "", uName = "";
-      print(widget.formController.formData['qualifications']);
+      String? level, field, other = "", sDate = "", endDate ="", uName = "";
+
       if (widget.formController.formData['qualifications'].length >= i) {
         level = widget.formController.formData['qualifications'][i - 1]
             ['DegreeLevel'];
@@ -359,15 +345,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           field = 'other';
         }
       }
-      print({
-        'level': level,
-        'field': field,
-        'other': other,
-        'sDate': sDate,
-        'sDate': sDate,
-        'endDate': endDate,
-        'uName': uName
-      });
       stillWorking.add(ValueNotifier(endDate == null));
       degreeLevelControllers.add(TextEditingController(text: level));
       degreeFieldControllers.add(TextEditingController(text: field));
@@ -454,6 +431,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   width: 40,
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
+                  child: const Icon(
                   child: const Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,
@@ -599,6 +577,31 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                             child: Expanded(
                               child: ElevatedButton.icon(
                                 onPressed: () {
+                                  final beforeList = [...widget.formController.formData.value['qualifications']];
+                                  widget.formController.formData['qualifications'] = [];
+                                    for (int i = 1; i <= steps; i++) {
+                                      List <String> requiredFields = [
+                                        universityControllers[i].text,
+                                        degreeLevelControllers[i].text,
+                                        degreeFieldControllers[i].text,
+                                        startDatesController[i].text
+                                      ];
+                                      if (requiredFields.any((e) => e.isNotEmpty) && degreeLevelControllers[i].text != 'None') {
+                                        widget.formController.addQualification(
+                                            {
+                                              'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
+                                              'workingHere': stillWorking[i].value,
+                                              'DegreeLevel': degreeLevelControllers[i].text,
+                                              'Field':   degreeFieldControllers[i].text != 'Select' ?(   degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text : degreeFieldControllers[i].text) : null,
+                                              'FieldFlag': degreeFieldControllers[i].text == 'other' ? 1 : 0,
+                                              'StartDate': startDatesController[i].text,
+                                              'EndDate':  !stillWorking[i].value ? endDatesController[i].text : null,
+                                              'IssuedBy': universityControllers[i].text
+
+                                            });
+                                      }
+                                    }
+                                    widget.onNext();
                                   final beforeList = [
                                     ...widget.formController.formData
                                         .value['qualifications']

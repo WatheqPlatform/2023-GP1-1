@@ -55,13 +55,13 @@ class _MultiStepFormState extends State<MultiStepForm> {
           });
         },
         children: [
-          BasicInformationScreen(goToPage: goToPage, formKey: _formKeys[0],onNext: () => _pageController.nextPage(
-              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,email : widget.email),
-          SkillsScreen(goToPage: goToPage,onNext: () => _pageController.nextPage(
-              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null, onBack: () => _pageController.previousPage(
+          BasicInformationScreen(onNext: () => _pageController.nextPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease),email : widget.email),
+          SkillsScreen(onNext: () => _pageController.nextPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease), onBack: () => _pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
-          QualificationsScreen(goToPage: goToPage,formKey: _formKeys[2],onNext: () => _pageController.nextPage(
-              duration: const Duration(milliseconds: 500), curve: Curves.ease), isEdit: null,  onBack: () => _pageController.previousPage(
+          QualificationsScreen(onNext: () => _pageController.nextPage(
+              duration: const Duration(milliseconds: 500), curve: Curves.ease), onBack: () => _pageController.previousPage(
               duration: const Duration(milliseconds: 500), curve: Curves.ease),email:widget.email),
           ExperiencesScreen(goToPage: goToPage,email: widget.email, onBack: () => _pageController.previousPage(
             duration: const Duration(milliseconds: 500), curve:  Curves.ease,),  onNext: () => _pageController.nextPage(

@@ -67,8 +67,8 @@ Before you begin, ensure you have met the following requirements:
    cd 2023-GP1-1
    ```
 3.  **Backend Setup**:
-   - Configure your PHP environment to serve the backend.
-   - Install the database
+    - Configure your PHP environment to serve the backend.
+    - Install the database
      
 4. **Frontend Setup**:
     - Set up your development environment
@@ -77,7 +77,7 @@ Before you begin, ensure you have met the following requirements:
 6. **Run the website**:
    - Run the website using your development environment 
      
-  Or simply skip the previous steps and open a web browser and go to **https://watheqplatform.com/index.php.**
+- Or simply skip the previous steps and open a web browser and go to **https://watheqplatform.com/index.php.** to browse the website 
 
 
 

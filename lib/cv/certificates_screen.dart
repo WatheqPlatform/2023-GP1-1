@@ -1,11 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:watheq/cv/widgets/circles_bar.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
-import 'package:watheq/profile_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'controller/form_controller.dart';
 
@@ -21,7 +18,10 @@ class CertificatesScreen extends StatefulWidget {
       {super.key,
       required this.isEdit,
       required this.formKey,
-      required this.onNext, required this.onBack, required this.email, required this.goToPage});
+      required this.onNext,
+      required this.onBack,
+      required this.email,
+      required this.goToPage});
 
   @override
   _CertificatesScreenState createState() => _CertificatesScreenState();
@@ -31,41 +31,58 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
   @override
   void initState() {
     super.initState();
-    steps = formController.formData['certificates'].length> 0 ? formController.formData['certificates'].length :  1;
+    steps = formController.formData['certificates'].length > 0
+        ? formController.formData['certificates'].length
+        : 1;
     MAX_STEPS = steps;
     lastSteps = steps;
     cachedSteps = buildsteps();
   }
-  final FormController formController = Get.find<FormController>(tag: 'form-control');
-  List<TextEditingController> certificateNameControllers=[TextEditingController()];
-  List<TextEditingController> issuedByControllers=[TextEditingController()];
-  List<TextEditingController> datesController=[TextEditingController()];
+
+  final FormController formController =
+      Get.find<FormController>(tag: 'form-control');
+  List<TextEditingController> certificateNameControllers = [
+    TextEditingController()
+  ];
+  List<TextEditingController> issuedByControllers = [TextEditingController()];
+  List<TextEditingController> datesController = [TextEditingController()];
   late int steps = -1;
   int MAX_STEPS = 0;
   late int lastSteps = -1;
 
   List<Widget> cachedSteps = [];
 
-  Widget buildStepItem (int i, int? j) {
+  Widget buildStepItem(int i, int? j) {
     j ??= i;
     return Column(
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (i != 1) SizedBox(height: 40,),
+        if (i != 1)
+          SizedBox(
+            height: 40,
+          ),
         Text(
           'Certificate $j',
           style: const TextStyle(
-              color: Color(0xFF085399), fontWeight: FontWeight.bold),
+              color: Color(0xFF085399),
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 7,
+        ),
         RequiredFieldWidget(
           label: 'Certificate Name',
           controller: certificateNameControllers[i],
           hideStar: true,
         ),
-
-        DateButton(label: 'Date',dateController: datesController[i], starColor: Colors.green,lastDate: DateTime.now(),),
+        DateButton(
+          label: 'Date',
+          dateController: datesController[i],
+          starColor: Colors.green,
+          lastDate: DateTime.now(),
+        ),
         RequiredFieldWidget(
           label: 'Issued By',
           controller: issuedByControllers[i],
@@ -74,37 +91,37 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
         ),
         InkWell(
           onTap: () {
-              setState(() {
-                if (i == 1) {
-                  datesController[i].text = "";
-                  issuedByControllers[i].text ="";
-                  certificateNameControllers[i].text="";
-                  cachedSteps[i-1] = buildStepItem(i, i);
-                  return;
-                }
-                selectedIndex = i;
-                steps--;
-              });
+            setState(() {
+              if (i == 1) {
+                datesController[i].text = "";
+                issuedByControllers[i].text = "";
+                certificateNameControllers[i].text = "";
+                cachedSteps[i - 1] = buildStepItem(i, i);
+                return;
+              }
+              selectedIndex = i;
+              steps--;
+            });
           },
           child: Container(
-            padding: EdgeInsets.fromLTRB(0,10,0,0),
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Icon(
               Icons.cancel_outlined,
               color: Colors.red,
             ),
           ),
         )
-
       ],
     );
   }
+
   List<Widget> buildsteps() {
     if (steps == -1) {
       return [];
     }
-    certificateNameControllers=[TextEditingController()];
-    issuedByControllers=[TextEditingController()];
-    datesController=[TextEditingController()];
+    certificateNameControllers = [TextEditingController()];
+    issuedByControllers = [TextEditingController()];
+    datesController = [TextEditingController()];
     List<Widget> l = [];
     final x = formController.formData.value['certificates'];
 
@@ -112,15 +129,13 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
       String? awardName, issuedBy, date;
 
       if (x.length >= i) {
-        awardName = x[i-1]['certificateName'];
-        issuedBy = x[i-1]['issuedBy'];
-        date = x[i-1]['date'];
+        awardName = x[i - 1]['certificateName'];
+        issuedBy = x[i - 1]['issuedBy'];
+        date = x[i - 1]['date'];
         certificateNameControllers.add(TextEditingController(text: awardName));
         issuedByControllers.add(TextEditingController(text: issuedBy));
         datesController.add(TextEditingController(text: date));
-      }
-      else {
-
+      } else {
         certificateNameControllers.add(TextEditingController());
         issuedByControllers.add(TextEditingController());
         datesController.add(TextEditingController());
@@ -130,18 +145,20 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
     }
     return l;
   }
+
   int selectedIndex = 0;
   void removeWidget(int i) {
     for (int j = 0; j < cachedSteps.length; j++) {
-      if (cachedSteps[j].key == Key(i.toString())){
-        certificateNameControllers.removeAt(j+1);
-        issuedByControllers.removeAt(j+1);
-        datesController.removeAt(j+1);
+      if (cachedSteps[j].key == Key(i.toString())) {
+        certificateNameControllers.removeAt(j + 1);
+        issuedByControllers.removeAt(j + 1);
+        datesController.removeAt(j + 1);
         cachedSteps.removeAt(j);
         return;
       }
     }
   }
+
   List<Widget> addOrGetCachedSteps() {
     if (lastSteps == steps) return cachedSteps;
 
@@ -150,17 +167,15 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
       certificateNameControllers.add(TextEditingController());
       issuedByControllers.add(TextEditingController());
       datesController.add(TextEditingController());
-      cachedSteps.add(
-          buildStepItem(steps, MAX_STEPS)
-      );
+      cachedSteps.add(buildStepItem(steps, MAX_STEPS));
 
       return cachedSteps;
     }
     lastSteps = steps;
     removeWidget(selectedIndex);
     return cachedSteps;
-
   }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -188,34 +203,32 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                       animType: AnimType.topSlide,
                       showCloseIcon: true,
                       title: 'Confirmation',
-                      desc: 'Are you sure you want to cancel?',
-                      btnCancelOnPress: () {
-                        
-                      },
+                      desc:
+                          'Are you sure you want to cancel? \n Your actions will not be saved.',
+                      btnCancelOnPress: () {},
                       btnOkOnPress: () {
-                            Navigator.of(context).pop();
-                            
-                               },
-                               btnCancelColor: Colors.grey,
-                                  btnOkColor: Colors.red,
-                                  btnCancelText: 'NO',
-                                  btnOkText: 'YES',
+                        Navigator.of(context).pop();
+                      },
+                      btnCancelColor: Colors.grey,
+                      btnOkColor: Colors.red,
+                      btnCancelText: 'NO',
+                      btnOkText: 'YES',
                     )..show();
                   },
-                      height: 40,
+                  height: 40,
                   width: 40,
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,
                     color: Color.fromARGB(255, 255, 255, 255),
-                  ),          
-                 ),
+                  ),
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 1),
+                  padding: const EdgeInsets.only(top: 1, left: 1),
                   child: Text(
-                      formController.isEdit() ? "Edit CV" : "Create CV",
+                    formController.isEdit() ? "Edit CV" : "Create CV",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -223,7 +236,6 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                     ),
                   ),
                 ),
-
               ],
             ),
             const SizedBox(
@@ -249,110 +261,158 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
                         Container(
                           height: screenHeight * 0.73,
                           child: Column(
                             children: [
-                              ConnectedCircles(pos: 5,),
-                              Center(
-                                child: const Text(
+                              ConnectedCircles(
+                                pos: 5,
+                              ),
+                              const Center(
+                                child: Text(
                                   'Certificates',
                                   style: TextStyle(
                                       fontSize: 25,
-                                      color:Color(0xFF085399),
+                                      color: Color(0xFF085399),
                                       fontWeight: FontWeight.w500),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              SizedBox(
-                                  height: screenHeight*0.57,
-                                  child: ListView(padding: EdgeInsets.zero,children: [...addOrGetCachedSteps(), Row(
-
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-
-                                        InkWell(
-                                          onTap: () {
-                                            steps++;
-                                            MAX_STEPS++;
-                                            setState(() {});
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.fromLTRB(0,10,0,0),
-                                            child: const Icon(
-                                              Icons.add_circle_outline,
-                                              color: Color(0xFF085399),
-
-                                            ),
-                                          ),
-                                        )
-                                      ]),
-                                  ])),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "* Fill all fields to add award",
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                    height: screenHeight * 0.57,
+                                    child: ListView(
+                                        padding: EdgeInsets.zero,
+                                        children: [
+                                          ...addOrGetCachedSteps(),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    steps++;
+                                                    MAX_STEPS++;
+                                                    setState(() {});
+                                                  },
+                                                  child: Container(
+                                                    padding: const EdgeInsets
+                                                        .fromLTRB(0, 10, 0, 0),
+                                                    child: const Icon(
+                                                      Icons.add_circle_outline,
+                                                      color: Color(0xFF085399),
+                                                    ),
+                                                  ),
+                                                )
+                                              ]),
+                                        ])),
+                              ),
                             ],
                           ),
-
                         ),
-                        Spacer( ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-
-                          ElevatedButton.icon(
-
-                            onPressed: () {
-                                widget.onBack();
-
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:Color(0xFF9E9E9E),
-                              padding: const EdgeInsets.symmetric(horizontal: 40),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              elevation: 5,
-                            ),
-                            icon: const Icon(Icons.arrow_back),
-                          label: const Text('Back'),
-                          ),
-                          Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: ElevatedButton.icon(
-                              onPressed: () {
-                                widget.formKey.currentState!.save();
-                                final beforeList = [...formController.formData.value['certificates']];
-                                formController.formData.value['certificates'] = [];
-
-                                for( int i=1;i<=steps;i++) {
-
-                                  final data = {
-                                    'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
-                                    'certificateName': certificateNameControllers[i].text,
-                                    'issuedBy': issuedByControllers[i].text,
-                                    'date': datesController[i].text
-                                  };
-                                  if (certificateNameControllers[i].text.isNotEmpty) {
-                                    formController.addCertificate(data);
-                                  }
-
-                                }
-                                 widget.onNext();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF085399),
-                                padding: const EdgeInsets.symmetric(horizontal: 40),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    widget.onBack();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF9E9E9E),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 40),
+                                    fixedSize: Size(screenWidth * 0.44,
+                                        screenHeight * 0.05),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 5,
+                                  ),
+                                  icon: const Icon(Icons.arrow_back),
+                                  label: const Text(
+                                    'Back',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 ),
-                                elevation: 5,
                               ),
-                              icon: const Icon(Icons
-                                  .arrow_back),
-                              label: const Text('Next'),
-                            ),
-                          )
-                        ]),
+                              SizedBox(width: 10),
+                              Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: Expanded(
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      widget.formKey.currentState!.save();
+                                      final beforeList = [
+                                        ...formController
+                                            .formData.value['certificates']
+                                      ];
+                                      formController
+                                          .formData.value['certificates'] = [];
 
+                                      for (int i = 1; i <= steps; i++) {
+                                        final data = {
+                                          'id': i - 1 < beforeList.length
+                                              ? beforeList[i - 1]['id']
+                                              : null,
+                                          'certificateName':
+                                              certificateNameControllers[i]
+                                                  .text,
+                                          'issuedBy':
+                                              issuedByControllers[i].text,
+                                          'date': datesController[i].text
+                                        };
+                                        if (certificateNameControllers[i]
+                                            .text
+                                            .isNotEmpty) {
+                                          formController.addCertificate(data);
+                                        }
+                                      }
+                                      widget.onNext();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF085399),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 40),
+                                      fixedSize: Size(screenWidth * 0.44,
+                                          screenHeight * 0.05),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      elevation: 5,
+                                    ),
+                                    icon: const Icon(Icons.arrow_back),
+                                    label: const Text(
+                                      'Next',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ]),
                       ],
                     ),
                   ),
@@ -365,6 +425,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
     );
   }
 }
+
 class AnimatedButton extends StatelessWidget {
   final VoidCallback pressEvent;
   final double height;

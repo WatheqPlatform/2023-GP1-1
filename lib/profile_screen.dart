@@ -301,7 +301,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 350,
                       margin: EdgeInsets.only(
                         left: screenWidth * 0.01,
-                        top: screenHeight * 0.795,
+                        top: screenHeight * 0.78,
                         bottom: 5,
                       ),
                       decoration: BoxDecoration(

@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 class RequiredFieldLabel extends StatefulWidget {
   final String labelText;
   bool hideStar;
-  Color starColor ;
-  RequiredFieldLabel({super.key, required this.labelText, this.hideStar = false, this.starColor = Colors.red});
+  Color starColor;
+  RequiredFieldLabel(
+      {super.key,
+      required this.labelText,
+      this.hideStar = false,
+      this.starColor = Colors.red});
 
   @override
   _RequiredFieldLabelState createState() => _RequiredFieldLabelState();
@@ -14,12 +18,12 @@ class RequiredFieldLabel extends StatefulWidget {
 
 class _RequiredFieldLabelState extends State<RequiredFieldLabel> {
   bool showMessage = false;
-  String message = "Required field";
+  String message = "";
 
   @override
   Widget build(BuildContext context) {
     if (widget.starColor == Colors.green) {
-      message = 'This field is required for this addition';
+      message = "";
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,16 +38,17 @@ class _RequiredFieldLabelState extends State<RequiredFieldLabel> {
             children: [
               Text(
                 widget.labelText,
-                style: const TextStyle(color: Color(0xFF085399)), // Label color
+                style: const TextStyle(color: Color(0xFF085399), fontSize: 18),
+                // Label color
               ),
-              if (!widget.hideStar)Text(
-                ' *${showMessage ? message : ''}',
-                style: TextStyle(color: widget.starColor),
-              ),
+              if (!widget.hideStar)
+                Text(
+                  ' *${showMessage ? message : ''}',
+                  style: TextStyle(color: widget.starColor),
+                ),
             ],
           ),
         ),
-
       ],
     );
   }

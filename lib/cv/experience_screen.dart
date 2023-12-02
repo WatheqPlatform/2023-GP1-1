@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,29 +14,35 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import '../error_messages.dart';
 import 'controller/form_controller.dart';
 
-
 class ExperiencesScreen extends StatefulWidget {
   final String email;
   final VoidCallback onBack;
   final VoidCallback onNext;
   final goToPage;
-  ExperiencesScreen({super.key, required this.onBack, required this.email, required this.goToPage, required this.onNext});
-  final FormController formController = Get.find( tag: 'form-control' );
+  ExperiencesScreen(
+      {super.key,
+      required this.onBack,
+      required this.email,
+      required this.goToPage,
+      required this.onNext});
+  final FormController formController = Get.find(tag: 'form-control');
   @override
   _ExperiencesScreenState createState() => _ExperiencesScreenState();
 }
 
 class _ExperiencesScreenState extends State<ExperiencesScreen> {
-  List<TextEditingController> jobTitleControllers=[TextEditingController()];
-  List<TextEditingController> companyNameControllers=[TextEditingController()];
-  List<TextEditingController> startDatesController=[TextEditingController()];
-  List<TextEditingController> endDatesController=[TextEditingController()];
-  List<TextEditingController> experienceIndustryControllers=[TextEditingController()];
-  List<ValueNotifier<bool>> stillWorking = [
-    ValueNotifier(false)
+  List<TextEditingController> jobTitleControllers = [TextEditingController()];
+  List<TextEditingController> companyNameControllers = [
+    TextEditingController()
   ];
+  List<TextEditingController> startDatesController = [TextEditingController()];
+  List<TextEditingController> endDatesController = [TextEditingController()];
+  List<TextEditingController> experienceIndustryControllers = [
+    TextEditingController()
+  ];
+  List<ValueNotifier<bool>> stillWorking = [ValueNotifier(false)];
   List<String> fields = [];
-  List <dynamic> fieldsWithId = [];
+  List<dynamic> fieldsWithId = [];
 
   int steps = -1;
   int lastSteps = -1;
@@ -52,102 +54,129 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (i != 1)SizedBox(height: 40,),
+        if (i != 1)
+          const SizedBox(
+            height: 40,
+          ),
         Text(
           'Experience $j',
           style: const TextStyle(
-              color: Color(0xFF085399), fontWeight: FontWeight.bold),
+              color: Color(0xFF085399),
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
         ),
-        const SizedBox(height: 5,),
-        if(fields.isNotEmpty) Column(
-          children: [
-            RequiredFieldLabel(labelText: 'Experience Industry',hideStar: true, ),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF14386E),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
-                    color: Color(0xFF14386E),
-                  ),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal:  8.0,
-                  vertical:  0.012,
-                ),
+        const SizedBox(
+          height: 7,
+        ),
+        if (fields.isNotEmpty)
+          Column(
+            children: [
+              RequiredFieldLabel(
+                labelText: 'Experience Industry',
+                hideStar: true,
               ),
-              value: experienceIndustryControllers[i].text.isNotEmpty ? experienceIndustryControllers[i].text : null,
-              hint: const Text('Choose Industry'),
-              onChanged: (String? newValue) {
-                setState(() {
-                  experienceIndustryControllers[i].text = newValue!;
-                });
-              },
-              items: fields.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            )
-          ],
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      color: Color(0xFF14386E),
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      color: Color(0xFF14386E),
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                    vertical: 0.012,
+                  ),
+                ),
+                value: experienceIndustryControllers[i].text.isNotEmpty
+                    ? experienceIndustryControllers[i].text
+                    : null,
+                hint: const Text('Choose Industry'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    experienceIndustryControllers[i].text = newValue!;
+                  });
+                },
+                items: fields.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              )
+            ],
+          ),
+        const SizedBox(
+          height: 16,
         ),
-        const SizedBox(height: 16,),
         RequiredFieldWidget(
           label: 'Job Title',
           keyName: 'jobTitle',
           starColor: Colors.green,
           controller: jobTitleControllers[i],
         ),
-
         RequiredFieldWidget(
           label: 'Company Name',
           keyName: 'companyName',
           starColor: Colors.green,
           controller: companyNameControllers[i],
         ),
-        DateButton(starColor: Colors.green,label: 'Start Date',dateController: startDatesController[i],mode: DatePickerButtonMode.month,),
+        DateButton(
+          starColor: Colors.green,
+          label: 'Start Date',
+          dateController: startDatesController[i],
+          mode: DatePickerButtonMode.month,
+        ),
         Container(
-          margin:  EdgeInsets.only(bottom: 16.0),
+          margin: const EdgeInsets.only(bottom: 16.0),
           child: Row(
-
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
-
             children: [
               Checkbox(
+                activeColor: const Color(0xFF14386E),
+                checkColor: Colors.white,
+                side: MaterialStateBorderSide.resolveWith((states) =>
+                    const BorderSide(width: 2.0, color: Color(0xFF14386E))),
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 visualDensity: VisualDensity.compact,
-
                 value: stillWorking[i].value,
                 onChanged: (value) {
                   setState(() {
                     stillWorking[i].value = value ?? false;
-                    cachedSteps[i-1] = buildStepItem(i, i);
+                    cachedSteps[i - 1] = buildStepItem(i, i);
                   });
                 },
               ),
-              Text('I am still working in this position'),
-
+              const Text('I am still working in this position'),
             ],
           ),
         ),
-        DateButton(disabled: stillWorking[i].value,removeGutter: true, starColor: Colors.green,label: 'End Date',dateController: endDatesController[i],mode: DatePickerButtonMode.month, lastDate: DateTime.now(),),
+        DateButton(
+          disabled: stillWorking[i].value,
+          removeGutter: true,
+          starColor: Colors.green,
+          label: 'End Date',
+          dateController: endDatesController[i],
+          mode: DatePickerButtonMode.month,
+          lastDate: DateTime.now(),
+        ),
         InkWell(
           onTap: () {
             setState(() {
               if (i == 1) {
-                jobTitleControllers[i].text="";
-                companyNameControllers[i].text="";
-                startDatesController[i].text="";
-                endDatesController[i].text="";
-                experienceIndustryControllers[i].text="None";
-                cachedSteps[i-1] = buildStepItem(i, i);
+                jobTitleControllers[i].text = "";
+                companyNameControllers[i].text = "";
+                startDatesController[i].text = "";
+                endDatesController[i].text = "";
+                experienceIndustryControllers[i].text = "None";
+                cachedSteps[i - 1] = buildStepItem(i, i);
                 return;
               }
               steps--;
@@ -155,7 +184,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             });
           },
           child: Container(
-            margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+            margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: const Icon(
               Icons.cancel_outlined,
               color: Colors.red,
@@ -165,30 +194,28 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       ],
     );
   }
+
   List<Widget> cachedSteps = [];
   List<Widget> addOrGetCachedSteps() {
     if (steps == lastSteps) {
       return cachedSteps;
     }
     if (steps > lastSteps) {
-
       jobTitleControllers.add(TextEditingController());
       companyNameControllers.add(TextEditingController());
       startDatesController.add(TextEditingController());
       endDatesController.add(TextEditingController());
       experienceIndustryControllers.add(TextEditingController());
       stillWorking.add(ValueNotifier(false));
-      cachedSteps.add(
-          buildStepItem(steps, MAX_STEPS)
-      );
+      cachedSteps.add(buildStepItem(steps, MAX_STEPS));
       steps = lastSteps;
       return cachedSteps;
     }
     steps = lastSteps;
     removeWidget();
     return cachedSteps;
-
   }
+
   void removeWidget() {
     for (int j = 0; j < cachedSteps.length; j++) {
       if (cachedSteps[j].key == Key(selectedIndex.toString())) {
@@ -199,29 +226,36 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         endDatesController.removeAt(j);
         experienceIndustryControllers.removeAt(j);
         stillWorking.removeAt(j);
-        cachedSteps.removeAt(j-1);
+        cachedSteps.removeAt(j - 1);
       }
     }
-
   }
+
   List<Widget> buildsteps() {
     if (fieldsWithId.isEmpty || fields.isEmpty) {
       return [];
     }
-     jobTitleControllers=[TextEditingController()];
-     companyNameControllers=[TextEditingController()];
-     startDatesController=[TextEditingController()];
-    endDatesController=[TextEditingController()];
-    experienceIndustryControllers=[TextEditingController()];
+    jobTitleControllers = [TextEditingController()];
+    companyNameControllers = [TextEditingController()];
+    startDatesController = [TextEditingController()];
+    endDatesController = [TextEditingController()];
+    experienceIndustryControllers = [TextEditingController()];
     stillWorking = [ValueNotifier(false)];
     List<Widget> l = [];
     for (int i = 1; i <= steps; i++) {
-      String? category, jobTitle = '', company = '', startDate = '', endDate = '';
+      String? category,
+          jobTitle = '',
+          company = '',
+          startDate = '',
+          endDate = '';
 
       if (widget.formController.formData['experiences'].length >= i) {
-        final experience = widget.formController.formData['experiences'][i-1];
+        final experience = widget.formController.formData['experiences'][i - 1];
 
-        category = fieldsWithId.where((element) => element['CategoryID'] == experience['CategoryID'].toString()).first['CategoryName'];
+        category = fieldsWithId
+            .where((element) =>
+                element['CategoryID'] == experience['CategoryID'].toString())
+            .first['CategoryName'];
         jobTitle = experience['JobTitle'];
         company = experience['CompanyName'];
         startDate = experience['StartDate'];
@@ -237,21 +271,32 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     }
     return l;
   }
+
   @override
   void initState() {
-    steps = widget.formController.formData['experiences'].length > 0 ? widget.formController.formData['experiences'].length : 1;
+    steps = widget.formController.formData['experiences'].length > 0
+        ? widget.formController.formData['experiences'].length
+        : 1;
     lastSteps = steps;
     MAX_STEPS = steps;
     super.initState();
     fetchCategories().then((val) {
-      fields =['None',... List<String>.from(val.map((e) {return e['CategoryName']; }))];
+      fields = [
+        'None',
+        ...List<String>.from(val.map((e) {
+          return e['CategoryName'];
+        }))
+      ];
 
-      fieldsWithId = List<dynamic>.from(val.map((e) {return e;} ));
+      fieldsWithId = List<dynamic>.from(val.map((e) {
+        return e;
+      }));
       setState(() {
-          cachedSteps = buildsteps();
+        cachedSteps = buildsteps();
       });
     });
   }
+
   dynamic fetchCategories() async {
     final response = await http.get(Uri.parse(Connection.getCategories));
     if (response.statusCode == 200) {
@@ -289,32 +334,30 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                       animType: AnimType.topSlide,
                       showCloseIcon: true,
                       title: 'Confirmation',
-                      desc: 'Are you sure you want to cancel?',
-                      btnCancelOnPress: () {
-                        
-                      },
+                      desc:
+                          'Are you sure you want to cancel? \n Your actions will not be saved.',
+                      btnCancelOnPress: () {},
                       btnOkOnPress: () {
-                            Navigator.of(context).pop();
-                            
-                               },
-                               btnCancelColor: Colors.grey,
-                                  btnOkColor: Colors.red,
-                                  btnCancelText: 'NO',
-                                  btnOkText: 'YES',
+                        Navigator.of(context).pop();
+                      },
+                      btnCancelColor: Colors.grey,
+                      btnOkColor: Colors.red,
+                      btnCancelText: 'NO',
+                      btnOkText: 'YES',
                     )..show();
                   },
-                      height: 40,
+                  height: 40,
                   width: 40,
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,
                     color: Color.fromARGB(255, 255, 255, 255),
-                  ),          
-                 ),
+                  ),
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 1),
+                  padding: const EdgeInsets.only(top: 1, left: 1),
                   child: Text(
                     widget.formController.isEdit() ? "Edit CV" : "Create CV",
                     style: TextStyle(
@@ -329,140 +372,209 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             const SizedBox(
               height: 15,
             ),
-            Expanded(child:SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 30,
-                  horizontal: 30,
-                ),
-                height: screenHeight * 0.9,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(80.0),
+            Expanded(
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 30,
+                    horizontal: 30,
                   ),
-                ),
-                child: Form(
-
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-
-                      Container(
-                        height: screenHeight * .73,
-                        child: Column(
-                          children: [
-                            ConnectedCircles(pos: 3,),
-                            Center(
-                              child: const Text(
-                                'Experiences',
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    color:Color(0xFF085399),
-                                    fontWeight: FontWeight.w500),
-                                textAlign: TextAlign.center,
+                  height: screenHeight * 0.9,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(80.0),
+                    ),
+                  ),
+                  child: Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: screenHeight * .73,
+                          child: Column(
+                            children: [
+                              ConnectedCircles(
+                                pos: 3,
                               ),
-                            ),
-                            SizedBox(
-                              height: screenHeight*0.57,
-                              child: ListView(padding: EdgeInsets.zero,children: [
-                                ...addOrGetCachedSteps(),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
+                              const Center(
+                                child: Text(
+                                  'Experiences',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Color(0xFF085399),
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "* Fill all fields to add experience",
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  height: screenHeight * 0.57,
+                                  child: ListView(
+                                      padding: EdgeInsets.zero,
+                                      children: [
+                                        ...addOrGetCachedSteps(),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                steps++;
+                                                MAX_STEPS++;
+                                                setState(() {});
+                                              },
+                                              child: Container(
+                                                margin:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 10, 0, 0),
+                                                child: const Icon(
+                                                  Icons.add_circle_outline,
+                                                  color: Color(0xFF085399),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ]),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    widget.onBack();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFF9E9E9E),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 40),
+                                    fixedSize: Size(screenWidth * 0.43,
+                                        screenHeight * 0.05),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 5,
+                                  ),
+                                  icon: const Icon(Icons.arrow_back),
+                                  label: const Text(
+                                    'Back',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: Expanded(
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      final beforeList = [
+                                        ...widget.formController.formData
+                                            .value['experiences']
+                                      ];
+                                      widget.formController
+                                          .formData['experiences'] = [];
 
-                                    InkWell(
-                                      onTap: () {
-                                        steps++;
-                                        MAX_STEPS++;
-                                        setState(() {});
-                                      },
-                                      child: Container(
-                                        margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                        child: const Icon(
-                                          Icons.add_circle_outline,
-                                          color: Color(0xFF085399),
-                                        ),
+                                      for (int i = 1; i <= steps; i++) {
+                                        if (experienceIndustryControllers[i]
+                                                .text
+                                                .isNotEmpty &&
+                                            experienceIndustryControllers[i]
+                                                    .text !=
+                                                'None') {
+                                          widget.formController.addExperience({
+                                            'id': i - 1 < beforeList.length
+                                                ? beforeList[i - 1]['id']
+                                                : null,
+                                            'workingHere':
+                                                stillWorking[i].value,
+                                            'CategoryID': fieldsWithId
+                                                .where((element) =>
+                                                    element['CategoryName'] ==
+                                                    experienceIndustryControllers[
+                                                            i]
+                                                        .text)
+                                                .first['CategoryID'],
+                                            'JobTitle':
+                                                jobTitleControllers[i].text,
+                                            'CompanyName':
+                                                companyNameControllers[i].text,
+                                            'StartDate':
+                                                startDatesController[i].text,
+                                            'EndDate': stillWorking[i].value
+                                                ? null
+                                                : endDatesController[i].text,
+                                          });
+                                        }
+                                      }
+
+                                      widget.onNext();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF085399),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 40),
+                                      fixedSize: Size(screenWidth * 0.43,
+                                          screenHeight * 0.05),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      elevation: 5,
+                                    ),
+                                    icon: const Icon(Icons.arrow_back),
+                                    label: const Text(
+                                      'Next',
+                                      style: TextStyle(
+                                        fontSize: 18,
                                       ),
                                     ),
-                                  ],
-                                )
-                              ]),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Spacer( ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton.icon(
-
-                              onPressed: () {
-                                widget.onBack();
-
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF9E9E9E),
-                                padding: const EdgeInsets.symmetric(horizontal: 40),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                elevation: 5,
-                              ),
-                              icon: const Icon(Icons.arrow_back),
-                              label: const Text('Back'),
-                            ),
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  final beforeList = [...widget.formController.formData.value['experiences']];
-                                  widget.formController.formData['experiences'] = [];
-
-                                  for (int i = 1; i <= steps; i++) {
-                                    if (experienceIndustryControllers[i].text.isNotEmpty && experienceIndustryControllers[i].text != 'None') {
-                                      widget.formController.addExperience({
-                                        'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
-                                        'workingHere': stillWorking[i].value,
-                                        'CategoryID': fieldsWithId.where((element) => element['CategoryName'] == experienceIndustryControllers[i].text).first['CategoryID'],
-                                        'JobTitle': jobTitleControllers[i].text,
-                                        'CompanyName': companyNameControllers[i].text,
-                                        'StartDate': startDatesController[i].text,
-                                        'EndDate': stillWorking[i].value ? null : endDatesController[i].text,
-                                      });
-                                    }
-                                  }
-
-
-                                  widget.onNext();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF085399),
-                                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
                                   ),
-                                  elevation: 5,
                                 ),
-                                icon: const Icon(Icons
-                                    .arrow_back),
-                                label: const Text('Next'),
-                              ),
-                            )
-                          ]),
-                    ],
+                              )
+                            ]),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),)
+            )
           ],
         ),
       ),
     );
   }
 }
+
 class AnimatedButton extends StatelessWidget {
   final VoidCallback pressEvent;
   final double height;

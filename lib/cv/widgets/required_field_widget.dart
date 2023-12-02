@@ -6,15 +6,25 @@ import 'package:watheq/cv/widgets/required_label.dart';
 class RequiredFieldWidget extends StatelessWidget {
   final String label;
   final String? keyName;
-  int maxLines ;
+  int maxLines;
   TextInputType keyboardType;
   bool hideStar;
-  Color starColor ;
+  Color starColor;
   final TextEditingController controller;
   final int maxLength;
   bool removeGutter = false;
 
-  RequiredFieldWidget({super.key, required this.label, this.keyName, required this.controller, this.keyboardType =  TextInputType.text, this.maxLines = 1, this.hideStar = false, this.starColor = Colors.red, this.removeGutter = false, this.maxLength = 50});
+  RequiredFieldWidget(
+      {super.key,
+      required this.label,
+      this.keyName,
+      required this.controller,
+      this.keyboardType = TextInputType.text,
+      this.maxLines = 1,
+      this.hideStar = false,
+      this.starColor = Colors.red,
+      this.removeGutter = false,
+      this.maxLength = 50});
   String? validatePhone(String? value) {
     if (value == null || value.isEmpty) {
       return null;
@@ -35,7 +45,8 @@ class RequiredFieldWidget extends StatelessWidget {
     }
     return null;
   }
-  String ? validateShortText(String? value) {
+
+  String? validateShortText(String? value) {
     if (value == null || value.isEmpty) {
       return null;
     }
@@ -44,41 +55,45 @@ class RequiredFieldWidget extends StatelessWidget {
     }
     return null;
   }
-  String ? validateLongText(String? value) {
+
+  String? validateLongText(String? value) {
     if (value == null || value.isEmpty) {
       return null;
     }
     if (value.length > 500) {
-      return 'Maximum text size is 500 for this field';
+      return 'Maximum text length is 500 for this field';
     }
     return null;
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:  EdgeInsets.only(bottom:removeGutter? 0: 16.0),
+      margin: EdgeInsets.only(bottom: removeGutter ? 0 : 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          RequiredFieldLabel(labelText: label, starColor: starColor,hideStar: hideStar,),
-            TextFormField(
-              keyboardType: keyboardType,
+          RequiredFieldLabel(
+            labelText: label,
+            starColor: starColor,
+            hideStar: hideStar,
+          ),
+          TextFormField(
+            keyboardType: keyboardType,
             maxLines: maxLines,
             maxLength: maxLength,
             validator: (String? val) {
-                if (keyName == 'phoneNumber') return validatePhone(val);
-                if (keyName == 'contactEmail') return validateEmail(val);
-                if (maxLines == 1) {
-                  return validateShortText(val);
-                }
-                if (maxLines == 5) {
-                  return validateShortText(val);
-                }
-                return null;
+              if (keyName == 'phoneNumber') return validatePhone(val);
+              if (keyName == 'contactEmail') return validateEmail(val);
+              if (maxLines == 1) {
+                return validateShortText(val);
+              }
+              if (maxLines == 5) {
+                return validateShortText(val);
+              }
+              return null;
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
-
-
             controller: controller,
             key: keyName != null ? Key(keyName!) : null,
             decoration: InputDecoration(
@@ -95,9 +110,9 @@ class RequiredFieldWidget extends StatelessWidget {
                   color: Color(0xFF14386E),
                 ),
               ),
-              contentPadding:  const EdgeInsets.symmetric(
-                horizontal:  8.0,
-                vertical:  0.012,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 0.012,
               ),
             ),
           ),

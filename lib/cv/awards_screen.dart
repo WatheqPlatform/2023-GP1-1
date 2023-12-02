@@ -1,7 +1,4 @@
-
-
 import 'dart:convert';
-
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,7 +25,10 @@ class AwardsScreen extends StatefulWidget {
       {super.key,
       required this.isEdit,
       required this.formKey,
-      required this.onNext, required this.onBack, required this.email, required this.goToPage});
+      required this.onNext,
+      required this.onBack,
+      required this.email,
+      required this.goToPage});
 
   @override
   _AwardsScreenState createState() => _AwardsScreenState();
@@ -38,11 +38,14 @@ class _AwardsScreenState extends State<AwardsScreen> {
   @override
   void initState() {
     super.initState();
-    steps = formController.formData['awards'].length> 0 ? formController.formData['awards'].length :  1;
+    steps = formController.formData['awards'].length > 0
+        ? formController.formData['awards'].length
+        : 1;
     MAX_STEPS = steps;
     lastSteps = steps;
     cachedSteps = buildsteps();
   }
+
   String? validatePhone(String? value) {
     if (value == null || value.isEmpty) {
       return null;
@@ -64,21 +67,34 @@ class _AwardsScreenState extends State<AwardsScreen> {
     }
     return null;
   }
+
   String? validateCV(Map<String, dynamic> data) {
-    List<String> requiredFieldsCV = ['firstName', 'lastName', 'phoneNumber', 'contactEmail', 'seekerEmail', 'summary', 'city'];
+    List<String> requiredFieldsCV = [
+      'firstName',
+      'lastName',
+      'phoneNumber',
+      'contactEmail',
+      'seekerEmail',
+      'summary',
+      'city'
+    ];
 
     for (String field in requiredFieldsCV) {
       if (data[field] == null || data[field].toString().isEmpty) {
-        return "Missing or empty field for CV: $field";
+        return "Please fill in the $field";
       }
     }
 
-    if (validateEmail(data['contactEmail']) != null) return validateEmail(data['contactEmail']);
-    if (validatePhone(data['phoneNumber']) != null) return validatePhone(data['phoneNumber']);
+    if (validateEmail(data['contactEmail']) != null)
+      return validateEmail(data['contactEmail']);
+    if (validatePhone(data['phoneNumber']) != null)
+      return validatePhone(data['phoneNumber']);
 
     if (data['qualifications'] != null && data['qualifications'] is List) {
       for (Map<String, dynamic> qualification in data['qualifications']) {
-        List<String> requiredFieldsQualification = ['DegreeLevel', ];
+        List<String> requiredFieldsQualification = [
+          'DegreeLevel',
+        ];
         final messages = {
           'Field': (final v) => 'Degree Field',
           'IssuedBy': (final v) {
@@ -89,70 +105,89 @@ class _AwardsScreenState extends State<AwardsScreen> {
           }
         };
         if (qualification['DegreeLevel'] != 'Pre-high school') {
-          requiredFieldsQualification.addAll(['Field','IssuedBy', 'StartDate']);
+          requiredFieldsQualification
+              .addAll(['Field', 'IssuedBy', 'StartDate']);
           if (qualification['workingHere'] == false) {
             requiredFieldsQualification.add('EndDate');
           }
         }
 
         for (String field in requiredFieldsQualification) {
-          if (qualification[field] == null || qualification[field].toString().isEmpty) {
-            return "Missing or empty field in qualifications: ${messages[field]?.call(qualification) ?? field} ";
+          if (qualification[field] == null ||
+              qualification[field].toString().isEmpty) {
+            return "The ${messages[field]?.call(qualification) ?? field} in qualifications is missing";
           }
         }
 
-        if (qualification['StartDate'].isNotEmpty && (qualification['EndDate'] ?? '').isNotEmpty ) {
-          DateTime startDate = intl.DateFormat('yyyy/MM/dd').parse(qualification['StartDate']);
-          DateTime endDate = intl.DateFormat('yyyy/MM/dd').parse(qualification['EndDate']);
+        if (qualification['StartDate'].isNotEmpty &&
+            (qualification['EndDate'] ?? '').isNotEmpty) {
+          DateTime startDate =
+              intl.DateFormat('yyyy/MM/dd').parse(qualification['StartDate']);
+          DateTime endDate =
+              intl.DateFormat('yyyy/MM/dd').parse(qualification['EndDate']);
 
           if (startDate.isAfter(endDate)) {
-            return "StartDate must be before EndDate in qualifications";
+            return "The startDate in qualifications must be before EndDate";
           }
         }
       }
     }
     if (data['experiences'] != null && data['experiences'] is List) {
       for (Map<String, dynamic> experience in data['experiences']) {
-        List<String> requiredFieldsExperience = ['CategoryID', 'JobTitle', 'CompanyName', 'StartDate'];
+        List<String> requiredFieldsExperience = [
+          'CategoryID',
+          'JobTitle',
+          'CompanyName',
+          'StartDate'
+        ];
         if (experience['workingHere'] == false) {
           requiredFieldsExperience.add('EndDate');
         }
         for (String field in requiredFieldsExperience) {
-          if (experience[field] == null || experience[field].toString().isEmpty) {
-            return "Missing or empty field in experiences: $field";
+          if (experience[field] == null ||
+              experience[field].toString().isEmpty) {
+            return "The $field in experience is missing ";
           }
         }
         if (experience['StartDate'] != null && experience['EndDate'] != null) {
-          DateTime startDate = intl.DateFormat('yyyy/MM/dd').parse(experience['StartDate']);
-          DateTime endDate = intl.DateFormat('yyyy/MM/dd').parse(experience['EndDate']);
+          DateTime startDate =
+              intl.DateFormat('yyyy/MM/dd').parse(experience['StartDate']);
+          DateTime endDate =
+              intl.DateFormat('yyyy/MM/dd').parse(experience['EndDate']);
 
           if (startDate.isAfter(endDate)) {
-            return "StartDate must be before EndDate in experiences";
+            return "The startDate in experience must be before EndDate";
           }
         }
       }
     }
     if (data['projects'] != null && data['projects'] is List) {
       for (Map<String, dynamic> project in data['projects']) {
-        List<String> requiredFieldsProject = ['ProjectName', 'Description', 'Date'];
+        List<String> requiredFieldsProject = [
+          'ProjectName',
+          'Description',
+          'Date'
+        ];
 
         for (String field in requiredFieldsProject) {
           if (project[field] == null || project[field].toString().isEmpty) {
-            return "Missing or empty field in projects: $field";
+            return "The $field in project is missing";
           }
         }
-
       }
     }
 
-
     if (data['certificates'] != null && data['certificates'] is List) {
       for (Map<String, dynamic> award in data['certificates']) {
-        List<String> requiredFieldsAward = ['certificateName', 'issuedBy', 'date'];
+        List<String> requiredFieldsAward = [
+          'certificateName',
+          'issuedBy',
+          'date'
+        ];
 
         for (String field in requiredFieldsAward) {
           if (award[field] == null || award[field].toString().isEmpty) {
-            return "Missing or empty field in certificates: $field";
+            return "The $field in certificate is missing";
           }
         }
       }
@@ -163,13 +198,11 @@ class _AwardsScreenState extends State<AwardsScreen> {
 
         for (String field in requiredFieldsAward) {
           if (award[field] == null || award[field].toString().isEmpty) {
-            return "Missing or empty field in awards: $field";
+            return "The $field in award is missing";
           }
         }
       }
     }
-
-
 
     return null;
   }
@@ -196,51 +229,61 @@ class _AwardsScreenState extends State<AwardsScreen> {
         body: jsonString,
       );
       formController.reset();
-      String status = body['ID'] != 0 ? "Edited" : "Created";
+      String status = body['ID'] != 0 ? "edited" : "created";
       ErrorMessage.show(
         context,
         "Success",
-        18,
-        " Your CV is successfully $status.",
+        16,
+        " You have successfully $status your CV",
         ContentType.success,
         const Color.fromARGB(255, 15, 152, 20),
       );
       Get.off(ProfileScreen(email: widget.email));
-
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
-  final FormController formController = Get.find<FormController>(tag: 'form-control');
-  List<TextEditingController> awardNameControllers=[TextEditingController()];
-  List<TextEditingController> issuedByControllers=[TextEditingController()];
-  List<TextEditingController> datesController=[TextEditingController()];
+  final FormController formController =
+      Get.find<FormController>(tag: 'form-control');
+  List<TextEditingController> awardNameControllers = [TextEditingController()];
+  List<TextEditingController> issuedByControllers = [TextEditingController()];
+  List<TextEditingController> datesController = [TextEditingController()];
   late int steps = -1;
   int MAX_STEPS = 0;
   late int lastSteps = -1;
 
   List<Widget> cachedSteps = [];
 
-  Widget buildStepItem (int i, int? j) {
+  Widget buildStepItem(int i, int? j) {
     j ??= i;
     return Column(
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (i != 1) SizedBox(height: 40,),
+        if (i != 1)
+          SizedBox(
+            height: 40,
+          ),
         Text(
           'Award $j',
           style: const TextStyle(
-              color: Color(0xFF085399), fontWeight: FontWeight.bold),
+              color: Color(0xFF085399),
+              fontWeight: FontWeight.bold,
+              fontSize: 18),
         ),
-        const SizedBox(height: 5,),
+        const SizedBox(
+          height: 7,
+        ),
         RequiredFieldWidget(
           label: 'Award Name',
           controller: awardNameControllers[i],
           hideStar: true,
         ),
-
-        DateButton(label: 'Date',dateController: datesController[i], starColor: Colors.green,lastDate: DateTime.now(),),
+        DateButton(
+          label: 'Date',
+          dateController: datesController[i],
+          starColor: Colors.green,
+          lastDate: DateTime.now(),
+        ),
         RequiredFieldWidget(
           label: 'Issued By',
           controller: issuedByControllers[i],
@@ -249,37 +292,37 @@ class _AwardsScreenState extends State<AwardsScreen> {
         ),
         InkWell(
           onTap: () {
-              setState(() {
-                if (i == 1) {
-                  datesController[i].text = "";
-                  issuedByControllers[i].text ="";
-                  awardNameControllers[i].text="";
-                  cachedSteps[i-1] = buildStepItem(i, i);
-                  return;
-                }
-                selectedIndex = i;
-                steps--;
-              });
+            setState(() {
+              if (i == 1) {
+                datesController[i].text = "";
+                issuedByControllers[i].text = "";
+                awardNameControllers[i].text = "";
+                cachedSteps[i - 1] = buildStepItem(i, i);
+                return;
+              }
+              selectedIndex = i;
+              steps--;
+            });
           },
           child: Container(
-            padding: EdgeInsets.fromLTRB(0,10,0,0),
+            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Icon(
               Icons.cancel_outlined,
               color: Colors.red,
             ),
           ),
         )
-
       ],
     );
   }
+
   List<Widget> buildsteps() {
     if (steps == -1) {
       return [];
     }
-    awardNameControllers=[TextEditingController()];
-    issuedByControllers=[TextEditingController()];
-    datesController=[TextEditingController()];
+    awardNameControllers = [TextEditingController()];
+    issuedByControllers = [TextEditingController()];
+    datesController = [TextEditingController()];
     List<Widget> l = [];
     final x = formController.formData.value['awards'];
 
@@ -287,15 +330,13 @@ class _AwardsScreenState extends State<AwardsScreen> {
       String? awardName, issuedBy, date;
 
       if (x.length >= i) {
-        awardName = x[i-1]['awardName'];
-        issuedBy = x[i-1]['issuedBy'];
-        date = x[i-1]['date'];
+        awardName = x[i - 1]['awardName'];
+        issuedBy = x[i - 1]['issuedBy'];
+        date = x[i - 1]['date'];
         awardNameControllers.add(TextEditingController(text: awardName));
         issuedByControllers.add(TextEditingController(text: issuedBy));
         datesController.add(TextEditingController(text: date));
-      }
-      else {
-
+      } else {
         awardNameControllers.add(TextEditingController());
         issuedByControllers.add(TextEditingController());
         datesController.add(TextEditingController());
@@ -305,18 +346,20 @@ class _AwardsScreenState extends State<AwardsScreen> {
     }
     return l;
   }
+
   int selectedIndex = 0;
   void removeWidget(int i) {
     for (int j = 0; j < cachedSteps.length; j++) {
-      if (cachedSteps[j].key == Key(i.toString())){
-        awardNameControllers.removeAt(j+1);
-        issuedByControllers.removeAt(j+1);
-        datesController.removeAt(j+1);
+      if (cachedSteps[j].key == Key(i.toString())) {
+        awardNameControllers.removeAt(j + 1);
+        issuedByControllers.removeAt(j + 1);
+        datesController.removeAt(j + 1);
         cachedSteps.removeAt(j);
         return;
       }
     }
   }
+
   List<Widget> addOrGetCachedSteps() {
     if (lastSteps == steps) return cachedSteps;
 
@@ -325,17 +368,15 @@ class _AwardsScreenState extends State<AwardsScreen> {
       awardNameControllers.add(TextEditingController());
       issuedByControllers.add(TextEditingController());
       datesController.add(TextEditingController());
-      cachedSteps.add(
-          buildStepItem(steps, MAX_STEPS)
-      );
+      cachedSteps.add(buildStepItem(steps, MAX_STEPS));
 
       return cachedSteps;
     }
     lastSteps = steps;
     removeWidget(selectedIndex);
     return cachedSteps;
-
   }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -363,21 +404,19 @@ class _AwardsScreenState extends State<AwardsScreen> {
                       animType: AnimType.topSlide,
                       showCloseIcon: true,
                       title: 'Confirmation',
-                      desc: 'Are you sure you want to cancel?',
-                      btnCancelOnPress: () {
-                        
-                      },
+                      desc:
+                          'Are you sure you want to cancel? \n Your actions will not be saved.',
+                      btnCancelOnPress: () {},
                       btnOkOnPress: () {
-                            Navigator.of(context).pop();
-                            
-                               },
-                               btnCancelColor: Colors.grey,
-                                  btnOkColor: Colors.red,
-                                  btnCancelText: 'NO',
-                                  btnOkText: 'YES',
+                        Navigator.of(context).pop();
+                      },
+                      btnCancelColor: Colors.grey,
+                      btnOkColor: Colors.red,
+                      btnCancelText: 'NO',
+                      btnOkText: 'YES',
                     )..show();
                   },
-                      height: 40,
+                  height: 40,
                   width: 40,
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
@@ -385,12 +424,12 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     Icons.arrow_back_ios_rounded,
                     size: 40,
                     color: Color.fromARGB(255, 255, 255, 255),
-                  ),          
-                 ),
+                  ),
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 1),
+                  padding: const EdgeInsets.only(top: 1, left: 1),
                   child: Text(
-                      formController.isEdit() ? "Edit CV" : "Create CV",
+                    formController.isEdit() ? "Edit CV" : "Create CV",
                     style: TextStyle(
                       color: const Color.fromARGB(255, 255, 255, 255),
                       fontSize: screenWidth * 0.07,
@@ -398,7 +437,6 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     ),
                   ),
                 ),
-
               ],
             ),
             const SizedBox(
@@ -424,127 +462,183 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
                         Container(
                           height: screenHeight * 0.73,
                           child: Column(
                             children: [
-                              ConnectedCircles(pos: 6,),
-                              Center(
-                                child: const Text(
+                              ConnectedCircles(
+                                pos: 6,
+                              ),
+                              const Center(
+                                child: Text(
                                   'Awards',
                                   style: TextStyle(
                                       fontSize: 25,
-                                      color:Color(0xFF085399),
+                                      color: Color(0xFF085399),
                                       fontWeight: FontWeight.w500),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              SizedBox(
-                                  height: screenHeight*0.57,
-                                  child: ListView(padding: EdgeInsets.zero,children: [...addOrGetCachedSteps(), Row(
-
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-
-                                        InkWell(
-                                          onTap: () {
-                                            steps++;
-                                            MAX_STEPS++;
-                                            setState(() {});
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.fromLTRB(0,10,0,0),
-                                            child: const Icon(
-                                              Icons.add_circle_outline,
-                                              color: Color(0xFF085399),
-                                              
-                                            ),
-                                          ),
-                                        )
-                                      ]),
-                                  ])),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "* Fill all fields to add award",
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                    height: screenHeight * 0.57,
+                                    child: ListView(
+                                        padding: EdgeInsets.zero,
+                                        children: [
+                                          ...addOrGetCachedSteps(),
+                                          Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    steps++;
+                                                    MAX_STEPS++;
+                                                    setState(() {});
+                                                  },
+                                                  child: Container(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            0, 10, 0, 0),
+                                                    child: const Icon(
+                                                      Icons.add_circle_outline,
+                                                      color: Color(0xFF085399),
+                                                    ),
+                                                  ),
+                                                )
+                                              ]),
+                                        ])),
+                              ),
                             ],
                           ),
-
                         ),
-                        Spacer( ),
-                    Column(
+                        Column(
                           children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-
-                                  ElevatedButton.icon(
-
-                                    onPressed: () {
-                                        widget.onBack();
-
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:Color(0xFF9E9E9E),
-                                      padding: const EdgeInsets.symmetric(horizontal: 40),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      elevation: 5,
-                                    ),
-                                    icon: const Icon(Icons.arrow_back),
-                                  label: const Text('Back'),
-                                  ),
-                                  Directionality(
-                                    textDirection: TextDirection.rtl,
-                                    child: ElevatedButton(
+                                  Expanded(
+                                    child: ElevatedButton.icon(
                                       onPressed: () {
-                                        final beforeList = [...formController.formData.value['awards']];
-                                        formController.formData.value['awards'] = [];
-
-                                        for( int i=1;i<=steps;i++) {
-                                          final data = {
-                                            'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
-                                            'awardName': awardNameControllers[i]
-                                                .text,
-                                            'issuedBy': issuedByControllers[i]
-                                                .text,
-                                            'date': datesController[i].text
-                                          };
-                                          if (awardNameControllers[i].text
-                                              .isNotEmpty) {
-                                            formController.addAward(data);
-                                          }
-                                        }
-                                        final body = formController.formData.value;
-                                        body['seekerEmail'] = widget.email;
-                                        String? validationError = validateCV(body);
-                                        if (validationError == null) {
-                                          addCV(body);
-                                        } else {
-                                          return ErrorMessage.show(
-                                              context,
-                                              "Error",
-                                              14,
-                                              validationError,
-                                              ContentType.failure,
-                                              const Color.fromARGB(255, 209, 24, 24));
-                                        }
+                                        widget.onBack();
                                       },
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFF085399),
-                                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                                        backgroundColor:
+                                            const Color(0xFF9E9E9E),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 40),
+                                        fixedSize: Size(screenWidth * 0.44,
+                                            screenHeight * 0.05),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(15),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
                                         ),
                                         elevation: 5,
                                       ),
+                                      icon: const Icon(Icons.arrow_back),
+                                      label: const Text(
+                                        'Back',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Expanded(
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          final beforeList = [
+                                            ...formController
+                                                .formData.value['awards']
+                                          ];
+                                          formController
+                                              .formData.value['awards'] = [];
 
-                                      child:  Text(formController.isEdit() ? "Edit CV" : "Create CV",),
+                                          for (int i = 1; i <= steps; i++) {
+                                            final data = {
+                                              'id': i - 1 < beforeList.length
+                                                  ? beforeList[i - 1]['id']
+                                                  : null,
+                                              'awardName':
+                                                  awardNameControllers[i].text,
+                                              'issuedBy':
+                                                  issuedByControllers[i].text,
+                                              'date': datesController[i].text
+                                            };
+                                            if (awardNameControllers[i]
+                                                .text
+                                                .isNotEmpty) {
+                                              formController.addAward(data);
+                                            }
+                                          }
+                                          final body =
+                                              formController.formData.value;
+                                          body['seekerEmail'] = widget.email;
+                                          String? validationError =
+                                              validateCV(body);
+                                          if (validationError == null) {
+                                            addCV(body);
+                                          } else {
+                                            return ErrorMessage.show(
+                                                context,
+                                                "Error",
+                                                16,
+                                                validationError,
+                                                ContentType.failure,
+                                                const Color.fromARGB(
+                                                    255, 209, 24, 24));
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFF085399),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 40),
+                                          fixedSize: Size(screenWidth * 0.44,
+                                              screenHeight * 0.05),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          elevation: 5,
+                                        ),
+                                        child: Text(
+                                          formController.isEdit()
+                                              ? "Edit "
+                                              : "Create ",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ]),
-
                           ],
                         ),
-
                       ],
                     ),
                   ),
@@ -557,6 +651,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
     );
   }
 }
+
 class AnimatedButton extends StatelessWidget {
   final VoidCallback pressEvent;
   final double height;

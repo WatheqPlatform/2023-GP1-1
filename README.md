@@ -6,7 +6,7 @@ Watheq is a platform that aims to revolutionize the world of employment, connect
 
 Watheq is built using cutting-edge technologies to deliver the best possible user experience. Our tech stack includes:
 
-- **Frontend**: HTML5, CSS3, JavaScript
+- **Frontend**: HTML5, CSS3, JavaScript, Dart
 - **Backend**: PHP
 - **Database**: MySQL
 - **AI Integration**: Chat-GPT API for GPT-3.5 Model
@@ -42,7 +42,7 @@ Before you begin, ensure you have met the following requirements:
    ```
 
 3. **Backend Setup**:
-   - Configure your PHP environment to serve the backend.
+   - No need for backend setup since all backend files uploaded on an online server and the frontend connected to it.
 
 4. **Frontend Setup**:
    - Install Flutter and set up your development environment.
@@ -68,7 +68,7 @@ Before you begin, ensure you have met the following requirements:
    ```
 3.  **Backend Setup**:
     - Configure your PHP environment to serve the backend.
-    - Install the database
+    - Install and import the database   
      
 4. **Frontend Setup**:
     - Set up your development environment
@@ -77,7 +77,7 @@ Before you begin, ensure you have met the following requirements:
 6. **Run the website**:
    - Run the website using your development environment 
      
-- Or simply skip the previous steps and open a web browser and go to **https://watheqplatform.com/index.php.** to browse the website 
+- Or simply skip the previous steps and open a web browser and go to **https://watheqplatform.com** to browse the website 
 
 
 

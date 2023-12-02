@@ -27,6 +27,8 @@ Before you begin, ensure you have met the following requirements:
 
 ### Installation
 
+- Application Branch
+
 1. **Clone the repository to your local machine**:
 
    ```sh
@@ -41,22 +43,19 @@ Before you begin, ensure you have met the following requirements:
 
 3. **Backend Setup**:
    - Configure your PHP environment to serve the backend.
-   - Import the database schema provided in the project's database directory.
 
 4. **Frontend Setup**:
-   - Set up your web server to serve the frontend files (HTML, CSS, JavaScript).
-   - Make sure to configure the frontend to connect to the backend APIs.
-
-5. **AI Integration**:
-   - Sign up for the Chat-GPT API and obtain the necessary API credentials.
-   - Integrate the API into the project for AI-driven features.
-
-6. **Recommendation System**:
-   - Install Python and the required Python libraries for the recommendation system.
-
-7. **Mobile App (Flutter)**:
    - Install Flutter and set up your development environment.
+   - Install an Android emulator
+
+5. **Run the Flutter app**:
    - Run the Flutter app on your emulator or physical device.
+  
+- Website Branch
+
+1. **Open a web browser and go to https://watheqplatform.com/index.php.**
+
+
 
 
 

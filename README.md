@@ -55,7 +55,29 @@ Before you begin, ensure you have met the following requirements:
   
 - Website Branch
 
-1. **Open a web browser and go to https://watheqplatform.com/index.php.**
+1. **Clone the repository to your local machine**:
+
+   ```sh
+   git clone https://github.com/WatheqPlatform/2023-GP1-1.git
+   ```
+
+2. **Navigate to the project directory**:
+
+   ```sh
+   cd 2023-GP1-1
+   ```
+3.  **Backend Setup**:
+   - Configure your PHP environment to serve the backend.
+   - Install the database
+     
+4. **Frontend Setup**:
+    - Set up your development environment
+    - Set up your web server to serve the frontend files (HTML, CSS, JavaScript).
+      
+6. **Run the website**:
+   - Run the website using your development environment 
+     
+  Or simply skip the previous steps and open a web browser and go to **https://watheqplatform.com/index.php.**
 
 
 

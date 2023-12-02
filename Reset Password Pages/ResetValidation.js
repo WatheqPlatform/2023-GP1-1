@@ -1,13 +1,13 @@
 $(document).ready(function () {
     $("#SubmitButton").click(function () {
         password=$("#passwordInput").val();
+        token=$("#token").val();
         let isEmpty = false;
 
-        if (password === undefined || password === null || password === "") {
-            
+        if (password === undefined || password === null || password === "") {  
             isEmpty = true;
         }
-
+        alert(token);
         if (isEmpty) {
             var modal_wrapper = document.querySelector(".modal_wrapper");
             var faliure_wrap = document.querySelector(".faliure_wrap");
@@ -23,10 +23,10 @@ $(document).ready(function () {
             });
         }
         else {
-
             // Send the information to PHP File
             $.post("ResetPassword.php", {
-                password: password
+                Newpassword:password,
+                Newtoken: token,
             }, function (data) {
                 if (data === "success") {
                     var modal_wrapper = document.querySelector(".modal_wrapper");
@@ -40,6 +40,7 @@ $(document).ready(function () {
                     shadow.addEventListener("click", function () {
                         modal_wrapper.classList.remove("active");
                         success_wrap.classList.remove("active");
+                        window.location.href="../LogIn Page/LogIn.html";
                     });
                    
                 } else if (data === "failure2") {
@@ -86,7 +87,6 @@ $(document).ready(function () {
                     shadow.addEventListener('click', function () {
                         modal_wrapper.classList.remove('active');
                         faliure_wrap.classList.remove('active');
-                        window.location.href="../Reset Password Pages/ForgotPassword.php";
                     });
 
                 }

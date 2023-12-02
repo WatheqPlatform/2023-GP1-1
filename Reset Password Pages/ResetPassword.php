@@ -2,53 +2,61 @@
 
  include("../dbConnection.php");
 
-// Check if the token is provided in the URL parameter
-if (isset($_GET["token"])) {
+ // Check if the token is provided in the URL parameter
+ if (isset($_GET["token"]) || ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["Newtoken"] !="")) {
     
-    $token = urldecode($_GET["token"]);
-
-    // Retrieve the email and timestamp associated with the token
-    $stmt = $conn->prepare("SELECT Email, Timestamp FROM providerresettokens WHERE Token =  ? ");
-    $stmt->bind_param("s", $token);
-    if($stmt->execute()){
-       $result = $stmt->get_result();
+    if (isset($_GET["token"]) && $_GET["token"] != "") {
+        $token = urldecode($_GET["token"]);
+    } elseif (isset($_POST["Newtoken"]) && $_POST["Newtoken"] != "") {
+        $token = $_POST["Newtoken"];
+    } else {
+         $token="";
     }
-
-    if ($result->num_rows > 0) {      
-        $row = $result->fetch_assoc();
-        $email = $row["Email"];
-        $timestamp = $row["Timestamp"];
-
+  
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        
+        // Retrieve the email and timestamp associated with the token
+        $stmt = $conn->prepare("SELECT Email, Timestamp FROM providerresettokens WHERE Token =  ? ");
+        $stmt->bind_param("s", $token);
+        if($stmt->execute()){
+           $result = $stmt->get_result();
+        }
+        
+        if ($result->num_rows > 0) {      
+            $row = $result->fetch_assoc();
+            $email = $row["Email"];
+            $timestamp = $row["Timestamp"];
+        } else {
+            echo "failure3";   
+            exit();
+        }
+        
         // Check if the token is still valid (e.g., not expired)
         $expirationTime = 3 * 60; // Token expires after 3 minutes 
         if (time() - $timestamp < $expirationTime) {
             // Token is valid, allow the user to reset the password
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                
-                $newPassword = $_POST["new_password"];
-                $passwordRegex = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?!.*\s).{8,}$/";
-                
-                if (!preg_match($passwordRegex, $newPassword)) {           
-                    echo "failure2";   
-                    exit();
-                }
-
-                // Update the password in the database for the corresponding email address
-                $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);        
-                $stmt2 = $conn->prepare("UPDATE jobprovider SET Password = ? WHERE JobProviderEmail = ? ");
-                $stmt2->bind_param("ss", $hashedPassword , $email);
-                $stmt2->execute();
-                echo "success";
-                exit();  
+            
+            $newPassword = $_POST["Newpassword"];
+            $passwordRegex = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?!.*\s).{8,}$/";
+            
+            if (!preg_match($passwordRegex, $newPassword)) {           
+                echo "failure4";   
+                exit();
             }
-        } else {
-            echo "failure3";    
+            // Update the password in the database for the corresponding email address
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);        
+            $stmt2 = $conn->prepare("UPDATE jobprovider SET Password = ? WHERE JobProviderEmail = ? ");
+            $stmt2->bind_param("ss", $hashedPassword , $email);
+            $stmt2->execute();
+            echo "success";
+            exit();  
+            
+        }else {
+            echo "failure2";    
             exit();
         }
-    } else {
-        echo "failure4";   
-        exit();
     }
+    
 } else {
     echo '<script>window.location.href="../index.php";</script>';
     exit();
@@ -114,6 +122,7 @@ if (isset($_GET["token"])) {
             </p>
 
             <form id="resetPasswordForm" method="POST">
+                <input type="hidden" name="token" id="token" value="<?php echo htmlspecialchars($token); ?>">
                 <label for="new_password">New Password</label>
                 <input type="password" name="new_password" id="passwordInput" onkeyup="validatePassword()"  required>
                 <div id="passwordMessage"></div>
@@ -152,11 +161,11 @@ if (isset($_GET["token"])) {
             </div>
             <div class="faliure_wrap4">
                 <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
-                <p>Email does not exist, please try again</p>
+                <p>Password must satisfy the specified rules</p>
             </div>
             <div class="success_wrap">
                 <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->
-                <p>Password reset successfully. You can now login with your new password</p>
+                <p>Password reset successfully, you can log in now.</p>
             </div>
         </div>
 

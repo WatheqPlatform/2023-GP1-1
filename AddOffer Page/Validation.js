@@ -1,17 +1,14 @@
 $(document).ready(function () {
     $("#SubmitButton").click(function () {
 
-
-
-
-//        // Check if any item in the array is empty
-//        inputValues.forEach(value => {
-//            if (value == undefined || value == null || value === "") {
-//                isEmpty = true;
-//            }
-//        });
-//        
-// Get the field values
+        //        // Check if any item in the array is empty
+        //        inputValues.forEach(value => {
+        //            if (value == undefined || value == null || value === "") {
+        //                isEmpty = true;
+        //            }
+        //        });
+        //        
+        // Get the field values
         var jobTitle = $("#jobTitle").val();
         var jobDescription = $("#jobDescription").val();
         var jobAddress = $("#jobAddress").val();
@@ -21,10 +18,10 @@ $(document).ready(function () {
         var jobCategories = $("#job-categories").val();
         var jobCity = $("#jobCity").val();
 
-// Create an array to store the missing fields
+        // Create an array to store the missing fields
         var missingFields = [];
 
-// Check each field if it is empty
+        // Check each field if it is empty
         if (jobTitle === "") {
             missingFields.push("Job Title");
         }
@@ -53,7 +50,7 @@ $(document).ready(function () {
             missingFields.push("Maximum Salary");
         }
 
-// Check if any fields are missing
+        // Check if any fields are missing
         if (missingFields.length > 0) {
             if (missingFields.length !== 8) {
 
@@ -75,10 +72,10 @@ $(document).ready(function () {
                     faliure_wrap.classList.remove("active");
                 });
                 // Construct the error message
-//            var errorMessage = "Please fill in the following fields: " + missingFields.join(", ");
+                // var errorMessage = "Please fill in the following fields: " + missingFields.join(", ");
 
                 // Display the error message
-//            alert(errorMessage);
+                // alert(errorMessage);
             } else {
 
 
@@ -114,46 +111,44 @@ $(document).ready(function () {
 
             if ((!$("#maxSalary").val().match(/^\d+$/)))
             {
-              
-                
-                        var failureMessageElement = document.querySelector(".faliure_wrap p");
-                        failureMessageElement.textContent = "Please enter a valid number for maximum salary";
+                var failureMessageElement = document.querySelector(".faliure_wrap p");
+                failureMessageElement.textContent = "Please enter a valid number for maximum salary";
 
-                        var modal_wrapper = document.querySelector(".modal_wrapper");
-                        var faliure_wrap = document.querySelector(".faliure_wrap");
-                        var shadow = document.querySelector(".shadow");
+                var modal_wrapper = document.querySelector(".modal_wrapper");
+                var faliure_wrap = document.querySelector(".faliure_wrap");
+                var shadow = document.querySelector(".shadow");
 
 
 
-                        modal_wrapper.classList.add("active");
-                        faliure_wrap.classList.add("active");
+                modal_wrapper.classList.add("active");
+                faliure_wrap.classList.add("active");
 
-                        //Clicking anywhere on the screen remove the sessamge
-                        shadow.addEventListener("click", function () {
-                            modal_wrapper.classList.remove("active");
-                            faliure_wrap.classList.remove("active");
-                        });
+                //Clicking anywhere on the screen remove the sessamge
+                shadow.addEventListener("click", function () {
+                    modal_wrapper.classList.remove("active");
+                    faliure_wrap.classList.remove("active");
+                });
 
             } else {
                 if ((!$("#minSalary").val().match(/^\d+$/))) {
                    
-                      var failureMessageElement = document.querySelector(".faliure_wrap p");
-                        failureMessageElement.textContent = "Please enter a valid number for minimum salary";
+                    var failureMessageElement = document.querySelector(".faliure_wrap p");
+                    failureMessageElement.textContent = "Please enter a valid number for minimum salary";
 
-                        var modal_wrapper = document.querySelector(".modal_wrapper");
-                        var faliure_wrap = document.querySelector(".faliure_wrap");
-                        var shadow = document.querySelector(".shadow");
+                    var modal_wrapper = document.querySelector(".modal_wrapper");
+                    var faliure_wrap = document.querySelector(".faliure_wrap");
+                    var shadow = document.querySelector(".shadow");
 
 
 
-                        modal_wrapper.classList.add("active");
-                        faliure_wrap.classList.add("active");
+                    modal_wrapper.classList.add("active");
+                    faliure_wrap.classList.add("active");
 
-                        //Clicking anywhere on the screen remove the sessamge
-                        shadow.addEventListener("click", function () {
-                            modal_wrapper.classList.remove("active");
-                            faliure_wrap.classList.remove("active");
-                        });
+                    //Clicking anywhere on the screen remove the sessamge
+                    shadow.addEventListener("click", function () {
+                        modal_wrapper.classList.remove("active");
+                        faliure_wrap.classList.remove("active");
+                    });
                 } else {
                     if (parseFloat($("#minSalary").val()) > parseFloat($("#maxSalary").val())) {
 
@@ -460,8 +455,6 @@ $(document).ready(function () {
                         var faliure_wrap = document.querySelector(".faliure_wrap");
                         var shadow = document.querySelector(".shadow");
 
-
-
                         modal_wrapper.classList.add("active");
                         faliure_wrap.classList.add("active");
 
@@ -480,8 +473,6 @@ $(document).ready(function () {
                         var faliure_wrap = document.querySelector(".faliure_wrap");
                         var shadow = document.querySelector(".shadow");
 
-
-
                         modal_wrapper.classList.add("active");
                         faliure_wrap.classList.add("active");
 
@@ -499,8 +490,6 @@ $(document).ready(function () {
                         var modal_wrapper = document.querySelector(".modal_wrapper");
                         var faliure_wrap = document.querySelector(".faliure_wrap");
                         var shadow = document.querySelector(".shadow");
-
-
 
                         modal_wrapper.classList.add("active");
                         faliure_wrap.classList.add("active");

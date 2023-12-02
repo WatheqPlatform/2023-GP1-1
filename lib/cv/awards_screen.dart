@@ -90,10 +90,11 @@ class _AwardsScreenState extends State<AwardsScreen> {
         };
         if (qualification['DegreeLevel'] != 'Pre-high school') {
           requiredFieldsQualification.addAll(['Field','IssuedBy', 'StartDate']);
+          if (qualification['workingHere'] == false) {
+            requiredFieldsQualification.add('EndDate');
+          }
         }
-        if (qualification['workingHere'] == false) {
-          requiredFieldsQualification.add('EndDate');
-        }
+
         for (String field in requiredFieldsQualification) {
           if (qualification[field] == null || qualification[field].toString().isEmpty) {
             return "Missing or empty field in qualifications: ${messages[field]?.call(qualification) ?? field} ";

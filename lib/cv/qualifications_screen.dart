@@ -293,7 +293,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         'endDate': endDate,
         'uName': uName
       });
-      stillWorking.add(ValueNotifier(endDate == null || endDate.isEmpty));
+      stillWorking.add(ValueNotifier(endDate == null));
       degreeLevelControllers.add(TextEditingController(text: level));
       degreeFieldControllers.add(TextEditingController(text: field));
       otherContrllers.add(TextEditingController(text: other));

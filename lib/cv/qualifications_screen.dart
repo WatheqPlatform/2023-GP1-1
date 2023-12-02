@@ -190,7 +190,10 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                 }).toList(),
               ),
               const SizedBox(height: 16,),
-              RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i]),
+              Visibility(visible: (degreeFieldControllers[i].text.isNotEmpty
+               && degreeFieldControllers[i].text == 'other'
+              ),
+              child: RequiredFieldWidget(starColor: Colors.green,label: 'Custom Field', keyName: 'field', controller: otherContrllers[i])),
               RequiredFieldWidget(label:  degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text == 'High School' ? 'School Name' : 'University Name' , keyName: 'u-name', controller: universityControllers[i], starColor: Colors.green,)
             ],
           ),

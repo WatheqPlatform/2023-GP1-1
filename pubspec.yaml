@@ -48,6 +48,7 @@ dependencies:
   string_capitalize: ^0.0.10 #Capitalize words
   month_year_picker: ^0.3.0+1
   intl: ^0.18.1
+  awesome_dialog: ^3.1.0
   
 dev_dependencies:
   flutter_test:

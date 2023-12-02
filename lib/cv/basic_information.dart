@@ -113,7 +113,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
                   child: const Icon(
-                  child: const Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -149,7 +148,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                   ),
                 ),
                 child: Form(
-                  key: widget.formKey,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -230,18 +228,24 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                             {'city': selectedCity['CityId']});
                                       }
                                     },
-                                    decoration: const InputDecoration(
+                                    decoration:  InputDecoration(
                                       enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xFF085399)),
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFF14386E),
+                                        ),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xFF085399)),
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: const BorderSide(
+                                          color: Color(0xFF14386E),
+                                        ),
                                       ),
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 10),
-                                    ),
+                                      contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0,
+                                        vertical: 0.012,
+                                      ),
+                                    )
                                   ),
                                 const SizedBox(
                                   height: 16,
@@ -265,9 +269,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                           textDirection: TextDirection.rtl,
                           child: ElevatedButton.icon(
                             onPressed: () {
-                              if (widget.formKey.currentState!.validate()) {
-                              } else {}
-                              widget.formKey.currentState!.save();
+
                               widget.formController.updateFormData(
                                   {'firstName': firstNameController.text});
                               widget.formController.updateFormData(

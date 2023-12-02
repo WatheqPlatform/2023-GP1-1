@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:watheq/cv/widgets/circles_bar.dart';
 import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
-import 'package:watheq/profile_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'controller/form_controller.dart';
 
@@ -331,7 +330,12 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                                     'issuedBy': issuedByControllers[i].text,
                                     'date': datesController[i].text
                                   };
-                                  if (certificateNameControllers[i].text.isNotEmpty) {
+                                  List <String> reqs=  [
+                                    certificateNameControllers[i].text,
+                                    issuedByControllers[i].text,
+                                    datesController[i].text
+                                  ];
+                                  if (reqs.any((element) => element.isNotEmpty)) {
                                     formController.addCertificate(data);
                                   }
 

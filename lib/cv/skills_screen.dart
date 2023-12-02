@@ -3,24 +3,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:watheq/cv/widgets/circles_bar.dart';
-import 'package:watheq/cv/widgets/date_button.dart';
 import 'package:watheq/cv/widgets/required_field_widget.dart';
-import 'package:watheq/profile_screen.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'controller/form_controller.dart';
 
 class SkillsScreen extends StatefulWidget {
-  final isEdit;
   final VoidCallback onNext;
-  final email;
+  final String email;
   final VoidCallback onBack;
-  final goToPage;
 
   const SkillsScreen(
       {super.key,
-      required this.isEdit,
 
-      required this.onNext, required this.onBack, required this.email, required this.goToPage});
+      required this.onNext, required this.onBack, required this.email});
 
   @override
   _SkillsScreenState createState() => _SkillsScreenState();
@@ -94,12 +89,9 @@ class _SkillsScreenState extends State<SkillsScreen> {
     final x = formController.formData.value['skills'];
 
     for (int i = 1; i <= steps; i++) {
-      String? Description;
-
       if (x.length >= i) {
-        Description = x[i-1]['Description'];
-        descriptionControllers.add(TextEditingController(text: Description));
-
+        String description = x[i-1]['Description'];
+        descriptionControllers.add(TextEditingController(text: description));
       }
       else {
         descriptionControllers.add(TextEditingController());
@@ -302,7 +294,6 @@ class _SkillsScreenState extends State<SkillsScreen> {
                                     'Description': descriptionControllers[i].text,
                                     'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null
                                   };
-                                  print(data);
                                   if (descriptionControllers[i].text.isNotEmpty) {
                                     formController.addSkill(data);
                                   }

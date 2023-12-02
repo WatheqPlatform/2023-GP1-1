@@ -304,8 +304,14 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                 onPressed: () {
                                   final beforeList = [...widget.formController.formData.value['projects']];
                                   widget.formController.formData['projects'] = [];
+                                  
                                   for (int i = 1; i <= steps; i++) {
-                                    if (projectNameControllers[i].text.isNotEmpty) {
+                                    List<String> reqs = [
+                                      projectNameControllers[i].text,
+                                      descriptionControllers[i].text,
+                                      datesControllers[i].text
+                                    ];
+                                    if (reqs.any((element) => element.isNotEmpty)) {
                                       widget.formController.addProject({
                                       'ProjectName': projectNameControllers[i].text,
                                       'Description': descriptionControllers[i].text,

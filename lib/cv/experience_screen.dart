@@ -146,7 +146,8 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                 companyNameControllers[i].text="";
                 startDatesController[i].text="";
                 endDatesController[i].text="";
-                experienceIndustryControllers[i].text="None";
+                experienceIndustryControllers[i].text="";
+                stillWorking[i].value = false;
                 cachedSteps[i-1] = buildStepItem(i, i);
                 return;
               }
@@ -221,7 +222,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       if (widget.formController.formData['experiences'].length >= i) {
         final experience = widget.formController.formData['experiences'][i-1];
 
-        category = fieldsWithId.where((element) => element['CategoryID'] == experience['CategoryID'].toString()).first['CategoryName'];
+        category = fieldsWithId.where((element) => element['CategoryID'] == experience['CategoryID'].toString()).firstOrNull?['CategoryName'] ?? "None";
         jobTitle = experience['JobTitle'];
         company = experience['CompanyName'];
         startDate = experience['StartDate'];
@@ -422,11 +423,17 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                   widget.formController.formData['experiences'] = [];
 
                                   for (int i = 1; i <= steps; i++) {
-                                    if (experienceIndustryControllers[i].text.isNotEmpty && experienceIndustryControllers[i].text != 'None') {
+                                    List <String> requiredFields = [
+                                      experienceIndustryControllers[i].text,
+                                      jobTitleControllers[i].text,
+                                      companyNameControllers[i].text,
+                                      startDatesController[i].text
+                                    ];
+                                    if (requiredFields.any((element) => element.isNotEmpty)) {
                                       widget.formController.addExperience({
                                         'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
                                         'workingHere': stillWorking[i].value,
-                                        'CategoryID': fieldsWithId.where((element) => element['CategoryName'] == experienceIndustryControllers[i].text).first['CategoryID'],
+                                        'CategoryID': fieldsWithId.where((element) => element['CategoryName'] == experienceIndustryControllers[i].text).firstOrNull?['CategoryID'] ?? "",
                                         'JobTitle': jobTitleControllers[i].text,
                                         'CompanyName': companyNameControllers[i].text,
                                         'StartDate': startDatesController[i].text,

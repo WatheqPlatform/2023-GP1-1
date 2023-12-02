@@ -106,12 +106,15 @@ class _AwardsScreenState extends State<AwardsScreen> {
           DateTime endDate = intl.DateFormat('yyyy/MM/dd').parse(qualification['EndDate']);
 
           if (startDate.isAfter(endDate)) {
-            return "StartDate must be before EndDate in qualifications";
+            return "Qualification’s end date must be after its start date";
           }
         }
       }
     }
     if (data['experiences'] != null && data['experiences'] is List) {
+      final messages = {
+        'CategoryID':'Industry',
+      };
       for (Map<String, dynamic> experience in data['experiences']) {
         List<String> requiredFieldsExperience = ['CategoryID', 'JobTitle', 'CompanyName', 'StartDate'];
         if (experience['workingHere'] == false) {
@@ -119,7 +122,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
         }
         for (String field in requiredFieldsExperience) {
           if (experience[field] == null || experience[field].toString().isEmpty) {
-            return "Missing or empty field in experiences: $field";
+            return "Missing or empty field in experiences: ${messages[field] ?? field}";
           }
         }
         if (experience['StartDate'] != null && experience['EndDate'] != null) {
@@ -187,8 +190,8 @@ class _AwardsScreenState extends State<AwardsScreen> {
         },
       );
       String jsonString = json.encode(body);
-      print(jsonString);
-      var response = await http.post(
+
+      await http.post(
         Uri.parse(Connection.createCv),
         headers: {
           'Content-Type': 'application/json',
@@ -508,8 +511,14 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                                 .text,
                                             'date': datesController[i].text
                                           };
-                                          if (awardNameControllers[i].text
-                                              .isNotEmpty) {
+                                          List <String> reqs = [
+                                             awardNameControllers[i]
+                                                .text,
+                                            issuedByControllers[i]
+                                                .text,
+                                             datesController[i].text
+                                          ];
+                                          if (reqs.any((element) => element.isNotEmpty)) {
                                             formController.addAward(data);
                                           }
                                         }

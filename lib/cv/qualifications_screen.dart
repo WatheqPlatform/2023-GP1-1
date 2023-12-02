@@ -11,17 +11,13 @@ import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import '../profile_screen.dart';
 import 'controller/form_controller.dart';
 
 class QualificationsScreen extends StatefulWidget {
-  final isEdit;
-  final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
   final VoidCallback onBack;
-  final email;
-  final goToPage;
-  QualificationsScreen({super.key, required this.isEdit,  required this.formKey, required this.onNext, required this.onBack, required this.email, required this.goToPage});
+  final String email;
+  QualificationsScreen({super.key, required this.onNext, required this.onBack, required this.email,});
   final FormController formController = Get.find( tag: 'form-control' );
   @override
   _QualificationsScreenState createState() => _QualificationsScreenState();
@@ -95,7 +91,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       key: Key(i.toString()),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (i != 1) SizedBox(height: 40,),
+        if (i != 1) const SizedBox(height: 40,),
         Text(
           'Qualification $j',
           style: const TextStyle(
@@ -149,7 +145,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
             );
           }).toList(),
         ),
-        Visibility(child: const SizedBox(height: 16,), visible: degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None',),
+        Visibility(visible: degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None',child: const SizedBox(height: 16,),),
         if (fields.isNotEmpty)Visibility(
           visible:( degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None'),
           child: Column(
@@ -204,7 +200,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         Visibility(
           visible: degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'Pre-high school' && degreeLevelControllers[i].text != 'None' ,
           child:  Container(
-            margin:  EdgeInsets.only(bottom: 16.0),
+            margin:  const EdgeInsets.only(bottom: 16.0),
             child: Row(
 
             mainAxisAlignment: MainAxisAlignment.start,
@@ -223,7 +219,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   });
                 },
               ),
-              Text('I am still studying here'),
+              const Text('I am still studying here'),
 
             ],
         ),
@@ -249,7 +245,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           },
 
           child: Container(
-            padding: EdgeInsets.fromLTRB(0,10,0,0),
+            padding: const EdgeInsets.fromLTRB(0,10,0,0),
             child: const Icon(
               Icons.cancel_outlined,
               color: Colors.red,
@@ -270,7 +266,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     List<Widget> l = [];
     for (int i = 1; i <= steps; i++) {
       String? level, field, other = "", sDate = "", endDate ="", uName = "";
-      print(widget.formController.formData['qualifications']);
+
       if (widget.formController.formData['qualifications'].length >= i) {
         level = widget.formController.formData['qualifications'][i-1]['DegreeLevel'];
         sDate = widget.formController.formData['qualifications'][i-1]['StartDate'];
@@ -284,15 +280,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           field = 'other';
         }
       }
-      print({
-        'level': level,
-        'field': field,
-        'other': other,
-        'sDate': sDate,
-        'sDate': sDate,
-        'endDate': endDate,
-        'uName': uName
-      });
       stillWorking.add(ValueNotifier(endDate == null));
       degreeLevelControllers.add(TextEditingController(text: level));
       degreeFieldControllers.add(TextEditingController(text: field));
@@ -369,13 +356,13 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                   btnOkColor: Colors.red,
                                   btnCancelText: 'NO',
                                   btnOkText: 'YES',
-                    )..show();
+                    ).show();
                   },
                       height: 40,
                   width: 40,
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -413,11 +400,10 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   ),
                 ),
                 child: Form(
-                  key: widget.formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      SizedBox(
                         height: screenHeight * 0.73,
                         child: Column(
                           children: [
@@ -446,7 +432,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                         setState(() {});
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.fromLTRB(0,10,0,0),
+                                        padding: const EdgeInsets.fromLTRB(0,10,0,0),
                                         child: const Icon(
                                           Icons.add_circle_outline,
                                           color: Color(0xFF085399),
@@ -462,7 +448,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                           ],
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -473,7 +459,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
 
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF9E9E9E),
+                                backgroundColor: const Color(0xFF9E9E9E),
                                 padding: const EdgeInsets.symmetric(horizontal: 40),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
@@ -490,7 +476,13 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                   final beforeList = [...widget.formController.formData.value['qualifications']];
                                   widget.formController.formData['qualifications'] = [];
                                     for (int i = 1; i <= steps; i++) {
-                                      if (degreeLevelControllers[i].text.isNotEmpty && degreeLevelControllers[i].text != 'None') {
+                                      List <String> requiredFields = [
+                                        universityControllers[i].text,
+                                        degreeLevelControllers[i].text,
+                                        degreeFieldControllers[i].text,
+                                        startDatesController[i].text
+                                      ];
+                                      if (requiredFields.any((e) => e.isNotEmpty) && degreeLevelControllers[i].text != 'None') {
                                         widget.formController.addQualification(
                                             {
                                               'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,

@@ -8,20 +8,14 @@ import 'package:watheq/cv/widgets/required_field_widget.dart';
 import 'package:watheq/cv/widgets/required_label.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq/offer_details_screen.dart';
 import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import '../profile_screen.dart';
 import 'controller/form_controller.dart';
 
 class BasicInformationScreen extends StatefulWidget {
-  final isEdit;
-  final GlobalKey<FormState> formKey;
   final VoidCallback onNext;
-  final email;
-  final goToPage;
-  BasicInformationScreen({super.key, required this.isEdit, required this.formKey, required this.onNext, required this.email, required this.goToPage});
+  late final String email;
+  BasicInformationScreen({super.key, required this.onNext, required this.email});
   final FormController formController = Get.put(FormController(), tag: 'form-control');
   @override
   State<BasicInformationScreen> createState() => _BasicInformationScreenState();
@@ -68,7 +62,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    int currentStep = 0;
     String firstName = "", lastName = "", phoneNumber = "", contactEmail = "", summary = "";
     firstName = widget.formController.formData['firstName'] ?? '';
     lastName = widget.formController.formData['lastName'] ?? '';
@@ -116,13 +109,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   btnOkColor: Colors.red,
                                   btnCancelText: 'NO',
                                   btnOkText: 'YES',
-                    )..show();
+                    ).show();
                   },
                       height: 40,
                   width: 40,
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -161,14 +154,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                     ),
                   ),
                   child: Form(
-                    key: widget.formKey,
                     child: Column(
                       children: [
                         Center(
                           child: ConnectedCircles(pos: 0,),
                         ),
-                        Center(
-                          child: const Text(
+                        const Center(
+                          child:  Text(
                             'Personal Information',
                             style: TextStyle(
                                 fontSize: 25,
@@ -194,6 +186,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 RequiredFieldLabel(labelText: 'City',),
 
                                 if (cities.isNotEmpty) DropdownButtonFormField<Map<String, dynamic>>(
+
                                   items: cityDropdownItems,
                                   value: (cities.firstWhereOrNull((element) => element['CityId'] == widget.formController.formData['city'].toString()) ),
                                   key: const Key('city'),
@@ -202,24 +195,33 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                       widget.formController.updateFormData({'city': selectedCity['CityId']});
                                     }
                                   },
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color(0xFF085399)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Color(0xFF14386E),
+                                      ),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: Color(0xFF085399)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Color(0xFF14386E),
+                                      ),
                                     ),
-                                    contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal:  8.0,
+                                      vertical:  0.012,
+                                    ),
                                   ),
                                 ),
-                                SizedBox(height: 16,),
+                                const SizedBox(height: 16,),
                                 RequiredFieldWidget(maxLength: 500, keyboardType: TextInputType.multiline,maxLines: 5, label: 'Professional Summary',keyName: 'summary',controller: summaryController,),
                               ],
                             ),
                           ),
                         ),
 
-                        Spacer(),
+                        const Spacer(),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -228,11 +230,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 child: ElevatedButton.icon(
 
                                   onPressed: () {
-                                    if (widget.formKey.currentState!.validate()) {
-                                    }
-                                    else {
-                                    }
-                                    widget.formKey.currentState!.save();
                                     widget.formController.updateFormData({ 'firstName': firstNameController.text });
                                     widget.formController.updateFormData({'lastName': lastNameController.text});
                                     widget.formController.updateFormData({'summary': summaryController.text});

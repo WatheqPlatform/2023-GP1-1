@@ -12,11 +12,10 @@ class SkillsScreen extends StatefulWidget {
 
   const SkillsScreen(
       {super.key,
-      required this.isEdit,
       required this.onNext,
       required this.onBack,
       required this.email,
-      required this.goToPage});
+      });
 
   @override
   _SkillsScreenState createState() => _SkillsScreenState();

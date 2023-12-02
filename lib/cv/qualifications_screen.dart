@@ -432,7 +432,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   color: Colors.transparent,
                   borderRadius: BorderRadius.circular(5),
                   child: const Icon(
-                  child: const Icon(
                     Icons.arrow_back_ios_rounded,
                     size: 40,
                     color: Color.fromARGB(255, 255, 255, 255),
@@ -470,7 +469,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                     ),
                   ),
                   child: Form(
-                    key: widget.formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -602,50 +600,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                       }
                                     }
                                     widget.onNext();
-                                  final beforeList = [
-                                    ...widget.formController.formData
-                                        .value['qualifications']
-                                  ];
-                                  widget.formController
-                                      .formData['qualifications'] = [];
-                                  for (int i = 1; i <= steps; i++) {
-                                    if (degreeLevelControllers[i]
-                                            .text
-                                            .isNotEmpty &&
-                                        degreeLevelControllers[i].text !=
-                                            'None') {
-                                      widget.formController.addQualification({
-                                        'id': i - 1 < beforeList.length
-                                            ? beforeList[i - 1]['id']
-                                            : null,
-                                        'workingHere': stillWorking[i].value,
-                                        'DegreeLevel':
-                                            degreeLevelControllers[i].text,
-                                        'Field': degreeFieldControllers[i]
-                                                    .text !=
-                                                'Select'
-                                            ? (degreeFieldControllers[i].text ==
-                                                    'other'
-                                                ? otherContrllers[i].text
-                                                : degreeFieldControllers[i]
-                                                    .text)
-                                            : null,
-                                        'FieldFlag':
-                                            degreeFieldControllers[i].text ==
-                                                    'other'
-                                                ? 1
-                                                : 0,
-                                        'StartDate':
-                                            startDatesController[i].text,
-                                        'EndDate': !stillWorking[i].value
-                                            ? endDatesController[i].text
-                                            : null,
-                                        'IssuedBy':
-                                            universityControllers[i].text
-                                      });
-                                    }
-                                  }
-                                  widget.onNext();
+
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xFF085399),

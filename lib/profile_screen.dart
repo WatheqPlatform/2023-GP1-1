@@ -37,7 +37,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Uri url = Uri.parse('${Connection.getCv}?jobSeekerEmail=${widget.email}');
       var response = await http.get(url);
       var data = json.decode(response.body);
-      if (data['data'] is List) {
+      if (data['data']["ID"] == null) {
+        setState(() {
+          isEdit = false;
+        });
       } else {
         formController.formData.value = data['data'];
         data['data']['phoneNumber'] = '0${data['data']['phoneNumber']}';
@@ -79,6 +82,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     fetchUserData();
+    isEdit = false;
+
     fetchCV();
   }
 

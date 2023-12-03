@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'controller/form_controller.dart';
+import 'package:watheq/profile_screen.dart';
 
 class QualificationsScreen extends StatefulWidget {
   final VoidCallback onNext;
@@ -427,7 +428,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                           'Are you sure you want to cancel? \n Your actions will not be saved.',
                       btnCancelOnPress: () {},
                       btnOkOnPress: () {
-                        Navigator.of(context).pop();
+                        Get.to(ProfileScreen(email: widget.email));
                       },
                       btnCancelColor: Colors.grey,
                       btnOkColor: Colors.red,

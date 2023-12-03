@@ -202,7 +202,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                           'Are you sure you want to cancel? \n Your actions will not be saved.',
                       btnCancelOnPress: () {},
                       btnOkOnPress: () {
-                        Navigator.of(context).pop();
+                        Get.to(ProfileScreen(email: widget.email));
                       },
                       btnCancelColor: Colors.grey,
                       btnOkColor: Colors.red,

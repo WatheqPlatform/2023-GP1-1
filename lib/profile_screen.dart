@@ -81,9 +81,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    formController.reset();
     fetchUserData();
     isEdit = false;
-
     fetchCV();
   }
 

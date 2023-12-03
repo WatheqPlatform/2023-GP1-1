@@ -229,7 +229,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                                   Map<String, dynamic>>(
                                               items: cityDropdownItems,
                                               borderRadius:
-                                                  BorderRadius.circular(50),
+                                                  BorderRadius.circular(10),
                                               value: (cities.firstWhereOrNull(
                                                   (element) =>
                                                       element['CityId'] ==

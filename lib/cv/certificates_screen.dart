@@ -327,7 +327,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 17,
                         ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -357,7 +357,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 10),
+                              SizedBox(width: 17),
                               Directionality(
                                 textDirection: TextDirection.rtl,
                                 child: Expanded(
@@ -378,9 +378,9 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                                               : null,
                                           'certificateName':
                                               certificateNameControllers[i]
-                                                  .text.trim(),
+                                                  .text,
                                           'issuedBy':
-                                              issuedByControllers[i].text.trim(),
+                                              issuedByControllers[i].text,
                                           'date': datesController[i].text
                                         };
                                         List<String> reqs = [

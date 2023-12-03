@@ -26,6 +26,7 @@ class RequiredFieldWidget extends StatelessWidget {
       this.removeGutter = false,
       this.maxLength = 50});
   String? validatePhone(String? value) {
+    value = value?.trim();
     if (value == null || value.isEmpty) {
       return null;
     }
@@ -37,6 +38,7 @@ class RequiredFieldWidget extends StatelessWidget {
   }
 
   String? validateEmail(String? value) {
+    value = value?.trim();
     if (value == null || value.isEmpty) {
       return null;
     }
@@ -47,6 +49,7 @@ class RequiredFieldWidget extends StatelessWidget {
   }
 
   String? validateShortText(String? value) {
+    value = value?.trim();
     if (value == null || value.isEmpty) {
       return null;
     }
@@ -57,6 +60,7 @@ class RequiredFieldWidget extends StatelessWidget {
   }
 
   String? validateLongText(String? value) {
+    value = value?.trim();
     if (value == null || value.isEmpty) {
       return null;
     }

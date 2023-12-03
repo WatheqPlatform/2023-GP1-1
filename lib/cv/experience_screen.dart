@@ -132,7 +132,6 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
           label: 'Start Date',
           dateController: startDatesController[i],
           mode: DatePickerButtonMode.month,
-          lastDate: DateTime.now(),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 16.0),
@@ -464,7 +463,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 10,
+                          height: 17,
                         ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -495,7 +494,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                 ),
                               ),
                               const SizedBox(
-                                width: 10,
+                                width: 17,
                               ),
                               Directionality(
                                 textDirection: TextDirection.rtl,
@@ -534,15 +533,14 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                                     .firstOrNull?['CategoryID'] ??
                                                 "",
                                             'JobTitle':
-                                                jobTitleControllers[i].text.trim(),
+                                                jobTitleControllers[i].text,
                                             'CompanyName':
-                                                companyNameControllers[i].text.trim(),
+                                                companyNameControllers[i].text,
                                             'StartDate':
                                                 startDatesController[i].text,
                                             'EndDate': stillWorking[i].value
                                                 ? null
                                                 : endDatesController[i].text,
-
                                           });
                                         }
                                       }

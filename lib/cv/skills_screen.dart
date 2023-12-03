@@ -10,12 +10,12 @@ class SkillsScreen extends StatefulWidget {
   final String email;
   final VoidCallback onBack;
 
-  const SkillsScreen(
-      {super.key,
-      required this.onNext,
-      required this.onBack,
-      required this.email,
-      });
+  const SkillsScreen({
+    super.key,
+    required this.onNext,
+    required this.onBack,
+    required this.email,
+  });
 
   @override
   _SkillsScreenState createState() => _SkillsScreenState();
@@ -266,7 +266,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                           ),
                         ),
                         const SizedBox(
-                          height: 3,
+                          height: 17,
                         ),
                         Row(children: [
                           Expanded(
@@ -295,7 +295,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                             ),
                           ),
                           const SizedBox(
-                            width: 10,
+                            width: 17,
                           ),
                           Directionality(
                             textDirection: TextDirection.rtl,
@@ -309,7 +309,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                                   for (int i = 1; i <= steps; i++) {
                                     final data = {
                                       'Description':
-                                          descriptionControllers[i].text.trim(),
+                                          descriptionControllers[i].text,
                                       'id': i - 1 < beforeList.length
                                           ? beforeList[i - 1]['id']
                                           : null

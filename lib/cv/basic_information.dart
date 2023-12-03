@@ -12,8 +12,10 @@ import 'controller/form_controller.dart';
 class BasicInformationScreen extends StatefulWidget {
   final VoidCallback onNext;
   late final String email;
-  BasicInformationScreen({super.key, required this.onNext, required this.email});
-  final FormController formController = Get.put(FormController(), tag: 'form-control');
+  BasicInformationScreen(
+      {super.key, required this.onNext, required this.email});
+  final FormController formController =
+      Get.put(FormController(), tag: 'form-control');
   @override
   State<BasicInformationScreen> createState() => _BasicInformationScreenState();
 }
@@ -55,7 +57,11 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    String firstName = "", lastName = "", phoneNumber = "", contactEmail = "", summary = "";
+    String firstName = "",
+        lastName = "",
+        phoneNumber = "",
+        contactEmail = "",
+        summary = "";
     firstName = widget.formController.formData['firstName'] ?? '';
     lastName = widget.formController.formData['lastName'] ?? '';
     phoneNumber =
@@ -135,182 +141,208 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               height: 15,
             ),
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 30,
-                  horizontal: 30,
-                ),
-                height: screenHeight * 0.9,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(80.0),
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 30,
+                    horizontal: 30,
                   ),
-                ),
-                child: Form(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Center(
-                        child: ConnectedCircles(
-                          pos: 0,
-                        ),
-                      ),
-                      const Center(
-                        child: Text(
-                          'Personal Information',
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Color(0xFF085399),
-                              fontWeight: FontWeight.w500),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "* Required field",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          height: screenHeight * 0.63,
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                RequiredFieldWidget(
-                                  label: 'First Name',
-                                  keyName: 'firstName',
-                                  controller: firstNameController,
+                  height: screenHeight * 0.9,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(80.0),
+                    ),
+                  ),
+                  child: Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: screenHeight * 0.73,
+                          child: Column(
+                            children: [
+                              Center(
+                                child: ConnectedCircles(
+                                  pos: 0,
                                 ),
-                                RequiredFieldWidget(
-                                  label: 'Last Name',
-                                  keyName: 'lastName',
-                                  controller: lastNameController,
+                              ),
+                              const Center(
+                                child: Text(
+                                  'Personal Information',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Color(0xFF085399),
+                                      fontWeight: FontWeight.w500),
+                                  textAlign: TextAlign.center,
                                 ),
-                                RequiredFieldWidget(
-                                  keyboardType: TextInputType.phone,
-                                  label: 'Phone Number',
-                                  keyName: 'phoneNumber',
-                                  controller: phoneNumberController,
-                                ),
-                                RequiredFieldWidget(
-                                  label: 'Contact Email',
-                                  keyName: 'contactEmail',
-                                  controller: contactEmailController,
-                                ),
-                                RequiredFieldLabel(
-                                  labelText: 'City',
-                                ),
-                                if (cities.isNotEmpty)
-                                  DropdownButtonFormField<Map<String, dynamic>>(
-                                    decoration: InputDecoration(
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFF14386E),
-                                        ),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                          color: Color(0xFF14386E),
-                                        ),
-                                      ),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0,
-                                        vertical: 0.012,
-                                      ),
-                                    ),
-                                  
-                                    items: cityDropdownItems,
-                                    value: (cities.firstWhereOrNull((element) =>
-                                        element['CityId'] ==
-                                        widget.formController.formData['city']
-                                            .toString())),
-                                    key: const Key('city'),
-                                    onChanged:
-                                        (Map<String, dynamic>? selectedCity) {
-                                      if (selectedCity != null) {
-                                        widget.formController.updateFormData(
-                                            {'city': selectedCity['CityId']});
-                                      }
-                                    },
-
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "* Required field",
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 15,
                                   ),
-                                const SizedBox(
-                                  height: 16,
                                 ),
-                                RequiredFieldWidget(
-                                  maxLength: 500,
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: 5,
-                                  label: 'Professional Summary',
-                                  keyName: 'summary',
-                                  controller: summaryController,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  height: screenHeight * 0.63,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        RequiredFieldWidget(
+                                          label: 'First Name',
+                                          keyName: 'firstName',
+                                          controller: firstNameController,
+                                        ),
+                                        RequiredFieldWidget(
+                                          label: 'Last Name',
+                                          keyName: 'lastName',
+                                          controller: lastNameController,
+                                        ),
+                                        RequiredFieldWidget(
+                                          keyboardType: TextInputType.phone,
+                                          label: 'Phone Number',
+                                          keyName: 'phoneNumber',
+                                          controller: phoneNumberController,
+                                        ),
+                                        RequiredFieldWidget(
+                                          label: 'Contact Email',
+                                          keyName: 'contactEmail',
+                                          controller: contactEmailController,
+                                        ),
+                                        RequiredFieldLabel(
+                                          labelText: 'City',
+                                        ),
+                                        if (cities.isNotEmpty)
+                                          DropdownButtonFormField<
+                                                  Map<String, dynamic>>(
+                                              items: cityDropdownItems,
+                                              borderRadius:
+                                                  BorderRadius.circular(50),
+                                              value: (cities.firstWhereOrNull(
+                                                  (element) =>
+                                                      element['CityId'] ==
+                                                      widget.formController
+                                                          .formData['city']
+                                                          .toString())),
+                                              key: const Key('city'),
+                                              onChanged: (Map<String, dynamic>?
+                                                  selectedCity) {
+                                                if (selectedCity != null) {
+                                                  widget.formController
+                                                      .updateFormData({
+                                                    'city':
+                                                        selectedCity['CityId']
+                                                  });
+                                                }
+                                              },
+                                              decoration: InputDecoration(
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: const BorderSide(
+                                                    color: Color(0xFF14386E),
+                                                  ),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: const BorderSide(
+                                                    color: Color(0xFF14386E),
+                                                  ),
+                                                ),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 8.0,
+                                                  vertical: 0.012,
+                                                ),
+                                              )),
+                                        const SizedBox(
+                                          height: 16,
+                                        ),
+                                        RequiredFieldWidget(
+                                          maxLength: 500,
+                                          keyboardType: TextInputType.multiline,
+                                          maxLines: 5,
+                                          label: 'Professional Summary',
+                                          keyName: 'summary',
+                                          controller: summaryController,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                        const SizedBox(height: 15),
-                        Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-
-                              widget.formController.updateFormData(
-                                  {'firstName': firstNameController.text.trim()});
-                              widget.formController.updateFormData(
-                                  {'lastName': lastNameController.text.trim()});
-                              widget.formController.updateFormData(
-                                  {'summary': summaryController.text.trim()});
-                              widget.formController.updateFormData(
-                                  {'phoneNumber': phoneNumberController.text});
-                              widget.formController.updateFormData({
-                                'contactEmail': contactEmailController.text.trim()
-                              });
-                              widget.onNext();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF085399),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 50,
-                              ),
-                              fixedSize:
-                                  Size(screenWidth * 0.44, screenHeight * 0.05),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              elevation: 5,
-                            ),
-                            icon: const Icon(Icons.arrow_back),
-                            label: const Text(
-                              'Next ',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        )
-                      ]),
-                    ],
+                        const SizedBox(
+                          height: 17,
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    widget.formController.updateFormData({
+                                      'firstName': firstNameController.text
+                                    });
+                                    widget.formController.updateFormData(
+                                        {'lastName': lastNameController.text});
+                                    widget.formController.updateFormData(
+                                        {'summary': summaryController.text});
+                                    widget.formController.updateFormData({
+                                      'phoneNumber': phoneNumberController.text
+                                    });
+                                    widget.formController.updateFormData({
+                                      'contactEmail':
+                                          contactEmailController.text
+                                    });
+                                    widget.onNext();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF085399),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 50,
+                                    ),
+                                    fixedSize: Size(screenWidth * 0.44,
+                                        screenHeight * 0.05),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    elevation: 5,
+                                  ),
+                                  icon: const Icon(Icons.arrow_back),
+                                  label: const Text(
+                                    'Next ',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ]),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

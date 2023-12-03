@@ -80,16 +80,9 @@ class _AwardsScreenState extends State<AwardsScreen> {
     ];
 
     for (String field in requiredFieldsCV) {
-      final fields = {
-        'firstName': 'First Name',
-        'lastName': 'Last Name',
-        'phoneNumber': 'Phone Number',
-        'contactEmail': 'Contact Email',
-        'city': 'City',
-        'summary': 'Professional Summary'
-      };
+      data[field] = data[field].toString().trim();
       if (data[field] == null || data[field].toString().isEmpty) {
-        return "Please fill in the ${fields[field] ?? field}";
+        return "Please fill in the $field";
       }
     }
 
@@ -110,9 +103,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
               return "School Name";
             }
             return "University Name";
-          },
-          'StartDate': () => 'Start Date',
-          'EndDate': () => 'End Date'
+          }
         };
         if (qualification['DegreeLevel'] != 'Pre-high school') {
           requiredFieldsQualification
@@ -145,10 +136,6 @@ class _AwardsScreenState extends State<AwardsScreen> {
     if (data['experiences'] != null && data['experiences'] is List) {
       final messages = {
         'CategoryID': 'Industry',
-        'JobTitle': 'Job Title',
-        'CompanyName': 'Company Name',
-        'StartDate': 'Start Date',
-        'EndDate': 'End Date'
       };
       for (Map<String, dynamic> experience in data['experiences']) {
         List<String> requiredFieldsExperience = [
@@ -163,7 +150,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
         for (String field in requiredFieldsExperience) {
           if (experience[field] == null ||
               experience[field].toString().isEmpty) {
-            return "The ${messages[field] ?? field} in experience is missing ";
+            return "The $field in experience is missing ";
           }
         }
         if (experience['StartDate'] != null && experience['EndDate'] != null) {
@@ -178,11 +165,6 @@ class _AwardsScreenState extends State<AwardsScreen> {
         }
       }
     }
-    String formatString(String input) {
-      return input.replaceAllMapped(RegExp(r'([A-Z])'), (match) {
-        return ' ' + match.group(1)!;
-      }).trim();
-    }
     if (data['projects'] != null && data['projects'] is List) {
       for (Map<String, dynamic> project in data['projects']) {
         List<String> requiredFieldsProject = [
@@ -190,11 +172,10 @@ class _AwardsScreenState extends State<AwardsScreen> {
           'Description',
           'Date'
         ];
-        
-        for (String field in requiredFieldsProject) {
 
+        for (String field in requiredFieldsProject) {
           if (project[field] == null || project[field].toString().isEmpty) {
-            return "The ${formatString(field)} in project is missing";
+            return "The $field in project is missing";
           }
         }
       }
@@ -210,7 +191,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
 
         for (String field in requiredFieldsAward) {
           if (award[field] == null || award[field].toString().isEmpty) {
-            return "The ${formatString(field[0].toUpperCase() + field.substring(1))} in certificate is missing";
+            return "The $field in certificate is missing";
           }
         }
       }
@@ -221,7 +202,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
 
         for (String field in requiredFieldsAward) {
           if (award[field] == null || award[field].toString().isEmpty) {
-            return "The ${formatString(field[0].toUpperCase() + field.substring(1))} in award is missing";
+            return "The $field in award is missing";
           }
         }
       }
@@ -554,7 +535,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                         Column(
                           children: [
                             const SizedBox(
-                              height: 10,
+                              height: 17,
                             ),
                             Row(
                                 mainAxisAlignment:
@@ -587,7 +568,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
+                                  const SizedBox(width: 17),
                                   Directionality(
                                     textDirection: TextDirection.rtl,
                                     child: Expanded(
@@ -606,9 +587,9 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                                   ? beforeList[i - 1]['id']
                                                   : null,
                                               'awardName':
-                                                  awardNameControllers[i].text.trim(),
+                                                  awardNameControllers[i].text,
                                               'issuedBy':
-                                                  issuedByControllers[i].text.trim(),
+                                                  issuedByControllers[i].text,
                                               'date': datesController[i].text
                                             };
                                             if (awardNameControllers[i]
@@ -622,6 +603,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                           body['seekerEmail'] = widget.email;
                                           String? validationError =
                                               validateCV(body);
+
                                           if (validationError == null) {
                                             addCV(body);
                                           } else {

@@ -324,7 +324,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 17,
                         ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -354,8 +354,8 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 10,
+                              const SizedBox(
+                                width: 17,
                               ),
                               Directionality(
                                 textDirection: TextDirection.rtl,
@@ -379,9 +379,9 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                             (element) => element.isNotEmpty)) {
                                           widget.formController.addProject({
                                             'ProjectName':
-                                                projectNameControllers[i].text.trim(),
+                                                projectNameControllers[i].text,
                                             'Description':
-                                                descriptionControllers[i].text.trim(),
+                                                descriptionControllers[i].text,
                                             'Date': datesControllers[i].text,
                                             'id': i - 1 < beforeList.length
                                                 ? beforeList[i - 1]['id']

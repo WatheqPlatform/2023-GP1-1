@@ -590,11 +590,11 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                               'id': i - 1 < beforeList.length ? beforeList[i-1]['id'] : null,
                                               'workingHere': stillWorking[i].value,
                                               'DegreeLevel': degreeLevelControllers[i].text,
-                                              'Field':   degreeFieldControllers[i].text != 'Select' ?(   degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text : degreeFieldControllers[i].text) : null,
+                                              'Field':   degreeFieldControllers[i].text != 'Select' ?(   degreeFieldControllers[i].text == 'other' ? otherContrllers[i].text.trim() : degreeFieldControllers[i].text) : null,
                                               'FieldFlag': degreeFieldControllers[i].text == 'other' ? 1 : 0,
                                               'StartDate': startDatesController[i].text,
                                               'EndDate':  !stillWorking[i].value ? endDatesController[i].text : null,
-                                              'IssuedBy': universityControllers[i].text
+                                              'IssuedBy': universityControllers[i].text.trim()
 
                                             });
                                       }

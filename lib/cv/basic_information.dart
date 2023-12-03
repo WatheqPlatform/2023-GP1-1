@@ -214,21 +214,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 ),
                                 if (cities.isNotEmpty)
                                   DropdownButtonFormField<Map<String, dynamic>>(
-                                    items: cityDropdownItems,
-                                    borderRadius: BorderRadius.circular(50),
-                                    value: (cities.firstWhereOrNull((element) =>
-                                        element['CityId'] ==
-                                        widget.formController.formData['city']
-                                            .toString())),
-                                    key: const Key('city'),
-                                    onChanged:
-                                        (Map<String, dynamic>? selectedCity) {
-                                      if (selectedCity != null) {
-                                        widget.formController.updateFormData(
-                                            {'city': selectedCity['CityId']});
-                                      }
-                                    },
-                                    decoration:  InputDecoration(
+                                    decoration: InputDecoration(
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: const BorderSide(
@@ -245,7 +231,22 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                         horizontal: 8.0,
                                         vertical: 0.012,
                                       ),
-                                    )
+                                    ),
+                                  
+                                    items: cityDropdownItems,
+                                    value: (cities.firstWhereOrNull((element) =>
+                                        element['CityId'] ==
+                                        widget.formController.formData['city']
+                                            .toString())),
+                                    key: const Key('city'),
+                                    onChanged:
+                                        (Map<String, dynamic>? selectedCity) {
+                                      if (selectedCity != null) {
+                                        widget.formController.updateFormData(
+                                            {'city': selectedCity['CityId']});
+                                      }
+                                    },
+
                                   ),
                                 const SizedBox(
                                   height: 16,
@@ -271,15 +272,15 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                             onPressed: () {
 
                               widget.formController.updateFormData(
-                                  {'firstName': firstNameController.text});
+                                  {'firstName': firstNameController.text.trim()});
                               widget.formController.updateFormData(
-                                  {'lastName': lastNameController.text});
+                                  {'lastName': lastNameController.text.trim()});
                               widget.formController.updateFormData(
-                                  {'summary': summaryController.text});
+                                  {'summary': summaryController.text.trim()});
                               widget.formController.updateFormData(
                                   {'phoneNumber': phoneNumberController.text});
                               widget.formController.updateFormData({
-                                'contactEmail': contactEmailController.text
+                                'contactEmail': contactEmailController.text.trim()
                               });
                               widget.onNext();
                             },

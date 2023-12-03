@@ -379,9 +379,9 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                             (element) => element.isNotEmpty)) {
                                           widget.formController.addProject({
                                             'ProjectName':
-                                                projectNameControllers[i].text,
+                                                projectNameControllers[i].text.trim(),
                                             'Description':
-                                                descriptionControllers[i].text,
+                                                descriptionControllers[i].text.trim(),
                                             'Date': datesControllers[i].text,
                                             'id': i - 1 < beforeList.length
                                                 ? beforeList[i - 1]['id']

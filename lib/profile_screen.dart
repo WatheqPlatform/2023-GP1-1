@@ -226,7 +226,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: screenHeight * 0.11,
+                                      height: screenHeight * 0.09,
                                     ),
                                     OutlinedButton(
                                       onPressed: () {

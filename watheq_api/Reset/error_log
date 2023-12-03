@@ -1,0 +1,5 @@
+[03-Dec-2023 02:22:06 America/Boise] PHP Warning:  Undefined variable $updateToken in /home4/csfrybmy/public_html/watheq_api/Reset/forget_password.php on line 101
+[03-Dec-2023 02:22:06 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Reset/forget_password.php:101
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Reset/forget_password.php on line 101

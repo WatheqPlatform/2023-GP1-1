@@ -18,6 +18,7 @@ class Connection {
       "$hostConnect/Application/jobSeekerApplications.php";
   static const getCities = "$hostConnect/Data/getCities.php";
   static const getCv = "$hostConnect/Data/getCv.php";
+
   static const getQualifs = "$hostConnect/Data/getQualifications.php";
   static const getCategories = "$hostConnect/Data/getCategories.php";
 

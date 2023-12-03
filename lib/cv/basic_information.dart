@@ -300,18 +300,22 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 child: ElevatedButton.icon(
                                   onPressed: () {
                                     widget.formController.updateFormData({
-                                      'firstName': firstNameController.text
+                                      'firstName':
+                                          firstNameController.text.trim()
                                     });
-                                    widget.formController.updateFormData(
-                                        {'lastName': lastNameController.text});
-                                    widget.formController.updateFormData(
-                                        {'summary': summaryController.text});
                                     widget.formController.updateFormData({
-                                      'phoneNumber': phoneNumberController.text
+                                      'lastName': lastNameController.text.trim()
+                                    });
+                                    widget.formController.updateFormData({
+                                      'summary': summaryController.text.trim()
+                                    });
+                                    widget.formController.updateFormData({
+                                      'phoneNumber':
+                                          phoneNumberController.text.trim()
                                     });
                                     widget.formController.updateFormData({
                                       'contactEmail':
-                                          contactEmailController.text
+                                          contactEmailController.text.trim()
                                     });
                                     widget.onNext();
                                   },

@@ -132,6 +132,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
           label: 'Start Date',
           dateController: startDatesController[i],
           mode: DatePickerButtonMode.month,
+          lastDate: DateTime.now(),
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 16.0),
@@ -532,10 +533,13 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                                             .text)
                                                     .firstOrNull?['CategoryID'] ??
                                                 "",
-                                            'JobTitle':
-                                                jobTitleControllers[i].text,
+                                            'JobTitle': jobTitleControllers[i]
+                                                .text
+                                                .trim(),
                                             'CompanyName':
-                                                companyNameControllers[i].text,
+                                                companyNameControllers[i]
+                                                    .text
+                                                    .trim(),
                                             'StartDate':
                                                 startDatesController[i].text,
                                             'EndDate': stillWorking[i].value

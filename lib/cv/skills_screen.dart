@@ -309,7 +309,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                                   for (int i = 1; i <= steps; i++) {
                                     final data = {
                                       'Description':
-                                          descriptionControllers[i].text,
+                                          descriptionControllers[i].text.trim(),
                                       'id': i - 1 < beforeList.length
                                           ? beforeList[i - 1]['id']
                                           : null

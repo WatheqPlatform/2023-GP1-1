@@ -378,9 +378,11 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                                               : null,
                                           'certificateName':
                                               certificateNameControllers[i]
-                                                  .text,
-                                          'issuedBy':
-                                              issuedByControllers[i].text,
+                                                  .text
+                                                  .trim(),
+                                          'issuedBy': issuedByControllers[i]
+                                              .text
+                                              .trim(),
                                           'date': datesController[i].text
                                         };
                                         List<String> reqs = [

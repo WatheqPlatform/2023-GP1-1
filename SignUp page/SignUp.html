@@ -62,7 +62,12 @@
         
                 <label for="password">Password</label>
                 <input type="password" id="passwordInput" name="password" onkeyup="validatePassword()" required maxlength="255"><br>
-                <div id="passwordMessage"></div>
+                 <div id="passwordMessage"></div>
+                 
+                <label for="Cpassword">Confirm password</label>
+                <input type="password" id="passwordInput2" name="Cpassword" onkeyup="validatePassword2()" required maxlength="255"><br>
+                <div id="CpasswordMessage"></div>
+                
                 <input type="button" value="Sign Up" id="SubmitButton">
             </form>  
 
@@ -103,6 +108,10 @@
             <div class="faliure_wrap4">
                 <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
                 <p>An error occurred during form submission, please try again</p>
+            </div>
+               <div class="faliure_wrap5">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Passwords do not match, please try again</p>
             </div>
             <div class="success_wrap">
                 <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->

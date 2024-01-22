@@ -243,7 +243,7 @@ label{
 	transition: 0.2s ease;
 }
 
-.modal_wrapper .success_wrap, .modal_wrapper .faliure_wrap, .modal_wrapper .faliure_wrap2, .modal_wrapper .faliure_wrap3, .modal_wrapper .faliure_wrap4{
+.modal_wrapper .success_wrap, .modal_wrapper .faliure_wrap, .modal_wrapper .faliure_wrap2, .modal_wrapper .faliure_wrap3, .modal_wrapper .faliure_wrap4, .modal_wrapper .faliure_wrap5{
 	position: absolute;
 	visibility: hidden;
     width: 30%;
@@ -259,7 +259,7 @@ label{
 	transition: 0.5s ease;
 }
 
-.modal_wrapper .faliure_wrap .modal_icon, .modal_wrapper .faliure_wrap2 .modal_icon, .modal_wrapper .faliure_wrap3 .modal_icon,.modal_wrapper .faliure_wrap4 .modal_icon{
+.modal_wrapper .faliure_wrap .modal_icon, .modal_wrapper .faliure_wrap2 .modal_icon, .modal_wrapper .faliure_wrap3 .modal_icon,.modal_wrapper .faliure_wrap4 .modal_icon, .modal_wrapper .faliure_wrap5 .modal_icon{
 	margin-right: 20px;
 	width: 50px;
 	height:50px;
@@ -291,7 +291,7 @@ label{
 }
 
 
-.faliure_wrap.active, .faliure_wrap2.active, .faliure_wrap3.active, .faliure_wrap4.active {
+.faliure_wrap.active, .faliure_wrap2.active, .faliure_wrap3.active, .faliure_wrap4.active, .faliure_wrap5.active {
 	visibility: visible;
 	transform: translate(-50%,-50%);
 }

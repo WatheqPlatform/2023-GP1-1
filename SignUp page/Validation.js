@@ -27,6 +27,23 @@ $(document).ready(function () {
                 faliure_wrap.classList.remove("active");
             });
         }
+       
+         else  if ( $("#passwordInput").val()!== $("#passwordInput2").val()) {
+           
+                 var modal_wrapper = document.querySelector('.modal_wrapper');
+                    var faliure_wrap = document.querySelector('.faliure_wrap5');
+                    var shadow = document.querySelector('.shadow');
+
+                    modal_wrapper.classList.add('active');
+                    faliure_wrap.classList.add('active');
+
+                    // Clicking anywhere on the screen remove the message
+                    shadow.addEventListener('click', function () {
+                        modal_wrapper.classList.remove('active');
+                        faliure_wrap.classList.remove('active');
+                    });
+        }
+    
         else {
             // Send the information to PHP File
             $.post("SignUp.php", {
@@ -98,5 +115,6 @@ $(document).ready(function () {
                 }
             });
         }
+    
     });
 });

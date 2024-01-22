@@ -126,6 +126,9 @@
                 <label for="new_password">New Password</label>
                 <input type="password" name="new_password" id="passwordInput" onkeyup="validatePassword()"  required>
                 <div id="passwordMessage"></div>
+                <label for="new_password2">New Password</label>
+                <input type="password" name="new_password2" id="passwordInput2" onkeyup="validatePassword2()"  required>
+                <div id="CpasswordMessage"></div>
                 <input type="button" value="Reset Password" id="SubmitButton">
             </form>
 
@@ -162,6 +165,10 @@
             <div class="faliure_wrap4">
                 <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
                 <p>Password must satisfy the specified rules</p>
+            </div>
+            <div class="faliure_wrap5">
+                <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
+                <p>Passwords do not match, please try again</p>
             </div>
             <div class="success_wrap">
                 <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->

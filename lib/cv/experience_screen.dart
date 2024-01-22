@@ -159,14 +159,17 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             ],
           ),
         ),
-        DateButton(
-          disabled: stillWorking[i].value,
-          removeGutter: true,
-          starColor: Colors.green,
-          label: 'End Date',
-          dateController: endDatesController[i],
-          mode: DatePickerButtonMode.month,
-          lastDate: DateTime.now(),
+        Visibility(
+          visible: !stillWorking[i].value,
+          child: DateButton(
+            disabled: stillWorking[i].value,
+            removeGutter: true,
+            starColor: Colors.green,
+            label: 'End Date',
+            dateController: endDatesController[i],
+            mode: DatePickerButtonMode.month,
+            lastDate: DateTime.now(),
+          ),
         ),
         InkWell(
           onTap: () {
@@ -210,10 +213,10 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       experienceIndustryControllers.add(TextEditingController());
       stillWorking.add(ValueNotifier(false));
       cachedSteps.add(buildStepItem(steps, MAX_STEPS));
-      steps = lastSteps;
+      lastSteps = steps;
       return cachedSteps;
     }
-    steps = lastSteps;
+    lastSteps = steps;
     removeWidget();
     return cachedSteps;
   }
@@ -229,6 +232,10 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         experienceIndustryControllers.removeAt(j);
         stillWorking.removeAt(j);
         cachedSteps.removeAt(j - 1);
+        for (int x = selectedIndex; x <= steps; x++) {
+          cachedSteps[x - 1] = buildStepItem(x, x);
+        }
+        return;
       }
     }
   }
@@ -259,7 +266,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                     element['CategoryID'] ==
                     experience['CategoryID'].toString())
                 .firstOrNull?['CategoryName'] ??
-            "None";
+            "";
         jobTitle = experience['JobTitle'];
         company = experience['CompanyName'];
         startDate = experience['StartDate'];
@@ -286,7 +293,6 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
     super.initState();
     fetchCategories().then((val) {
       fields = [
-        'None',
         ...List<String>.from(val.map((e) {
           return e['CategoryName'];
         }))
@@ -378,7 +384,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
+                
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,
@@ -508,7 +514,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                                       ];
                                       widget.formController
                                           .formData['experiences'] = [];
-
+                                      print({'stpes': steps});
                                       for (int i = 1; i <= steps; i++) {
                                         List<String> requiredFields = [
                                           experienceIndustryControllers[i].text,

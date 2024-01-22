@@ -101,29 +101,28 @@ class _AwardsScreenState extends State<AwardsScreen> {
       return validatePhone(data['phoneNumber']);
 
     if (data['qualifications'] != null && data['qualifications'] is List) {
+      int preHighSchoolCount = 0;
       for (Map<String, dynamic> qualification in data['qualifications']) {
-        List<String> requiredFieldsQualification = [
-          'DegreeLevel',
-        ];
+        List<String> requiredFieldsQualification = ['DegreeLevel', 'StartDate'];
         final messages = {
-          'Field': (final v) => 'Degree Field',
+          'Field': (final v) => 'degree field',
           'IssuedBy': (final v) {
             if (v['DegreeLevel'] == 'High School') {
-              return "School Name";
+              return "school name";
             }
-            return "University Name";
+            return "university name";
           },
-          'StartDate': () => 'Start Date',
-          'EndDate': () => 'End Date'
+          'StartDate': (final v) => 'start date',
+          'EndDate': (final v) => 'end date'
         };
         if (qualification['DegreeLevel'] != 'Pre-high school') {
-          requiredFieldsQualification
-              .addAll(['Field', 'IssuedBy', 'StartDate']);
-          if (qualification['workingHere'] == false) {
-            requiredFieldsQualification.add('EndDate');
-          }
+          requiredFieldsQualification.addAll(['Field', 'IssuedBy']);
+        } else {
+          preHighSchoolCount++;
         }
-
+        if (qualification['workingHere'] == false) {
+          requiredFieldsQualification.add('EndDate');
+        }
         for (String field in requiredFieldsQualification) {
           if (qualification[field] == null ||
               qualification[field].toString().isEmpty) {
@@ -139,7 +138,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
               intl.DateFormat('yyyy/MM/dd').parse(qualification['EndDate']);
 
           if (startDate.isAfter(endDate)) {
-            return "The startDate in qualifications must be before EndDate";
+            return "The start date in qualifications must be before end date";
           }
         }
       }
@@ -175,14 +174,14 @@ class _AwardsScreenState extends State<AwardsScreen> {
               intl.DateFormat('yyyy/MM/dd').parse(experience['EndDate']);
 
           if (startDate.isAfter(endDate)) {
-            return "The startDate in experience must be before EndDate";
+            return "The start date in experiences must be before end date";
           }
         }
       }
     }
     String formatString(String input) {
       return input.replaceAllMapped(RegExp(r'([A-Z])'), (match) {
-        return ' ' + match.group(1)!;
+        return ' ' + match.group(1)!.toLowerCase();
       }).trim();
     }
 
@@ -212,7 +211,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
 
         for (String field in requiredFieldsAward) {
           if (award[field] == null || award[field].toString().isEmpty) {
-            return "The ${formatString(field[0].toUpperCase() + field.substring(1))} in award is missing";
+            return "The ${formatString(field)} in certifcates is missing";
           }
         }
       }
@@ -223,7 +222,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
 
         for (String field in requiredFieldsAward) {
           if (award[field] == null || award[field].toString().isEmpty) {
-            return "The $field in award is missing";
+            return "The ${formatString(field)} in award is missing";
           }
         }
       }
@@ -245,7 +244,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
         },
       );
       String jsonString = json.encode(body);
-
+      print(jsonString);
       await http.post(
         Uri.parse(Connection.createCv),
         headers: {
@@ -469,7 +468,6 @@ class _AwardsScreenState extends State<AwardsScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,
@@ -616,9 +614,13 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                                   .trim(),
                                               'date': datesController[i].text
                                             };
-                                            if (awardNameControllers[i]
-                                                .text
-                                                .isNotEmpty) {
+                                            List<String> reqs = [
+                                              datesController[i].text,
+                                              issuedByControllers[i].text,
+                                              awardNameControllers[i].text
+                                            ];
+                                            if (reqs.any((element) =>
+                                                element.isNotEmpty)) {
                                               formController.addAward(data);
                                             }
                                           }

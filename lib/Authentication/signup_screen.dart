@@ -165,249 +165,131 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/PagesBackground.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(
-              children: [
-                const SizedBox(width: 2),
-                IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios_rounded,
-                    size: 40,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StartScreen()),
-                    );
-                  },
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 10, left: 1),
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 27.0,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ],
+    double bottomInsets = MediaQuery.of(context).viewInsets.bottom;
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/PagesBackground.png"),
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 93),
-            Container(
-              width: double.infinity,
-              height: screenHeight * 0.77,
-              padding: EdgeInsets.symmetric(
-                vertical: screenHeight * 0.03,
-                horizontal: screenWidth * 0.08,
-              ),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(80.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x3B000000),
-                    spreadRadius: 3,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Row(
+                children: [
+                  const SizedBox(width: 2),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back_ios_rounded,
+                      size: 40,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const StartScreen()),
+                      );
+                    },
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10, left: 1),
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 27.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
                 ],
               ),
-              child: Column(
-                children: [
-                  const SizedBox(height: 45),
-                  const Text(
-                    "Join Watheq Family!",
-                    style: TextStyle(
-                      color: Color(0xFF14386E),
-                      fontSize: 29.0,
-                      fontWeight: FontWeight.w500,
-                    ),
+              const SizedBox(height: 93),
+              Container(
+                width: double.infinity,
+                height: screenHeight * 0.77,
+                padding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.03,
+                  horizontal: screenWidth * 0.08,
+                ),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(80.0),
                   ),
-                  const Text(
-                    "We are happy to have you between us",
-                    style: TextStyle(
-                      color: Color(0xffd714386e),
-                      fontSize: 17.0,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x3B000000),
+                      spreadRadius: 3,
+                      blurRadius: 7,
+                      offset: Offset(0, 3),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 45),
-                  Form(
-                    key: formKey,
+                  ],
+                ),
+                child: SingleChildScrollView(
+                  primary: true,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: bottomInsets),
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(right: 224, bottom: 3),
-                          child: Text(
-                            "Full Name",
-                            style: TextStyle(
-                              color: Color(0xFF14386E),
-                              fontSize: 18.0,
-                            ),
+                        const SizedBox(height: 45),
+                        const Text(
+                          "Join Watheq Family!",
+                          style: TextStyle(
+                            color: Color(0xFF14386E),
+                            fontSize: 29.0,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                        SizedBox(
-                          width: screenWidth * 0.8,
-                          child: TextFormField(
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(50)
-                            ],
-                            controller: NameController,
-                            validator: (value) {
-                              if (value == "") {
-                                namefilled = false;
-                              } else {
-                                namefilled = true;
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.person,
-                                color: Color.fromARGB(102, 20, 56, 110),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF14386E),
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF14386E),
-                                ),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.04,
-                                vertical: screenHeight * 0.012,
-                              ),
-                            ),
+                        const Text(
+                          "We are happy to have you between us",
+                          style: TextStyle(
+                            color: Color(0xffd714386e),
+                            fontSize: 17.0,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 20),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 264, bottom: 3),
-                          child: Text(
-                            "Email",
-                            style: TextStyle(
-                              color: Color(0xFF14386E),
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: screenWidth * 0.8,
-                          child: TextFormField(
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(100)
-                            ],
-                            controller: emailController,
-                            validator: (value) {
-                              if (value == "") {
-                                emailfilled = false;
-                              } else if (value != "") {
-                                emailfilled = true;
-                              }
-                              if (!EmailValidator.validate(value.toString())) {
-                                validemail = false;
-                              } else {
-                                validemail = true;
-                              }
-
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.email,
-                                color: Color.fromARGB(102, 20, 56, 110),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF14386E),
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: const BorderSide(
-                                  color: Color(0xFF14386E),
-                                ),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: screenWidth * 0.04,
-                                vertical: screenHeight * 0.012,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 226, bottom: 3),
-                          child: Text(
-                            "Password",
-                            style: TextStyle(
-                              color: Color(0xFF14386E),
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: screenWidth * 0.8,
+                        const SizedBox(height: 45),
+                        Form(
+                          key: formKey,
                           child: Column(
                             children: [
-                              Obx(
-                                () => TextFormField(
-                                  controller: passwordController,
-                                  obscureText: isObsecure.value,
+                              const Padding(
+                                padding: EdgeInsets.only(right: 224, bottom: 3),
+                                child: Text(
+                                  "Full Name",
+                                  style: TextStyle(
+                                    color: Color(0xFF14386E),
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: screenWidth * 0.8,
+                                child: TextFormField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(50)
+                                  ],
+                                  controller: NameController,
                                   validator: (value) {
                                     if (value == "") {
-                                      passfilled = false;
-                                    } else if (value != "") {
-                                      passfilled = true;
-                                    }
-                                    if (!validateStructure(value.toString())) {
-                                      validpass = false;
+                                      namefilled = false;
                                     } else {
-                                      setState(() {
-                                        validpass = true;
-                                      });
+                                      namefilled = true;
                                     }
                                     return null;
                                   },
                                   decoration: InputDecoration(
                                     prefixIcon: const Icon(
-                                      Icons.key,
+                                      Icons.person,
                                       color: Color.fromARGB(102, 20, 56, 110),
-                                    ),
-                                    suffixIcon: GestureDetector(
-                                      onTap: () {
-                                        isObsecure.value = !isObsecure.value;
-                                      },
-                                      child: Icon(
-                                        isObsecure.value
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                        color: const Color(0xFF14386E),
-                                      ),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10),
@@ -428,191 +310,338 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const SizedBox(width: 5),
-                                  SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Checkbox(
-                                      activeColor: const Color(0xFF14386E),
-                                      checkColor: Colors.white,
-                                      side: MaterialStateBorderSide.resolveWith(
-                                        (states) => const BorderSide(
-                                            width: 2.0,
-                                            color: Color(0xFF14386E)),
-                                      ),
-                                      value: isChecked,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          isChecked = !isChecked;
-                                        });
-                                      },
-                                    ),
+                              const SizedBox(height: 20),
+                              const Padding(
+                                padding: EdgeInsets.only(right: 264, bottom: 3),
+                                child: Text(
+                                  "Email",
+                                  style: TextStyle(
+                                    color: Color(0xFF14386E),
+                                    fontSize: 18.0,
                                   ),
-                                  const SizedBox(width: 5),
-                                  const Text(
-                                    "I accept the ",
-                                    style: TextStyle(
-                                      color: Color(0xFF14386E),
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                              "Conditions And Terms",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Color(0xFF14386E),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            content: const Text(
-                                              "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \na. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \nb. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \nc. The third-party company may use the shared information for learning purposes or to enhance their services.\n \nd.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Color(0xFF14386E),
-                                                  letterSpacing: 1.15),
-                                            ),
-                                            scrollable: true,
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: const Text(
-                                                  'Ok',
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Color(0xFF14386E),
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: const Text(
-                                      "conditions and terms",
-                                      style: TextStyle(
-                                          color: Color(0xFF14386E),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 25),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              if (namefilled && passfilled && emailfilled) {
-                                if (validemail) {
-                                  if (validpass) {
-                                    if (isChecked) {
-                                      validateEmail();
+                              SizedBox(
+                                width: screenWidth * 0.8,
+                                child: TextFormField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(100)
+                                  ],
+                                  controller: emailController,
+                                  validator: (value) {
+                                    if (value == "") {
+                                      emailfilled = false;
+                                    } else if (value != "") {
+                                      emailfilled = true;
+                                    }
+                                    if (!EmailValidator.validate(
+                                        value.toString())) {
+                                      validemail = false;
+                                    } else {
+                                      validemail = true;
+                                    }
+
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    prefixIcon: const Icon(
+                                      Icons.email,
+                                      color: Color.fromARGB(102, 20, 56, 110),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Color(0xFF14386E),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                        color: Color(0xFF14386E),
+                                      ),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      horizontal: screenWidth * 0.04,
+                                      vertical: screenHeight * 0.012,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              const Padding(
+                                padding: EdgeInsets.only(right: 226, bottom: 3),
+                                child: Text(
+                                  "Password",
+                                  style: TextStyle(
+                                    color: Color(0xFF14386E),
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: screenWidth * 0.8,
+                                child: Column(
+                                  children: [
+                                    Obx(
+                                      () => TextFormField(
+                                        controller: passwordController,
+                                        obscureText: isObsecure.value,
+                                        validator: (value) {
+                                          if (value == "") {
+                                            passfilled = false;
+                                          } else if (value != "") {
+                                            passfilled = true;
+                                          }
+                                          if (!validateStructure(
+                                              value.toString())) {
+                                            validpass = false;
+                                          } else {
+                                            setState(() {
+                                              validpass = true;
+                                            });
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          prefixIcon: const Icon(
+                                            Icons.key,
+                                            color: Color.fromARGB(
+                                                102, 20, 56, 110),
+                                          ),
+                                          suffixIcon: GestureDetector(
+                                            onTap: () {
+                                              isObsecure.value =
+                                                  !isObsecure.value;
+                                            },
+                                            child: Icon(
+                                              isObsecure.value
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility,
+                                              color: const Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: screenWidth * 0.04,
+                                            vertical: screenHeight * 0.012,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(width: 5),
+                                        SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: Checkbox(
+                                            activeColor:
+                                                const Color(0xFF14386E),
+                                            checkColor: Colors.white,
+                                            side: MaterialStateBorderSide
+                                                .resolveWith(
+                                              (states) => const BorderSide(
+                                                  width: 2.0,
+                                                  color: Color(0xFF14386E)),
+                                            ),
+                                            value: isChecked,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isChecked = !isChecked;
+                                              });
+                                            },
+                                          ),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        const Text(
+                                          "I accept the ",
+                                          style: TextStyle(
+                                            color: Color(0xFF14386E),
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                    "Conditions And Terms",
+                                                    style: TextStyle(
+                                                      fontSize: 18,
+                                                      color: Color(0xFF14386E),
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  content: const Text(
+                                                    "To ensure a comprehensive and realistic interview simulation experience, Watheq collaborates with a trusted third-party company. By accepting these conditions, you acknowledge and agree to the following condition regarding the sharing of your information with a third-party company: \n \na. Your information, including your responses and CV, will be shared with a third-party company for the sole purpose of completing the interview simulation and providing enhanced simulation services.\n \nb. The shared information will be limited to what is necessary to facilitate the simulation process and will not include any personal identifiers such as your activity in the app or contact details.\n \nc. The third-party company may use the shared information for learning purposes or to enhance their services.\n \nd.The third-party company will not use the shared information for any other purposes, including marketing or advertising, without your explicit consent.",
+                                                    style: TextStyle(
+                                                        fontSize: 15,
+                                                        color:
+                                                            Color(0xFF14386E),
+                                                        letterSpacing: 1.15),
+                                                  ),
+                                                  scrollable: true,
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: const Text(
+                                                        'Ok',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color:
+                                                              Color(0xFF14386E),
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: const Text(
+                                            "conditions and terms",
+                                            style: TextStyle(
+                                                color: Color(0xFF14386E),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 25),
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    if (namefilled &&
+                                        passfilled &&
+                                        emailfilled) {
+                                      if (validemail) {
+                                        if (validpass) {
+                                          if (isChecked) {
+                                            validateEmail();
+                                          } else {
+                                            return ErrorMessage.show(
+                                                context,
+                                                "Error",
+                                                18,
+                                                "Please accept the conditions and terms to continue.",
+                                                ContentType.failure,
+                                                const Color.fromARGB(
+                                                    255, 209, 24, 24));
+                                          }
+                                        } else {
+                                          return ErrorMessage.show(
+                                              context,
+                                              "Error",
+                                              14,
+                                              "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digit and one special character",
+                                              ContentType.failure,
+                                              const Color.fromARGB(
+                                                  255, 209, 24, 24));
+                                        }
+                                      } else {
+                                        return ErrorMessage.show(
+                                            context,
+                                            "Error",
+                                            18,
+                                            "Plese enter a valid email",
+                                            ContentType.failure,
+                                            const Color.fromARGB(
+                                                255, 209, 24, 24));
+                                      }
                                     } else {
                                       return ErrorMessage.show(
                                           context,
                                           "Error",
                                           18,
-                                          "Please accept the conditions and terms to continue.",
+                                          "Please fill all the information.",
                                           ContentType.failure,
                                           const Color.fromARGB(
                                               255, 209, 24, 24));
                                     }
-                                  } else {
-                                    return ErrorMessage.show(
-                                        context,
-                                        "Error",
-                                        14,
-                                        "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digit and one special character",
-                                        ContentType.failure,
-                                        const Color.fromARGB(255, 209, 24, 24));
                                   }
-                                } else {
-                                  return ErrorMessage.show(
-                                      context,
-                                      "Error",
-                                      18,
-                                      "Plese enter a valid email",
-                                      ContentType.failure,
-                                      const Color.fromARGB(255, 209, 24, 24));
-                                }
-                              } else {
-                                return ErrorMessage.show(
-                                    context,
-                                    "Error",
-                                    18,
-                                    "Please fill all the information.",
-                                    ContentType.failure,
-                                    const Color.fromARGB(255, 209, 24, 24));
-                              }
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF024A8D),
-                            fixedSize:
-                                Size(screenWidth * 0.8, screenHeight * 0.056),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            elevation: 5,
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF024A8D),
+                                  fixedSize: Size(
+                                      screenWidth * 0.8, screenHeight * 0.056),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  elevation: 5,
+                                ),
+                                child: const Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          child: const Text(
-                            "Sign Up",
-                            style: TextStyle(
-                              fontSize: 18,
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Already have an account?",
+                              style: TextStyle(
+                                color: Color(0xFF14386E),
+                                fontSize: 15.0,
+                              ),
                             ),
-                          ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(const LoginScreen());
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(right: 52, left: 5),
+                                child: Text(
+                                  "Sign In",
+                                  style: TextStyle(
+                                      color: Color(0xFF14386E),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Already have an account?",
-                        style: TextStyle(
-                          color: Color(0xFF14386E),
-                          fontSize: 15.0,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Get.to(const LoginScreen());
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.only(right: 52, left: 5),
-                          child: Text(
-                            "Sign In",
-                            style: TextStyle(
-                                color: Color(0xFF14386E),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

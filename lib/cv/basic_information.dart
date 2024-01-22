@@ -28,7 +28,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   @override
   void initState() {
     super.initState();
-    fetchCities().then((value) {
+    fetchCities().then((value) {  
       setState(() {
         cityDropdownItems =
             List<DropdownMenuItem<Map<String, dynamic>>>.from(value.map((city) {
@@ -58,6 +58,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    
+
     String firstName = "",
         lastName = "",
         phoneNumber = "",
@@ -81,6 +83,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
         TextEditingController(text: summary);
 
     return Scaffold(
+      //resizeToAvoidBottomInset: true,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -143,7 +146,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,
@@ -205,11 +207,13 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                           label: 'First Name',
                                           keyName: 'firstName',
                                           controller: firstNameController,
+                                          maxLength: 20,
                                         ),
                                         RequiredFieldWidget(
                                           label: 'Last Name',
                                           keyName: 'lastName',
                                           controller: lastNameController,
+                                          maxLength: 20,
                                         ),
                                         RequiredFieldWidget(
                                           keyboardType: TextInputType.phone,
@@ -225,58 +229,58 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                         RequiredFieldLabel(
                                           labelText: 'City',
                                         ),
-                                        if (cities.isNotEmpty)
-                                          DropdownButtonFormField<
-                                                  Map<String, dynamic>>(
-                                              items: cityDropdownItems,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              value: (cities.firstWhereOrNull(
-                                                  (element) =>
-                                                      element['CityId'] ==
-                                                      widget.formController
-                                                          .formData['city']
-                                                          .toString())),
-                                              key: const Key('city'),
-                                              onChanged: (Map<String, dynamic>?
-                                                  selectedCity) {
-                                                if (selectedCity != null) {
-                                                  widget.formController
-                                                      .updateFormData({
-                                                    'city':
-                                                        selectedCity['CityId']
-                                                  });
-                                                }
-                                              },
-                                              decoration: InputDecoration(
-                                                enabledBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: const BorderSide(
-                                                    color: Color(0xFF14386E),
-                                                  ),
+                                        DropdownButtonFormField<
+                                                Map<String, dynamic>>(
+                                            items: cityDropdownItems,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            value: (cities.firstWhereOrNull(
+                                                (element) =>
+                                                    element['CityId'] ==
+                                                    widget.formController
+                                                        .formData['city']
+                                                        .toString())),
+                                            key: const Key('city'),
+                                            onChanged: (Map<String, dynamic>?
+                                                selectedCity) {
+                                              if (selectedCity != null) {
+                                                widget.formController
+                                                    .updateFormData({
+                                                  'city':
+                                                      selectedCity['CityId']
+                                                });
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                              enabledBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: const BorderSide(
+                                                  color: Color(0xFF14386E),
                                                 ),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  borderSide: const BorderSide(
-                                                    color: Color(0xFF14386E),
-                                                  ),
+                                              ),
+                                              focusedBorder:
+                                                  OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                borderSide: const BorderSide(
+                                                  color: Color(0xFF14386E),
                                                 ),
-                                                contentPadding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 8.0,
-                                                  vertical: 0.012,
-                                                ),
-                                              )),
+                                              ),
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 8.0,
+                                                vertical: 0.012,
+                                              ),
+                                            )),
                                         const SizedBox(
                                           height: 16,
                                         ),
                                         RequiredFieldWidget(
-                                          maxLength: 500,
-                                          keyboardType: TextInputType.multiline,
+                                          maxLength: 300,
+                                          keyboardType:
+                                              TextInputType.multiline,
                                           maxLines: 5,
                                           label: 'Professional Summary',
                                           keyName: 'summary',
@@ -305,7 +309,8 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                           firstNameController.text.trim()
                                     });
                                     widget.formController.updateFormData({
-                                      'lastName': lastNameController.text.trim()
+                                      'lastName':
+                                          lastNameController.text.trim()
                                     });
                                     widget.formController.updateFormData({
                                       'summary': summaryController.text.trim()
@@ -342,6 +347,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 ),
                               )
                             ]),
+    
                       ],
                     ),
                   ),

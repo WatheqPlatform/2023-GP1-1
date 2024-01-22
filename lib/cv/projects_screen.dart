@@ -238,7 +238,6 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,

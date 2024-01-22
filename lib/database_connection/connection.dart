@@ -1,6 +1,6 @@
 class Connection {
   static const hostConnect =
-      "https://www.watheqplatform.com/watheq_api"; // ip of the host device
+      "https://www.watheqplatform.com/watheq_api"; // ip of the host device 
 
   static const signUp = "$hostConnect/authentication/sign_up.php";
 
@@ -17,7 +17,7 @@ class Connection {
   static const jobSeekerApplication =
       "$hostConnect/Application/jobSeekerApplications.php";
   static const getCities = "$hostConnect/Data/getCities.php";
-  static const getCv = "$hostConnect/Data/secondch.php";
+  static const getCv = "$hostConnect/Data/getCv.php";
 
   static const getQualifs = "$hostConnect/Data/getQualifications.php";
   static const getCategories = "$hostConnect/Data/getCategories.php";

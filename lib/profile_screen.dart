@@ -54,7 +54,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> fetchUserData() async {
     try {
       var response = await http
-          .get(Uri.parse('${Connection.jobSeekerData}?email=${widget.email}'));
+          .get(Uri.parse('${Connection.jobSeekerData}?email=${widget.email}') ,  headers: {
+      'Cache-Control': 'no-cache',
+    },);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         if (data is List && data.isNotEmpty) {

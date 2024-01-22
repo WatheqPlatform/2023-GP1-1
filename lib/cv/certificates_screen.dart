@@ -244,7 +244,6 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,

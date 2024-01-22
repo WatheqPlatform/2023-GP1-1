@@ -283,7 +283,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
 
   Widget workingHoursCheck() {
     if (offerDetails[0]["WorkingHours"] != null &&
-        offerDetails[0]["WorkingHours"] != "") {
+        offerDetails[0]["WorkingHours"] != "" && int.parse( offerDetails[0]["WorkingHours"] ) != 0) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -418,8 +418,9 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                 .replaceAll("{", "")
                 .replaceAll("}", " Years\n")
                 .replaceAll("Description: ", "\u{25AA}  ")
-                .replaceAll("ExperienceField", "   Field")
-                .replaceAll("YearsOfExperience", "   Years Of Experience")
+                .replaceAll("ExperienceField", "\u{25AA}  Field")
+                .replaceAll("JobTitle", "\u{25AA}  Job Title")
+                .replaceAll("YearsOfExperience", "\u{25AA}  Years Of Experience")
                 .replaceAll(", ", " \n"),
             style: const TextStyle(
               fontSize: 16,
@@ -726,10 +727,10 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                     fontWeight: FontWeight.w400),
                                 textAlign: TextAlign.justify,
                               ),
-                              const Padding(
+                              Padding(
                                 padding: EdgeInsets.only(top: 20, bottom: 1),
                                 child: Text(
-                                  "Salary Range",
+                                  int.parse( offerDetails[0]["MinSalary"].toString() ) == int.parse( offerDetails[0]["MaxSalary"].toString() )?"Salary": "Salary Range",
                                   style: TextStyle(
                                       fontSize: 19,
                                       color: Color(0xFF024A8D),
@@ -737,8 +738,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                   textAlign: TextAlign.justify,
                                 ),
                               ),
-                              Text(
-                                "${offerDetails[0]["MinSalary"]}SAR - ${offerDetails[0]["MaxSalary"]}SAR",
+                               Text(
+                                int.parse( offerDetails[0]["MinSalary"].toString() ) != int.parse( offerDetails[0]["MaxSalary"].toString() ) ?"${offerDetails[0]["MinSalary"]}SAR - ${offerDetails[0]["MaxSalary"]}SAR":"${offerDetails[0]["MinSalary"]}SAR",
                                 style: const TextStyle(
                                     fontSize: 16,
                                     color: Color.fromARGB(255, 37, 42, 74),

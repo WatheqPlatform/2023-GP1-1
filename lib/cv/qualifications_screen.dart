@@ -61,7 +61,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       startDatesController.add(TextEditingController());
       endDatesController.add(TextEditingController());
       universityControllers.add(TextEditingController());
-      stillWorking.add(ValueNotifier(true));
+      stillWorking.add(ValueNotifier(false));
       cachedSteps.add(buildStepItem(steps, MAX_STEPS));
       lastSteps = steps;
       return cachedSteps;
@@ -84,6 +84,9 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
         cachedSteps.removeAt(j - 1);
         universityControllers.removeAt(j);
         stillWorking.removeAt(j);
+        for (int x = i; x <= steps; x++) {
+          rebuildStepWidget(x);
+        }
         return;
       }
     }
@@ -145,7 +148,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
             }
           },
           items: [
-            'None',
             'Pre-high school',
             'High School',
             'Diploma',
@@ -161,18 +163,15 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           }).toList(),
         ),
         Visibility(
-          child: const SizedBox(
-            height: 16,
-          ),
-          visible: degreeLevelControllers[i].text.isNotEmpty &&
-              degreeLevelControllers[i].text != 'Pre-high school' &&
-              degreeLevelControllers[i].text != 'None',
-        ),
+            child: const SizedBox(
+              height: 16,
+            ),
+            visible: degreeLevelControllers[i].text.isNotEmpty &&
+                degreeLevelControllers[i].text != 'Pre-high school'),
         if (fields.isNotEmpty)
           Visibility(
             visible: (degreeLevelControllers[i].text.isNotEmpty &&
-                degreeLevelControllers[i].text != 'Pre-high school' &&
-                degreeLevelControllers[i].text != 'None'),
+                degreeLevelControllers[i].text != 'Pre-high school'),
             child: Column(
               children: [
                 RequiredFieldLabel(
@@ -234,56 +233,48 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                   keyName: 'u-name',
                   controller: universityControllers[i],
                   starColor: Colors.green,
+                  removeGutter: true,
                 )
               ],
             ),
           ),
-        Visibility(
-          visible: (degreeLevelControllers[i].text.isNotEmpty &&
-              degreeLevelControllers[i].text != 'Pre-high school' &&
-              degreeLevelControllers[i].text != 'None'),
-          child: DateButton(
-            starColor: Colors.green,
-            label: 'Start Date',
-            dateController: startDatesController[i],
-            mode: DatePickerButtonMode.year,
-            lastDate: DateTime.now(),
+        const SizedBox(
+          height: 16,
+        ),
+        DateButton(
+          starColor: Colors.green,
+          label: 'Start Date',
+          dateController: startDatesController[i],
+          mode: DatePickerButtonMode.year,
+          lastDate: DateTime.now(),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Checkbox(
+                activeColor: const Color(0xFF14386E),
+                checkColor: Colors.white,
+                side: MaterialStateBorderSide.resolveWith((states) =>
+                    const BorderSide(width: 2.0, color: Color(0xFF14386E))),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+                value: stillWorking[i].value,
+                onChanged: (value) {
+                  setState(() {
+                    stillWorking[i].value = value ?? false;
+                    rebuildStepWidget(i);
+                  });
+                },
+              ),
+              const Text('I am still studying here'),
+            ],
           ),
         ),
         Visibility(
-          visible: degreeLevelControllers[i].text.isNotEmpty &&
-              degreeLevelControllers[i].text != 'Pre-high school' &&
-              degreeLevelControllers[i].text != 'None',
-          child: Container(
-            margin: EdgeInsets.only(bottom: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Checkbox(
-                  activeColor: const Color(0xFF14386E),
-                  checkColor: Colors.white,
-                  side: MaterialStateBorderSide.resolveWith((states) =>
-                      const BorderSide(width: 2.0, color: Color(0xFF14386E))),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: VisualDensity.compact,
-                  value: stillWorking[i].value,
-                  onChanged: (value) {
-                    setState(() {
-                      stillWorking[i].value = value ?? false;
-                      rebuildStepWidget(i);
-                    });
-                  },
-                ),
-                const Text('I am still studying here'),
-              ],
-            ),
-          ),
-        ),
-        Visibility(
-          visible: (degreeLevelControllers[i].text.isNotEmpty &&
-              degreeLevelControllers[i].text != 'Pre-high school' &&
-              degreeLevelControllers[i].text != 'None'),
+          visible: (stillWorking[i].value == false),
           child: DateButton(
             disabled: stillWorking[i].value,
             mode: DatePickerButtonMode.year,
@@ -378,7 +369,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     fetchCategories().then((val) {
       fields = List<String>.from(val.map((e) {
         return e['CategoryName'];
-      })).where((element) => element != 'None' && element != '').toList();
+      })).where((element) => element != '').toList();
       fields.insert(0, 'Select');
       fields.add('other');
       setState(() {
@@ -391,6 +382,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
     final response = await http.get(Uri.parse(Connection.getQualifs));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+      print(data.toString());
       return data;
     } else {
       throw Exception('Failed to load Categories');
@@ -464,7 +456,6 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,
@@ -599,9 +590,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                       startDatesController[i].text
                                     ];
                                     if (requiredFields
-                                            .any((e) => e.isNotEmpty) &&
-                                        degreeLevelControllers[i].text !=
-                                            'None') {
+                                        .any((e) => e.isNotEmpty)) {
                                       widget.formController.addQualification({
                                         'id': i - 1 < beforeList.length
                                             ? beforeList[i - 1]['id']

@@ -242,7 +242,7 @@ label{
 	opacity: 0;
 	transition: 0.2s ease;
 }
-
+/* model wrapper*/
 .modal_wrapper .success_wrap, .modal_wrapper .faliure_wrap, .modal_wrapper .faliure_wrap2, .modal_wrapper .faliure_wrap3, .modal_wrapper .faliure_wrap4, .modal_wrapper .faliure_wrap5{
 	position: absolute;
 	visibility: hidden;

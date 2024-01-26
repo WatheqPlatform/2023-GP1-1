@@ -141,7 +141,7 @@ $result3 = $conn->query($query);
                                 <div class="form_container">
                                     <div class="input_wrap">
                                         <label for="jobTitle">Job Title<span class="required"></span></label>
-                                        <input type="text" name="jobTitle" class="input" id="jobTitle" maxlength="40">
+                                        <input type="text" name="jobTitle" class="input" id="jobTitle" maxlength="25">
                                     </div>
                                     <div class="input_wrap">
                                         <label for="jobType">Employment Type<span class="required"></span></label>
@@ -199,7 +199,7 @@ $result3 = $conn->query($query);
                                     </div>
                                     <div class="input_wrap">
                                         <label for="jobDescription">Job Description<span class="required"></span></label>
-                                        <textarea name="jobDescription" class="input" id="jobDescription" maxlength="500" ></textarea>
+                                        <textarea name="jobDescription" class="input" id="jobDescription" maxlength="300" ></textarea>
                                     </div>
                                 </div>
 

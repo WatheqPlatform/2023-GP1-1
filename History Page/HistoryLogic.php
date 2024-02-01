@@ -16,7 +16,6 @@ $sql = "SELECT OfferID, JobTitle, JobDescription, Date, Status FROM joboffer WHE
 // Prepare and execute the query
 $stmt = $conn->prepare($sql);
 if ($stmt === false) {
-    die("Error in prepare statement: " . $conn->error);
 }
 
 $stmt->bind_param("s", $jobProviderEmail);

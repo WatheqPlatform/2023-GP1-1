@@ -17,8 +17,6 @@ $result2 = $conn->query($sql2);
 // Query to retrieve distinct rows from the "Field" column
 $query = "SELECT DISTINCT Field FROM qualification WHERE FieldFlag = 0 ORDER BY Field ASC";
 $result3 = $conn->query($query);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -42,8 +40,10 @@ $result3 = $conn->query($query);
         <script src="AddNewQualification.js"></script>
         <script src="FormNavigation.js"></script>
         <script src="Validation.js"></script>
-        
-        
+        <script src="ranking.js"></script>
+        <script src="checkAttributes.js"></script>
+
+
     </head>
 
     <body>
@@ -125,6 +125,11 @@ $result3 = $conn->query($query);
                                     <p>6</p>
                                 </div>
                             </li>
+                            <li class="form_7_progessbar">
+                                <div>
+                                    <p>7</p>
+                                </div>
+                            </li>
                         </ul>
                     </div>
 
@@ -173,24 +178,24 @@ $result3 = $conn->query($query);
                                             ?>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="input_wrap">
                                         <label for="jobCity">Job City<span class="required"></span></label>
                                         <select name="jobCity" id="jobCity" class="input select">
                                             <option disabled selected></option>
                                             <?php
                                             // Generate the HTML options
-                                                    
-                                                    if ($result2->num_rows > 0) {
-                                                        while ($row = $result2->fetch_assoc()) {
 
-                                                            echo '<option value="' . $row["CityName"] . '">' . $row["CityName"] . '</option>';
-                                                        }
-                                                    }
-                                                    else
-                                                    {  echo "No cities found."; }
-                                                    ?>
-                                                   
+                                            if ($result2->num_rows > 0) {
+                                                while ($row = $result2->fetch_assoc()) {
+
+                                                    echo '<option value="' . $row["CityName"] . '">' . $row["CityName"] . '</option>';
+                                                }
+                                            } else {
+                                                echo "No cities found.";
+                                            }
+                                            ?>
+
                                         </select>
                                     </div>
                                     <div class="input_wrap">
@@ -214,13 +219,13 @@ $result3 = $conn->query($query);
                                 <div class="form_container">
                                     <div class="input_wrap">  
                                         <label for="minSalary">Minimum Salary<span class="required"></span></label>
-                                        <input type="number" name="minSalary" class="input" id="minSalary" onkeyup="validateNumericInput(this, '1')" >
+                                        <input type="number" name="minSalary" class="input" id="minSalary" onkeyup="validateNumericInput(this, '1')" min ='0'>
                                         <span id="warningMessage1">Please enter a valid number</span>
 
                                     </div>
                                     <div class="input_wrap">  
                                         <label for="maxSalary">Maximum Salary<span class="required"></span></label>
-                                        <input type="number" name="maxSalary" class="input" id="maxSalary" onkeyup="validateNumericInput(this, '2')" >
+                                        <input type="number" name="maxSalary" class="input" id="maxSalary" onkeyup="validateNumericInput(this, '2')" min='0' >
                                         <span id="warningMessage2">Please enter a valid number</span>
                                         <span id="warningMessageMaxSalary">Maximum salary must be greater than minimum salary</span>
                                     </div>
@@ -277,7 +282,7 @@ $result3 = $conn->query($query);
                                 <div class="form_container" id="skillsContainer">
                                     <div class="input_wrap Multiable" id="skill0">
                                         <h4> Skill 1: </h4>
-                                        <input type="text" name="skills[0]" class="input" id="company" maxlength= "50">              
+                                        <input type="text" name="skills[0]" class="input" id="skillInput" maxlength= "50">              
                                     </div> 
                                 </div>
                                 <ion-icon name="add-circle-outline" id="addSkill" class="AddingExtraButton"></ion-icon>           
@@ -301,27 +306,27 @@ $result3 = $conn->query($query);
                                             <option value="Doctorate">Doctorate</option>
                                             <option value="Post Doctorate">Post Doctorate</option>
                                         </select>
-                                         <label id= "DegreeFieldLabel0" for="degreeField0">Degree Field  <span class="MaybeRequiredQualification"></span> </label> 
+                                        <label id= "DegreeFieldLabel0" for="degreeField0">Degree Field  <span class="MaybeRequiredQualification"></span> </label> 
                                         <select name="degree[0][field]" id="degreeField0" class="input select" onchange="handleDegreeFieldChange(event, 0)">
-                                          
+
                                             <?php
                                             // Generate the HTML options
-                                                    
-                                                    if ($result3->num_rows > 0) {
-                                                          echo '<option> </option>';
-                                                        while ($row = $result3->fetch_assoc()) {
 
-                                                            echo '<option value="' . $row["Field"] . '">' . $row["Field"] . '</option>';
-                                                        }
-                                                       echo '<option value="Other"> Other </option>';
-                                                    }
-                                                    else
-                                                    {  echo "No Fields found."; }
-                                                    ?>
-                                                   
+                                            if ($result3->num_rows > 0) {
+                                                echo '<option> </option>';
+                                                while ($row = $result3->fetch_assoc()) {
+
+                                                    echo '<option value="' . $row["Field"] . '">' . $row["Field"] . '</option>';
+                                                }
+                                                echo '<option value="Other"> Other </option>';
+                                            } else {
+                                                echo "No Fields found.";
+                                            }
+                                            ?>
+
                                         </select>
-                                         <span class ="EnterMessage" id="EnterMessage0" style="display: none;">Please enter your qualification field below</span>
-                                         <label id = "LableOther0" for="qualificationOther0" style="display: none;"> Qualification Field <span class="MaybeRequiredQualification"></span></label> 
+                                        <span class ="EnterMessage" id="EnterMessage0" style="display: none;">Please enter your qualification field below</span>
+                                        <label id = "LableOther0" for="qualificationOther0" style="display: none;"> Qualification Field <span class="MaybeRequiredQualification"></span></label> 
                                         <input type="text" id = "qualificationOther0" name="qualificationOther0" class="input" style="display: none;" maxlength="100">
                                     </div> 
                                 </div>
@@ -336,7 +341,7 @@ $result3 = $conn->query($query);
                                     <div class="input_wrap Multiable" id="experience0">
                                         <h4> Experience 1: </h4>
                                         <label for="experienceCategory0">Experience Industry</label> 
-                                     
+
                                         <select name="experiences[0][Category]" id="experienceCategory0" class="input select" >
                                             <?php
                                             // Check if there are any rows
@@ -357,9 +362,9 @@ $result3 = $conn->query($query);
                                             ?>
                                         </select>
                                         <label for="experienceJobTitle0" >Job Title<span class="MaybeRequiredExperince"></span></label> 
-                                        <input type="text" name="experiences[0][JobTitle]" class="input" maxlength="100">
+                                        <input type="text" name="experiences[0][JobTitle]" class="input" maxlength="100" id='EJobTitle'>
                                         <label for="experienceYears0">Minimum Years of Experience <span class="MaybeRequiredExperince"></span></label>   
-                                        <input type="number" name="experiences[0][years]" class="input" onkeyup="validateNumericInput(this, '4')" >  
+                                        <input type="number" name="experiences[0][years]" class="input" onkeyup="validateNumericInput(this, '4')" id='EYears'>  
                                         <span id="warningMessage4">Please enter a valid number</span>
                                     </div>
                                 </div>
@@ -374,11 +379,36 @@ $result3 = $conn->query($query);
                                 <div class="form_container">
                                     <div class="input_wrap">
                                         <label for="notes">Additional Notes</label>
-                                        <textarea id="notes" name="notes" rows="4" cols="50" class="input" id="notes" maxlength="500"></textarea>
+                                        <textarea id="notes" name="notes" rows="4" cols="50" class="input" maxlength="500"></textarea>
                                     </div>
                                 </div>
                             </div>
 
+                            <!--seventh Form-->
+                            <!-- All non required fields-->
+                            <div class="form_7 data_info" style="display: none;">
+                                <h2>Attribute Importance</h2>
+                                <div class="form_container">
+                                    <div class="input_wrap" id="ranking">
+                                        <p> Arrange the attributes in order of importance by dragging and dropping them<p> <!-- comment -->
+                                        <p> Drag and drop the attributes to arrange them by importance<p> <!-- comment -->
+
+
+                                        <ul class="attribute-list">
+                                            <!-- the attributes will show dynamically based on the offer information -->
+                                        </ul>
+
+                                        <label for="sameImportance">
+                                            <input type="checkbox" id="sameImportance" name="sameImportance" value="1">
+                                            All attributes are of the same importance
+                                        </label>
+
+                                        <p> Your selections will help prioritize the most relevant CVs for you</p>
+
+
+                                    </div> 
+                                </div> 
+                            </div>
                             <!--Navigation Buttons-->
                             <div class="btns_wrap">
 
@@ -407,6 +437,10 @@ $result3 = $conn->query($query);
                                 </div>
 
                                 <div class="common_btns form_6_btns" style="display: none;">
+                                    <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
+                                    <button type="button" class="btn_next" id='check'> Next <span class="icon"><ion-icon name="arrow-forward-sharp"></ion-icon></span></button>
+                                </div>
+                                <div class="common_btns form_7_btns" style="display: none;">
                                     <button type="button" class="btn_back"><span class="icon"><ion-icon name="arrow-back-sharp"></ion-icon></span>Back</button>
                                     <input type="button" value="Submit" id="SubmitButton">
                                 </div>

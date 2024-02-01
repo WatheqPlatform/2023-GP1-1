@@ -1,13 +1,6 @@
 $(document).ready(function () {
     $("#SubmitButton").click(function () {
 
-        //        // Check if any item in the array is empty
-        //        inputValues.forEach(value => {
-        //            if (value == undefined || value == null || value === "") {
-        //                isEmpty = true;
-        //            }
-        //        });
-        //        
         // Get the field values
         var jobTitle = $("#jobTitle").val();
         var jobDescription = $("#jobDescription").val();
@@ -131,7 +124,7 @@ $(document).ready(function () {
 
             } else {
                 if ((!$("#minSalary").val().match(/^\d+$/))) {
-                   
+
                     var failureMessageElement = document.querySelector(".faliure_wrap p");
                     failureMessageElement.textContent = "Please enter a valid number for minimum salary";
 
@@ -152,7 +145,7 @@ $(document).ready(function () {
                 } else {
                     if (parseFloat($("#minSalary").val()) > parseFloat($("#maxSalary").val())) {
 
-                       
+
                         var failureMessageElement = document.querySelector(".faliure_wrap p");
                         failureMessageElement.textContent = "Minimum salary cannot be greater than the maximum salary.";
 
@@ -173,7 +166,7 @@ $(document).ready(function () {
                     } else {
                         if ($("#workingHours").val() !== "" && !$("#workingHours").val().match(/^\d+$/))
                         {
-                           
+
                             var failureMessageElement = document.querySelector(".faliure_wrap p");
                             failureMessageElement.textContent = "Please enter a valid number for the working hours";
 
@@ -206,6 +199,9 @@ $(document).ready(function () {
                             var experiences = saveExperiences();
                             // check that if there's at least one feild filled, the other should be filled too
                             var checkExperiences = checkExperience(experiences);
+
+                            var AttributesWeights = processAttributes();
+
                             if (checkQualification === true && checkExperiences === true) {
 
                                 //Send the information to PHP File
@@ -227,7 +223,8 @@ $(document).ready(function () {
 
                                     skills: skills,
                                     qualifications: qualifications,
-                                    experiences: experiences
+                                    experiences: experiences,
+                                    Wheights: AttributesWeights
 
                                 }, function (data) {
 
@@ -248,25 +245,25 @@ $(document).ready(function () {
                                         });
                                     } else {
                                         // Handle error case
-                                     
-                                         var failureMessageElement = document.querySelector(".faliure_wrap p");
-                            failureMessageElement.textContent = "An error occurred during form submission. Please try again";
 
-                            var modal_wrapper = document.querySelector(".modal_wrapper");
-                            var faliure_wrap = document.querySelector(".faliure_wrap");
-                            var shadow = document.querySelector(".shadow");
+                                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                                        failureMessageElement.textContent = "An error occurred during form submission. Please try again";
+
+                                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                                        var shadow = document.querySelector(".shadow");
 
 
 
-                            modal_wrapper.classList.add("active");
-                            faliure_wrap.classList.add("active");
+                                        modal_wrapper.classList.add("active");
+                                        faliure_wrap.classList.add("active");
 
-                            //Clicking anywhere on the screen remove the sessamge
-                            shadow.addEventListener("click", function () {
-                                modal_wrapper.classList.remove("active");
-                                faliure_wrap.classList.remove("active");
-                            });
-                                        
+                                        //Clicking anywhere on the screen remove the sessamge
+                                        shadow.addEventListener("click", function () {
+                                            modal_wrapper.classList.remove("active");
+                                            faliure_wrap.classList.remove("active");
+                                        });
+
                                         console.error("Form submission error:", data);
                                     }
 
@@ -309,7 +306,7 @@ $(document).ready(function () {
                 }
                 for (var i = 0; i < qualifications.length; i++) {
                     var qualification = qualifications[i];
-                    if (!qualification.level && qualification.field ) {
+                    if (!qualification.level && qualification.field) {
                         var failureMessageElement = document.querySelector(".faliure_wrap p");
                         failureMessageElement.textContent = "Qualification Degree Level is missing.";
 
@@ -329,7 +326,7 @@ $(document).ready(function () {
                         });
 
                         return false;
-                    } else if (!qualification.field && qualification.level ) {
+                    } else if (!qualification.field && qualification.level) {
 
                         var failureMessageElement = document.querySelector(".faliure_wrap p");
                         failureMessageElement.textContent = "Qualification Degree Field is missing.";
@@ -532,6 +529,58 @@ $(document).ready(function () {
                 });
 
                 return experiences;
+            }
+
+            function processAttributes() {
+                const checkbox = document.getElementById('sameImportance');
+                const attributeList = Array.from(document.querySelectorAll('.attribute-list li')).map(li => li.textContent);
+
+                let weights = [];
+
+                if (checkbox.checked) {
+                    // If "sameImportance" is checked, assign 0.25 weight to all attributes
+                    weights = Array(4).fill(0.25);
+                    return weights;
+                } else {
+                    const attributeCount = attributeList.length;
+
+                    if (attributeCount === 4) {
+                        // If attribute list has 4 elements, assign weights 0.4, 0.3, 0.2, 0.1
+                        weights = [0.4, 0.3, 0.2, 0.1];
+                    } else if (attributeCount === 3) {
+                        // If attribute list has 3 elements, assign weights 0.5, 0.3, 0.2
+                        weights = [0.5, 0.3, 0.2];
+                    } else if (attributeCount === 2) {
+                        // If attribute list has 2 elements, assign weights 0.6, 0.4
+                        weights = [0.6, 0.4];
+                    } else if (attributeCount === 1) {
+                        // If attribute list has 1 element, assign weight 1
+                        weights = [1];
+                    }
+                    const attributeOrder = ['City', 'Skills', 'Qualifications', 'Experiences'];
+                    const rearrangedWeights = [];
+
+                    // Rearrange the weights based on the desired order
+                    for (let i = 0; i < attributeOrder.length; i++) {
+                        const attributeIndex = attributeList.indexOf(attributeOrder[i]);
+                        if (attributeIndex !== -1) {
+                            rearrangedWeights.push(weights[attributeIndex]);
+                        } else {
+                            rearrangedWeights.push(0);
+                        }
+                    }
+
+                    // Process the attributes with their corresponding rearranged weights
+                    for (let i = 0; i < attributeOrder.length; i++) {
+                        const attribute = attributeOrder[i];
+                        const weight = rearrangedWeights[i];
+
+
+                    }
+                    return rearrangedWeights;
+                }
+
+
             }
 
         }

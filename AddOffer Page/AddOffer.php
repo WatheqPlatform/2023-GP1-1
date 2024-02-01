@@ -399,7 +399,7 @@ $result3 = $conn->query($query);
 
                                         <label for="sameImportance">
                                             <input type="checkbox" id="sameImportance" name="sameImportance" value="1">
-                                            All attributes are of the same importance
+                                            All criteria are of the same importance
                                         </label>
                                     </div> 
                                 </div> 

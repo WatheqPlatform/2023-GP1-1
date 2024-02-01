@@ -27,6 +27,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $qualifications = $_POST['qualifications'];
     $skills = isset($_POST['skills']) ? $_POST['skills'] : null;
     $experiences = isset($_POST['experiences']) ? $_POST['experiences'] : null;
+    $Weights = $_POST['Wheights'];
+
+    $wCity = $Weights[0];
+    $wSkills = $Weights[1];
+    $wQualification = $Weights[2];
+    $wExpereince = $Weights[3];
 
     $date = date("Y-m-d");
     $jpEmail = $_SESSION['JPEmail'];
@@ -47,11 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmtCity->fetch();
     $stmtCity->close();
 
-    $sql = "INSERT INTO joboffer (JobTitle, JobDescription, EmploymentType, JobAddress, MinSalary, MaxSalary, Status, Date, JPEmail, CategoryID, CityID, StartingDate, WorkingHours, WorkingDays, AdditionalNotes) 
-            VALUES (?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO joboffer (JobTitle, JobDescription, EmploymentType, JobAddress, MinSalary, MaxSalary, Status, Date, JPEmail, CategoryID, CityID, StartingDate, WorkingHours, WorkingDays, AdditionalNotes, Wexperience, Wskill, Wqualification, Wcity ) 
+            VALUES (?, ?, ?, ?, ?, ?, 'Active', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssssiissss", $jobTitle, $jobDescription, $jobType, $jobAddress, $minSalary, $maxSalary, $date, $jpEmail, $categoryID, $cityID, $startingDate, $workingHours, $workingDays, $notes);
+    $stmt->bind_param("ssssssssiissssssss", $jobTitle, $jobDescription, $jobType, $jobAddress, $minSalary, $maxSalary, $date, $jpEmail, $categoryID, $cityID, $startingDate, $workingHours, $workingDays, $notes, $wExpereince, $wSkills, $wQualification, $wCity);
 
     if ($stmt->execute()) {
 
@@ -140,8 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "success";
     } else {
         echo "Error";
-       // echo "Error: " . $sql . "<br>" . $conn->error; // we have to delete the sql after we finish!!!
-        
+        // echo "Error: " . $sql . "<br>" . $conn->error; // we have to delete the sql after we finish!!!
     }
 
     $conn->close();

@@ -387,11 +387,10 @@ $result3 = $conn->query($query);
                             <!--seventh Form-->
                             <!-- All non required fields-->
                             <div class="form_7 data_info" style="display: none;">
-                                <h2>Attribute Importance</h2>
+                                <h2>Criteria Importance</h2>
                                 <div class="form_container">
                                     <div class="input_wrap" id="ranking">
-                                        <p> Arrange the attributes in order of importance by dragging and dropping them<p> <!-- comment -->
-                                        <p> Drag and drop the attributes to arrange them by importance<p> <!-- comment -->
+                                        <p id="note">Drag and drop each criterion to arrange them.<br> Your selections will assist in finding the perfect match for your offer!<p> <!-- comment -->
 
 
                                         <ul class="attribute-list">
@@ -402,10 +401,6 @@ $result3 = $conn->query($query);
                                             <input type="checkbox" id="sameImportance" name="sameImportance" value="1">
                                             All attributes are of the same importance
                                         </label>
-
-                                        <p> Your selections will help prioritize the most relevant CVs for you</p>
-
-
                                     </div> 
                                 </div> 
                             </div>

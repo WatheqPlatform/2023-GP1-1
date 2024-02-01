@@ -39,7 +39,7 @@ $result3 = $conn->query($query);
         <script src="AddNewSkill.js"></script>
         <script src="AddNewQualification.js"></script>
         <script src="FormNavigation.js"></script>
-        <script src="Validation.js"></script>
+        <script src="Validate.js"></script>
         <script src="ranking.js"></script>
         <script src="checkAttributes.js"></script>
 

@@ -2,7 +2,7 @@
 
 include("../../dbConnection.php");
 
-$email = $_GET['email']; // Get the email parameter from the request URL
+$email = $_POST['email']; 
 
 $sql = "SELECT
     JO.OfferID,
@@ -28,7 +28,7 @@ WHERE
     JO.Status = 'Active'
     AND (A.Status IS NULL OR A.Status != 'Rejected')
 ORDER BY
-    JO.Date DESC, JO.OfferID DESC";
+     JO.OfferID DESC";
 
 $result = $conn->query($sql);
 

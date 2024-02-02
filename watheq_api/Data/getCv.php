@@ -136,7 +136,28 @@ FROM
         return $project['certificateName'] !== null;
     });
     
+    function uniqueById($array) {
+        $uniqueArray = [];
+        $uniqueIds = [];
+        usort($array, function ($a, $b) {
+            return $a['id'] - $b['id'];
+        });
 
+        foreach ($array as $item) {
+            if (!in_array($item['id'], $uniqueIds)) {
+                $uniqueIds[] = $item['id'];
+                $uniqueArray[] = $item;
+            }
+        }
+        return $uniqueArray;
+    }
+
+    $selectedData['experiences'] = uniqueById($selectedData['experiences']);
+    $selectedData['awards'] = uniqueById($selectedData['awards']);
+    $selectedData['qualifications'] = uniqueById($selectedData['qualifications']);
+    $selectedData['projects'] = uniqueById($selectedData['projects']);
+    $selectedData['skills'] = uniqueById($selectedData['skills']);
+    $selectedData['certificates'] = uniqueById($selectedData['certificates']);
     $selectStatement->close();
 
     $conn->close();

@@ -27,8 +27,8 @@ SELECT
                     YearsOfExperience,
                     'ExperienceField',
                     category.CategoryName,
-                    'Description',
-                    ''
+                    'JobTitle',
+                    offerexperince.JobTitle
                 ) AS DISTINCT_JSON_OBJECT
             FROM
                 offerexperince

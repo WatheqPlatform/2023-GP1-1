@@ -1,6 +1,6 @@
 # Watheq
 
-Watheq is a cross platform that aims to revolutionize the world of employment, connecting job seekers with job providers through innovative features and artificial intelligence-driven solutions. Our goal is to make it easier for individuals to find suitable job opportunities and for companies to find qualified candidates.
+Watheq is a platform that aims to revolutionize the world of employment, connecting job seekers with job providers through innovative features and artificial intelligence-driven solutions. Our goal is to make it easier for individuals to find suitable job opportunities and for companies to find qualified candidates.
 
 ## Technology
 

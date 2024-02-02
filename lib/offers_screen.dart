@@ -11,6 +11,7 @@ import 'package:string_capitalize/string_capitalize.dart';
 import 'package:watheq/Applications_Screen.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:watheq/profile_screen.dart';
+import 'package:watheq/notification_screen.dart';
 import 'offer_details_screen.dart';
 
 class OffersScreen extends StatefulWidget {
@@ -128,6 +129,23 @@ class _OffersScreenState extends State<OffersScreen> {
     }
   }
 
+  bool hasUnseenNotifications = false;
+
+  Future<void> checkForUnseenNotifications() async {
+    var res = await http.post(
+      Uri.parse(Connection.checkForUnseenNotifications),
+      body: {"email": widget.email},
+    );
+
+    if (res.statusCode == 200) {
+      var data = jsonDecode(res.body);
+      int count = int.parse(data['unseen_count'].toString());
+      setState(() {
+        hasUnseenNotifications = count > 0;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -141,6 +159,7 @@ class _OffersScreenState extends State<OffersScreen> {
       'industries': [],
       'employmentTypes': []
     };
+    checkForUnseenNotifications();
   }
 
   void searchOffer(String searchedWord) {
@@ -285,12 +304,37 @@ class _OffersScreenState extends State<OffersScreen> {
                         ),
                       ),
                       IconButton(
-                          icon: const Icon(
-                            Icons.notifications_none_rounded,
-                            size: 35,
-                            color: Colors.white,
+                          icon: Stack(
+                            children: [
+                              const Icon(
+                                Icons.notifications_none_rounded,
+                                size: 35,
+                                color: Colors.white,
+                              ),
+                              if (hasUnseenNotifications)
+                                Positioned(
+                                  // Red circle on the top right corner
+                                  right: 1,
+                                  top: 1,
+                                  child: Container(
+                                    padding: EdgeInsets.all(1),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    constraints: BoxConstraints(
+                                      minWidth: 12,
+                                      minHeight: 12,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
-                          onPressed: () {}),
+                          onPressed: () {
+                            Get.to(NotificationScreen(
+                              email: widget.email,
+                            ));
+                          }),
                     ],
                   ),
                   Row(

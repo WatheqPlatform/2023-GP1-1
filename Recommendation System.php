@@ -79,6 +79,7 @@ if($aSkill==1){
     $outputArray = json_decode($output, true);
     $cvSkillsInfo = $outputArray[0];
     $offerSkillsInfo = $outputArray[1];
+ 
 
     //Find the skills similarity score for each CV 
     foreach ($cvSkillsInfo as $cv) {
@@ -248,8 +249,7 @@ function jaccard_similarity_variant($cv, $offer) {
 
 // Calculate the wieghts for the final equation
 // Fetch Weights from database
-include("dbConnection.php");
-$wieghtQuery = "SELECT Wcity, Wexperience, Wskill, Wqualification FROM joboffer WHERE OfferID = '$offerID'"; // ID TO BE CHANGED
+$wieghtQuery = "SELECT Wcity, Wexperience, Wskill, Wqualification FROM joboffer WHERE OfferID = '$offerID'"; 
 $wieghtResult = $conn->query($wieghtQuery);
 $wieght = $wieghtResult->fetch_assoc();
 
@@ -275,27 +275,38 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
     $cvSimilarityResults[$cvID]['totalScore'] = round($totalScore, 2);
 }
 
+$checkNotificationsQuery = "SELECT * FROM notification WHERE OfferID = ?";
+$checkStmt = $conn->prepare($checkNotificationsQuery);
+$checkStmt->bind_param("i", $offerID);
+$checkStmt->execute();
+$checkResult = $checkStmt->get_result();
 
-
+// If notifications already exist, skip the insertion
+if ($checkResult->num_rows > 0) {
+ return;
  
-foreach ($cvSimilarityResults as $cvID => $scores) {
-    if ($scores['totalScore'] >= 0.5) {
-        // Fetch the seeker ID using cv_id
-        $query = $conn->prepare("SELECT JobSeekerEmail FROM cv WHERE CV_ID = ?");
-        $query->bind_param("i", $cvID); 
-        $query->execute();
-        $result = $query->get_result();
-        
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $seekerID = $row['JobSeekerEmail'];
-
-            // Insert into the notification table
-            $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Score, OfferID) VALUES (?, ?, ?) ");
-            $insertQuery->bind_param("sdi", $seekerID, $scores['totalScore'], $offerID); 
-            $insertQuery->execute();
+}
+else{
+    $date =date("Y-m-d");
+     
+    foreach ($cvSimilarityResults as $cvID => $scores) {
+        if ($scores['totalScore'] >= 0.5) {
+            // Fetch the seeker ID using cv_id
+            $query = $conn->prepare("SELECT JobSeekerEmail FROM cv WHERE CV_ID = ?");
+            $query->bind_param("i", $cvID); 
+            $query->execute();
+            $result = $query->get_result();
+            
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $seekerID = $row['JobSeekerEmail'];
+    
+                // Insert into the notification table
+                $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Score, OfferID) VALUES (?, ?, ?, ?) ");
+                $insertQuery->bind_param("sdis", $seekerID, $scores['totalScore'], $offerID, $date); 
+                $insertQuery->execute();
+            }
         }
     }
 }
-
 ?>

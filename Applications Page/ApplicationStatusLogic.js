@@ -1,5 +1,3 @@
-// script.js
-
 // Add event listeners to the accept and reject buttons
 document.addEventListener('DOMContentLoaded', function() {
     var acceptButtons = document.getElementsByClassName('accept-button');

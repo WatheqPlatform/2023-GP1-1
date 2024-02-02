@@ -444,7 +444,7 @@ h2{
   
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 250px;
+    width: 210px;
     font-size: 13px;
     border: 2px solid rgb(188, 5, 5);
     color: rgb(188, 5, 5);
@@ -454,8 +454,7 @@ h2{
     position: absolute;
     z-index: 1;
     top: 120%;
-    left: 15%;
-    margin-left: -60px;
+    left: -5%;
 }
 
 .tooltip .tooltiptext::after {
@@ -474,4 +473,23 @@ h2{
 }
 
 
+/*Sorting list*/
+.input{
+    border: solid 0.5px #085399;
+    border-radius: 5px;
+    padding: 2px 10px;
+    display: block;
+    width: 185px;
+    height: 25px;
+    margin-top: 9px;
+    margin-left: 20px;
+    font-size: 14px;
+    transition: 0.5s ease;
+}
+
+#SortingTitle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 

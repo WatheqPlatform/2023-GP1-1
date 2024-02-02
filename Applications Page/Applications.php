@@ -19,7 +19,7 @@ include('ApplicationsLogic.php');
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script>    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery for AJAX functionality -->
     <script src="ApplicationStatusLogic.js"></script>
-   
+    <script src="SortFunction.js"></script>  
 </head>
 <body>
     <div id="Main">
@@ -90,6 +90,7 @@ include('ApplicationsLogic.php');
                         echo "</a>";
                         echo "</div>";
 
+
                         // Function to display applications
                         function displayApplications($applications, $status) {
                             foreach ($applications as $application) {
@@ -111,12 +112,6 @@ include('ApplicationsLogic.php');
                                 echo "<p id='Email'><i class='bi bi-envelope icon-space'> </i>  {$application['ContactEmail']}</p>";
                                 echo "<p id='Number'><i class='bi bi-telephone icon-space'> </i>0{$application['PhoneNumber']}</p>";
                                 echo "</div>";
-                                if ($status === 'Pending') {
-                                    echo "<div id='Buttons'>";
-                                    echo "<button type='button' class='accept-button' data-application-id='{$application['ApplicationID']}'>Accept</button>";
-                                    echo "<button type='button' class='reject-button' data-application-id='{$application['ApplicationID']}'>Reject</button>";
-                                    echo "</div>";
-                                }
                                 echo "</div>"; //end of BottomDiv
                                 echo "</div>"; //end of SecondPart
                                 echo "</div>"; //end of WholeApplication
@@ -125,8 +120,47 @@ include('ApplicationsLogic.php');
 
                         // Call function for each application status
                         if (!empty($PendingApplications)) {
+                            echo '<div id="SortingTitle">';
                             echo "<h2 id='PendingSegment'>Pending Applications</h2>";
-                            displayApplications($PendingApplications, 'Pending');
+                            echo '<select id="sorting" onchange="sortApplications()" class="input">
+                                        <option value>Sort By</option>
+                                        <option value="new">Newest</option>
+                                        <option value="old">Oldest</option>
+                                        <option value="similar">Best Matching</option>         
+                                    </select>';
+                            echo '</div>';
+                            echo '<div id="pending">';
+                            foreach ($PendingApplications as $application) {
+                                echo "<div id='WholeApplication'>";
+
+                                echo "<div id='FirstPart' class='".$application['Status']."'>";
+                                echo "<p id='Title'>Applicant Name</p>";
+                                echo "<p id='ApplicantName'>{$application['Name']}</p>";
+                                echo "<p><a href='../CV Page/CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
+                                echo "</div>";
+
+                                echo "<div id='SecondPart'>";
+                                
+                                echo "<p id='Status'class='".$application['Status']."'>{$application['Status']} Application</p>";
+                                echo "<p id='Summary'>" . trim(preg_replace('/\s+/', ' ', $application['Summary'])) . "</p>";
+                            
+                                echo "<div id='BottomDiv'>";
+                                echo "<div id='ContactDiv'>";
+                                echo "<p id='Email'><i class='bi bi-envelope icon-space'> </i>  {$application['ContactEmail']}</p>";
+                                echo "<p id='Number'><i class='bi bi-telephone icon-space'> </i>0{$application['PhoneNumber']}</p>";
+                                echo "</div>";
+
+                                echo "<div id='Buttons'>";
+                                echo "<button type='button' class='accept-button' data-application-id='{$application['ApplicationID']}'>Accept</button>";
+                                echo "<button type='button' class='reject-button' data-application-id='{$application['ApplicationID']}'>Reject</button>";
+                                echo "</div>";
+  
+                                echo "</div>"; //end of BottomDiv
+                                echo "</div>"; //end of SecondPart
+                                echo "</div>"; //end of WholeApplication
+                            }
+                            echo '</div>';
+
                         }
                         if (!empty($AcceptedApplications)) {
                             echo "<h2 id='AccpetedSegment'>Accepted Applications</h2>";
@@ -136,7 +170,6 @@ include('ApplicationsLogic.php');
                             echo "<h2 id='CloseSegment'>Rejected Applications</h2>";
                             displayApplications($RejectedApplications, 'Rejected');
                         }
-                        
                     } else {
                         echo "<p id='Empty'>No job applications found.</p>";
                     }

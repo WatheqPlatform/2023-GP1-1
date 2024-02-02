@@ -17,6 +17,7 @@ $sql = 'SELECT Application.*, cv.CV_ID, cv.FirstName, cv.LastName, cv.ContactEma
 $stmt = $conn->prepare($sql);
 
 $offerID = (int) $_GET["ID"];
+$_SESSION['OfferID'] = $offerID;
 $stmt->bind_param("i", $offerID);
 
 $stmt->execute();
@@ -25,7 +26,7 @@ $result = $stmt->get_result();
 
 // Initialize arrays for job applications
 $AcceptedApplications = array();
-$PendingApplications = array();
+$PendingApplicationsDESC = array();
 $RejectedApplications = array();
 
 // Check if there are any job applications
@@ -60,7 +61,6 @@ if ($result->num_rows > 0) {
         }
     }
 }
-
 $stmt->close();
 $conn->close();
 ?>

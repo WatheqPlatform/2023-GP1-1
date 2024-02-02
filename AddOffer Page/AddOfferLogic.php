@@ -1,13 +1,12 @@
 <?php
 
-include("../dbConnection.php");
-
 session_start();
-
 if (!isset($_SESSION['JPEmail'])) {
     header("Location: ../index.php");
     exit();
 }
+
+include("../dbConnection.php");
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

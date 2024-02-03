@@ -538,9 +538,13 @@ $(document).ready(function () {
                 let weights = [];
 
                 if (checkbox.checked) {
-                    // If "sameImportance" is checked, assign 0.25 weight to all attributes
-                    weights = Array(4).fill(0.25);
-                    return weights;
+
+                    // If "sameImportance" is checked
+                    const attributeCount = attributeList.length;
+                    const weight = (1 / attributeCount).toFixed(2);
+
+                    weights = Array(attributeCount).fill(weight);
+                    //return weights;
                 } else {
                     const attributeCount = attributeList.length;
 
@@ -557,30 +561,30 @@ $(document).ready(function () {
                         // If attribute list has 1 element, assign weight 1
                         weights = [1];
                     }
-                    const attributeOrder = ['City', 'Skills', 'Qualifications', 'Experiences'];
-                    const rearrangedWeights = [];
 
-                    // Rearrange the weights based on the desired order
-                    for (let i = 0; i < attributeOrder.length; i++) {
-                        const attributeIndex = attributeList.indexOf(attributeOrder[i]);
-                        if (attributeIndex !== -1) {
-                            rearrangedWeights.push(weights[attributeIndex]);
-                        } else {
-                            rearrangedWeights.push(0);
-                        }
-                    }
-
-                    // Process the attributes with their corresponding rearranged weights
-                    for (let i = 0; i < attributeOrder.length; i++) {
-                        const attribute = attributeOrder[i];
-                        const weight = rearrangedWeights[i];
-
-
-                    }
-                    return rearrangedWeights;
                 }
 
+                const attributeOrder = ['City', 'Skills', 'Qualifications', 'Experiences'];
+                const rearrangedWeights = [];
 
+                // Rearrange the weights based on the desired order
+                for (let i = 0; i < attributeOrder.length; i++) {
+                    const attributeIndex = attributeList.indexOf(attributeOrder[i]);
+                    if (attributeIndex !== -1) {
+                        rearrangedWeights.push(weights[attributeIndex]);
+                    } else {
+                        rearrangedWeights.push(0);
+                    }
+                }
+
+                // Process the attributes with their corresponding rearranged weights
+                for (let i = 0; i < attributeOrder.length; i++) {
+                    const attribute = attributeOrder[i];
+                    const weight = rearrangedWeights[i];
+
+
+                }
+                return rearrangedWeights;
             }
 
         }

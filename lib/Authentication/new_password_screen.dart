@@ -12,8 +12,11 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:watheq/error_messages.dart';
 
 class NewPasswordScreen extends StatefulWidget {
-  const NewPasswordScreen({super.key, required this.email});
   final String email;
+  final String? sessionID;
+
+  const NewPasswordScreen({Key? key, required this.email, this.sessionID})
+      : super(key: key); // Modify this line
   @override
   State<NewPasswordScreen> createState() => _NewPasswordScreenState();
 }
@@ -21,15 +24,22 @@ class NewPasswordScreen extends StatefulWidget {
 class _NewPasswordScreenState extends State<NewPasswordScreen> {
   var formKey = GlobalKey<FormState>();
   var passwordController = TextEditingController();
+  var password2Controller = TextEditingController();
+
   var isObsecure = true.obs;
 
   bool passfilled = false;
   bool validpass = false;
 
+  bool pass2filled = false;
+  bool validpass2 = false;
+
   @override
   void initState() {
     passfilled = false;
     validpass = false;
+    pass2filled = false;
+    validpass2 = false;
     super.initState();
   }
 
@@ -49,11 +59,14 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
         body: json.encode({
           "email": widget.email,
           "password": passwordController.text.trim(),
+          "session_id": widget.sessionID
         }),
       );
 
       if (response.statusCode == 200) {
         var resBody = jsonDecode(response.body.trim());
+
+        print(resBody);
 
         if (resBody.containsKey('message')) {
           if (context.mounted) {
@@ -76,7 +89,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                 context,
                 "Error",
                 18,
-                "Reset time has expired, please request new one.",
+                "The reset code has expired, please request a new one",
                 ContentType.failure,
                 const Color.fromARGB(255, 209, 24, 24));
           }
@@ -183,7 +196,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 70),
+                        const SizedBox(height: 50),
                         Form(
                           key: formKey,
                           child: Column(
@@ -261,18 +274,104 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                         ),
                                       ),
                                     ),
+                                    const SizedBox(height: 20),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.only(right: 80, bottom: 3),
+                                      child: Text(
+                                        "Password Confirmation",
+                                        style: TextStyle(
+                                          color: Color(0xFF14386E),
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                    ),
+                                    Obx(
+                                      () => TextFormField(
+                                        controller: password2Controller,
+                                        obscureText: isObsecure.value,
+                                        validator: (value) {
+                                          if (value == "") {
+                                            pass2filled = false;
+                                          } else if (value != "") {
+                                            pass2filled = true;
+                                          }
+                                          if (passwordController.text
+                                                  .toString()
+                                                  .toLowerCase() !=
+                                              password2Controller.text
+                                                  .toString()
+                                                  .toLowerCase()) {
+                                            validpass2 = false;
+                                          } else {
+                                            setState(() {
+                                              validpass2 = true;
+                                            });
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          prefixIcon: const Icon(
+                                            Icons.key,
+                                            color: Color.fromARGB(
+                                                102, 20, 56, 110),
+                                          ),
+                                          suffixIcon: GestureDetector(
+                                            onTap: () {
+                                              isObsecure.value =
+                                                  !isObsecure.value;
+                                            },
+                                            child: Icon(
+                                              isObsecure.value
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility,
+                                              color: const Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: screenWidth * 0.04,
+                                            vertical: screenHeight * 0.012,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     const SizedBox(height: 28),
                                     ElevatedButton(
                                       onPressed: () {
                                         if (formKey.currentState!.validate()) {
-                                          if (passfilled) {
+                                          if (passfilled && pass2filled) {
                                             if (validpass) {
-                                              resetPassword();
+                                              if (validpass2) {
+                                                resetPassword();
+                                              } else {
+                                                return ErrorMessage.show(
+                                                    context,
+                                                    "Error",
+                                                    14,
+                                                    "The confirmation password does not match the new password",
+                                                    ContentType.failure,
+                                                    const Color.fromARGB(
+                                                        255, 209, 24, 24));
+                                              }
                                             } else {
                                               return ErrorMessage.show(
                                                   context,
                                                   "Error",
-                                                  14,
+                                                  18,
                                                   "Please enter valid Password: 8 characters, one uppercase letter, one lowercase letter, one digit and one special character",
                                                   ContentType.failure,
                                                   const Color.fromARGB(
@@ -283,7 +382,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                                 context,
                                                 "Error",
                                                 18,
-                                                "Please enter the password.",
+                                                "Please enter the password",
                                                 ContentType.failure,
                                                 const Color.fromARGB(
                                                     255, 209, 24, 24));

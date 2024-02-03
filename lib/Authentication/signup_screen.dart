@@ -26,13 +26,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var NameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  var password2Controller = TextEditingController();
+
   var isObsecure = true.obs;
   bool isChecked = false;
 
   bool namefilled = false;
   bool emailfilled = false;
   bool passfilled = false;
+  bool pass2filled = false;
+
   bool validpass = false;
+  bool validpass2 = false;
+
   bool validemail = false;
 
   @override
@@ -40,8 +46,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     namefilled = false;
     emailfilled = false;
     passfilled = false;
+    pass2filled = false;
+
     validemail = false;
     validpass = false;
+    validpass2 = false;
 
     super.initState();
   }
@@ -74,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 context,
                 "Error",
                 18,
-                "This email is already exist, please sign in.",
+                "This email is already exist, please sign in",
                 ContentType.failure,
                 const Color.fromARGB(255, 209, 24, 24));
           }
@@ -84,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     } catch (e) {
       if (context.mounted) {
-        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
+        ErrorMessage.show(context, "Error", 18, "Please check your connection",
             ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
@@ -126,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               context,
               "Success",
               18,
-              "You have registered successfully.",
+              "You have registered successfully",
               ContentType.success,
               const Color.fromARGB(255, 15, 152, 20),
             );
@@ -135,6 +144,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               setState(() {
                 emailController.clear();
                 passwordController.clear();
+                password2Controller.clear();
+
                 NameController.clear();
               });
 
@@ -147,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 context,
                 "Error",
                 18,
-                "Please check your connection.",
+                "Please check your connection",
                 ContentType.failure,
                 const Color.fromARGB(255, 209, 24, 24));
           }
@@ -155,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     } catch (e) {
       if (context.mounted) {
-        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
+        ErrorMessage.show(context, "Error", 18, "Please check your connection",
             ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }
@@ -171,6 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -441,6 +453,81 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ),
                                       ),
                                     ),
+                                    const SizedBox(height: 20),
+                                    const Padding(
+                                      padding: EdgeInsets.only(
+                                          right: 100, bottom: 3),
+                                      child: Text(
+                                        "Password Confirmation",
+                                        style: TextStyle(
+                                          color: Color(0xFF14386E),
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                    ),
+                                    Obx(
+                                      () => TextFormField(
+                                        controller: password2Controller,
+                                        obscureText: isObsecure.value,
+                                        validator: (value) {
+                                          if (value == "") {
+                                            pass2filled = false;
+                                          } else if (value != "") {
+                                            pass2filled = true;
+                                          }
+                                          if (passwordController.text
+                                                  .toString()
+                                                  .toLowerCase() !=
+                                              password2Controller.text
+                                                  .toString()
+                                                  .toLowerCase()) {
+                                            validpass2 = false;
+                                          } else {
+                                            setState(() {
+                                              validpass2 = true;
+                                            });
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          prefixIcon: const Icon(
+                                            Icons.key,
+                                            color: Color.fromARGB(
+                                                102, 20, 56, 110),
+                                          ),
+                                          suffixIcon: GestureDetector(
+                                            onTap: () {
+                                              isObsecure.value =
+                                                  !isObsecure.value;
+                                            },
+                                            child: Icon(
+                                              isObsecure.value
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility,
+                                              color: const Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                              color: Color(0xFF14386E),
+                                            ),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            horizontal: screenWidth * 0.04,
+                                            vertical: screenHeight * 0.012,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                     const SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment:
@@ -541,17 +628,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   if (formKey.currentState!.validate()) {
                                     if (namefilled &&
                                         passfilled &&
-                                        emailfilled) {
+                                        emailfilled &&
+                                        pass2filled) {
                                       if (validemail) {
                                         if (validpass) {
-                                          if (isChecked) {
-                                            validateEmail();
+                                          if (validpass2) {
+                                            if (isChecked) {
+                                              validateEmail();
+                                            } else {
+                                              return ErrorMessage.show(
+                                                  context,
+                                                  "Error",
+                                                  18,
+                                                  "Please accept the conditions and terms to continue",
+                                                  ContentType.failure,
+                                                  const Color.fromARGB(
+                                                      255, 209, 24, 24));
+                                            }
                                           } else {
                                             return ErrorMessage.show(
                                                 context,
                                                 "Error",
                                                 18,
-                                                "Please accept the conditions and terms to continue.",
+                                                "The confirmation password does not match the new password",
                                                 ContentType.failure,
                                                 const Color.fromARGB(
                                                     255, 209, 24, 24));

@@ -13,8 +13,11 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:watheq/error_messages.dart';
 
 class VerificationScreen extends StatefulWidget {
-  const VerificationScreen({super.key, required this.email});
   final String email;
+  final String sessionID;
+
+  const VerificationScreen({required this.email, required this.sessionID});
+
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
 }
@@ -64,8 +67,11 @@ class _VerificationScreenState extends State<VerificationScreen> {
   verify() async {
     try {
       var response = await http.post(Uri.parse(Connection.verifyToken),
-          body: json.encode(
-              {"email": widget.email, "code": codeController.text.trim()}),
+          body: json.encode({
+            "email": widget.email,
+            "code": codeController.text.trim(),
+            "session_id": widget.sessionID
+          }),
           headers: {"Content-type": "application/json"});
 
       if (response.statusCode == 200) {
@@ -73,7 +79,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
         var res = jsonDecode(response.body.trim());
 
         if (res.containsKey('message')) {
-          Get.to(() => NewPasswordScreen(email: widget.email));
+          Get.to(() => NewPasswordScreen(
+              email: widget.email, sessionID: widget.sessionID));
         } else {
           if (context.mounted) {
             ErrorMessage.show(context, "Error", 18, res["error"],
@@ -83,7 +90,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       }
     } catch (e) {
       if (context.mounted) {
-        ErrorMessage.show(context, "Error", 18, "Please check your connection.",
+        ErrorMessage.show(context, "Error", 18, e.toString(),
             ContentType.failure, const Color.fromARGB(255, 209, 24, 24));
       }
     }

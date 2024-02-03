@@ -4,7 +4,7 @@ import 'dart:async';
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:watheq/Authentication/verification_screen.dart';
+import 'package:watheq/Authentication/verification_Screen.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'dart:convert';
 import 'package:email_validator/email_validator.dart';
@@ -25,6 +25,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   bool emailfilled = false;
   bool validemail = false;
+
+  String sessionID = "";
 
   @override
   void initState() {
@@ -47,18 +49,22 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         var res = jsonDecode(response.body.trim());
 
         if (res.containsKey('message')) {
-          if (context.mounted) {
-            ErrorMessage.show(
-              context,
-              "Success",
-              18,
-              "The email has been sent successfully.",
-              ContentType.success,
-              const Color.fromARGB(255, 15, 152, 20),
-            );
-            Timer(const Duration(seconds: 2), () {
-              Get.to(VerificationScreen(email: emailController.text.trim()));
-            });
+          if (res.containsKey('session_id')) {
+            sessionID = res['session_id'];
+            if (context.mounted) {
+              ErrorMessage.show(
+                context,
+                "Success",
+                18,
+                "The email has been sent successfully.",
+                ContentType.success,
+                const Color.fromARGB(255, 15, 152, 20),
+              );
+              Timer(const Duration(seconds: 2), () {
+                Get.to(VerificationScreen(
+                    email: emailController.text.trim(), sessionID: sessionID));
+              });
+            }
           }
         } else {
           if (context.mounted) {

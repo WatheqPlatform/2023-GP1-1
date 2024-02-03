@@ -183,22 +183,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Opacity(
-                                                    opacity:
-                                                        hasUnseenNotifications
-                                                            ? 1.0
-                                                            : 0.0,
-                                                    child: Container(
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              right: 2),
-                                                      width: 12,
-                                                      height: 12,
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        color: Colors.red,
-                                                        shape: BoxShape.circle,
-                                                      ),
+                                                  Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 2),
+                                                    width: 12,
+                                                    height: 12,
+                                                    decoration: BoxDecoration(
+                                                      color: (list[index]
+                                                                  ["isSeen"] ==
+                                                              0)
+                                                          ? Colors.red
+                                                          : const Color(
+                                                                  0xFF14386E)
+                                                              .withOpacity(
+                                                              0.8,
+                                                            ),
+                                                      shape: BoxShape.circle,
                                                     ),
                                                   ),
                                                   SizedBox(

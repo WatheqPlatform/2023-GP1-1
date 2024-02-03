@@ -291,7 +291,7 @@ else{
     $date =date("Y-m-d");
      
     foreach ($cvSimilarityResults as $cvID => $scores) {
-        if ($scores['totalScore'] >= 0.08) {
+        if ($scores['totalScore'] >= 0.5) {
             // Fetch the seeker ID using cv_id
             $query = $conn->prepare("SELECT JobSeekerEmail FROM cv WHERE CV_ID = ?");
             $query->bind_param("i", $cvID); 

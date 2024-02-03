@@ -275,6 +275,7 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
     $cvSimilarityResults[$cvID]['totalScore'] = round($totalScore, 2);
 }
 
+
 $checkNotificationsQuery = "SELECT * FROM notification WHERE OfferID = ?";
 $checkStmt = $conn->prepare($checkNotificationsQuery);
 $checkStmt->bind_param("i", $offerID);
@@ -283,14 +284,14 @@ $checkResult = $checkStmt->get_result();
 
 // If notifications already exist, skip the insertion
 if ($checkResult->num_rows > 0) {
- return;
+
  
 }
 else{
     $date =date("Y-m-d");
      
     foreach ($cvSimilarityResults as $cvID => $scores) {
-        if ($scores['totalScore'] >= 0.5) {
+        if ($scores['totalScore'] >= 0.08) {
             // Fetch the seeker ID using cv_id
             $query = $conn->prepare("SELECT JobSeekerEmail FROM cv WHERE CV_ID = ?");
             $query->bind_param("i", $cvID); 
@@ -302,11 +303,13 @@ else{
                 $seekerID = $row['JobSeekerEmail'];
     
                 // Insert into the notification table
-                $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Score, OfferID) VALUES (?, ?, ?, ?) ");
+                $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Score, OfferID, Date) VALUES (?, ?, ?, ?) ");
                 $insertQuery->bind_param("sdis", $seekerID, $scores['totalScore'], $offerID, $date); 
                 $insertQuery->execute();
             }
         }
     }
 }
+
+
 ?>

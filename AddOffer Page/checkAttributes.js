@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 // Get the attribute list element
     const attributeList = document.querySelector('.attribute-list');
+    const Checkbox = document.getElementById('checkboxContainer');
 // Define the initial list of attributes
     const initialAttributes = ['City'];
     generateAttributeList(initialAttributes);
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function checkAttributes() {
+         var numberOfAttributes= 0;
         // Code for function a
         const skillsInput = document.getElementById('skillInput');
         const hasSkills = skillsInput.value.trim() !== '';
@@ -31,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Add 'Skills' to the attribute list
             initialAttributes.push('Skills');
             generateAttributeList(initialAttributes);
+            numberOfAttributes++;
 
         } else if (!hasSkills && initialAttributes.includes('Skills')) {
             // Remove 'Skills' from the attribute list
@@ -53,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             initialAttributes.push('Qualifications');
             generateAttributeList(initialAttributes);
+            numberOfAttributes++;
         } else if (!hasQual && !hasQual2) {
             // Remove 'Qualification' from the attribute list
             const index = initialAttributes.indexOf('Qualifications');
@@ -78,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if ((hasExp || hasExp2 || hasExp3) && !initialAttributes.includes('Experiences')) {
             initialAttributes.push('Experiences');
             generateAttributeList(initialAttributes);
+            numberOfAttributes++;
 
         } else if (!hasExp && !hasExp2 && !hasExp3) {
             // Remove 'Experience' from the attribute list
@@ -92,7 +97,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const attributeOrder = Array.from(document.querySelectorAll('.attribute-list li')).map(li => li.textContent);
         console.log(attributeOrder);
-
+        
+ if (numberOfAttributes === 0)
+ {
+     Checkbox.style.display = "none";
+ }
+ else {
+        Checkbox.style.display = "block";
+    }
+ 
 // Add event listener to the button again
         btnNext.addEventListener('click', checkAttributes);
     }

@@ -397,10 +397,13 @@ $result3 = $conn->query($query);
                                             <!-- the attributes will show dynamically based on the offer information -->
                                         </ul>
 
-                                        <label for="sameImportance">
-                                            <input type="checkbox" id="sameImportance" name="sameImportance" value="1">
-                                            All criteria are of the same importance
-                                        </label>
+                                         <div id="checkboxContainer" style="display: none;">
+                                           
+                                            <label for="sameImportance">
+                                                <input type="checkbox" id="sameImportance" name="sameImportance">
+                                                All criteria are of the same importance
+                                            </label>
+                                        </div>
                                     </div> 
                                 </div> 
                             </div>

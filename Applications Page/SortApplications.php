@@ -102,6 +102,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 } else {
     // Handle non-AJAX requests
-    echo "Invalid request.";
 }
 

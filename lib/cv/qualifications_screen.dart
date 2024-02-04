@@ -100,7 +100,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       children: [
         if (i != 1)
           const SizedBox(
-            height: 40,
+            height: 10,
           ),
         Text(
           'Qualification $j',
@@ -110,7 +110,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
               fontSize: 18),
         ),
         const SizedBox(
-          height: 7,
+          height: 0,
         ),
         RequiredFieldLabel(
           labelText: 'Degree Level',
@@ -176,7 +176,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
               children: [
                 RequiredFieldLabel(
                   labelText: 'Degree Field',
-                  starColor: Colors.green,
+                  starColor: Colors.grey,
                 ),
                 DropdownButtonFormField<String>(
                   value: degreeFieldControllers[i].text.isNotEmpty
@@ -221,7 +221,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                     visible: (degreeFieldControllers[i].text.isNotEmpty &&
                         degreeFieldControllers[i].text == 'other'),
                     child: RequiredFieldWidget(
-                        starColor: Colors.green,
+                        starColor: Colors.grey,
                         label: 'Custom Field',
                         keyName: 'field',
                         controller: otherContrllers[i])),
@@ -232,7 +232,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                       : 'University Name',
                   keyName: 'u-name',
                   controller: universityControllers[i],
-                  starColor: Colors.green,
+                  starColor: Colors.grey,
                   removeGutter: true,
                 )
               ],
@@ -242,35 +242,44 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           height: 16,
         ),
         DateButton(
-          starColor: Colors.green,
+          starColor: Colors.grey,
           label: 'Start Date',
           dateController: startDatesController[i],
           mode: DatePickerButtonMode.year,
           lastDate: DateTime.now(),
         ),
         Container(
-          margin: EdgeInsets.only(bottom: 8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Checkbox(
-                activeColor: const Color(0xFF14386E),
-                checkColor: Colors.white,
-                side: MaterialStateBorderSide.resolveWith((states) =>
-                    const BorderSide(width: 2.0, color: Color(0xFF14386E))),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                visualDensity: VisualDensity.compact,
-                value: stillWorking[i].value,
-                onChanged: (value) {
-                  setState(() {
-                    stillWorking[i].value = value ?? false;
-                    rebuildStepWidget(i);
-                  });
-                },
-              ),
-              const Text('I am still studying here'),
-            ],
+          margin: EdgeInsets.only(
+            bottom: 8.0,
+          ),
+          child: SizedBox(
+            height: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Checkbox(
+                  activeColor: const Color(0xFF14386E),
+                  checkColor: Colors.white,
+                  side: MaterialStateBorderSide.resolveWith(
+                    (states) => const BorderSide(
+                      width: 2.0,
+                      color: Color(0xFF14386E),
+                    ),
+                  ),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                  value: stillWorking[i].value,
+                  onChanged: (value) {
+                    setState(() {
+                      stillWorking[i].value = value ?? false;
+                      rebuildStepWidget(i);
+                    });
+                  },
+                ),
+                const Text('I am still studying here'),
+              ],
+            ),
           ),
         ),
         Visibility(
@@ -278,7 +287,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           child: DateButton(
             disabled: stillWorking[i].value,
             mode: DatePickerButtonMode.year,
-            starColor: Colors.green,
+            starColor: Colors.grey,
             label: 'End Date',
             dateController: endDatesController[i],
             removeGutter: true,
@@ -497,7 +506,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                 child: Text(
                                   "* Fill all fields to add qualification",
                                   style: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.grey,
                                     fontSize: 15,
                                   ),
                                 ),

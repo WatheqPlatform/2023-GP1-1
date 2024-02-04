@@ -53,10 +53,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> fetchUserData() async {
     try {
-      var response = await http
-          .get(Uri.parse('${Connection.jobSeekerData}?email=${widget.email}') ,  headers: {
-      'Cache-Control': 'no-cache',
-    },);
+      var response = await http.get(
+        Uri.parse('${Connection.jobSeekerData}?email=${widget.email}'),
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      );
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         if (data is List && data.isNotEmpty) {
@@ -228,7 +230,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: screenHeight * 0.09,
+                                      height: screenHeight * 0.04,
                                     ),
                                     OutlinedButton(
                                       onPressed: () {
@@ -307,7 +309,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 350,
                       margin: EdgeInsets.only(
                         left: screenWidth * 0.01,
-                        top: screenHeight * 0.78,
+                        top: screenHeight * 0.795,
                         bottom: 5,
                       ),
                       decoration: BoxDecoration(

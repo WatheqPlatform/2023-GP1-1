@@ -56,7 +56,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       children: [
         if (i != 1)
           const SizedBox(
-            height: 40,
+            height: 10,
           ),
         Text(
           'Experience $j',
@@ -66,7 +66,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
               fontSize: 18),
         ),
         const SizedBox(
-          height: 7,
+          height: 0,
         ),
         if (fields.isNotEmpty)
           Column(

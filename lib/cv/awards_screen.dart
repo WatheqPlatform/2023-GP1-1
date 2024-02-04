@@ -295,7 +295,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
               fontSize: 18),
         ),
         const SizedBox(
-          height: 7,
+          height: 0,
         ),
         RequiredFieldWidget(
           label: 'Award Name',
@@ -305,13 +305,13 @@ class _AwardsScreenState extends State<AwardsScreen> {
         DateButton(
           label: 'Date',
           dateController: datesController[i],
-          starColor: Colors.green,
+          starColor: Colors.grey,
           lastDate: DateTime.now(),
         ),
         RequiredFieldWidget(
           label: 'Issued By',
           controller: issuedByControllers[i],
-          starColor: Colors.green,
+          starColor: Colors.grey,
           removeGutter: true,
         ),
         InkWell(
@@ -502,21 +502,21 @@ class _AwardsScreenState extends State<AwardsScreen> {
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 height: 10,
                               ),
                               const Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "* Fill all fields to add award",
+                                  "* Indicates required field to add award",
                                   style: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.grey,
                                     fontSize: 15,
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 15,
                               ),
                               Expanded(
                                 child: SizedBox(

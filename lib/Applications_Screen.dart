@@ -143,26 +143,29 @@ class _ApplicationsScreen extends State<ApplicationsScreen> {
                                     return Padding(
                                       padding: const EdgeInsets.only(
                                         top: 2,
-                                        left: 5,
-                                        right: 5,
+                                        left: 15,
+                                        right: 15,
                                         bottom: 5,
                                       ),
                                       child: Container(
                                         width: screenWidth,
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              color: Color.fromARGB(
-                                                  169, 158, 158, 158),
-                                              width: 0.5,
-                                            ),
-                                          ),
+                                        decoration: BoxDecoration(
+                                          border: index == list.length - 1
+                                              ? Border.all(
+                                                  color: Colors.transparent)
+                                              : Border(
+                                                  bottom: BorderSide(
+                                                    color: Color.fromARGB(
+                                                        169, 158, 158, 158),
+                                                    width: 0.5,
+                                                  ),
+                                                ),
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                             top: 10,
                                             bottom: 10,
-                                            left: 20,
+                                            left: 8,
                                           ),
                                           child: Row(
                                             mainAxisAlignment:

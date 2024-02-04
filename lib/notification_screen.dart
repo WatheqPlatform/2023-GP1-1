@@ -161,20 +161,23 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           },
                                           child: Container(
                                             width: screenWidth,
-                                            decoration: const BoxDecoration(
-                                              border: Border(
-                                                bottom: BorderSide(
-                                                  color: Color.fromARGB(
-                                                      169, 158, 158, 158),
-                                                  width: 0.5,
-                                                ),
-                                              ),
+                                            decoration: BoxDecoration(
+                                              border: index == list.length - 1
+                                                  ? Border.all(
+                                                      color: Colors.transparent)
+                                                  : Border(
+                                                      bottom: BorderSide(
+                                                        color: Color.fromARGB(
+                                                            169, 158, 158, 158),
+                                                        width: 0.5,
+                                                      ),
+                                                    ),
                                             ),
                                             child: Padding(
                                               padding: const EdgeInsets.only(
                                                 top: 10,
                                                 bottom: 10,
-                                                left: 20,
+                                                left: 8,
                                               ),
                                               child: Row(
                                                 mainAxisAlignment:

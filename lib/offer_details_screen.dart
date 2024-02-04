@@ -22,6 +22,7 @@ class JobOfferDetailScreen extends StatefulWidget {
   @override
   State<JobOfferDetailScreen> createState() => _StateJobOfferDetailScreen();
 }
+
 class AnimatedButton extends StatelessWidget {
   final VoidCallback pressEvent;
   final double height;
@@ -59,6 +60,7 @@ class AnimatedButton extends StatelessWidget {
     );
   }
 }
+
 class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
   List offerDetails = [];
 
@@ -283,7 +285,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
 
   Widget workingHoursCheck() {
     if (offerDetails[0]["WorkingHours"] != null &&
-        offerDetails[0]["WorkingHours"] != "" && int.parse( offerDetails[0]["WorkingHours"] ) != 0) {
+        offerDetails[0]["WorkingHours"] != "" &&
+        int.parse(offerDetails[0]["WorkingHours"]) != 0) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -420,7 +423,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                 .replaceAll("Description: ", "\u{25AA}  ")
                 .replaceAll("ExperienceField", "\u{25AA}  Field")
                 .replaceAll("JobTitle", "\u{25AA}  Job Title")
-                .replaceAll("YearsOfExperience", "\u{25AA}  Years Of Experience")
+                .replaceAll(
+                    "YearsOfExperience", "\u{25AA}  Years Of Experience")
                 .replaceAll(", ", " \n"),
             style: const TextStyle(
               fontSize: 16,
@@ -730,7 +734,12 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                               Padding(
                                 padding: EdgeInsets.only(top: 20, bottom: 1),
                                 child: Text(
-                                  int.parse( offerDetails[0]["MinSalary"].toString() ) == int.parse( offerDetails[0]["MaxSalary"].toString() )?"Salary": "Salary Range",
+                                  int.parse(offerDetails[0]["MinSalary"]
+                                              .toString()) ==
+                                          int.parse(offerDetails[0]["MaxSalary"]
+                                              .toString())
+                                      ? "Salary"
+                                      : "Salary Range",
                                   style: TextStyle(
                                       fontSize: 19,
                                       color: Color(0xFF024A8D),
@@ -738,8 +747,13 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                   textAlign: TextAlign.justify,
                                 ),
                               ),
-                               Text(
-                                int.parse( offerDetails[0]["MinSalary"].toString() ) != int.parse( offerDetails[0]["MaxSalary"].toString() ) ?"${offerDetails[0]["MinSalary"]}SAR - ${offerDetails[0]["MaxSalary"]}SAR":"${offerDetails[0]["MinSalary"]}SAR",
+                              Text(
+                                int.parse(offerDetails[0]["MinSalary"]
+                                            .toString()) !=
+                                        int.parse(offerDetails[0]["MaxSalary"]
+                                            .toString())
+                                    ? "${offerDetails[0]["MinSalary"]}SAR - ${offerDetails[0]["MaxSalary"]}SAR"
+                                    : "${offerDetails[0]["MinSalary"]}SAR",
                                 style: const TextStyle(
                                     fontSize: 16,
                                     color: Color.fromARGB(255, 37, 42, 74),
@@ -899,45 +913,40 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 ),
                               ] else if (!isAccepted) ...[
                                 AnimatedButton(
-                                pressEvent: () {
-                                AwesomeDialog(
-                                  context: context,
-                                  dialogType: DialogType.error, 
-                                 animType: AnimType.topSlide,
-                                 showCloseIcon: true,
-                                 title:"Cancel Application" ,
-                                 
-                              desc: 'Are you sure you want to cancel your application?',
-                              btnCancelOnPress: () {
-                                     
+                                  pressEvent: () {
+                                    AwesomeDialog(
+                                      context: context,
+                                      dialogType: DialogType.error,
+                                      animType: AnimType.topSlide,
+                                      showCloseIcon: true,
+                                      title: "Cancel Application",
+                                      desc:
+                                          'Are you sure you want to cancel your application?',
+                                      btnCancelOnPress: () {},
+                                      btnOkOnPress: () {
+                                        cancelApplication();
+                                      },
+                                      btnCancelColor: Colors.grey,
+                                      btnOkColor: Color(0xFFD93D46),
+                                      btnCancelText: 'NO',
+                                      btnOkText: 'YES',
+                                    ).show();
                                   },
-                                  
-                             btnOkOnPress: () {
-                            cancelApplication();
-                            
-                               },
-                                btnCancelColor: Colors.grey,
-                                  btnOkColor: Colors.red,
-                                  btnCancelText: 'NO',
-                                  btnOkText: 'YES',
-                              ).show();
-                            },
-                            height: screenHeight * 0.052,
-                            width: screenWidth * 0.93,
-                           color: Colors.transparent,
-                           borderRadius: BorderRadius.circular(15),
-                          borderColor: Color.fromARGB(255, 209, 24, 24),
-                         child: Center(
-                          child: Text(
-                           "Cancel Application",
-                              style: TextStyle(
-                                      fontSize: 18,
-                           color: Color.fromARGB(255, 209, 24, 24),
-      ),
-    ),
-  ),
-),
-
+                                  height: screenHeight * 0.052,
+                                  width: screenWidth * 0.93,
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderColor: Color.fromARGB(255, 209, 24, 24),
+                                  child: Center(
+                                    child: Text(
+                                      "Cancel Application",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Color.fromARGB(255, 209, 24, 24),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 const SizedBox(height: 10),
                                 OutlinedButton(
                                   onPressed: () {

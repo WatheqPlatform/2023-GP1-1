@@ -276,10 +276,10 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
                                     ),
                                     const SizedBox(height: 20),
                                     const Padding(
-                                      padding:
-                                          EdgeInsets.only(right: 80, bottom: 3),
+                                      padding: EdgeInsets.only(
+                                          right: 133, bottom: 3),
                                       child: Text(
-                                        "Password Confirmation",
+                                        "Password Confirm",
                                         style: TextStyle(
                                           color: Color(0xFF14386E),
                                           fontSize: 18.0,

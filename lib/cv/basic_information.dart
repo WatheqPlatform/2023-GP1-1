@@ -28,7 +28,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   @override
   void initState() {
     super.initState();
-    fetchCities().then((value) {  
+    fetchCities().then((value) {
       setState(() {
         cityDropdownItems =
             List<DropdownMenuItem<Map<String, dynamic>>>.from(value.map((city) {
@@ -58,7 +58,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    
 
     String firstName = "",
         lastName = "",
@@ -113,7 +112,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                         Get.to(ProfileScreen(email: widget.email));
                       },
                       btnCancelColor: Colors.grey,
-                      btnOkColor: Colors.red,
+                      btnOkColor: Color(0xFFD93D46),
                       btnCancelText: 'NO',
                       btnOkText: 'YES',
                     )..show();
@@ -246,22 +245,19 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                               if (selectedCity != null) {
                                                 widget.formController
                                                     .updateFormData({
-                                                  'city':
-                                                      selectedCity['CityId']
+                                                  'city': selectedCity['CityId']
                                                 });
                                               }
                                             },
                                             decoration: InputDecoration(
-                                              enabledBorder:
-                                                  OutlineInputBorder(
+                                              enabledBorder: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 borderSide: const BorderSide(
                                                   color: Color(0xFF14386E),
                                                 ),
                                               ),
-                                              focusedBorder:
-                                                  OutlineInputBorder(
+                                              focusedBorder: OutlineInputBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                                 borderSide: const BorderSide(
@@ -279,8 +275,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                         ),
                                         RequiredFieldWidget(
                                           maxLength: 300,
-                                          keyboardType:
-                                              TextInputType.multiline,
+                                          keyboardType: TextInputType.multiline,
                                           maxLines: 5,
                                           label: 'Professional Summary',
                                           keyName: 'summary',
@@ -309,8 +304,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                           firstNameController.text.trim()
                                     });
                                     widget.formController.updateFormData({
-                                      'lastName':
-                                          lastNameController.text.trim()
+                                      'lastName': lastNameController.text.trim()
                                     });
                                     widget.formController.updateFormData({
                                       'summary': summaryController.text.trim()
@@ -347,7 +341,6 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                 ),
                               )
                             ]),
-    
                       ],
                     ),
                   ),

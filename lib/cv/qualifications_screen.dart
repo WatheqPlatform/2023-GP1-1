@@ -423,7 +423,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                         Get.to(ProfileScreen(email: widget.email));
                       },
                       btnCancelColor: Colors.grey,
-                      btnOkColor: Colors.red,
+                      btnOkColor: Color(0xFFD93D46),
                       btnCancelText: 'NO',
                       btnOkText: 'YES',
                     )..show();

@@ -212,7 +212,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       children: [
                         const SizedBox(height: 45),
                         const Text(
-                          "You're Almost There! ",
+                          "You're Almost There!",
                           style: TextStyle(
                             color: Color(0xFF14386E),
                             fontSize: 29.0,

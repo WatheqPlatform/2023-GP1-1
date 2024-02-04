@@ -211,7 +211,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                         Get.to(ProfileScreen(email: widget.email));
                       },
                       btnCancelColor: Colors.grey,
-                      btnOkColor: Colors.red,
+                      btnOkColor: Color(0xFFD93D46),
                       btnCancelText: 'NO',
                       btnOkText: 'YES',
                     )..show();

@@ -332,7 +332,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
             child: Icon(
               Icons.cancel_outlined,
-              color: Colors.red,
+              color: Color(0xFFD93D46),
             ),
           ),
         )

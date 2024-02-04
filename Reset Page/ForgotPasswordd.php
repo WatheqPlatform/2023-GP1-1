@@ -64,7 +64,7 @@ function sendPasswordResetEmail($email, $token) {
 
 $sessionID = session_id();
 
-$resetLink = "https://www.watheqplatform.com/Reset Page/ResetPasswordd.php?sessionID=" . urlencode($sessionID) . "&token=" . urlencode($token);
+$resetLink = "https://www.watheqplatform.com/Reset%20Page/ResetPasswordd.php?sessionID=" . urlencode($sessionID) . "&token=" . urlencode($token);
   
 
     ob_start();

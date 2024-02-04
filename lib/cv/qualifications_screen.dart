@@ -110,7 +110,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
               fontSize: 18),
         ),
         const SizedBox(
-          height: 0,
+          height: 7,
         ),
         RequiredFieldLabel(
           labelText: 'Degree Level',
@@ -176,7 +176,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
               children: [
                 RequiredFieldLabel(
                   labelText: 'Degree Field',
-                  starColor: Colors.grey,
+                  starColor: Colors.green,
                 ),
                 DropdownButtonFormField<String>(
                   value: degreeFieldControllers[i].text.isNotEmpty
@@ -221,7 +221,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                     visible: (degreeFieldControllers[i].text.isNotEmpty &&
                         degreeFieldControllers[i].text == 'other'),
                     child: RequiredFieldWidget(
-                        starColor: Colors.grey,
+                        starColor: Colors.green,
                         label: 'Custom Field',
                         keyName: 'field',
                         controller: otherContrllers[i])),
@@ -232,7 +232,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                       : 'University Name',
                   keyName: 'u-name',
                   controller: universityControllers[i],
-                  starColor: Colors.grey,
+                  starColor: Colors.green,
                   removeGutter: true,
                 )
               ],
@@ -242,44 +242,35 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           height: 16,
         ),
         DateButton(
-          starColor: Colors.grey,
+          starColor: Colors.green,
           label: 'Start Date',
           dateController: startDatesController[i],
           mode: DatePickerButtonMode.year,
           lastDate: DateTime.now(),
         ),
         Container(
-          margin: EdgeInsets.only(
-            bottom: 8.0,
-          ),
-          child: SizedBox(
-            height: 20,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Checkbox(
-                  activeColor: const Color(0xFF14386E),
-                  checkColor: Colors.white,
-                  side: MaterialStateBorderSide.resolveWith(
-                    (states) => const BorderSide(
-                      width: 2.0,
-                      color: Color(0xFF14386E),
-                    ),
-                  ),
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  visualDensity: VisualDensity.compact,
-                  value: stillWorking[i].value,
-                  onChanged: (value) {
-                    setState(() {
-                      stillWorking[i].value = value ?? false;
-                      rebuildStepWidget(i);
-                    });
-                  },
-                ),
-                const Text('I am still studying here'),
-              ],
-            ),
+          margin: EdgeInsets.only(bottom: 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Checkbox(
+                activeColor: const Color(0xFF14386E),
+                checkColor: Colors.white,
+                side: MaterialStateBorderSide.resolveWith((states) =>
+                    const BorderSide(width: 2.0, color: Color(0xFF14386E))),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+                value: stillWorking[i].value,
+                onChanged: (value) {
+                  setState(() {
+                    stillWorking[i].value = value ?? false;
+                    rebuildStepWidget(i);
+                  });
+                },
+              ),
+              const Text('I am still studying here'),
+            ],
           ),
         ),
         Visibility(
@@ -287,7 +278,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           child: DateButton(
             disabled: stillWorking[i].value,
             mode: DatePickerButtonMode.year,
-            starColor: Colors.grey,
+            starColor: Colors.green,
             label: 'End Date',
             dateController: endDatesController[i],
             removeGutter: true,
@@ -506,7 +497,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                 child: Text(
                                   "* Fill all fields to add qualification",
                                   style: TextStyle(
-                                    color: Colors.grey,
+                                    color: Colors.green,
                                     fontSize: 15,
                                   ),
                                 ),
@@ -516,34 +507,34 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                               ),
                               Expanded(
                                 child: SizedBox(
-                                    //  height: screenHeight * 0.58,
+                                    height: screenHeight * 0.58,
                                     child: ListView(
                                         padding: EdgeInsets.zero,
                                         children: [
-                                      ...addOrGetCachedSteps(),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          InkWell(
-                                            onTap: () {
-                                              steps++;
-                                              MAX_STEPS++;
-                                              setState(() {});
-                                            },
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.fromLTRB(
-                                                      0, 10, 0, 0),
-                                              child: const Icon(
-                                                Icons.add_circle_outline,
-                                                color: Color(0xFF085399),
-                                              ),
-                                            ),
+                                          ...addOrGetCachedSteps(),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  steps++;
+                                                  MAX_STEPS++;
+                                                  setState(() {});
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.fromLTRB(
+                                                          0, 10, 0, 0),
+                                                  child: const Icon(
+                                                    Icons.add_circle_outline,
+                                                    color: Color(0xFF085399),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           )
-                                        ],
-                                      )
-                                    ])),
+                                        ])),
                               ),
                             ],
                           ),

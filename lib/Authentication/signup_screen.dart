@@ -251,7 +251,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     padding: EdgeInsets.only(bottom: bottomInsets),
                     child: Column(
                       children: [
-                        const SizedBox(height: 45),
+                        const SizedBox(height: 30),
                         const Text(
                           "Join Watheq Family!",
                           style: TextStyle(
@@ -456,9 +456,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     const SizedBox(height: 20),
                                     const Padding(
                                       padding: EdgeInsets.only(
-                                          right: 100, bottom: 3),
+                                          right: 149, bottom: 3),
                                       child: Text(
-                                        "Password Confirmation",
+                                        "Password Confirm",
                                         style: TextStyle(
                                           color: Color(0xFF14386E),
                                           fontSize: 18.0,
@@ -650,7 +650,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 context,
                                                 "Error",
                                                 18,
-                                                "The confirmation password does not match the new password",
+                                                "The confirmation password does not match the password",
                                                 ContentType.failure,
                                                 const Color.fromARGB(
                                                     255, 209, 24, 24));

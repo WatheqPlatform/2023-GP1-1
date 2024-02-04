@@ -166,7 +166,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
                         Get.to(ProfileScreen(email: widget.email));
                       },
                       btnCancelColor: Colors.grey,
-                      btnOkColor: Colors.red,
+                      btnOkColor: Color(0xFFD93D46),
                       btnCancelText: 'NO',
                       btnOkText: 'YES',
                     )..show();

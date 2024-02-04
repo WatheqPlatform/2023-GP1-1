@@ -351,7 +351,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                         Get.to(ProfileScreen(email: widget.email));
                       },
                       btnCancelColor: Colors.grey,
-                      btnOkColor: Colors.red,
+                      btnOkColor: Color(0xFFD93D46),
                       btnCancelText: 'NO',
                       btnOkText: 'YES',
                     )..show();
@@ -384,7 +384,6 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30,

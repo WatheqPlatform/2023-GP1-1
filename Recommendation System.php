@@ -277,4 +277,42 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
 }
 
 
+
+
+
+//Send Notification 
+$checkNotificationsQuery = "SELECT * FROM notification WHERE OfferID = ?";
+$checkStmt = $conn->prepare($checkNotificationsQuery);
+$checkStmt->bind_param("i", $offerID);
+$checkStmt->execute();
+$checkResult = $checkStmt->get_result();
+
+// If notifications already exist, skip the insertion
+if ($checkResult->num_rows > 0) {
+    //Do nothing
+}
+else{
+    $date =date("Y-m-d");     
+    foreach ($cvSimilarityResults as $cvID => $scores) {
+        if ($scores['totalScore'] >= 0.5) {
+            // Fetch the seeker ID using cv_id
+            $query = $conn->prepare("SELECT JobSeekerEmail FROM cv WHERE CV_ID = ?");
+            $query->bind_param("i", $cvID); 
+            $query->execute();
+            $result = $query->get_result();
+            
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                $seekerID = $row['JobSeekerEmail'];
+    
+                // Insert into the notification table
+                $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Score, OfferID, Date) VALUES (?, ?, ?, ?) ");
+                $insertQuery->bind_param("sdis", $seekerID, $scores['totalScore'], $offerID, $date); 
+                $insertQuery->execute();
+            }
+        }
+    }
+}
+
+
 ?>

@@ -75,6 +75,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
         ),
         RequiredFieldWidget(
           label: 'Certificate Name',
+          fontWeight: FontWeight.normal,
           controller: certificateNameControllers[i],
           hideStar: true,
         ),
@@ -86,6 +87,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
         ),
         RequiredFieldWidget(
           label: 'Issued By',
+          fontWeight: FontWeight.normal,
           controller: issuedByControllers[i],
           starColor: Colors.grey,
           removeGutter: true,

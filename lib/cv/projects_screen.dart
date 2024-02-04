@@ -62,6 +62,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
           label: 'Project Name',
           keyName: 'projectName',
           hideStar: true,
+          fontWeight: FontWeight.normal,
           controller: projectNameControllers[i],
         ),
         DateButton(
@@ -72,6 +73,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
         RequiredFieldWidget(
           label: 'Description',
           keyName: 'description',
+          fontWeight: FontWeight.normal,
           controller: descriptionControllers[i],
           starColor: Colors.grey,
           maxLines: 5,

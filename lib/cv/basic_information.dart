@@ -200,17 +200,20 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   RequiredFieldWidget(
                                     label: 'First Name',
                                     keyName: 'firstName',
+                                    fontWeight: FontWeight.normal,
                                     controller: firstNameController,
                                     maxLength: 20,
                                   ),
                                   RequiredFieldWidget(
                                     label: 'Last Name',
                                     keyName: 'lastName',
+                                    fontWeight: FontWeight.normal,
                                     controller: lastNameController,
                                     maxLength: 20,
                                   ),
                                   RequiredFieldWidget(
                                     keyboardType: TextInputType.phone,
+                                    fontWeight: FontWeight.normal,
                                     label: 'Phone Number',
                                     keyName: 'phoneNumber',
                                     controller: phoneNumberController,
@@ -218,6 +221,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   RequiredFieldWidget(
                                     label: 'Contact Email',
                                     keyName: 'contactEmail',
+                                    fontWeight: FontWeight.normal,
                                     controller: contactEmailController,
                                   ),
                                   RequiredFieldLabel(
@@ -266,6 +270,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                   ),
                                   RequiredFieldWidget(
                                     maxLength: 300,
+                                    fontWeight: FontWeight.normal,
                                     keyboardType: TextInputType.multiline,
                                     maxLines: 5,
                                     label: 'Professional Summary',

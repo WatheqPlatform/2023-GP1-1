@@ -110,7 +110,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
               fontSize: 18),
         ),
         const SizedBox(
-          height: 7,
+          height: 0,
         ),
         RequiredFieldLabel(
           labelText: 'Degree Level',
@@ -176,7 +176,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
               children: [
                 RequiredFieldLabel(
                   labelText: 'Degree Field',
-                  starColor: Colors.green,
+                  starColor: Colors.grey,
                 ),
                 DropdownButtonFormField<String>(
                   value: degreeFieldControllers[i].text.isNotEmpty
@@ -221,18 +221,20 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                     visible: (degreeFieldControllers[i].text.isNotEmpty &&
                         degreeFieldControllers[i].text == 'other'),
                     child: RequiredFieldWidget(
-                        starColor: Colors.green,
+                        fontWeight: FontWeight.normal,
+                        starColor: Colors.grey,
                         label: 'Custom Field',
                         keyName: 'field',
                         controller: otherContrllers[i])),
                 RequiredFieldWidget(
+                  fontWeight: FontWeight.normal,
                   label: degreeLevelControllers[i].text.isNotEmpty &&
                           degreeLevelControllers[i].text == 'High School'
                       ? 'School Name'
                       : 'University Name',
                   keyName: 'u-name',
                   controller: universityControllers[i],
-                  starColor: Colors.green,
+                  starColor: Colors.grey,
                   removeGutter: true,
                 )
               ],
@@ -242,7 +244,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           height: 16,
         ),
         DateButton(
-          starColor: Colors.green,
+          starColor: Colors.grey,
           label: 'Start Date',
           dateController: startDatesController[i],
           mode: DatePickerButtonMode.year,
@@ -278,7 +280,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
           child: DateButton(
             disabled: stillWorking[i].value,
             mode: DatePickerButtonMode.year,
-            starColor: Colors.green,
+            starColor: Colors.grey,
             label: 'End Date',
             dateController: endDatesController[i],
             removeGutter: true,
@@ -497,7 +499,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                                 child: Text(
                                   "* Fill all fields to add qualification",
                                   style: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.grey,
                                     fontSize: 15,
                                   ),
                                 ),

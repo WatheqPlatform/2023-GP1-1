@@ -299,6 +299,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
         ),
         RequiredFieldWidget(
           label: 'Award Name',
+          fontWeight: FontWeight.normal,
           controller: awardNameControllers[i],
           hideStar: true,
         ),
@@ -310,6 +311,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
         ),
         RequiredFieldWidget(
           label: 'Issued By',
+          fontWeight: FontWeight.normal,
           controller: issuedByControllers[i],
           starColor: Colors.grey,
           removeGutter: true,

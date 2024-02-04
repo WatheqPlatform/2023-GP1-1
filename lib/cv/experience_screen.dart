@@ -119,12 +119,14 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
           label: 'Job Title',
           keyName: 'jobTitle',
           starColor: Colors.grey,
+          fontWeight: FontWeight.normal,
           controller: jobTitleControllers[i],
         ),
         RequiredFieldWidget(
           label: 'Company Name',
           keyName: 'companyName',
           starColor: Colors.grey,
+          fontWeight: FontWeight.normal,
           controller: companyNameControllers[i],
         ),
         DateButton(

@@ -24,7 +24,7 @@ class RequiredFieldWidget extends StatelessWidget {
       this.hideStar = false,
       this.starColor = Colors.red,
       this.removeGutter = false,
-      this.maxLength = 50});
+      this.maxLength = 50, required FontWeight fontWeight});
   String? validatePhone(String? value) {
     value = value?.trim();
     if (value == null || value.isEmpty) {

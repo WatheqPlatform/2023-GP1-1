@@ -53,11 +53,15 @@ class _SkillsScreenState extends State<SkillsScreen> {
       children: [
         if (i != 1)
           SizedBox(
-            height: 30,
+            height: 5,
           ),
+        const SizedBox(
+          height: 5,
+        ),
         RequiredFieldWidget(
           label: 'Skill $j',
           controller: descriptionControllers[i],
+          fontWeight: FontWeight.w900,
           hideStar: true,
         ),
         InkWell(

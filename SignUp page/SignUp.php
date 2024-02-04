@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $companyName = $_POST["companyName"];
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $passwordConfirm = $_POST["passwordInput2"];
+ 
 
     // Validate password requirements
     $passwordRegex = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?!.*\s).{8,}$/";

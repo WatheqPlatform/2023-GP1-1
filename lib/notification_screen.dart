@@ -143,8 +143,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     return Padding(
                                         padding: const EdgeInsets.only(
                                           top: 2,
-                                          left: 5,
-                                          right: 5,
+                                          left: 15,
+                                          right: 15,
                                           bottom: 5,
                                         ),
                                         child: InkWell(

@@ -131,7 +131,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           )
                         : Expanded(
                             child: SizedBox(
-                              height: screenHeight * 0.80,
+                              height: screenHeight,
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(80.0),

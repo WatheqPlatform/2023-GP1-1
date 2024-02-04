@@ -147,10 +147,9 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               child: SingleChildScrollView(
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 30,
+                    vertical: 15,
                     horizontal: 30,
                   ),
-                  height: screenHeight * 0.9,
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -162,7 +161,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: screenHeight * 0.73,
+                          //  height: screenHeight * 0.73,
                           child: Column(
                             children: [
                               Center(
@@ -196,101 +195,87 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Expanded(
-                                child: SizedBox(
-                                  height: screenHeight * 0.63,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        RequiredFieldWidget(
-                                          label: 'First Name',
-                                          keyName: 'firstName',
-                                          controller: firstNameController,
-                                          maxLength: 20,
-                                        ),
-                                        RequiredFieldWidget(
-                                          label: 'Last Name',
-                                          keyName: 'lastName',
-                                          controller: lastNameController,
-                                          maxLength: 20,
-                                        ),
-                                        RequiredFieldWidget(
-                                          keyboardType: TextInputType.phone,
-                                          label: 'Phone Number',
-                                          keyName: 'phoneNumber',
-                                          controller: phoneNumberController,
-                                        ),
-                                        RequiredFieldWidget(
-                                          label: 'Contact Email',
-                                          keyName: 'contactEmail',
-                                          controller: contactEmailController,
-                                        ),
-                                        RequiredFieldLabel(
-                                          labelText: 'City',
-                                        ),
-                                        DropdownButtonFormField<
-                                                Map<String, dynamic>>(
-                                            items: cityDropdownItems,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            value: (cities.firstWhereOrNull(
-                                                (element) =>
-                                                    element['CityId'] ==
-                                                    widget.formController
-                                                        .formData['city']
-                                                        .toString())),
-                                            key: const Key('city'),
-                                            onChanged: (Map<String, dynamic>?
-                                                selectedCity) {
-                                              if (selectedCity != null) {
-                                                widget.formController
-                                                    .updateFormData({
-                                                  'city': selectedCity['CityId']
-                                                });
-                                              }
-                                            },
-                                            decoration: InputDecoration(
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                borderSide: const BorderSide(
-                                                  color: Color(0xFF14386E),
-                                                ),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                borderSide: const BorderSide(
-                                                  color: Color(0xFF14386E),
-                                                ),
-                                              ),
-                                              contentPadding:
-                                                  const EdgeInsets.symmetric(
-                                                horizontal: 8.0,
-                                                vertical: 0.012,
-                                              ),
-                                            )),
-                                        const SizedBox(
-                                          height: 16,
-                                        ),
-                                        RequiredFieldWidget(
-                                          maxLength: 300,
-                                          keyboardType: TextInputType.multiline,
-                                          maxLines: 5,
-                                          label: 'Professional Summary',
-                                          keyName: 'summary',
-                                          controller: summaryController,
-                                        ),
-                                      ],
-                                    ),
+                              Column(
+                                children: [
+                                  RequiredFieldWidget(
+                                    label: 'First Name',
+                                    keyName: 'firstName',
+                                    controller: firstNameController,
+                                    maxLength: 20,
                                   ),
-                                ),
+                                  RequiredFieldWidget(
+                                    label: 'Last Name',
+                                    keyName: 'lastName',
+                                    controller: lastNameController,
+                                    maxLength: 20,
+                                  ),
+                                  RequiredFieldWidget(
+                                    keyboardType: TextInputType.phone,
+                                    label: 'Phone Number',
+                                    keyName: 'phoneNumber',
+                                    controller: phoneNumberController,
+                                  ),
+                                  RequiredFieldWidget(
+                                    label: 'Contact Email',
+                                    keyName: 'contactEmail',
+                                    controller: contactEmailController,
+                                  ),
+                                  RequiredFieldLabel(
+                                    labelText: 'City',
+                                  ),
+                                  DropdownButtonFormField<Map<String, dynamic>>(
+                                      items: cityDropdownItems,
+                                      borderRadius: BorderRadius.circular(10),
+                                      value: (cities.firstWhereOrNull(
+                                          (element) =>
+                                              element['CityId'] ==
+                                              widget.formController
+                                                  .formData['city']
+                                                  .toString())),
+                                      key: const Key('city'),
+                                      onChanged:
+                                          (Map<String, dynamic>? selectedCity) {
+                                        if (selectedCity != null) {
+                                          widget.formController.updateFormData(
+                                              {'city': selectedCity['CityId']});
+                                        }
+                                      },
+                                      decoration: InputDecoration(
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF14386E),
+                                          ),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF14386E),
+                                          ),
+                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                          horizontal: 8.0,
+                                          vertical: 0.012,
+                                        ),
+                                      )),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  RequiredFieldWidget(
+                                    maxLength: 300,
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: 5,
+                                    label: 'Professional Summary',
+                                    keyName: 'summary',
+                                    controller: summaryController,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 17,
                         ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.end,

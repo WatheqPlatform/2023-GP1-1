@@ -507,34 +507,34 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
                               ),
                               Expanded(
                                 child: SizedBox(
-                                    height: screenHeight * 0.58,
+                                    //  height: screenHeight * 0.58,
                                     child: ListView(
                                         padding: EdgeInsets.zero,
                                         children: [
-                                          ...addOrGetCachedSteps(),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  steps++;
-                                                  MAX_STEPS++;
-                                                  setState(() {});
-                                                },
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.fromLTRB(
-                                                          0, 10, 0, 0),
-                                                  child: const Icon(
-                                                    Icons.add_circle_outline,
-                                                    color: Color(0xFF085399),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
+                                      ...addOrGetCachedSteps(),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              steps++;
+                                              MAX_STEPS++;
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      0, 10, 0, 0),
+                                              child: const Icon(
+                                                Icons.add_circle_outline,
+                                                color: Color(0xFF085399),
+                                              ),
+                                            ),
                                           )
-                                        ])),
+                                        ],
+                                      )
+                                    ])),
                               ),
                             ],
                           ),

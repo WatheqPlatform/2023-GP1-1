@@ -284,7 +284,7 @@ class _CertificatesScreenState extends State<CertificatesScreen> {
                               const Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "* Indicates required field to add award",
+                                  "* Indicates required field to add certificate",
                                   style: TextStyle(
                                     color: Colors.grey,
                                     fontSize: 15,

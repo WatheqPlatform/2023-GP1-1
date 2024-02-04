@@ -100,7 +100,7 @@ class _QualificationsScreenState extends State<QualificationsScreen> {
       children: [
         if (i != 1)
           const SizedBox(
-            height: 10,
+            height: 40,
           ),
         Text(
           'Qualification $j',

@@ -53,7 +53,7 @@ class _SkillsScreenState extends State<SkillsScreen> {
       children: [
         if (i != 1)
           SizedBox(
-            height: 5,
+            height: 30,
           ),
         RequiredFieldWidget(
           label: 'Skill $j',

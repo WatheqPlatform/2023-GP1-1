@@ -56,7 +56,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
       children: [
         if (i != 1)
           const SizedBox(
-            height: 10,
+            height: 40,
           ),
         Text(
           'Experience $j',
@@ -118,17 +118,17 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         RequiredFieldWidget(
           label: 'Job Title',
           keyName: 'jobTitle',
-          starColor: Colors.green,
+          starColor: Colors.grey,
           controller: jobTitleControllers[i],
         ),
         RequiredFieldWidget(
           label: 'Company Name',
           keyName: 'companyName',
-          starColor: Colors.green,
+          starColor: Colors.grey,
           controller: companyNameControllers[i],
         ),
         DateButton(
-          starColor: Colors.green,
+          starColor: Colors.grey,
           label: 'Start Date',
           dateController: startDatesController[i],
           mode: DatePickerButtonMode.month,
@@ -136,27 +136,30 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
         ),
         Container(
           margin: const EdgeInsets.only(bottom: 16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Checkbox(
-                activeColor: const Color(0xFF14386E),
-                checkColor: Colors.white,
-                side: MaterialStateBorderSide.resolveWith((states) =>
-                    const BorderSide(width: 2.0, color: Color(0xFF14386E))),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                visualDensity: VisualDensity.compact,
-                value: stillWorking[i].value,
-                onChanged: (value) {
-                  setState(() {
-                    stillWorking[i].value = value ?? false;
-                    cachedSteps[i - 1] = buildStepItem(i, i);
-                  });
-                },
-              ),
-              const Text('I am still working in this position'),
-            ],
+          child: SizedBox(
+            height: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Checkbox(
+                  activeColor: const Color(0xFF14386E),
+                  checkColor: Colors.white,
+                  side: MaterialStateBorderSide.resolveWith((states) =>
+                      const BorderSide(width: 2.0, color: Color(0xFF14386E))),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  visualDensity: VisualDensity.compact,
+                  value: stillWorking[i].value,
+                  onChanged: (value) {
+                    setState(() {
+                      stillWorking[i].value = value ?? false;
+                      cachedSteps[i - 1] = buildStepItem(i, i);
+                    });
+                  },
+                ),
+                const Text('I am still working in this position'),
+              ],
+            ),
           ),
         ),
         Visibility(
@@ -164,7 +167,7 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
           child: DateButton(
             disabled: stillWorking[i].value,
             removeGutter: true,
-            starColor: Colors.green,
+            starColor: Colors.grey,
             label: 'End Date',
             dateController: endDatesController[i],
             mode: DatePickerButtonMode.month,
@@ -423,9 +426,9 @@ class _ExperiencesScreenState extends State<ExperiencesScreen> {
                               const Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "* Fill all fields to add experience",
+                                  "* Indicates required field to add experience",
                                   style: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.grey,
                                     fontSize: 15,
                                   ),
                                 ),

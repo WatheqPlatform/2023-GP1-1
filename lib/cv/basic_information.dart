@@ -147,7 +147,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
               child: SingleChildScrollView(
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 15,
+                    vertical: 30,
                     horizontal: 30,
                   ),
                   decoration: const BoxDecoration(
@@ -185,7 +185,7 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                               const Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "* Required field",
+                                  "* Indicated Required field",
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 15,
@@ -272,6 +272,9 @@ class _BasicInformationScreenState extends State<BasicInformationScreen> {
                                     keyName: 'summary',
                                     controller: summaryController,
                                   ),
+                                  SizedBox(
+                                    height: 8,
+                                  )
                                 ],
                               ),
                             ],

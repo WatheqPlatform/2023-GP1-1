@@ -73,7 +73,7 @@ class RequiredFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: removeGutter ? 0 : 16.0),
+      margin: EdgeInsets.only(bottom: removeGutter ? 0 : 12.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -92,7 +92,7 @@ class RequiredFieldWidget extends StatelessWidget {
               if (maxLines == 1) {
                 return validateShortText(val);
               }
-              if (maxLines == 5) {
+              if (maxLines == 3) {
                 return validateShortText(val);
               }
               return null;

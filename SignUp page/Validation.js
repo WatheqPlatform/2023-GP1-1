@@ -27,11 +27,10 @@ $(document).ready(function () {
                 faliure_wrap.classList.remove("active");
             });
         }
-       
          else  if ( $("#passwordInput").val()!== $("#passwordInput2").val()) {
-           
+
                  var modal_wrapper = document.querySelector('.modal_wrapper');
-                    var faliure_wrap = document.querySelector('.faliure_wrap5');
+                    var faliure_wrap = document.querySelector('.faliure_wrap6');
                     var shadow = document.querySelector('.shadow');
 
                     modal_wrapper.classList.add('active');
@@ -43,7 +42,6 @@ $(document).ready(function () {
                         faliure_wrap.classList.remove('active');
                     });
         }
-    
         else {
             // Send the information to PHP File
             $.post("SignUp.php", {
@@ -97,6 +95,22 @@ $(document).ready(function () {
                         window.location.href = "../LogIn Page/LogIn.html?email="+inputValues[1];
                     });
                 }
+                else if (data === "failure5") {
+
+                    var modal_wrapper = document.querySelector('.modal_wrapper');
+                    var faliure_wrap = document.querySelector('.faliure_wrap5');
+                    var shadow = document.querySelector('.shadow');
+
+                    modal_wrapper.classList.add('active');
+                    faliure_wrap.classList.add('active');
+
+                    // Clicking anywhere on the screen remove the message
+                    shadow.addEventListener('click', function () {
+                        modal_wrapper.classList.remove('active');
+                        faliure_wrap.classList.remove('active');
+                    });
+
+                }
                 else{
                     alert(data);
                     // Handle failure2 case
@@ -115,6 +129,5 @@ $(document).ready(function () {
                 }
             });
         }
-    
     });
 });

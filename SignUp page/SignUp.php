@@ -1,4 +1,5 @@
 <?php
+
 include("../dbConnection.php");
 
 
@@ -7,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $companyName = $_POST["companyName"];
     $email = $_POST["email"];
     $password = $_POST["password"];
+    $passwordConfirm = $_POST["passwordInput2"];
 
     // Validate password requirements
     $passwordRegex = "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>])(?!.*\s).{8,}$/";
@@ -14,6 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "failure2";
         exit();
     }
+    
+    $emailRegex = "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+if (!preg_match($emailRegex, $email)) {
+      echo "failure5";
+        exit();
+} 
+
+ 
 
     // Check if email already exists
     $checkEmailQuery = "SELECT * FROM jobprovider WHERE JobProviderEmail = ?";
@@ -26,6 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "failure3";
         exit();
     }
+    
+    
 
     // If no errors, insert the user into the database
     if (!isset($error)) {

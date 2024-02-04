@@ -161,7 +161,7 @@ label{
     border-radius: 5px; 
     color: white;
     font-size: 18px;
-    margin: 20px auto 0px;
+    margin: 30px 0px 0px 15px;
     background-color: #085399;
     transition: all .4s ease-in-out; 
 }
@@ -184,6 +184,7 @@ label{
     text-decoration: none;
     color: #2d72b2; 
 }
+
 
 
 /*Social Media Icons*/
@@ -242,8 +243,8 @@ label{
 	opacity: 0;
 	transition: 0.2s ease;
 }
-/* model wrapper*/
-.modal_wrapper .success_wrap, .modal_wrapper .faliure_wrap, .modal_wrapper .faliure_wrap2, .modal_wrapper .faliure_wrap3, .modal_wrapper .faliure_wrap4, .modal_wrapper .faliure_wrap5{
+
+.modal_wrapper .success_wrap, .modal_wrapper .faliure_wrap, .modal_wrapper .faliure_wrap2, .modal_wrapper .faliure_wrap3,.modal_wrapper .faliure_wrap5, .modal_wrapper .faliure_wrap4,  .modal_wrapper .faliure_wrap6{
 	position: absolute;
 	visibility: hidden;
     width: 30%;
@@ -259,7 +260,7 @@ label{
 	transition: 0.5s ease;
 }
 
-.modal_wrapper .faliure_wrap .modal_icon, .modal_wrapper .faliure_wrap2 .modal_icon, .modal_wrapper .faliure_wrap3 .modal_icon,.modal_wrapper .faliure_wrap4 .modal_icon, .modal_wrapper .faliure_wrap5 .modal_icon{
+.modal_wrapper .faliure_wrap .modal_icon, .modal_wrapper .faliure_wrap2 .modal_icon, .modal_wrapper .faliure_wrap3 .modal_icon, .modal_wrapper .faliure_wrap5 .modal_icon,.modal_wrapper .faliure_wrap4 .modal_icon, .modal_wrapper .faliure_wrap6 .modal_icon{
 	margin-right: 20px;
 	width: 50px;
 	height:50px;
@@ -291,7 +292,7 @@ label{
 }
 
 
-.faliure_wrap.active, .faliure_wrap2.active, .faliure_wrap3.active, .faliure_wrap4.active, .faliure_wrap5.active {
+.faliure_wrap.active, .faliure_wrap2.active, .faliure_wrap5.active,.faliure_wrap3.active, .faliure_wrap4.active, .faliure_wrap6.active {
 	visibility: visible;
 	transform: translate(-50%,-50%);
 }

@@ -100,9 +100,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
     try {
       var response = await http.post(
         Uri.parse(Connection.forgetPassword),
-        body: json.encode({
-          "email": widget.email,
-        }),
+        body: json
+            .encode({"email": widget.email, "session_id": widget.sessionID}),
         headers: {"Content-Type": "application/json"},
       );
 

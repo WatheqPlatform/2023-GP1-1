@@ -154,6 +154,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                   "${list[index]["OfferID"]}",
                                               email: widget.email,
                                             ));
+
+                                            setState(() {
+                                              list[index]["isSeen"] = 1;
+                                            });
                                           },
                                           child: Container(
                                             width: screenWidth,
@@ -216,19 +220,28 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                                 FontWeight.w500,
                                                           ),
                                                         ),
-                                                        Text(
-                                                          "Great news! the ${list[index]["JobTitle"].toLowerCase()} role at ${list[index]["CompanyName"].toLowerCase()} matches your cv by ${list[index]["Score"] * 100}%, apply now.",
-                                                          style:
-                                                              const TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    155,
-                                                                    155,
-                                                                    155),
-                                                            fontSize: 15.0,
-                                                            fontWeight:
-                                                                FontWeight.w400,
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  right: 25.0),
+                                                          child: Text(
+                                                            "The ${list[index]["JobTitle"]} role at ${list[index]["CompanyName"]} matches your cv by ${list[index]["Score"] * 100}%, apply now!",
+                                                            textAlign: TextAlign
+                                                                .justify,
+                                                            style:
+                                                                const TextStyle(
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      155,
+                                                                      155,
+                                                                      155),
+                                                              fontSize: 15.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400,
+                                                            ),
                                                           ),
                                                         ),
                                                         const SizedBox(

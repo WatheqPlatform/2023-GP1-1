@@ -49,6 +49,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
     ReadData();
   }
 
+  String _displayTime(String dateString) {
+    final date = DateTime.parse(dateString);
+    final today = DateTime.now();
+    if (date.year == today.year &&
+        date.month == today.month &&
+        date.day == today.day) {
+      return 'Today';
+    } else {
+      return timeago.format(date);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -79,8 +91,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Get.to(OffersScreen(email: widget.email));
                     markNotificationsAsSeen();
+
+                    Get.to(OffersScreen(email: widget.email));
                   },
                 ),
                 const Padding(
@@ -256,10 +269,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                                   .only(
                                                                   bottom: 8),
                                                           child: Text(
-                                                            timeago.format(
-                                                                DateTime.parse(
-                                                                    list[index][
-                                                                        "Date"])),
+                                                            _displayTime(
+                                                                list[index]
+                                                                    ["Date"]),
                                                             //"
                                                             style:
                                                                 const TextStyle(

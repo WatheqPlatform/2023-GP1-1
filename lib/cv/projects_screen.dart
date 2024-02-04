@@ -56,7 +56,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
               fontSize: 18),
         ),
         const SizedBox(
-          height: 7,
+          height: 0,
         ),
         RequiredFieldWidget(
           label: 'Project Name',

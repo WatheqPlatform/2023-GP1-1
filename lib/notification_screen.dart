@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:watheq/offer_details_screen.dart';
-import 'package:watheq/offers_screen.dart';
 import 'package:http/http.dart' as http;
+import 'package:watheq/offers_screen.dart';
 import 'database_connection/connection.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -79,13 +79,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     color: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OffersScreen(
-                                email: "FO@gmail.com",
-                              )),
-                    );
+                    Get.to(OffersScreen(email: widget.email));
                     markNotificationsAsSeen();
                   },
                 ),

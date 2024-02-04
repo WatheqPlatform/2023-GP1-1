@@ -7,8 +7,7 @@ function sortApplications() {
             url: "SortApplications.php",
             data: { sort: selectedOption },
             success: function (data) {
-                document.getElementById("pending").innerHTML=data;
-                                
+                document.getElementById("pending").innerHTML=data;                     
             },
             error: function () {
                 alert("There is an error, try again later");

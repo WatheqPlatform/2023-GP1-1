@@ -13,57 +13,93 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $offerID = $_SESSION['OfferID'];
     $sortingOption = $_POST['sort']; 
+    $_SESSION['Sorting']=true;
 
-    // Query to retrieve job applications along with CV details for the specified job offer
-    $sql = 'SELECT application.*, cv.CV_ID, cv.FirstName, cv.LastName, cv.ContactEmail, cv.PhoneNumber, cv.Summary
-    FROM application
-    INNER JOIN cv ON application.JobSeekerEmail = cv.JobSeekerEmail
-    WHERE application.OfferID = ? AND Status= "Pending"';
+    if($sortingOption !== 'similar'){
+        // Query to retrieve job applications along with CV details for the specified job offer
+        $sql = 'SELECT application.*, cv.CV_ID, cv.FirstName, cv.LastName, cv.ContactEmail, cv.PhoneNumber, cv.Summary
+        FROM application
+        INNER JOIN cv ON application.JobSeekerEmail = cv.JobSeekerEmail
+        WHERE application.OfferID = ? AND Status= "Pending"';
 
-    $sql .= ($sortingOption === 'new') ? 'ORDER BY application.ApplicationID DESC' : ' ORDER BY application.ApplicationID ASC';
+        $sql .= ($sortingOption === 'new') ? 'ORDER BY application.ApplicationID DESC' : ' ORDER BY application.ApplicationID ASC';
 
-    // Prepare and execute the query
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $offerID);
-    $stmt->execute();
+        // Prepare and execute the query
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $offerID);
+        $stmt->execute();
 
-    $result = $stmt->get_result();
-    $PendingApplications = array();
-    while ($row = $result->fetch_assoc()) {
-        $ApplicationID = $row["ApplicationID"];
-        $CVID = $row["CV_ID"];
-        $ContactEmail = $row["ContactEmail"];
-        $JobSeekerName = $row["FirstName"] . " <br>" . $row["LastName"];
-        $JobSeekerPhone = $row["PhoneNumber"];
-        $Status = $row["Status"];
-        $Summary = $row["Summary"];
+        $result = $stmt->get_result();
+        $PendingApplications = array();
+        while ($row = $result->fetch_assoc()) {
+            $ApplicationID = $row["ApplicationID"];
+            $CVID = $row["CV_ID"];
+            $ContactEmail = $row["ContactEmail"];
+            $JobSeekerName = $row["FirstName"] . " <br>" . $row["LastName"];
+            $JobSeekerPhone = $row["PhoneNumber"];
+            $Status = $row["Status"];
+            $Summary = $row["Summary"];
 
-        // Create an application array
-        $PendingApplications[]= array(
-            "ApplicationID" => $ApplicationID,
-            "CVID" => $CVID,
-            "ContactEmail" => $ContactEmail,
-            "Name" => $JobSeekerName,
-            "PhoneNumber" => $JobSeekerPhone,
-            "Summary" => $Summary,
-            "Status" => $Status
-        );
-    }
-
-    if ($sortingOption === 'similar') {
-        include("../Recommendation System.php");
-    
-        // Initialize an array to store totalScores
-        $totalScores = array();
-    
-        // Populate the totalScores array
-        foreach ($PendingApplications as $key => $application) {
-            $cvID = $application['CVID'];
-            $totalScores[$key] = isset($cvSimilarityResults[$cvID]['totalScore']) ? $cvSimilarityResults[$cvID]['totalScore'] : 0;
+            // Create an application array
+            $PendingApplications[]= array(
+                "ApplicationID" => $ApplicationID,
+                "CVID" => $CVID,
+                "ContactEmail" => $ContactEmail,
+                "Name" => $JobSeekerName,
+                "PhoneNumber" => $JobSeekerPhone,
+                "Summary" => $Summary,
+                "Status" => $Status
+            );
         }
-    
-        // Sort the $PendingApplications based on $totalScores
-        array_multisort($totalScores, SORT_DESC, $PendingApplications);
+    } else {
+        // Sorint based on similarity
+        include("../Recommendation System.php");
+        
+        // Query to retrieve job applications along with CV details for the specified job offer
+        $sql = 'SELECT application.*, cv.CV_ID, cv.FirstName, cv.LastName, cv.ContactEmail, cv.PhoneNumber, cv.Summary
+        FROM application
+        INNER JOIN cv ON application.JobSeekerEmail = cv.JobSeekerEmail
+        WHERE application.OfferID = ? AND Status= "Pending"';
+        
+        // Prepare and execute the query
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $offerID);
+        $stmt->execute();
+        
+        $result = $stmt->get_result();
+        $PendingApplications = array();
+        while ($row = $result->fetch_assoc()) {
+            $ApplicationID = $row["ApplicationID"];
+            $CVID = $row["CV_ID"];
+            $ContactEmail = $row["ContactEmail"];
+            $JobSeekerName = $row["FirstName"] . " <br>" . $row["LastName"];
+            $JobSeekerPhone = $row["PhoneNumber"];
+            $Status = $row["Status"];
+            $Summary = $row["Summary"];
+        
+            // Create an application array
+            $PendingApplications[] = array(
+                "ApplicationID" => $ApplicationID,
+                "CVID" => $CVID,
+                "ContactEmail" => $ContactEmail,
+                "Name" => $JobSeekerName,
+                "PhoneNumber" => $JobSeekerPhone,
+                "Summary" => $Summary,
+                "Status" => $Status
+            );
+        }
+        
+        foreach ($PendingApplications as &$application) {
+            $application['totalScore'] = $cvSimilarityResults[$application['CVID']]['totalScore'];
+        }
+        
+        //Sort based on highest score
+        usort($PendingApplications, function ($a, $b) {
+            return $b['totalScore'] <=> $a['totalScore'];
+        });
+        
+        // Ensure to unset the reference to avoid issues in subsequent code
+        unset($application);
     }
     
     // Initialize an empty string to concatenate the HTML content

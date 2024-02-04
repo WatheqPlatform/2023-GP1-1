@@ -4,7 +4,7 @@ include("dbConnection.php");
 
 session_start();
 $offerID = $_SESSION['OfferID'];
-
+$absolutePathToPythonScript = __DIR__ . '/Pre-prosessing.py';
 
 //To store all the similarity results of the CVs
 $cvSimilarityResults = array();
@@ -57,14 +57,16 @@ while ($offerSkillsRow  = $offerSkillsResult->fetch_assoc()) {
 }
 
 //Availability of the skill in job offer
-$aSkill= mysqli_num_rows($offerSkillsResult) != 0 ? 1:0;
+$aSkill= mysqli_num_rows($offerSkillsResult) !== 0 ? 1:0;
 
-if($aSkill==1){
+if($aSkill===1){
     // Fetch CVSkills from database
     $cvSkillsQuery = "SELECT CV_ID, GROUP_CONCAT(Description) AS skills FROM skill WHERE CV_ID IS NOT NULL GROUP BY CV_ID";
     $cvSkillsResult = mysqli_query($conn, $cvSkillsQuery);
     while ($cvSkillsRow  = $cvSkillsResult->fetch_assoc()) {
         $cvSkills[]=$cvSkillsRow;
+           
+
     }
     
     //Encode to json before send it to python
@@ -72,14 +74,13 @@ if($aSkill==1){
     $offerSkillsDataJson= json_encode($offerSkills);
     
     //Send the data to python for preprosessing
-    $command = "python3 Pre-prosessing.py " . escapeshellarg($cvSkillsDataJson) . " " . escapeshellarg($offerSkillsDataJson);
+    $command = "python3 " . escapeshellarg($absolutePathToPythonScript) . " " . escapeshellarg($cvSkillsDataJson) . " " . escapeshellarg($offerSkillsDataJson); 
     $output = shell_exec($command);
     
     //Receive the data back from python after preprosessing
     $outputArray = json_decode($output, true);
     $cvSkillsInfo = $outputArray[0];
     $offerSkillsInfo = $outputArray[1];
- 
 
     //Find the skills similarity score for each CV 
     foreach ($cvSkillsInfo as $cv) {
@@ -101,7 +102,7 @@ while ($offerQualificationRow = $offerQualificationResult->fetch_assoc()) {
 }
 
 //Availability of the qualification in job offer
-$aQualification= mysqli_num_rows($offerQualificationResult) != 0 ? 1:0;
+$aQualification= mysqli_num_rows($offerQualificationResult) !== 0 ? 1:0;
 
 if($aQualification ==1){
     // Fetch CVQualification from database
@@ -116,7 +117,7 @@ if($aQualification ==1){
     $offerQualificationDataJson =json_encode($offerQualifications);
     
     //Send the data to python for preprosessing
-    $command = "python3 Pre-prosessing.py " . escapeshellarg($cvQualificationDataJson) . " " . escapeshellarg($offerQualificationDataJson);
+    $command = "python3 " . escapeshellarg($absolutePathToPythonScript) . " " . escapeshellarg($cvQualificationDataJson) . " " . escapeshellarg($offerQualificationDataJson);
     $output = shell_exec($command);
     
     //Receive the data back from python after preprosessing
@@ -159,7 +160,7 @@ while ($offerExperinceRow = $offerExperinceResult->fetch_assoc()) {
 }
 
 //Availability of the experince in job offer
-$aExperience= mysqli_num_rows($offerExperinceResult) != 0 ? 1:0;
+$aExperience= mysqli_num_rows($offerExperinceResult) !== 0 ? 1:0;
 
 if($aExperience==1){
     // Fetch CVExperience from database
@@ -174,7 +175,7 @@ if($aExperience==1){
     $offerExperinceDataJson =json_encode($offerExperiences);
     
     //Send the data to python for preprosessing
-    $command = "python3 Pre-prosessing.py " . escapeshellarg($cvExperinceDataJson) . " " . escapeshellarg($offerExperinceDataJson);
+    $command = "python3 " . escapeshellarg($absolutePathToPythonScript) . " " . escapeshellarg($cvExperinceDataJson) . " " . escapeshellarg($offerExperinceDataJson);
     $output = shell_exec($command);
     
     //Receive the data back from python after preprosessing
@@ -273,42 +274,6 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
     
     // Add the total score to the CV's array, rounding to two decimal places
     $cvSimilarityResults[$cvID]['totalScore'] = round($totalScore, 2);
-}
-
-
-$checkNotificationsQuery = "SELECT * FROM notification WHERE OfferID = ?";
-$checkStmt = $conn->prepare($checkNotificationsQuery);
-$checkStmt->bind_param("i", $offerID);
-$checkStmt->execute();
-$checkResult = $checkStmt->get_result();
-
-// If notifications already exist, skip the insertion
-if ($checkResult->num_rows > 0) {
-
- 
-}
-else{
-    $date =date("Y-m-d");
-     
-    foreach ($cvSimilarityResults as $cvID => $scores) {
-        if ($scores['totalScore'] >= 0.5) {
-            // Fetch the seeker ID using cv_id
-            $query = $conn->prepare("SELECT JobSeekerEmail FROM cv WHERE CV_ID = ?");
-            $query->bind_param("i", $cvID); 
-            $query->execute();
-            $result = $query->get_result();
-            
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $seekerID = $row['JobSeekerEmail'];
-    
-                // Insert into the notification table
-                $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Score, OfferID, Date) VALUES (?, ?, ?, ?) ");
-                $insertQuery->bind_param("sdis", $seekerID, $scores['totalScore'], $offerID, $date); 
-                $insertQuery->execute();
-            }
-        }
-    }
 }
 
 

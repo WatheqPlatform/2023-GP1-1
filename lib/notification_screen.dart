@@ -131,7 +131,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           )
                         : Expanded(
                             child: SizedBox(
-                              height: screenHeight * 0.80,
+                              height: screenHeight,
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(80.0),
@@ -187,7 +187,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                   Container(
                                                     margin:
                                                         const EdgeInsets.only(
-                                                            right: 2),
+                                                            right: 10),
                                                     width: 12,
                                                     height: 12,
                                                     decoration: BoxDecoration(
@@ -204,7 +204,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                     ),
                                                   ),
                                                   SizedBox(
-                                                    width: screenWidth * 0.83,
+                                                    width: screenWidth * 0.80,
                                                     child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
@@ -227,7 +227,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                           padding:
                                                               const EdgeInsets
                                                                   .only(
-                                                                  right: 25.0),
+                                                                  right: 15.0),
                                                           child: Text(
                                                             "The ${list[index]["JobTitle"]} role at ${list[index]["CompanyName"]} matches your cv by ${list[index]["Score"] * 100}%, apply now!",
                                                             textAlign: TextAlign

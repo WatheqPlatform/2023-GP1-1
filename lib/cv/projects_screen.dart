@@ -67,13 +67,13 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
         DateButton(
           label: 'Completion Date',
           dateController: datesControllers[i],
-          starColor: Colors.green,
+          starColor: Colors.grey,
         ),
         RequiredFieldWidget(
           label: 'Description',
           keyName: 'description',
           controller: descriptionControllers[i],
-          starColor: Colors.green,
+          starColor: Colors.grey,
           maxLines: 5,
           keyboardType: TextInputType.multiline,
           removeGutter: true,
@@ -278,9 +278,9 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                               const Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "* Fill all fields to add project",
+                                  "* Indicates required field to add award",
                                   style: TextStyle(
-                                    color: Colors.green,
+                                    color: Colors.grey,
                                     fontSize: 15,
                                   ),
                                 ),

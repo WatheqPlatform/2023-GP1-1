@@ -4,6 +4,8 @@ $(document).ready(function () {
             // REQUIRED FIELDS ONLY
             $("#companyName").val(),
             $("#email").val(),
+            $("#passwordInput").val(),
+            $("#passwordInput2").val(),
         ];
         let isEmpty = false;
         // Check if any item in the array is empty

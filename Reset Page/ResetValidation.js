@@ -1,12 +1,13 @@
 $(document).ready(function () {
     $("#SubmitButton").click(function () {
         password=$("#passwordInput").val();
+        password2=$("#passwordInput2").val();
         token=$("#token").val();
         sessionid=$("#ID").val();
         
         let isEmpty = false;
       
-        if (password === undefined || password === null || password === "") {  
+        if (password === undefined || password === null || password === "" || password2 === undefined || password2 === null || password2 === "") {  
             isEmpty = true;
         }
         if (isEmpty) {

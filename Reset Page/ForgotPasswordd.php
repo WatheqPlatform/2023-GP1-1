@@ -84,7 +84,7 @@ $resetLink = "https://www.watheqplatform.com/Reset%20Page/ResetPasswordd.php?ses
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Password.css">
+    <link rel="stylesheet" href="Passwords.css">
     <link rel="icon" href="../Images/Icon.png">
     <title>Reset Password - Watheq</title>
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->

@@ -311,6 +311,22 @@ h2{
     border-bottom-right-radius: 30px;
 }
 
+#UpperDiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+#Score{
+    text-transform: capitalize;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    color: #085399;
+    opacity: 0.7;
+}
+
 #Status{
     text-transform: capitalize;
     text-align: left;
@@ -327,6 +343,7 @@ h2{
 .Accepted#Status{
     color: rgb(16, 156, 16);
 }
+
 
 #Summary{
     text-transform: capitalize;

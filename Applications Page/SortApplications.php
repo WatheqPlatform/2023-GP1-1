@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         foreach ($PendingApplications as &$application) {
-            $application['totalScore'] = $cvSimilarityResults[$application['CVID']]['totalScore'];
+            $application['totalScore'] = $cvSimilarityResults[$application['CVID']]['totalScore']*100;
         }
         
         //Sort based on highest score
@@ -115,7 +115,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pendingApplicationsHTML .= "<p><a href='../CV Page/CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
         $pendingApplicationsHTML .= "</div>";
         $pendingApplicationsHTML .= "<div id='SecondPart'>";
+        $pendingApplicationsHTML .= "<div id='UpperDiv'>";
         $pendingApplicationsHTML .= "<p id='Status'class='".$application['Status']."'>{$application['Status']} Application</p>";
+        if($sortingOption=="similar"){
+            $pendingApplicationsHTML .= "<p id='Score'>Matching Score {$application['totalScore']}%</p>";
+        }
+        $pendingApplicationsHTML .= "</div>";
         $pendingApplicationsHTML .= "<p id='Summary'>" . trim(preg_replace('/\s+/', ' ', $application['Summary'])) . "</p>";
         $pendingApplicationsHTML .= "<div id='BottomDiv'>";
         $pendingApplicationsHTML .= "<div id='ContactDiv'>";

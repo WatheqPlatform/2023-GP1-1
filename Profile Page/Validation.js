@@ -51,7 +51,7 @@ $(document).ready(function () {
                     shadow.addEventListener("click", function () {
                         modal_wrapper.classList.remove("active");
                         success_wrap.classList.remove("active");
-                        window.location.href = "profile.php";
+                        window.location.href = "../Profile Page/Profile.php";
                     });
                 }
             });

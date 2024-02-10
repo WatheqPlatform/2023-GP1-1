@@ -91,7 +91,7 @@ else{
                             </p>
                             <div class="input_wrap">
                                 <label for="Name">Company Name <span class="required"></span></label>
-                                <input type="text" name="Name" class="input" id="Name" maxlength="100" value='<?php echo $row["CompanyName"]?>'>
+                                <input type="text" name="Name" class="input" id="Name" maxlength="100" value='<?php echo $rowName["CompanyName"]?>'>
                             </div>
                             <div class="input_wrap">
                                 <label for="Description">About The Company <span class="required"></span></label>

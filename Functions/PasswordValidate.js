@@ -17,6 +17,7 @@ function validatePassword() {
       passwordMessage.style.maxWidth = "51vh";
       passwordMessage.style.fontSize = "12px";
       passwordMessage.style.textAlign = "center";
+      passwordMessage.style.marginLeft = "15px"; 
     }
 }
 

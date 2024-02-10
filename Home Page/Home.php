@@ -125,7 +125,7 @@ $conn->close();
           <img src="../Images/White Logo.png" alt="Watheq Logo" id="logo">
         </a>
         <a href="../Home Page/Home.php" id="CurrentPage"> Home </a>
-        <a href=""> Profile </a>
+        <a href="../Profile Page/Profile.php"> Profile </a>
         <a href="../History Page/History.php"> Job Offers </a>
         <a href="../AddOffer Page/AddOffer.php"> Add Offer </a> 
       </div>

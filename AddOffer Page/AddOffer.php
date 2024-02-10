@@ -42,8 +42,6 @@ $result3 = $conn->query($query);
         <script src="Validate.js"></script>
         <script src="ranking.js"></script>
         <script src="checkAttributes.js"></script>
-
-
     </head>
 
     <body>
@@ -57,7 +55,7 @@ $result3 = $conn->query($query);
                         <img src="../Images/White Logo.png" alt="Watheq Logo" id="logo">
                     </a>
                     <a href="../Home Page/Home.php"> Home </a>
-                    <a href=""> Profile </a>
+                    <a href="../Profile Page/Profile.php"> Profile </a>
                     <a href="../History Page/History.php"> Job Offers </a>
                     <a href="../AddOffer Page/AddOffer.php" id="CurrentPage"> Add Offer </a> 
                 </div>
@@ -163,7 +161,6 @@ $result3 = $conn->query($query);
                                             // Check if there are any rows
                                             if ($result->num_rows > 0) {
                                                 // Start the select field
-
                                                 echo '<option disabled selected></option>';
 
                                                 // Loop through the rows and print the options

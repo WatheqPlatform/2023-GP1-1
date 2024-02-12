@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-// Get the attribute list element
+    // Get the attribute list element
     const attributeList = document.querySelector('.attribute-list');
     const ImportanceCheckbox = document.getElementById('checkboxContainer');
     const CustomizeCheckbox = document.getElementById('CustomizeBoxContainer');
-// Define the initial list of attributes
+    // Define the initial list of attributes
     const initialAttributes = ['City'];
     generateAttributeList(initialAttributes);
     // Get the button element
     const btnNext = document.querySelector('#check');
-// Add event listener to the button
+    // Add event listener to the button
     btnNext.addEventListener('click', checkAttributes);
 
 
@@ -20,17 +20,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const numAttributes = attributes.length;
         
-           if (numAttributes === 1)
-        {
-            ImportanceCheckbox.style.display = "none";
-            CustomizeCheckbox.style.display = "none";
-        } else {
-
-            ImportanceCheckbox.style.display = "block";
-            CustomizeCheckbox.style.display = "block";
-
-        }
-
         // Calculate the total weight for the attributes
         let totalWeight = 0;
 
@@ -103,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if ((hasQual || hasQual2) && !initialAttributes.includes('Qualifications')) {
-
             initialAttributes.push('Qualifications');
             generateAttributeList(initialAttributes);
             numberOfAttributes++;
@@ -112,7 +100,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const index = initialAttributes.indexOf('Qualifications');
             if (index !== -1) {
                 initialAttributes.splice(index, 1);
-
                 generateAttributeList(initialAttributes);
             }
         }
@@ -125,8 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const ExpYInput = document.getElementById('EYears');
         const hasExp3 = ExpYInput.value.trim() !== "";
-
-
 
 
         if ((hasExp || hasExp2 || hasExp3) && !initialAttributes.includes('Experiences')) {
@@ -142,9 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 generateAttributeList(initialAttributes);
             }
-
         }
-
 
 
         if (numberOfAttributes === 0)
@@ -152,18 +135,25 @@ document.addEventListener("DOMContentLoaded", function () {
             ImportanceCheckbox.style.display = "none";
             CustomizeCheckbox.style.display = "none";
         } else {
-
             ImportanceCheckbox.style.display = "block";
             CustomizeCheckbox.style.display = "block";
 
         }
 
-// Add event listener to the button again
-        btnNext.addEventListener('click', checkAttributes);
+        // Add event listener to the button again
+        if (initialAttributes.length === 1)
+        {
+            ImportanceCheckbox.style.display = "none";
+            CustomizeCheckbox.style.display = "none";
+        } else {
+            ImportanceCheckbox.style.display = "block";
+            CustomizeCheckbox.style.display = "block";
+        }
 
+        btnNext.addEventListener('click', checkAttributes);
     }
 
-// Make the attribute list sortable
+    // Make the attribute list sortable
     const sortable = Sortable.create(attributeList, {
         animation: 150,
         onEnd: function (event) {
@@ -171,8 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const attributeItems = Array.from(document.querySelectorAll('.attribute-list li'));
             // Update the attribute order based on the new sorting
             const attributes = Array.from(attributeList.getElementsByTagName('li')).map(li => li.textContent);
-//      generateAttributeList(attributes);
-// Update the weights based on the new order
+            // generateAttributeList(attributes);
+            // Update the weights based on the new order
             const totalWeight = attributeItems.length;
             attributeItems.forEach((item, index) => {
                 const weight = ((totalWeight - index) / totalWeight) * 100;
@@ -253,22 +243,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const custimozeDiv = document.getElementById('Customized_wrap');
         if (customizeBox.checked)
         {
-
-
-
             DragAndDropDiv.style.display = "none";
-
-
-
             custimozeDiv.style.display = "block";
             CustomizeWeights(initialAttributes);
         } else {
 
 
             DragAndDropDiv.style.display = "block";
-
-
-
             custimozeDiv.style.display = "none";
             const attributeList = document.querySelector('.customization-list');
             const selectListDiv = document.querySelector('.select-list-div');
@@ -280,9 +261,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function CustomizeWeights(Attributes) {
-
-
-
         const attributeList = document.querySelector('.customization-list');
         const selectListDiv = document.querySelector('.select-list-div');
         const selectValues = {}; // Object to store the select values
@@ -308,9 +286,6 @@ document.addEventListener("DOMContentLoaded", function () {
             selectListDiv.appendChild(select);
 
         });
-
-
-
     }
 
 
@@ -318,9 +293,6 @@ document.addEventListener("DOMContentLoaded", function () {
     sameImportanceCheckbox.addEventListener('change', function () {
         const attributeList = document.querySelector('.attribute-list');
         const liElements = document.querySelectorAll('.attribute-list li');
-
-
-
 
         if (sameImportanceCheckbox.checked) {
 
@@ -346,12 +318,9 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(attributeOrder);
 
         } else {
-
-
             generateAttributeList(initialAttributes);
         }
     });
-
 
 
 

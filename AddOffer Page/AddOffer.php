@@ -390,60 +390,53 @@ $result3 = $conn->query($query);
                                 <h2>Criteria Importance</h2>
                                 <div class="form_container" id = "container">
                                     <div class="input_wrap" id="ranking">
+
                                         <div id="dragAndDrop">
                                             <p id="note">Drag and drop each criterion to arrange them.<br> Your selections will assist in finding the perfect match for your offer!<p> <!-- comment -->
-
-
                                             <ul class="attribute-list">
                                                 <!-- the attributes will show dynamically based on the offer information -->
                                             </ul>
-
                                         </div>
 
 
-                                        <!--To make the screen dark when message displayed-->
-                                        <div id="Customized_wrap" style="display: none;" >
-
-
+                                        <div id="Customized_wrap" style="display: none;">
                                             <p id="note2"> Make sure the weights sum equals 100%! </p>
+                                            
                                             <div id ="customization-div">
 
                                                 <div class ="attribute-list-div">
                                                     <ul class="customization-list">
-
+                                                        <!-- the attributes will show dynamically based on the offer information -->
                                                     </ul>
                                                 </div>
+
                                                 <div class="select-list-div">
                                                 </div>
-
                                             </div>
-                                             </div>
+                                        </div><!-- ?? -->
 
-                                            <div id="checkboxContainer" style="display: none;">
+                                        <div id="checkboxContainer" style="display: none;">
+                                            <label for="sameImportance">
+                                                <input type="checkbox" id="sameImportance" name="sameImportance">
+                                                All criteria are of the same importance
+                                            </label>
+                                        </div>
 
-                                                <label for="sameImportance">
-                                                    <input type="checkbox" id="sameImportance" name="sameImportance">
-                                                    All criteria are of the same importance
-                                                </label>
-                                            </div>
-
-                                            <div id="CustomizeBoxContainer" >
-
-                                                <label for="Customize">
-                                                    <input type="checkbox" id="Customize" name="Customize">
-                                                    Advanced customization
-                                                </label>
-                                            </div>
+                                        <div id="CustomizeBoxContainer" >
+                                            <label for="Customize">
+                                                <input type="checkbox" id="Customize" name="Customize">
+                                                Advanced customization
+                                            </label>
+                                        </div>
                                        
                                         <div class ='Threshold'>
-                                            <label for="minimum-score-select">Select the minimum matching score:  </label>
+                                            <label for="minimum-score-select">Select the minimum matching score: </label>
                                             <select id="minimum-score-select">
                                                 <!-- The options will be dynamically generated using JavaScript -->
                                             </select>
+                                        </div>  
 
-                                        </div>   
                                     </div>
-
                                 </div>
                             </div> 
 
@@ -496,6 +489,7 @@ $result3 = $conn->query($query);
 
         <!--Final Message after submitting the form-->
         <div class="modal_wrapper">
+
             <div class="shadow"></div> <!--To make the screen dark when message displayed-->
             <div class="success_wrap">
                 <span class="modal_icon"><ion-icon name="checkmark-sharp"></ion-icon></span> <!--Checkmark icon-->

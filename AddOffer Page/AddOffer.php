@@ -44,7 +44,7 @@ $result3 = $conn->query($query);
         <script src="checkAttributes.js"></script>
     </head>
 
-    <body>
+   <body>
 
         <div id="Main">
 
@@ -55,7 +55,7 @@ $result3 = $conn->query($query);
                         <img src="../Images/White Logo.png" alt="Watheq Logo" id="logo">
                     </a>
                     <a href="../Home Page/Home.php"> Home </a>
-                    <a href="../Profile Page/Profile.php"> Profile </a>
+                    <a href=""> Profile </a>
                     <a href="../History Page/History.php"> Job Offers </a>
                     <a href="../AddOffer Page/AddOffer.php" id="CurrentPage"> Add Offer </a> 
                 </div>
@@ -161,6 +161,7 @@ $result3 = $conn->query($query);
                                             // Check if there are any rows
                                             if ($result->num_rows > 0) {
                                                 // Start the select field
+
                                                 echo '<option disabled selected></option>';
 
                                                 // Loop through the rows and print the options
@@ -385,25 +386,65 @@ $result3 = $conn->query($query);
                             <!-- All non required fields-->
                             <div class="form_7 data_info" style="display: none;">
                                 <h2>Criteria Importance</h2>
-                                <div class="form_container">
+                                <div class="form_container" id = "container">
                                     <div class="input_wrap" id="ranking">
-                                        <p id="note">Drag and drop each criterion to arrange them.<br> Your selections will assist in finding the perfect match for your offer!<p> <!-- comment -->
+                                        <div id="dragAndDrop">
+                                            <p id="note">Drag and drop each criterion to arrange them.<br> Your selections will assist in finding the perfect match for your offer!<p> <!-- comment -->
 
 
-                                        <ul class="attribute-list">
-                                            <!-- the attributes will show dynamically based on the offer information -->
-                                        </ul>
+                                            <ul class="attribute-list">
+                                                <!-- the attributes will show dynamically based on the offer information -->
+                                            </ul>
 
-                                         <div id="checkboxContainer" style="display: none;">
-                                           
-                                            <label for="sameImportance">
-                                                <input type="checkbox" id="sameImportance" name="sameImportance">
-                                                All criteria are of the same importance
-                                            </label>
                                         </div>
-                                    </div> 
-                                </div> 
-                            </div>
+
+
+                                        <!--To make the screen dark when message displayed-->
+                                        <div id="Customized_wrap" style="display: none;" >
+
+
+                                            <p id="note2"> Make sure the weights sum equals 100%! </p>
+                                            <div id ="customization-div">
+
+                                                <div class ="attribute-list-div">
+                                                    <ul class="customization-list">
+
+                                                    </ul>
+                                                </div>
+                                                <div class="select-list-div">
+                                                </div>
+
+                                            </div>
+                                             </div>
+
+                                            <div id="checkboxContainer" style="display: none;">
+
+                                                <label for="sameImportance">
+                                                    <input type="checkbox" id="sameImportance" name="sameImportance">
+                                                    All criteria are of the same importance
+                                                </label>
+                                            </div>
+
+                                            <div id="CustomizeBoxContainer" >
+
+                                                <label for="Customize">
+                                                    <input type="checkbox" id="Customize" name="Customize">
+                                                    Advanced customization
+                                                </label>
+                                            </div>
+                                       
+                                        <div class ='Threshold'>
+                                            <label for="minimum-score-select">Select the minimum matching score:  </label>
+                                            <select id="minimum-score-select">
+                                                <!-- The options will be dynamically generated using JavaScript -->
+                                            </select>
+
+                                        </div>   
+                                    </div>
+
+                                </div>
+                            </div> 
+
                             <!--Navigation Buttons-->
                             <div class="btns_wrap">
 
@@ -462,6 +503,8 @@ $result3 = $conn->query($query);
                 <span class="modal_icon"><ion-icon name="close-outline"></ion-icon></span> <!--Cross icon-->
                 <p>You need to fill all the required fields</p>
             </div>
+
+
         </div>
 
     </body>

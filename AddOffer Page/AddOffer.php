@@ -42,6 +42,8 @@ $result3 = $conn->query($query);
         <script src="Validate.js"></script>
         <script src="ranking.js"></script>
         <script src="checkAttributes.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
+
     </head>
 
    <body>

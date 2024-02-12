@@ -64,11 +64,7 @@ $(document).ready(function () {
                     modal_wrapper.classList.remove("active");
                     faliure_wrap.classList.remove("active");
                 });
-                // Construct the error message
-                // var errorMessage = "Please fill in the following fields: " + missingFields.join(", ");
 
-                // Display the error message
-                // alert(errorMessage);
             } else {
 
 
@@ -187,6 +183,8 @@ $(document).ready(function () {
 
                         } else {
 
+
+
                             var skills = getSkills();
 
 
@@ -202,7 +200,7 @@ $(document).ready(function () {
 
                             var AttributesWeights = processAttributes();
 
-                            if (checkQualification === true && checkExperiences === true) {
+                            if (checkQualification === true && checkExperiences === true && AttributesWeights !== false) {
 
                                 //Send the information to PHP File
                                 $.post("AddOfferLogic.php", {
@@ -272,6 +270,8 @@ $(document).ready(function () {
 
                         }//
                     }
+
+
                 }
 
             }
@@ -401,7 +401,7 @@ $(document).ready(function () {
 
                     if (
                             !existingQualification &&
-                            (degreeLevel !== "" || degreeField !== "")
+                            (degreeLevel !== "" || degreeField !== "" || qualificationOther !== "")
                             ) {
                         qualifications.push({
                             level: degreeLevel,
@@ -533,36 +533,90 @@ $(document).ready(function () {
 
             function processAttributes() {
                 const checkbox = document.getElementById('sameImportance');
-                const attributeList = Array.from(document.querySelectorAll('.attribute-list li')).map(li => li.textContent);
+                const Customizebox = document.getElementById('Customize');
+                let attributeList = [];
+
 
                 let weights = [];
 
-                if (checkbox.checked) {
+                if (Customizebox.checked && !checkbox.checked) {
+                    const selectElements = document.querySelectorAll('.select-list-div select');
+                    let sum = 0;
+                    // Loop over the select elements and create an array
+                    for (let i = 0; i < selectElements.length; i++) {
+                        const select = selectElements[i];
+                        const value = Number(select.value) / 100;
+                        sum = sum + value;
+                    }
+                    if (sum !== 1)
+                    {
+                        var failureMessageElement = document.querySelector(".faliure_wrap p");
+                        failureMessageElement.textContent = "The sum of the weights must equal 100";
 
-                    // If "sameImportance" is checked
+                        var modal_wrapper = document.querySelector(".modal_wrapper");
+                        var faliure_wrap = document.querySelector(".faliure_wrap");
+                        var shadow = document.querySelector(".shadow");
+
+                        modal_wrapper.classList.add("active");
+                        faliure_wrap.classList.add("active");
+
+                        //Clicking anywhere on the screen remove the sessamge
+                        shadow.addEventListener("click", function () {
+                            modal_wrapper.classList.remove("active");
+                            faliure_wrap.classList.remove("active");
+                        });
+                        return false;
+
+                    }
+
+                    for (let i = 0; i < selectElements.length; i++) {
+                        const select = selectElements[i];
+                        const value = Number(select.value) / 100;
+                        weights.push(value);
+                    }
+
+                    // Retrieve the attribute elements
+                    const attributeElements = Array.from(document.querySelectorAll('.customization-list li span'));
+                    attributeList = attributeElements.map(span => span.textContent);
+
+
+                } else if (checkbox.checked) {
+                    attributeList = Array.from(document.querySelectorAll('.attribute-list li')).map(li => {
+                        const attribute = li.querySelector('span:first-child').textContent;
+                        return `${attribute}`;
+                    });
+
                     const attributeCount = attributeList.length;
-                    const weight = (1 / attributeCount).toFixed(2);
+                    const weight = (1 / attributeCount).toFixed(0);
 
                     weights = Array(attributeCount).fill(weight);
                     //return weights;
-                } else {
+                } else if (!checkbox.checked && !Customizebox.checked) {
+
+                    attributeList = Array.from(document.querySelectorAll('.attribute-list li')).map(li => {
+                        const attribute = li.querySelector('span:first-child').textContent;
+                        return `${attribute}`;
+                    });
                     const attributeCount = attributeList.length;
 
                     if (attributeCount === 4) {
                         // If attribute list has 4 elements, assign weights 0.4, 0.3, 0.2, 0.1
                         weights = [0.4, 0.3, 0.2, 0.1];
                     } else if (attributeCount === 3) {
-                        // If attribute list has 3 elements, assign weights 0.5, 0.3, 0.2
-                        weights = [0.5, 0.3, 0.2];
+                        // If attribute list has 3 elements, assign weights 0.5, 0.33, 0.17
+                        weights = [0.5, 0.33, 0.17];
                     } else if (attributeCount === 2) {
-                        // If attribute list has 2 elements, assign weights 0.6, 0.4
-                        weights = [0.6, 0.4];
+                        // If attribute list has 2 elements, assign weights 0.67, 0.33
+                        weights = [0.67, 0.33];
                     } else if (attributeCount === 1) {
                         // If attribute list has 1 element, assign weight 1
                         weights = [1];
                     }
 
                 }
+
+
+
 
                 const attributeOrder = ['City', 'Skills', 'Qualifications', 'Experiences'];
                 const rearrangedWeights = [];

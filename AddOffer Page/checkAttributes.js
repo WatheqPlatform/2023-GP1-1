@@ -137,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             ImportanceCheckbox.style.display = "block";
             CustomizeCheckbox.style.display = "block";
-
         }
 
         // Add event listener to the button again
@@ -245,10 +244,10 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             DragAndDropDiv.style.display = "none";
             custimozeDiv.style.display = "block";
+            ImportanceCheckbox.style.display = "none";
             CustomizeWeights(initialAttributes);
         } else {
-
-
+            ImportanceCheckbox.style.display = "block";
             DragAndDropDiv.style.display = "block";
             custimozeDiv.style.display = "none";
             const attributeList = document.querySelector('.customization-list');

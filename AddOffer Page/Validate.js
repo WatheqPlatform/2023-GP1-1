@@ -539,7 +539,7 @@ $(document).ready(function () {
 
                 let weights = [];
 
-                if (Customizebox.checked && !checkbox.checked) {
+                if (Customizebox.checked) {
                     const selectElements = document.querySelectorAll('.select-list-div select');
                     let sum = 0;
                     // Loop over the select elements and create an array
@@ -580,7 +580,7 @@ $(document).ready(function () {
                     attributeList = attributeElements.map(span => span.textContent);
 
 
-                } else if (checkbox.checked) {
+                } else if (checkbox.checked && !Customizebox.checked) {
                     attributeList = Array.from(document.querySelectorAll('.attribute-list li')).map(li => {
                         const attribute = li.querySelector('span:first-child').textContent;
                         return `${attribute}`;

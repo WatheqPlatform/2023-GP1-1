@@ -446,10 +446,10 @@ textarea{
 }
 
 
-.bi-building , .bi-envelope, .bi-telephone, .fa-linkedin-in, .bi-twitter-x{
-    width: 16px; /* Adjust width to make the icon bigger */
-    height: 16px; /* Adjust height to make the icon bigger */
-    fill: #575757; /* Change the color to white */
+.bi-building , .bi-envelope, .bi-telephone, .fa-linkedin-in, .bi-twitter-x, .fa-link{
+    width: 16px; 
+    height: 16px; 
+    fill: #575757;
     padding-right: 3px;
 }
 
@@ -457,16 +457,20 @@ textarea{
     margin-bottom: -2.5px;
 }
 
-.bi-telephone{
+.bi-telephone {
     margin-bottom: -1px;
 }
 
-.fa-linkedin-in{
+.fa-linkedin-in {
     font-size: 16px;
     color: #726c6c;
 }
 
-#FilledLocation{
+.fa-link {
+    font-size: 13px;
+}
+
+#FilledLocation {
     color: #085399;
     align-self: flex-start;
     margin: 5px 0px 5px 0px;
@@ -474,11 +478,13 @@ textarea{
     font-size: 15px;
 }
 
-#Contact{
-    color: #085399;
+#Contact, #ContactLink {
     align-self: flex-start;
     margin: 0px 0px 5px 0px;
     color: #575757;
     font-size: 15px;
+    text-decoration: none;
 }
+
+
 

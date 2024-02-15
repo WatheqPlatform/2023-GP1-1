@@ -85,7 +85,7 @@ $row = $result->fetch_assoc();
                         </div>
                         <div class="input_wrap">
                             <label for="Description">About The Company <span class="required"></span></label>
-                            <textarea id="Description" name="Description" cols="50" class="input" maxlength="500"><?php echo $row['Description'];?></textarea>
+                            <textarea id="Description" name="Description" cols="50" class="input" maxlength="300"><?php echo $row['Description'];?></textarea>
                         </div>
                         <div class="input_wrap">
                             <label for="Location">Company HQ Location <span class="required"></span></label>
@@ -106,6 +106,10 @@ $row = $result->fetch_assoc();
                         <div class="input_wrap">
                             <label for="X">X (Formerly Twitter) URL</label>
                             <input type="text" name="X" class="input" id="X" maxlength="100" value='<?php echo $row['Twitter']; ?>'>
+                        </div>
+                        <div class="input_wrap">
+                            <label for="URL">Website URL</label>
+                            <input type="text" name="URL" class="input" id="URL" value='<?php echo $row['Link']; ?>' maxlength="100">
                         </div>
                         <button type="button" class="btnComplete" id="SubmitButton">Edit Profile</button>
                     </form>

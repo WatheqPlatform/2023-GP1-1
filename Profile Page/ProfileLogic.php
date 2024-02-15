@@ -28,12 +28,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $CompanyPhone = $_POST['Phone'];
     $CompanyLinkedin = $_POST['Linkedin'];
     $CompanyX = $_POST['X'];
+    $CompanyURL = $_POST['URL'];
 
-    $sql = "INSERT INTO profile (JobProviderEmail, Description, Location, Email, Phone, Linkedin, Twitter) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO profile (JobProviderEmail, Description, Location, Email, Phone, Linkedin, Twitter, Link) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssss", $jpEmail, $CompanyDescription, $CompanyAddress, $CompanyEmail, $CompanyPhone, $CompanyLinkedin, $CompanyX);
+    $stmt->bind_param("ssssssss", $jpEmail, $CompanyDescription, $CompanyAddress, $CompanyEmail, $CompanyPhone, $CompanyLinkedin, $CompanyX, $CompanyURL);
     if (!$stmt->execute()) {
         echo "Error inserting company profile details: " . $stmt->error;
         exit();

@@ -52,8 +52,7 @@ $aCity=1;
 $offerSkillsQuery = "SELECT GROUP_CONCAT(Description) AS skills FROM skill WHERE OfferID = '$offerID'";
 $offerSkillsResult = mysqli_query($conn, $offerSkillsQuery);
 while ($offerSkillsRow  = $offerSkillsResult->fetch_assoc()) {
-        $offerSkills[]=$offerSkillsRow;
-    
+        $offerSkills[]=$offerSkillsRow;   
 }
 
 //Availability of the skill in job offer
@@ -65,8 +64,6 @@ if($aSkill===1){
     $cvSkillsResult = mysqli_query($conn, $cvSkillsQuery);
     while ($cvSkillsRow  = $cvSkillsResult->fetch_assoc()) {
         $cvSkills[]=$cvSkillsRow;
-           
-
     }
     
     //Encode to json before send it to python
@@ -86,7 +83,7 @@ if($aSkill===1){
     foreach ($cvSkillsInfo as $cv) {
         $similarity = jaccard_similarity_variant($cv['skills'], $offerSkillsInfo[0]['skills']);
         // Add the similarity score to the CV array
-        $cvSimilarityResults[$cv['CV_ID']]["skills"] = round($similarity, 2);
+        $cvSimilarityResults[$cv['CV_ID']]["skills"] = $similarity;
     }   
 }
 
@@ -143,7 +140,7 @@ if($aQualification ==1){
         }
         // Add the maximum similarity score to the CV array
         if($max_similarity > $cvSimilarityResults[$cv['CV_ID']]["qualification"]){
-            $cvSimilarityResults[$cv['CV_ID']]["qualification"]= round($max_similarity, 2);
+            $cvSimilarityResults[$cv['CV_ID']]["qualification"]= $max_similarity;
         }
     }
 } 
@@ -225,7 +222,7 @@ if($aExperience==1){
             }
         }
         if($max_similarity > $cvSimilarityResults[$cv['CV_ID']]["experience"]){
-            $cvSimilarityResults[$cv['CV_ID']]["experience"]= round($max_similarity, 2);
+            $cvSimilarityResults[$cv['CV_ID']]["experience"]= $max_similarity;
         }
     }
 }

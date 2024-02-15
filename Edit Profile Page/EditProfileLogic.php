@@ -28,10 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $CompanyPhone = $_POST['Phone'];
     $CompanyLinkedin = $_POST['Linkedin'];
     $CompanyX = $_POST['X'];
+    $CompanyURL = $_POST['URL'];
 
-    $sql_update_profile = "UPDATE profile SET Description = ?, Location = ?, Email = ?, Phone = ?, Linkedin = ?, Twitter = ? WHERE JobProviderEmail = ?";
+    $sql_update_profile = "UPDATE profile SET Description = ?, Location = ?, Email = ?, Phone = ?, Linkedin = ?, Twitter = ?, Link = ? WHERE JobProviderEmail = ?";
     $stmt_update_profile = $conn->prepare($sql_update_profile);
-    $stmt_update_profile->bind_param("sssssss", $CompanyDescription, $CompanyAddress, $CompanyEmail, $CompanyPhone, $CompanyLinkedin, $CompanyX, $jpEmail);
+    $stmt_update_profile->bind_param("ssssssss", $CompanyDescription, $CompanyAddress, $CompanyEmail, $CompanyPhone, $CompanyLinkedin, $CompanyX, $CompanyURL, $jpEmail);
     if (!$stmt_update_profile->execute()) {
         echo "Error updating company profile: " . $stmt_update_profile->error;
         exit();

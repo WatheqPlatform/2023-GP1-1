@@ -38,6 +38,7 @@ $(document).ready(function () {
                 Phone: $("#Phone").val(),
                 Linkedin: $("#Linkedin").val(),
                 X: $("#X").val(),
+                URL: $("#URL").val(),
             }, function (data) {
                 if (data === "success") {
                     var modal_wrapper = document.querySelector(".modal_wrapper");

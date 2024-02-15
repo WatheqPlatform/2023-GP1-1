@@ -57,7 +57,7 @@ $result3 = $conn->query($query);
                         <img src="../Images/White Logo.png" alt="Watheq Logo" id="logo">
                     </a>
                     <a href="../Home Page/Home.php"> Home </a>
-                    <a href=""> Profile </a>
+                    <a href="../Profile Page/Profile.php"> Profile </a>
                     <a href="../History Page/History.php"> Job Offers </a>
                     <a href="../AddOffer Page/AddOffer.php" id="CurrentPage"> Add Offer </a> 
                 </div>

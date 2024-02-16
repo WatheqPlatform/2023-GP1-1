@@ -30,6 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $CompanyX = $_POST['X'];
     $CompanyURL = $_POST['URL'];
 
+    // Check and prepend "https://" if not present
+    $CompanyLinkedin = addHttpsPrefix($CompanyLinkedin);
+    $CompanyX = addHttpsPrefix($CompanyX);
+    $CompanyURL = addHttpsPrefix($CompanyURL);
+
     $sql_update_profile = "UPDATE profile SET Description = ?, Location = ?, Email = ?, Phone = ?, Linkedin = ?, Twitter = ?, Link = ? WHERE JobProviderEmail = ?";
     $stmt_update_profile = $conn->prepare($sql_update_profile);
     $stmt_update_profile->bind_param("ssssssss", $CompanyDescription, $CompanyAddress, $CompanyEmail, $CompanyPhone, $CompanyLinkedin, $CompanyX, $CompanyURL, $jpEmail);
@@ -42,5 +47,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "success";
 } else {
     // Handle cases where the form is not submitted
+}
+
+// Function to add "https://" prefix if not present
+function addHttpsPrefix($url) {
+    if (!empty($url) && !preg_match("#^https?://#i", $url)) {
+        $url = "https://" . $url;
+    }
+    return $url;
 }
 ?>

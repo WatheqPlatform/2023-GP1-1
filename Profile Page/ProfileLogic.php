@@ -30,6 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $CompanyX = $_POST['X'];
     $CompanyURL = $_POST['URL'];
 
+    // Check and prepend "https://" if not present
+    $CompanyLinkedin = addHttpsPrefix($CompanyLinkedin);
+    $CompanyX = addHttpsPrefix($CompanyX);
+    $CompanyURL = addHttpsPrefix($CompanyURL);
+
     $sql = "INSERT INTO profile (JobProviderEmail, Description, Location, Email, Phone, Linkedin, Twitter, Link) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -45,6 +50,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 } else {
     
+}
+
+// Function to add "https://" prefix if not present
+function addHttpsPrefix($url) {
+    if (!empty($url) && !preg_match("#^https?://#i", $url)) {
+        $url = "https://" . $url;
+    }
+    return $url;
 }
 
 ?>

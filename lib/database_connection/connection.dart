@@ -36,4 +36,5 @@ class Connection {
   static const markNotifications = "$hostConnect/Data/setNotification.php";
   static const checkForUnseenNotifications =
       "$hostConnect/Data/checkNotification.php";
+  static const getProfile = "$hostConnect/Data/getProfile.php";
 }

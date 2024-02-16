@@ -8,6 +8,8 @@ import 'dart:convert';
 import 'package:string_capitalize/string_capitalize.dart';
 import 'package:watheq/error_messages.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class JobOfferDetailScreen extends StatefulWidget {
   final String offerID;
@@ -64,6 +66,8 @@ class AnimatedButton extends StatelessWidget {
 class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
   List offerDetails = [];
 
+  List profileList = [];
+
   bool empty = true;
 
   bool hasApplied = false;
@@ -99,6 +103,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     super.initState();
     getdata();
     checkApplication();
+    fetchCompanyInfo();
   }
 
   Future checkApplication() async {
@@ -477,6 +482,192 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     }
   }
 
+  Future fetchCompanyInfo() async {
+    var res = await http.post(
+      Uri.parse(Connection.getProfile),
+      body: {"OfferID": widget.offerID},
+    );
+
+    if (res.statusCode == 200) {
+      var red = jsonDecode(res.body);
+      print(red);
+
+      setState(() {
+        profileList = red.toList();
+      });
+    }
+  }
+
+  void showCompanyInfoBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        double screenHeight = MediaQuery.of(context).size.height;
+        double bottomSheetMinHeight = screenHeight * 0.565;
+
+        return Container(
+          height: bottomSheetMinHeight,
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).padding.top,
+                  right: 16,
+                  //left: 16,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    if (profileList
+                        .isNotEmpty) // Conditionally render the title
+                      Expanded(
+                        child: Text(
+                          offerDetails.isNotEmpty
+                              ? "${offerDetails[0]["CompanyName"]}"
+                              : 'Company Name',
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF024A8D)),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    SizedBox(width: 48), // Placeholder for symmetry
+                  ],
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16.0),
+                  child: profileList.isNotEmpty
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            buildProfileInfoTile(
+                                "About Us", profileList[0]["Description"]),
+                            const SizedBox(height: 20),
+                            const Text(
+                              "Contact Information",
+                              style: TextStyle(
+                                  color: Color(0xFF024A8D),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(height: 8),
+                            // For items without URLs
+                            buildContactInfoItem(Icons.location_on_outlined,
+                                profileList[0]["Location"], null),
+                            buildContactInfoItem(Icons.email_outlined,
+                                profileList[0]["Email"], null),
+                            buildContactInfoItem(Icons.phone_outlined,
+                                profileList[0]["Phone"], null),
+
+                            buildContactInfoItem(
+                                FontAwesomeIcons.linkedinIn,
+                                profileList[0]["Linkedin"],
+                                "https://" +
+                                    profileList[0]["Linkedin"].toString()),
+                            buildContactInfoItem(
+                                FontAwesomeIcons.xTwitter,
+                                profileList[0]["Twitter"],
+                                "https://" +
+                                    profileList[0]["Twitter"].toString()),
+                            buildContactInfoItem(
+                                FontAwesomeIcons.link,
+                                profileList[0]["Link"],
+                                "https://" + profileList[0]["Link"].toString()),
+                          ],
+                        )
+                      : Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: bottomSheetMinHeight * 0.30),
+                          child: const Text(
+                            "No company information available.",
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.black54),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildProfileInfoTile(String title, dynamic value) {
+    return value != null && value.isNotEmpty
+        ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                    color: Color(0xFF024A8D),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                value,
+                style: const TextStyle(
+                    fontSize: 16, color: Color.fromARGB(255, 37, 42, 74)),
+                textAlign: TextAlign.justify,
+              ),
+              const SizedBox(height: 16),
+            ],
+          )
+        : SizedBox.shrink();
+  }
+
+  Widget buildContactInfoItem(
+    IconData icon,
+    String? content,
+    String? url,
+  ) {
+    if (content == null || content.isEmpty) {
+      return SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        children: [
+          Icon(icon, color: Color.fromARGB(255, 37, 42, 74)),
+          const SizedBox(width: 8),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                url != null ? _launchUrl(url) : null;
+              },
+              child: Text(
+                content,
+                style: const TextStyle(
+                    fontSize: 16, color: Color.fromARGB(255, 37, 42, 74)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _launchUrl(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $urlString';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -546,16 +737,19 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
-                          child: Text(
-                            "   ${offerDetails[0]["CompanyName"]}"
-                                .capitalizeEach()
-                                .replaceAll(
-                                    RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n'),
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.050,
-                              color: const Color.fromARGB(255, 255, 255, 255),
+                          child: GestureDetector(
+                            onTap: () => showCompanyInfoBottomSheet(context),
+                            child: Text(
+                              "   ${offerDetails[0]["CompanyName"]}"
+                                  .capitalizeEach()
+                                  .replaceAll(
+                                      RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n'),
+                              style: TextStyle(
+                                fontSize: screenWidth * 0.050,
+                                color: const Color.fromARGB(255, 255, 255, 255),
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            textAlign: TextAlign.left,
                           ),
                         ),
                       ],

@@ -16,6 +16,13 @@ class NotificationScreen extends StatefulWidget {
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
+class NotificationContent {
+  final String title;
+  final String message;
+
+  NotificationContent({required this.title, required this.message});
+}
+
 class _NotificationScreenState extends State<NotificationScreen> {
   List list = [];
   bool hasUnseenNotifications = false;
@@ -58,6 +65,33 @@ class _NotificationScreenState extends State<NotificationScreen> {
       return 'Today';
     } else {
       return timeago.format(date);
+    }
+  }
+
+  NotificationContent _parseNotificationContent(
+      Map<String, dynamic> notification) {
+    final details = notification['Details'] as String;
+
+    if (details.startsWith('match:')) {
+      final score = double.parse(details.split(':')[1]);
+      return NotificationContent(
+        title: "Discover new opportunity",
+        message:
+            "The ${notification["JobTitle"]} role at ${notification["CompanyName"]} matches your CV by ${score * 100}%, apply now!",
+      );
+    } else if (details.startsWith('application:')) {
+      final applicationStatus = details.split(':')[1];
+      final statusText = applicationStatus == '1' ? "accepted" : "rejected";
+      return NotificationContent(
+        title: "Application Update",
+        message:
+            "Your application for the ${notification["JobTitle"]} role at ${notification["CompanyName"]} has been $statusText.",
+      );
+    } else {
+      return NotificationContent(
+        title: "Notification",
+        message: "You have a new notification.",
+      );
     }
   }
 
@@ -153,6 +187,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                   itemCount: list.length,
                                   padding: const EdgeInsets.only(top: 25),
                                   itemBuilder: (context, index) {
+                                    final notification = list[index];
+                                    final content =
+                                        _parseNotificationContent(notification);
                                     return Padding(
                                         padding: const EdgeInsets.only(
                                           top: 2,
@@ -164,12 +201,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                           onTap: () {
                                             Get.to(JobOfferDetailScreen(
                                               offerID:
-                                                  "${list[index]["OfferID"]}",
+                                                  "${notification["OfferID"]}",
                                               email: widget.email,
                                             ));
 
                                             setState(() {
-                                              list[index]["isSeen"] = 1;
+                                              notification["isSeen"] = 1;
                                             });
                                           },
                                           child: Container(
@@ -204,8 +241,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                     width: 12,
                                                     height: 12,
                                                     decoration: BoxDecoration(
-                                                      color: (list[index]
-                                                                  ["isSeen"] ==
+                                                      color: (notification[
+                                                                  "isSeen"] ==
                                                               0)
                                                           ? Colors.red
                                                           : const Color(
@@ -226,8 +263,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        const Text(
-                                                          "Discover new opportunity",
+                                                        Text(
+                                                          content.title,
                                                           style: TextStyle(
                                                             color: Color(
                                                                 0xFF14386E),
@@ -242,7 +279,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                                   .only(
                                                                   right: 15.0),
                                                           child: Text(
-                                                            "The ${list[index]["JobTitle"]} role at ${list[index]["CompanyName"]} matches your CV by ${list[index]["Score"] * 100}%, apply now!",
+                                                            content.message,
                                                             textAlign: TextAlign
                                                                 .justify,
                                                             style:
@@ -270,8 +307,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                                                   bottom: 8),
                                                           child: Text(
                                                             _displayTime(
-                                                                list[index]
-                                                                    ["Date"]),
+                                                                notification[
+                                                                    "Date"]),
                                                             //"
                                                             style:
                                                                 const TextStyle(

@@ -1,5 +1,7 @@
 $(document).ready(function () {
     $("#SubmitButton").click(function () {
+        
+        
 
         // Get the field values
         var jobTitle = $("#jobTitle").val();
@@ -64,7 +66,11 @@ $(document).ready(function () {
                     modal_wrapper.classList.remove("active");
                     faliure_wrap.classList.remove("active");
                 });
+                // Construct the error message
+                // var errorMessage = "Please fill in the following fields: " + missingFields.join(", ");
 
+                // Display the error message
+                // alert(errorMessage);
             } else {
 
 
@@ -183,8 +189,6 @@ $(document).ready(function () {
 
                         } else {
 
-
-
                             var skills = getSkills();
 
 
@@ -200,7 +204,7 @@ $(document).ready(function () {
 
                             var AttributesWeights = processAttributes();
 
-                            if (checkQualification === true && checkExperiences === true && AttributesWeights !== false) {
+                            if (checkQualification === true && checkExperiences === true) {
 
                                 //Send the information to PHP File
                                 $.post("AddOfferLogic.php", {
@@ -222,7 +226,8 @@ $(document).ready(function () {
                                     skills: skills,
                                     qualifications: qualifications,
                                     experiences: experiences,
-                                    Wheights: AttributesWeights
+                                    Wheights: AttributesWeights,
+                                    threshold: $("#minimum-score-select").val()
 
                                 }, function (data) {
 
@@ -240,7 +245,12 @@ $(document).ready(function () {
                                             modal_wrapper.classList.remove("active");
                                             success_wrap.classList.remove("active");
                                             window.location.href = "../History Page/History.php";
+                                            
+                                         //Recommendation system.php
                                         });
+                                        
+                                         
+                                        
                                     } else {
                                         // Handle error case
 
@@ -270,8 +280,6 @@ $(document).ready(function () {
 
                         }//
                     }
-
-
                 }
 
             }
@@ -401,7 +409,7 @@ $(document).ready(function () {
 
                     if (
                             !existingQualification &&
-                            (degreeLevel !== "" || degreeField !== "" || qualificationOther !== "")
+                            (degreeLevel !== "" || degreeField !== "")
                             ) {
                         qualifications.push({
                             level: degreeLevel,
@@ -530,93 +538,40 @@ $(document).ready(function () {
 
                 return experiences;
             }
+            
 
             function processAttributes() {
                 const checkbox = document.getElementById('sameImportance');
-                const Customizebox = document.getElementById('Customize');
-                let attributeList = [];
-
+                const attributeList = Array.from(document.querySelectorAll('.attribute-list li')).map(li => li.textContent);
 
                 let weights = [];
 
-                if (Customizebox.checked) {
-                    const selectElements = document.querySelectorAll('.select-list-div select');
-                    let sum = 0;
-                    // Loop over the select elements and create an array
-                    for (let i = 0; i < selectElements.length; i++) {
-                        const select = selectElements[i];
-                        const value = Number(select.value) / 100;
-                        sum = sum + value;
-                    }
-                    if (sum !== 1)
-                    {
-                        var failureMessageElement = document.querySelector(".faliure_wrap p");
-                        failureMessageElement.textContent = "The sum of the weights must equal 100";
+                if (checkbox.checked) {
 
-                        var modal_wrapper = document.querySelector(".modal_wrapper");
-                        var faliure_wrap = document.querySelector(".faliure_wrap");
-                        var shadow = document.querySelector(".shadow");
-
-                        modal_wrapper.classList.add("active");
-                        faliure_wrap.classList.add("active");
-
-                        //Clicking anywhere on the screen remove the sessamge
-                        shadow.addEventListener("click", function () {
-                            modal_wrapper.classList.remove("active");
-                            faliure_wrap.classList.remove("active");
-                        });
-                        return false;
-
-                    }
-
-                    for (let i = 0; i < selectElements.length; i++) {
-                        const select = selectElements[i];
-                        const value = Number(select.value) / 100;
-                        weights.push(value);
-                    }
-
-                    // Retrieve the attribute elements
-                    const attributeElements = Array.from(document.querySelectorAll('.customization-list li span'));
-                    attributeList = attributeElements.map(span => span.textContent);
-
-
-                } else if (checkbox.checked && !Customizebox.checked) {
-                    attributeList = Array.from(document.querySelectorAll('.attribute-list li')).map(li => {
-                        const attribute = li.querySelector('span:first-child').textContent;
-                        return `${attribute}`;
-                    });
-
+                    // If "sameImportance" is checked
                     const attributeCount = attributeList.length;
-                    const weight = (1 / attributeCount).toFixed(0);
+                    const weight = (1 / attributeCount).toFixed(2);
 
                     weights = Array(attributeCount).fill(weight);
                     //return weights;
-                } else if (!checkbox.checked && !Customizebox.checked) {
-
-                    attributeList = Array.from(document.querySelectorAll('.attribute-list li')).map(li => {
-                        const attribute = li.querySelector('span:first-child').textContent;
-                        return `${attribute}`;
-                    });
+                } else {
                     const attributeCount = attributeList.length;
 
                     if (attributeCount === 4) {
                         // If attribute list has 4 elements, assign weights 0.4, 0.3, 0.2, 0.1
                         weights = [0.4, 0.3, 0.2, 0.1];
                     } else if (attributeCount === 3) {
-                        // If attribute list has 3 elements, assign weights 0.5, 0.33, 0.17
-                        weights = [0.5, 0.33, 0.17];
+                        // If attribute list has 3 elements, assign weights 0.5, 0.3, 0.2
+                        weights = [0.5, 0.3, 0.2];
                     } else if (attributeCount === 2) {
-                        // If attribute list has 2 elements, assign weights 0.67, 0.33
-                        weights = [0.67, 0.33];
+                        // If attribute list has 2 elements, assign weights 0.6, 0.4
+                        weights = [0.6, 0.4];
                     } else if (attributeCount === 1) {
                         // If attribute list has 1 element, assign weight 1
                         weights = [1];
                     }
 
                 }
-
-
-
 
                 const attributeOrder = ['City', 'Skills', 'Qualifications', 'Experiences'];
                 const rearrangedWeights = [];

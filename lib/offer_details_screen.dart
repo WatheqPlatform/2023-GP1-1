@@ -515,8 +515,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
               Padding(
                 padding: EdgeInsets.only(
                   top: MediaQuery.of(context).padding.top,
-                  right: 16,
-                  //left: 16,
+                  right: 8,
+                  left: 8,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -545,7 +545,10 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
               ),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 16.0,
+                    horizontal: 25,
+                  ),
                   child: profileList.isNotEmpty
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -588,7 +591,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                         )
                       : Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: bottomSheetMinHeight * 0.30),
+                              vertical: bottomSheetMinHeight * 0.35),
                           child: const Text(
                             "No company information available.",
                             style:

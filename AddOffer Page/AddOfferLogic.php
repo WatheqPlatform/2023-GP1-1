@@ -143,6 +143,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         // Send success message to JavaScript
         echo "success";
+                if (ob_get_level() > 0) {
+        ob_end_flush();
+    }
+    flush();
+
+    // Asynchronously call the recommendation system script
+    $absolutePathToPhpScript = '../Recommendation System.php';
+    // $command = "php " . escapeshellarg($absolutePathToPhpScript) . " " . escapeshellarg($offerID) . " > /dev/null 2>&1 &";
+    $command = "php " . escapeshellarg($absolutePathToPhpScript) . " " . escapeshellarg($offerID) . " " . escapeshellarg($threshold) . " > /dev/null 2>&1 &";
+
+    shell_exec($command);
     } else {
         echo "Error";
         // echo "Error: " . $sql . "<br>" . $conn->error; // we have to delete the sql after we finish!!!

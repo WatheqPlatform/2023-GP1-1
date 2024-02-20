@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $skills = isset($_POST['skills']) ? $_POST['skills'] : null;
     $experiences = isset($_POST['experiences']) ? $_POST['experiences'] : null;
     $Weights = $_POST['Wheights'];
+    $threshold = $_POST['threshold'];
 
     $wCity = $Weights[0];
     $wSkills = $Weights[1];

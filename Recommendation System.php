@@ -13,6 +13,7 @@ if (php_sapi_name() === 'cli') {
 } else {
     // Web server access - start session
     session_start();
+
     if (isset($_SESSION['OfferID'])) {
         $offerID = $_SESSION['OfferID'];
     } else {
@@ -292,25 +293,35 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
 
 
 
-
+//MUST BE CHANGED
 //Send Notification 
-$checkNotificationsQuery = "SELECT * FROM notification WHERE OfferID = ?";
-$checkStmt = $conn->prepare($checkNotificationsQuery);
-$checkStmt->bind_param("i", $offerID);
-$checkStmt->execute();
-$checkResult = $checkStmt->get_result();
+//$checkNotificationsQuery = "SELECT * FROM notification WHERE OfferID = ?";
+//$checkStmt = $conn->prepare($checkNotificationsQuery);
+//$checkStmt->bind_param("i", $offerID);
+//$checkStmt->execute();
+//$checkResult = $checkStmt->get_result();
 
 
 // If notifications already exist, skip the insertion
-if ($checkResult->num_rows > 0) {
-    //Do nothing
-}
-else{
-    $date =date("Y-m-d");     
+// If ($checkResult->num_rows == 0) {
+    $date = date("Y-m-d");
+
     foreach ($cvSimilarityResults as $cvID => $scores) {
         
-        if ($scores['totalScore'] >= 0.5) {
-            // Fetch the seeker ID using cv_id
+        if ($scores['totalScore'] >= 0.50) {
+            // Retrieve job provider email
+            $stmtEmail = $conn->prepare("SELECT JPEmail FROM joboffer WHERE OfferID=?");
+            $stmtEmail->bind_param("s", $offerID);
+            $stmtEmail->execute();
+            $stmtEmail->bind_result($jobProviderEmail);
+
+            // Fetch the result into variables
+            $stmtEmail->fetch();
+
+            // Close the first prepared statement
+            $stmtEmail->close();
+            
+            // Fetch the seeker Email using cv id
             $query = $conn->prepare("SELECT JobSeekerEmail FROM cv WHERE CV_ID = ?");
             $query->bind_param("i", $cvID); 
             $query->execute();
@@ -318,23 +329,21 @@ else{
 
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
-                $seekerID = $row['JobSeekerEmail'];
+                $seekerEmail = $row['JobSeekerEmail'];
                 
                 $details = "match:" . $scores['totalScore'];
 
                 // Insert into the notification table
-                $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Details, OfferID, Date) VALUES (?, ?, ?, ?) ");
-                $insertQuery->bind_param("ssis", $seekerID, $details , $offerID, $date); 
+                $insertQuery = $conn->prepare("INSERT INTO notification (JSEmail, Details, JPEmail, Date) VALUES (?, ?, ?, ?) ");
+                $insertQuery->bind_param("ssss", $seekerEmail, $details, $jobProviderEmail, $date); 
                 $insertQuery->execute();
-                
-
             }
-             
-           
+            
         }
         
     }
-}
+
+//}
 
 
 ?>

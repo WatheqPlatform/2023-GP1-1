@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             );
         }
     } else {
-        // Sorint based on similarity
+        // Soring based on similarity
         include("../Recommendation System.php");
         
         // Query to retrieve job applications along with CV details for the specified job offer

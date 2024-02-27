@@ -1048,8 +1048,10 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                       width: 1.5,
                                       color: Colors.grey,
                                     ),
-                                    fixedSize: Size(screenWidth * 0.93,
-                                        screenHeight * 0.052),
+                                    fixedSize: Size(
+                                      screenWidth * 0.93,
+                                      screenHeight * 0.052,
+                                    ),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),

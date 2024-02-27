@@ -222,7 +222,8 @@ $(document).ready(function () {
                                     skills: skills,
                                     qualifications: qualifications,
                                     experiences: experiences,
-                                    Wheights: AttributesWeights
+                                    Wheights: AttributesWeights,
+                                    threshold: $("#minimum-score-select").val()
 
                                 }, function (data) {
 

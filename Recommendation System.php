@@ -2,14 +2,30 @@
 
 include("dbConnection.php");
 
-session_start();
-$offerID = $_SESSION['OfferID'];
+if (php_sapi_name() === 'cli') {
+    // Command line access
+    if ($argc > 1) { // Check if an argument exists
+        $offerID = $argv[1]; // Get the OfferID from the command line argument
+    } else {
+        echo "No offer ID provided via command line.";
+        exit();
+    }
+} else {
+    // Web server access - start session
+    session_start();
+    if (isset($_SESSION['OfferID'])) {
+        $offerID = $_SESSION['OfferID'];
+    } else {
+        echo "No offer ID found in session.";
+        exit();
+    }
+}
+
+
 $absolutePathToPythonScript = __DIR__ . '/Pre-prosessing.py';
 
 //To store all the similarity results of the CVs
 $cvSimilarityResults = array();
-
-
 
 
 // City Code
@@ -284,6 +300,7 @@ $checkStmt->bind_param("i", $offerID);
 $checkStmt->execute();
 $checkResult = $checkStmt->get_result();
 
+
 // If notifications already exist, skip the insertion
 if ($checkResult->num_rows > 0) {
     //Do nothing
@@ -291,23 +308,31 @@ if ($checkResult->num_rows > 0) {
 else{
     $date =date("Y-m-d");     
     foreach ($cvSimilarityResults as $cvID => $scores) {
+        
         if ($scores['totalScore'] >= 0.5) {
             // Fetch the seeker ID using cv_id
             $query = $conn->prepare("SELECT JobSeekerEmail FROM cv WHERE CV_ID = ?");
             $query->bind_param("i", $cvID); 
             $query->execute();
             $result = $query->get_result();
-            
+
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
                 $seekerID = $row['JobSeekerEmail'];
-    
+                
+                $details = "match:" . $scores['totalScore'];
+
                 // Insert into the notification table
-                $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Score, OfferID, Date) VALUES (?, ?, ?, ?) ");
-                $insertQuery->bind_param("sdis", $seekerID, $scores['totalScore'], $offerID, $date); 
+                $insertQuery = $conn->prepare("INSERT INTO notification (JSEMAIL, Details, OfferID, Date) VALUES (?, ?, ?, ?) ");
+                $insertQuery->bind_param("ssis", $seekerID, $details , $offerID, $date); 
                 $insertQuery->execute();
+                
+
             }
+             
+           
         }
+        
     }
 }
 

@@ -588,7 +588,7 @@ $(document).ready(function () {
                     });
 
                     const attributeCount = attributeList.length;
-                    const weight = (1 / attributeCount).toFixed(0);
+                    const weight = (1 / attributeCount).toFixed(2);
 
                     weights = Array(attributeCount).fill(weight);
                     //return weights;

@@ -10,8 +10,7 @@ if (php_sapi_name() === 'cli') {
       // Get the threshold from the command line argument// Get the OfferID from the command line argument
         $sorting=0;
     } else {
-        echo "No offer ID provided via command line.";
-        exit();
+       
     }
 } else {
     // Web server access - for sorting
@@ -20,8 +19,7 @@ if (php_sapi_name() === 'cli') {
         $offerID = $_SESSION['OfferID'];
         $sorting = $_SESSION['Sorting'];
     } else {
-        echo "No offer ID found in session.";
-        exit();
+
     }
 }
 
@@ -319,7 +317,6 @@ $wExperience = $wieght['Wexperience'];
 
 
 
-
 //Calculate the total score
 foreach ($cvSimilarityResults as $cvID => $scores) {
     $totalScore = 0;
@@ -339,11 +336,11 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
 
 //MUST BE CHANGED
 //Send Notification 
-if ($sorting == 0 ){
+if ($sorting == 0){
     $date = date("Y-m-d");
     foreach ($cvSimilarityResults as $cvID => $scores) {
         
-        if ($scores['totalScore'] >= $threshold) {
+        if ($scores['totalScore'] >= $threshold ) {
             // Retrieve job provider email
             $stmtEmail = $conn->prepare("SELECT JPEmail FROM joboffer WHERE OfferID=?");
             $stmtEmail->bind_param("i", $offerID);

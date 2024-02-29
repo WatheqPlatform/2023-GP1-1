@@ -68,31 +68,43 @@ class _NotificationScreenState extends State<NotificationScreen> {
     }
   }
 
-  NotificationContent _parseNotificationContent(
+  NotificationContent? _parseNotificationContent(
       Map<String, dynamic> notification) {
     final details = notification['Details'] as String;
-
-    if (details.startsWith('match:')) {
-      final score = double.parse(details.split(':')[1]);
-      return NotificationContent(
-        title: "Discover new opportunity",
-        message:
-            "The ${notification["JobTitle"]} role at ${notification["CompanyName"]} matches your CV by ${score * 100}%, apply now!",
-      );
-    } else if (details.startsWith('application:')) {
-      final applicationStatus = details.split(':')[1];
-      final statusText = applicationStatus == '1' ? "accepted" : "rejected";
-      return NotificationContent(
-        title: "Application Update",
-        message:
-            "Your application for the ${notification["JobTitle"]} role at ${notification["CompanyName"]} has been $statusText.",
-      );
-    } else {
-      return NotificationContent(
-        title: "Notification",
-        message: "You have a new notification.",
-      );
+    if (!details.contains(':')) {
+      return null;
     }
+
+    final parts = details.split(':');
+    final type = parts[0];
+    // Assuming the job title is passed directly in the notification data.
+    final jobTitle = notification["JobTitle"];
+    final companyName = notification["CompanyName"];
+
+    String message;
+    String title;
+
+    switch (type) {
+      case 'match':
+        final score = double.tryParse(parts[2]) ?? 0;
+        title = "Discover New Opportunity";
+        message =
+            "The $jobTitle role at $companyName matches your CV by ${(score * 100).toStringAsFixed(2)}%, apply now!";
+        break;
+      case 'application':
+        final applicationStatus = parts.length > 2 ? parts[2] : '';
+        final statusText = applicationStatus == '1' ? "accepted" : "rejected";
+        title = "Application Update";
+        message =
+            "Your application for the $jobTitle role at $companyName has been $statusText.";
+        break;
+      default:
+        title = "Notification";
+        message = "You have a new notification.";
+        break;
+    }
+
+    return NotificationContent(title: title, message: message);
   }
 
   @override
@@ -190,6 +202,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                     final notification = list[index];
                                     final content =
                                         _parseNotificationContent(notification);
+                                    if (content == null) {
+                                      return Container();
+                                    }
                                     return Padding(
                                         padding: const EdgeInsets.only(
                                           top: 2,

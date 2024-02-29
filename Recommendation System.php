@@ -3,19 +3,20 @@
 include("dbConnection.php");
 
 if (php_sapi_name() === 'cli') {
-    // Command line access
+    // Command line access - for app notification
     if ($argc > 1) { // Check if an argument exists
         $offerID = $argv[1]; // Get the OfferID from the command line argument
+        $sorting=0;
     } else {
         echo "No offer ID provided via command line.";
         exit();
     }
 } else {
-    // Web server access - start session
+    // Web server access - for sorting
     session_start();
-
     if (isset($_SESSION['OfferID'])) {
         $offerID = $_SESSION['OfferID'];
+        $sorting = $_SESSION['Sorting'];
     } else {
         echo "No offer ID found in session.";
         exit();
@@ -36,7 +37,15 @@ $offerCityResult = $conn->query($offerCityQuery);
 $offerCity = $offerCityResult->fetch_assoc();
 
 // Fetch CVCity from database
-$cvCityQuery = "SELECT CV_ID, CityID FROM cv";
+if($sorting){
+    $cvCityQuery = "SELECT DISTINCT cv.CV_ID, cv.CityID
+    FROM cv
+    JOIN application ON cv.JobSeekerEmail = application.JobSeekerEmail
+    WHERE OfferID = $offerID"; 
+} else{
+    $cvCityQuery = "SELECT CV_ID, CityID FROM cv";
+}
+
 $cvCityResult = $conn->query($cvCityQuery);
 while ($cvCityRow = $cvCityResult->fetch_assoc()) {
     $cvCities[] = $cvCityRow;
@@ -77,7 +86,17 @@ $aSkill= mysqli_num_rows($offerSkillsResult) !== 0 ? 1:0;
 
 if($aSkill===1){
     // Fetch CVSkills from database
-    $cvSkillsQuery = "SELECT CV_ID, GROUP_CONCAT(Description) AS skills FROM skill WHERE CV_ID IS NOT NULL GROUP BY CV_ID";
+    if ($sorting){
+        $cvSkillsQuery = "SELECT cv.CV_ID, 
+        GROUP_CONCAT(s.Description) AS skills
+        FROM cv
+        JOIN application a ON cv.JobSeekerEmail = a.JobSeekerEmail
+        JOIN skill s ON cv.CV_ID = s.CV_ID
+        WHERE a.OfferID = $offerID AND cv.CV_ID IS NOT NULL
+        GROUP BY cv.CV_ID"; 
+    } else{
+        $cvSkillsQuery = "SELECT CV_ID, GROUP_CONCAT(Description) AS skills FROM skill WHERE CV_ID IS NOT NULL GROUP BY CV_ID";
+    }
     $cvSkillsResult = mysqli_query($conn, $cvSkillsQuery);
     while ($cvSkillsRow  = $cvSkillsResult->fetch_assoc()) {
         $cvSkills[]=$cvSkillsRow;
@@ -120,7 +139,18 @@ $aQualification= mysqli_num_rows($offerQualificationResult) !== 0 ? 1:0;
 
 if($aQualification ==1){
     // Fetch CVQualification from database
-    $cvQualificationQuery = "SELECT CV_ID, q.Field, q.DegreeLevel FROM cvqualification cvq JOIN qualification q ON cvq.QualificationID = q.QualificationID;";
+    if ($sorting){
+        $cvQualificationQuery = "SELECT cv.CV_ID, 
+        q.Field,
+        q.DegreeLevel
+        FROM cv
+        JOIN cvqualification cvq ON cv.CV_ID = cvq.CV_ID
+        JOIN qualification q ON cvq.QualificationID = q.QualificationID
+        JOIN application a ON cv.JobSeekerEmail = a.JobSeekerEmail
+        WHERE a.OfferID = $offerID"; 
+    } else{
+        $cvQualificationQuery = "SELECT CV_ID, q.Field, q.DegreeLevel FROM cvqualification cvq JOIN qualification q ON cvq.QualificationID = q.QualificationID;";
+    }
     $cvQualificationResult = $conn->query($cvQualificationQuery);
     while ($cvQualificationRow = $cvQualificationResult->fetch_assoc()) {
         $cvQualifications[] = $cvQualificationRow;
@@ -178,7 +208,19 @@ $aExperience= mysqli_num_rows($offerExperinceResult) !== 0 ? 1:0;
 
 if($aExperience==1){
     // Fetch CVExperience from database
-    $cvExperinceQuery = "SELECT JobTitle, StartDate, EndDate, CategoryID, CV_ID FROM cvexperience";
+    if ($sorting){
+        $cvExperinceQuery = "SELECT ce.JobTitle, 
+        ce.StartDate, 
+        ce.EndDate, 
+        ce.CategoryID, 
+        cv.CV_ID
+        FROM cvexperience ce
+        JOIN cv ON ce.CV_ID = cv.CV_ID
+        JOIN application a ON cv.JobSeekerEmail = a.JobSeekerEmail
+        WHERE a.OfferID = $offerID"; 
+    } else{
+        $cvExperinceQuery = "SELECT JobTitle, StartDate, EndDate, CategoryID, CV_ID FROM cvexperience";
+    }
     $cvExperinceResult = $conn->query($cvExperinceQuery);
     while ($cvExperinceRow = $cvExperinceResult->fetch_assoc()) {
         $cvExperiences[] = $cvExperinceRow;
@@ -295,17 +337,8 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
 
 //MUST BE CHANGED
 //Send Notification 
-//$checkNotificationsQuery = "SELECT * FROM notification WHERE OfferID = ?";
-//$checkStmt = $conn->prepare($checkNotificationsQuery);
-//$checkStmt->bind_param("i", $offerID);
-//$checkStmt->execute();
-//$checkResult = $checkStmt->get_result();
-
-
-// If notifications already exist, skip the insertion
-// If ($checkResult->num_rows == 0) {
+if (!$sorting){
     $date = date("Y-m-d");
-
     foreach ($cvSimilarityResults as $cvID => $scores) {
         
         if ($scores['totalScore'] >= 0.50) {
@@ -342,8 +375,6 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
         }
         
     }
-
-//}
-
+}
 
 ?>

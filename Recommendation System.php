@@ -5,7 +5,9 @@ include("dbConnection.php");
 if (php_sapi_name() === 'cli') {
     // Command line access - for app notification
     if ($argc > 1) { // Check if an argument exists
-        $offerID = $argv[1]; // Get the OfferID from the command line argument
+        $offerID = $argv[1];
+      $threshold = $argv[2]; 
+      // Get the threshold from the command line argument// Get the OfferID from the command line argument
         $sorting=0;
     } else {
         echo "No offer ID provided via command line.";
@@ -341,10 +343,10 @@ if (!$sorting){
     $date = date("Y-m-d");
     foreach ($cvSimilarityResults as $cvID => $scores) {
         
-        if ($scores['totalScore'] >= 0.50) {
+        if ($scores['totalScore'] >= $threshold) {
             // Retrieve job provider email
             $stmtEmail = $conn->prepare("SELECT JPEmail FROM joboffer WHERE OfferID=?");
-            $stmtEmail->bind_param("s", $offerID);
+            $stmtEmail->bind_param("i", $offerID);
             $stmtEmail->execute();
             $stmtEmail->bind_result($jobProviderEmail);
 
@@ -364,8 +366,7 @@ if (!$sorting){
                 $row = $result->fetch_assoc();
                 $seekerEmail = $row['JobSeekerEmail'];
                 
-                $details = "match:" . $scores['totalScore'];
-
+        $details = "match:$offerID:" . $scores['totalScore'];
                 // Insert into the notification table
                 $insertQuery = $conn->prepare("INSERT INTO notification (JSEmail, Details, JPEmail, Date) VALUES (?, ?, ?, ?) ");
                 $insertQuery->bind_param("ssss", $seekerEmail, $details, $jobProviderEmail, $date); 

@@ -8,10 +8,10 @@ if (!isset($_SESSION['JPEmail'])) {
 include("../dbConnection.php");
 
 // Query to retrieve job applications along with CV details for the specified job offer
-$sql = 'SELECT Application.*, cv.CV_ID, cv.FirstName, cv.LastName, cv.ContactEmail, cv.PhoneNumber, cv.Summary
+$sql = 'SELECT application.*, cv.CV_ID, cv.FirstName, cv.LastName, cv.ContactEmail, cv.PhoneNumber, cv.Summary
         FROM application
         INNER JOIN cv ON application.JobSeekerEmail = cv.JobSeekerEmail
-        WHERE application.OfferID = ? ORDER BY Application.ApplicationID DESC';
+        WHERE application.OfferID = ? ORDER BY application.ApplicationID DESC';
 
 // Prepare and execute the query
 $stmt = $conn->prepare($sql);

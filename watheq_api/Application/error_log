@@ -163,3 +163,63 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 41
+[04-Feb-2024 07:36:44 America/Boise] PHP Warning:  Undefined variable $stmtCheck in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 41
+[04-Feb-2024 07:36:44 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:41
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 41
+[04-Feb-2024 07:38:02 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[04-Feb-2024 07:38:02 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:42
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[04-Feb-2024 08:30:45 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[04-Feb-2024 08:30:45 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:42
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[17-Feb-2024 15:23:31 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[17-Feb-2024 15:23:31 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:42
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[19-Feb-2024 10:43:07 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[19-Feb-2024 10:43:07 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:42
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[21-Feb-2024 09:45:44 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[21-Feb-2024 09:45:44 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:42
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[21-Feb-2024 10:02:47 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[21-Feb-2024 10:02:47 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:42
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 42
+[27-Feb-2024 12:21:58 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Commands out of sync; you can't run this command now in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:45
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Application/apply.php(45): mysqli->prepare('INSERT INTO not...')
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 45
+[27-Feb-2024 12:22:07 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Commands out of sync; you can't run this command now in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:45
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Application/apply.php(45): mysqli->prepare('INSERT INTO not...')
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 45
+[27-Feb-2024 12:22:09 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Commands out of sync; you can't run this command now in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:45
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Application/apply.php(45): mysqli->prepare('INSERT INTO not...')
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 45
+[27-Feb-2024 12:25:37 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 44
+[27-Feb-2024 12:25:37 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:44
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 44
+[27-Feb-2024 12:28:06 America/Boise] PHP Fatal error:  Uncaught Error: mysqli_stmt object is already closed in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:65
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Application/apply.php(65): mysqli_stmt->close()
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 65

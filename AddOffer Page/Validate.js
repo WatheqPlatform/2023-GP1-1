@@ -402,7 +402,7 @@ $(document).ready(function () {
 
                     if (
                             !existingQualification &&
-                            (degreeLevel !== "" || degreeField !== "" || qualificationOther !== "")
+                            (degreeLevel !== "" || degreeField !== "")
                             ) {
                         qualifications.push({
                             level: degreeLevel,

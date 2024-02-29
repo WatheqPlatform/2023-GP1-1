@@ -339,7 +339,7 @@ foreach ($cvSimilarityResults as $cvID => $scores) {
 
 //MUST BE CHANGED
 //Send Notification 
-if (!$sorting){
+if ($sorting == 0 ){
     $date = date("Y-m-d");
     foreach ($cvSimilarityResults as $cvID => $scores) {
         

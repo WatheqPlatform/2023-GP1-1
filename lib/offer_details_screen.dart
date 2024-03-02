@@ -2,6 +2,8 @@
 
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:watheq/Interviews/interview_screen.dart';
 import 'package:watheq/database_connection/connection.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -230,6 +232,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
               "Starting Date",
               style: TextStyle(
                   fontSize: 19.0,
+                  fontFamily: 'poppins',
                   color: Color(0xFF024A8D),
                   fontWeight: FontWeight.w600),
               textAlign: TextAlign.justify,
@@ -748,7 +751,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                   .replaceAll(
                                       RegExp(r'(?:[\t ]*(?:\r?\n|\r))+'), '\n'),
                               style: TextStyle(
-                                fontSize: screenWidth * 0.050,
+                                fontSize: screenWidth * 0.045,
                                 color: const Color.fromARGB(255, 255, 255, 255),
                               ),
                               textAlign: TextAlign.left,
@@ -999,7 +1002,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 const SizedBox(height: 10),
                                 OutlinedButton(
                                   onPressed: () {
-                                    // Add functionality for Mock Interview
+                                    // Navigate to InterviewScreen using Get.to
+                                    Get.to(() => Interviews());
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(
@@ -1089,7 +1093,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 const SizedBox(height: 10),
                                 OutlinedButton(
                                   onPressed: () {
-                                    // Add functionality for Mock Interview
+                                    // Navigate to InterviewScreen using Get.to
+                                    Get.to(() => Interviews());
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(
@@ -1149,7 +1154,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 const SizedBox(height: 10),
                                 OutlinedButton(
                                   onPressed: () {
-                                    // Add functionality for Mock Interview
+                                    // Navigate to InterviewScreen using Get.to
+                                    Get.to(() => Interviews());
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(

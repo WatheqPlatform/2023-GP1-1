@@ -71,11 +71,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
   NotificationContent? _parseNotificationContent(
       Map<String, dynamic> notification) {
     final details = notification['Details'] as String;
+
     if (!details.contains(':')) {
-      return null;
+      return null; // do not display it
     }
 
     final parts = details.split(':');
+
     final type = parts[0];
     // Assuming the job title is passed directly in the notification data.
     final jobTitle = notification["JobTitle"];

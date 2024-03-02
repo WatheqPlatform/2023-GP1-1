@@ -30,6 +30,28 @@ if ($result->num_rows > 0) {
     $stmtApply = $conn->prepare("INSERT INTO application (OfferID, JobSeekerEmail, Status) VALUES (?, ?, ?)");
     $stmtApply->bind_param("sss", $offerId, $email, $status);
     $stmtApply->execute();
+    
+    // Close the first prepared statement
+    $stmtApply->close();
+    
+    // Retrieve job provider email
+    $stmtEmail = $conn->prepare("SELECT JPEmail FROM joboffer WHERE OfferID=?");
+    $stmtEmail->bind_param("s", $offerId);
+    $stmtEmail->execute();
+    
+    $stmtEmail->bind_result($jobProviderEmail);
+    // Fetch the result into variables
+    $stmtEmail->fetch();
+    
+    // Close the second prepared statement
+    $stmtEmail->close();
+    
+    // Insert the new notification with the current date
+    $date =date("Y-m-d");  
+    $stmtNotify = $conn->prepare("INSERT INTO notification (JSEmail, Details, JPEmail, Date) VALUES (?, ?, ?, ?)");
+    $stmtNotify->bind_param("ssss", $email, $offerId, $jobProviderEmail, $date);
+    $stmtNotify->execute();
+
 
     echo json_encode(1); 
 } else {

@@ -1,5 +1,6 @@
 <?php
-include('ApplicationsLogic.php');
+    include('ApplicationsLogic.php');
+    $email = $_SESSION['JPEmail'];
 ?>
 
 <!DOCTYPE html>
@@ -17,9 +18,10 @@ include('ApplicationsLogic.php');
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!-- Icons retrieval -->
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>      
     <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script>    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery for AJAX functionality -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> <!-- jQuery for AJAX functionality -->  
     <script src="ApplicationStatusLogic.js"></script>
-    <script src="SortFunction.js"></script>  
+    <script src="SortFunction.js"></script> 
+    <script src="../Functions/DisplayNotification.js"></script>  
 </head>
 <body>
     <div id="Main">
@@ -59,7 +61,46 @@ include('ApplicationsLogic.php');
         <!-- Content Section -->
         <div id="Content">
             <div id="MenuButtons">
-                <ion-icon name="notifications-outline" id="Bell"></ion-icon>
+                <!-- Notification Code -->
+                <?php
+                include("../dbConnection.php");
+                $NotificationQuery = "SELECT n.Date, n.isSeen, n.Details, cv.FirstName, cv.LastName, jo.JobTitle, jo.Status
+                FROM notification n
+                JOIN cv ON n.JSEmail = cv.JobSeekerEmail
+                JOIN joboffer jo ON n.Details = jo.OfferID
+                WHERE n.JPEmail = '$email' AND n.Details REGEXP '^[0-9]+$'
+                ORDER BY n.Date DESC";
+            
+                $result = $conn->query($NotificationQuery);
+            
+                // Store results in an array
+                $notifications = [];
+
+                // Check if there are any unseen notifications
+                $hasUnseenNotification = false;
+
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $notifications[] = $row;
+                        $isSeen = $row["isSeen"];
+                        $details = $row["Details"];
+                        $date = $row["Date"];
+                        $status = $row["Status"];
+                        $firstName = $row["FirstName"];
+                        $lastName = $row["LastName"];
+                        $jobTitle = $row["JobTitle"];
+                        
+                        // Check if the notification is unseen
+                        if ($isSeen == 0) {
+                            $hasUnseenNotification = true;
+                        }
+                    }
+                    if($hasUnseenNotification){
+                        echo '<div id="NotificationCircle"></div>';
+                    }
+                }
+                ?>
+                <ion-icon name="notifications-outline"  id="Bell"></ion-icon>
                 <button id="logoutButton">Log Out</button>    
             </div>
 
@@ -176,6 +217,65 @@ include('ApplicationsLogic.php');
                 ?> 
             </div> 
         </div> 
+
+        <!-- Notification -->
+        <?php      
+            echo '<div id="NotificationDiv" class="scrollbar style-4">';
+            echo '<div class="force-overflow"></div>';
+            echo '<h3 id="NotificationTitle">Notification Center</h3>';
+
+
+            $length = count($notifications); // Variable to keep track of the iteration
+            if (count($notifications)> 0) {
+            foreach ($notifications as $index => $notification) {
+                $isSeen = $notification["isSeen"];
+                $details = $notification["Details"];
+                $date = $notification["Date"];
+                $status = $notification["Status"];
+                $firstName = ucfirst($notification["FirstName"]);
+                $lastName = ucfirst($notification["LastName"]);
+                $jobTitle = ucfirst($notification["JobTitle"]);
+
+                // Date calculations
+                $now = new DateTime();
+                $givenDate = new DateTime($date);
+                $interval = $now->diff($givenDate);
+                if ($interval->y > 0) {
+                    $timeAgo = $interval->y . ' Year' . ($interval->y > 1 ? 's' : '');
+                } elseif ($interval->m > 0) {
+                    $timeAgo = $interval->m . ' Month' . ($interval->m > 1 ? 's' : '');
+                } elseif ($interval->d > 0) {
+                    $timeAgo = $interval->d . ' Day' . ($interval->d > 1 ? 's' : '');
+                } else {
+                    $timeAgo = 'Today';
+                }
+
+                echo '<div id="OneNotification" onclick="window.location.href=\'../Applications Page/Applications.php?ID=' . $details . '&JobTitle=' . $jobTitle . '&Status=' . $status . '\'">';
+                echo '<div id="NotificationHeader">';
+                echo '<div id="CircleHeader">';
+                if ($isSeen == 0) {
+                echo '<div id="UnseenCircle"></div>';
+                echo '<p id="UnseenHeaderTitle">New Application!</p>';
+                }else{
+                echo '<div id="SeenCircle"></div>';
+                echo '<p id="SeenHeaderTitle">New Application!</p>';
+                }    
+                echo '</div>';
+                echo '<p id="Date">'.$timeAgo.'</p>';
+                echo '</div>';
+                echo '<p id="Notification">' . $firstName . ' ' . $lastName . ' has applied to your ' . $jobTitle . ' job offer.</p>';
+                echo '</div>';
+                    
+                // Add the line div if it's not the last iteration
+                if ($index != $length-1) {
+                echo '<div id="NotificationLine"></div>';
+                }           
+            }
+            } else {
+                echo "<p id='NoNotification'>There is no notification.</p>";
+            } 
+            echo '</div>';       
+        ?>
     </div>
        
 </body>

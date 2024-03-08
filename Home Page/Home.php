@@ -7,8 +7,6 @@ if (!isset($_SESSION['JPEmail'])) {
 
 include("../dbConnection.php");
 
-
-
 $email = $_SESSION['JPEmail'];  // Set the variable with the logged-in provider's email
 
 $companyName = "";
@@ -38,62 +36,40 @@ if ($result->num_rows > 0) {
 $closedOffers = $totalOffers  - $activeOffers;
 
 $TotalApplications =0;
-// SQL query
 $sqlTotal = "SELECT COUNT(a.ApplicationID) AS TotalApplications
-        FROM Application a
+        FROM application a
         JOIN joboffer j ON j.JPEmail = '$email' AND j.OfferID = a.OfferID WHERE a.status != 'Cancelled'";
 
-// Execute the query
 $result = $conn->query($sqlTotal);
-// Check if the query executed successfully
 if ($result->num_rows > 0) {
-    // Fetch the result row
-    $row = $result->fetch_assoc();
-    // Get the total applications count
-$TotalApplications = $row['TotalApplications'];}
+  $row = $result->fetch_assoc();
+  $TotalApplications = $row['TotalApplications'];
+}
 
-// Initialize the total accepted applications count
 $TotalAcceptedApplications = 0;
-// SQL query
 $sqlTotalAccepted = "SELECT COUNT(a.ApplicationID) AS TotalAcceptedApplications
-        FROM Application a
+        FROM application a
         JOIN joboffer j ON j.JPEmail = '$email' AND j.OfferID = a.OfferID
         WHERE a.Status = 'Accepted'";
 
-// Execute the query
 $result = $conn->query($sqlTotalAccepted);
-
-// Check if the query executed successfully
 if ($result->num_rows > 0) {
-  // Fetch the result row
   $row = $result->fetch_assoc();
-
-  // Get the total accepted applications count
   $TotalAcceptedApplications = $row['TotalAcceptedApplications'];
 }
 
-// Initialize the total pending applications count
 $TotalPendingApplications = 0;
-// SQL query
 $sqlTotalPending = "SELECT COUNT(a.ApplicationID) AS TotalPendingApplications
-        FROM Application a
+        FROM application a
         JOIN joboffer j ON j.JPEmail = '$email' AND j.OfferID = a.OfferID
         WHERE a.Status = 'Pending'";
 
-// Execute the query
 $result = $conn->query($sqlTotalPending);
-
-// Check if the query executed successfully
 if ($result->num_rows > 0) {
-    // Fetch the result row
     $row = $result->fetch_assoc();
-
-    // Get the total pending applications count
     $TotalPendingApplications = $row['TotalPendingApplications'];
 }
 
-
-$conn->close();
 ?>
 
 
@@ -111,7 +87,9 @@ $conn->close();
   <script src="../Functions/Logout.js"></script>
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
-  <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->        
+  <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->  
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> <!-- jQuery for AJAX functionality -->  
+  <script src="../Functions/DisplayNotification.js"></script> 
 </head>
 
 <body>
@@ -152,6 +130,44 @@ $conn->close();
     <div id="Content">
 
       <div id="MenuButtons">
+        <!-- Notification Code -->
+        <?php
+          $NotificationQuery = "SELECT n.Date, n.isSeen, n.Details, cv.FirstName, cv.LastName, jo.JobTitle, jo.Status
+          FROM notification n
+          JOIN cv ON n.JSEmail = cv.JobSeekerEmail
+          JOIN joboffer jo ON n.Details = jo.OfferID
+          WHERE n.JPEmail = '$email' AND n.Details REGEXP '^[0-9]+$'
+          ORDER BY n.Date DESC";
+      
+          $result = $conn->query($NotificationQuery);
+      
+          // Store results in an array
+          $notifications = [];
+
+          // Check if there are any unseen notifications
+          $hasUnseenNotification = false;
+
+          if ($result->num_rows > 0) {
+              while ($row = $result->fetch_assoc()) {
+                  $notifications[] = $row;
+                  $isSeen = $row["isSeen"];
+                  $details = $row["Details"];
+                  $date = $row["Date"];
+                  $status = $row["Status"];
+                  $firstName = $row["FirstName"];
+                  $lastName = $row["LastName"];
+                  $jobTitle = $row["JobTitle"];
+                  
+                  // Check if the notification is unseen
+                  if ($isSeen == 0) {
+                      $hasUnseenNotification = true;
+                  }
+              }
+              if($hasUnseenNotification){
+                echo '<div id="NotificationCircle"></div>';
+              }
+          }
+        ?>
         <ion-icon name="notifications-outline"  id="Bell"></ion-icon>
         <button id="logoutButton">Log Out</button>    
       </div>
@@ -213,10 +229,69 @@ $conn->close();
 
         </div>
 
-      </div>  
+      </div> 
+
+      <!-- Notification -->
+      <?php      
+        echo '<div id="NotificationDiv" class="scrollbar style-4">';
+        echo '<div class="force-overflow"></div>';
+        echo '<h3 id="NotificationTitle">Notification Center</h3>';
+
+
+        $length = count($notifications); // Variable to keep track of the iteration
+        if (count($notifications)> 0) {
+          foreach ($notifications as $index => $notification) {
+            $isSeen = $notification["isSeen"];
+            $details = $notification["Details"];
+            $date = $notification["Date"];
+            $status = $notification["Status"];
+            $firstName = ucfirst($notification["FirstName"]);
+            $lastName = ucfirst($notification["LastName"]);
+            $jobTitle = ucfirst($notification["JobTitle"]);
+
+            // Date calculations
+            $now = new DateTime();
+            $givenDate = new DateTime($date);
+            $interval = $now->diff($givenDate);
+            if ($interval->y > 0) {
+                $timeAgo = $interval->y . ' Year' . ($interval->y > 1 ? 's' : '');
+            } elseif ($interval->m > 0) {
+                $timeAgo = $interval->m . ' Month' . ($interval->m > 1 ? 's' : '');
+            } elseif ($interval->d > 0) {
+                $timeAgo = $interval->d . ' Day' . ($interval->d > 1 ? 's' : '');
+            } else {
+                $timeAgo = 'Today';
+            }
+
+            echo '<div id="OneNotification" onclick="window.location.href=\'../Applications Page/Applications.php?ID=' . $details . '&JobTitle=' . $jobTitle . '&Status=' . $status . '\'">';
+            echo '<div id="NotificationHeader">';
+            echo '<div id="CircleHeader">';
+            if ($isSeen == 0) {
+              echo '<div id="UnseenCircle"></div>';
+              echo '<p id="UnseenHeaderTitle">New Application!</p>';
+            }else{
+              echo '<div id="SeenCircle"></div>';
+              echo '<p id="SeenHeaderTitle">New Application!</p>';
+            }    
+            echo '</div>';
+            echo '<p id="Date">'.$timeAgo.'</p>';
+            echo '</div>';
+            echo '<p id="Notification">' . $firstName . ' ' . $lastName . ' has applied to your ' . $jobTitle . ' job offer.</p>';
+            echo '</div>';
+                   
+            // Add the line div if it's not the last iteration
+            if ($index != $length-1) {
+              echo '<div id="NotificationLine"></div>';
+            }           
+          }
+        } else {
+          echo "<p id='NoNotification'>There is no notification.</p>";
+        } 
+        echo '</div>';       
+      ?>
+        
 
     </div>  
-
   </div>
  
 </body>

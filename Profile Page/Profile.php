@@ -5,6 +5,8 @@ if (!isset($_SESSION['JPEmail'])) {
     exit();
 }
 
+$email = $_SESSION['JPEmail'];
+
 include("../dbConnection.php");
 // Retrieve the rows from the "category" table
 $sql = 'SELECT CompanyName FROM jobprovider WHERE JobProviderEmail="' . $_SESSION["JPEmail"] . '"';
@@ -35,9 +37,10 @@ else{
         <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script> <!--Icons retrevial-->      
         <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> <!--Icons retrevial-->      
         <script src="https://kit.fontawesome.com/cc933efecf.js" crossorigin="anonymous"></script> <!--Icons retrevial-->   
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> <!-- jQuery for AJAX functionality -->  
         <script src="../Functions/Logout.js"></script>
         <script src="Validation.js"></script>
+        <script src="../Functions/DisplayNotification.js"></script> 
     </head>
 
     <body>
@@ -78,6 +81,44 @@ else{
 
             <div id="Content">
                 <div id="MenuButtons">
+                    <!-- Notification Code -->
+                    <?php
+                    $NotificationQuery = "SELECT n.Date, n.isSeen, n.Details, cv.FirstName, cv.LastName, jo.JobTitle, jo.Status
+                    FROM notification n
+                    JOIN cv ON n.JSEmail = cv.JobSeekerEmail
+                    JOIN joboffer jo ON n.Details = jo.OfferID
+                    WHERE n.JPEmail = '$email' AND n.Details REGEXP '^[0-9]+$'
+                    ORDER BY n.Date DESC";
+                
+                    $result = $conn->query($NotificationQuery);
+                
+                    // Store results in an array
+                    $notifications = [];
+
+                    // Check if there are any unseen notifications
+                    $hasUnseenNotification = false;
+
+                    if ($result->num_rows > 0) {
+                        while ($NotificationRow = $result->fetch_assoc()) {
+                            $notifications[] = $NotificationRow;
+                            $isSeen = $NotificationRow["isSeen"];
+                            $details = $NotificationRow["Details"];
+                            $date = $NotificationRow["Date"];
+                            $status = $NotificationRow["Status"];
+                            $firstName = $NotificationRow["FirstName"];
+                            $lastName = $NotificationRow["LastName"];
+                            $jobTitle = $NotificationRow["JobTitle"];
+                            
+                            // Check if the notification is unseen
+                            if ($isSeen == 0) {
+                                $hasUnseenNotification = true;
+                            }
+                        }
+                        if($hasUnseenNotification){
+                            echo '<div id="NotificationCircle"></div>';
+                        }
+                    }
+                    ?>
                     <ion-icon name="notifications-outline"  id="Bell"></ion-icon>
                     <button id="logoutButton">Log Out</button>    
                 </div>
@@ -206,6 +247,65 @@ else{
                 <p>You need to fill all the required fields</p>
             </div>
         </div>
+
+        <!-- Notification -->
+        <?php      
+            echo '<div id="NotificationDiv" class="scrollbar style-4">';
+            echo '<div class="force-overflow"></div>';
+            echo '<h3 id="NotificationTitle">Notification Center</h3>';
+
+
+            $length = count($notifications); // Variable to keep track of the iteration
+            if (count($notifications)> 0) {
+            foreach ($notifications as $index => $notification) {
+                $isSeen = $notification["isSeen"];
+                $details = $notification["Details"];
+                $date = $notification["Date"];
+                $status = $notification["Status"];
+                $firstName = ucfirst($notification["FirstName"]);
+                $lastName = ucfirst($notification["LastName"]);
+                $jobTitle = ucfirst($notification["JobTitle"]);
+
+                // Date calculations
+                $now = new DateTime();
+                $givenDate = new DateTime($date);
+                $interval = $now->diff($givenDate);
+                if ($interval->y > 0) {
+                    $timeAgo = $interval->y . ' Year' . ($interval->y > 1 ? 's' : '');
+                } elseif ($interval->m > 0) {
+                    $timeAgo = $interval->m . ' Month' . ($interval->m > 1 ? 's' : '');
+                } elseif ($interval->d > 0) {
+                    $timeAgo = $interval->d . ' Day' . ($interval->d > 1 ? 's' : '');
+                } else {
+                    $timeAgo = 'Today';
+                }
+
+                echo '<div id="OneNotification" onclick="window.location.href=\'../Applications Page/Applications.php?ID=' . $details . '&JobTitle=' . $jobTitle . '&Status=' . $status . '\'">';
+                echo '<div id="NotificationHeader">';
+                echo '<div id="CircleHeader">';
+                if ($isSeen == 0) {
+                echo '<div id="UnseenCircle"></div>';
+                echo '<p id="UnseenHeaderTitle">New Application!</p>';
+                }else{
+                echo '<div id="SeenCircle"></div>';
+                echo '<p id="SeenHeaderTitle">New Application!</p>';
+                }    
+                echo '</div>';
+                echo '<p id="Date">'.$timeAgo.'</p>';
+                echo '</div>';
+                echo '<p id="Notification">' . $firstName . ' ' . $lastName . ' has applied to your ' . $jobTitle . ' job offer.</p>';
+                echo '</div>';
+                    
+                // Add the line div if it's not the last iteration
+                if ($index != $length-1) {
+                echo '<div id="NotificationLine"></div>';
+                }           
+            }
+            } else {
+                echo "<p>There is no notification.</p>";
+            } 
+            echo '</div>';       
+        ?>
 
     </body>
 </html>

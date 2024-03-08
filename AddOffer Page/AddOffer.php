@@ -46,6 +46,7 @@ $result3 = $conn->query($query);
         <script src="checkAttributes.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> <!-- jQuery for AJAX functionality -->  
         <script src="../Functions/DisplayNotification.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.13.0/Sortable.min.js"></script>
     </head>
 
    <body>

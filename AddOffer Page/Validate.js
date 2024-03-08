@@ -276,7 +276,7 @@ $(document).ready(function () {
                 }
 
             }
-// end of else 
+            // end of else 
 
             function getWorkingDays() {
                 let days = $("input[name='day']:checked").map(function () {
@@ -402,7 +402,7 @@ $(document).ready(function () {
 
                     if (
                             !existingQualification &&
-                            (degreeLevel !== "" || degreeField !== "" || qualificationOther !== "")
+                            (degreeLevel !== "" || degreeField !== "")
                             ) {
                         qualifications.push({
                             level: degreeLevel,
@@ -588,7 +588,7 @@ $(document).ready(function () {
                     });
 
                     const attributeCount = attributeList.length;
-                    const weight = (1 / attributeCount).toFixed(0);
+                    const weight = (1 / attributeCount).toFixed(2);
 
                     weights = Array(attributeCount).fill(weight);
                     //return weights;

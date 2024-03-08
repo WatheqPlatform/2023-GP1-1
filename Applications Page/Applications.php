@@ -140,7 +140,7 @@
                                 echo "<div id='FirstPart' class='".$application['Status']."'>";
                                 echo "<p id='Title'>Applicant Name</p>";
                                 echo "<p id='ApplicantName'>{$application['Name']}</p>";
-                                echo "<p><a href='../CV Page/CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
+                                echo "<p><a href='../CV page/CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
                                 echo "</div>";
 
                                 echo "<div id='SecondPart'>";
@@ -177,7 +177,7 @@
                                 echo "<div id='FirstPart' class='".$application['Status']."'>";
                                 echo "<p id='Title'>Applicant Name</p>";
                                 echo "<p id='ApplicantName'>{$application['Name']}</p>";
-                                echo "<p><a href='../CV Page/CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
+                                echo "<p><a href='../CV page/CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
                                 echo "</div>";
 
                                 echo "<div id='SecondPart'>";
@@ -192,8 +192,8 @@
                                 echo "</div>";
 
                                 echo "<div id='Buttons'>";
-                                echo "<button type='button' class='accept-button' data-application-id='{$application['ApplicationID']}'>Accept</button>";
-                                echo "<button type='button' class='reject-button' data-application-id='{$application['ApplicationID']}'>Reject</button>";
+                                echo "<button type='button' class='accept-button' data-application-id='{$application['ApplicationID']}' data-applicant-email='{$application['ContactEmail']}'>Accept</button>";
+                                echo "<button type='button' class='reject-button' data-application-id='{$application['ApplicationID']}' data-applicant-email='{$application['ContactEmail']}'>Reject</button>";
                                 echo "</div>";
   
                                 echo "</div>"; //end of BottomDiv

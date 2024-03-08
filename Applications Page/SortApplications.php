@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             );
         }
     } else {
-        // Soring based on similarity
+        // Sorting based on similarity
         include("../Recommendation System.php");
         
         // Query to retrieve job applications along with CV details for the specified job offer
@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pendingApplicationsHTML .= "<div id='FirstPart' class='".$application['Status']."'>";
         $pendingApplicationsHTML .= "<p id='Title'>Applicant Name</p>";
         $pendingApplicationsHTML .= "<p id='ApplicantName'>{$application['Name']}</p>";
-        $pendingApplicationsHTML .= "<p><a href='../CV Page/CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
+        $pendingApplicationsHTML .= "<p><a href='CV.php?ID=".$application["CVID"]."'>View Applicant CV <i class='fa-solid fa-arrow-right'></i></a></p>";
         $pendingApplicationsHTML .= "</div>";
         $pendingApplicationsHTML .= "<div id='SecondPart'>";
         $pendingApplicationsHTML .= "<div id='UpperDiv'>";

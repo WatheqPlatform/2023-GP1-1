@@ -1,3 +1,5 @@
+// script.js
+
 // Add event listeners to the accept and reject buttons
 document.addEventListener('DOMContentLoaded', function() {
     var acceptButtons = document.getElementsByClassName('accept-button');
@@ -7,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     Array.from(acceptButtons).forEach(function(button) {
         button.addEventListener('click', function() {
             var applicationId = this.getAttribute('data-application-id');
-            updateApplicationStatus(applicationId, 'Accepted');
+            var email = this.getAttribute('data-applicant-email');
+            updateApplicationStatus(applicationId, 'Accepted', email);
         });
     });
 
@@ -15,12 +18,14 @@ document.addEventListener('DOMContentLoaded', function() {
     Array.from(rejectButtons).forEach(function(button) {
         button.addEventListener('click', function() {
             var applicationId = this.getAttribute('data-application-id');
-            updateApplicationStatus(applicationId, 'Rejected');
+            var email = this.getAttribute('data-applicant-email');
+
+            updateApplicationStatus(applicationId, 'Rejected', email);
         });
     });
 
     // Function to update the application status via AJAX
-    function updateApplicationStatus(applicationId, status) {
+    function updateApplicationStatus(applicationId, status, email) {
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'update_status.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -31,6 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 location.reload();
             }
         };
-        xhr.send('applicationId=' + applicationId + '&status=' + status);
+        xhr.send('applicationId=' + applicationId + '&status=' + status + '&email=' + email);
     }
 });

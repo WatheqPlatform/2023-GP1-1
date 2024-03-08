@@ -340,7 +340,7 @@ if ($sorting == 0){
     $date = date("Y-m-d");
     foreach ($cvSimilarityResults as $cvID => $scores) {
         
-        if ($scores['totalScore'] >= ($threshold / 100) ) {
+        if ($scores['totalScore'] >= $threshold ) {
             // Retrieve job provider email
             $stmtEmail = $conn->prepare("SELECT JPEmail FROM joboffer WHERE OfferID=?");
             $stmtEmail->bind_param("i", $offerID);

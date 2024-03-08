@@ -303,7 +303,7 @@ h2{
     align-items: flex-start;
 }
 
-#Date{
+#PostDate{
     text-transform: capitalize;
     text-align: left;
     font-size: 13px;
@@ -712,6 +712,24 @@ h2{
     border-bottom-right-radius: 10px;
 }
 
+
+#Edit{
+    text-decoration: none;
+    color: #085399;
+    margin-top: 10px;
+    margin-left: 28%;
+    font-size: 20px;
+}
+.button-date-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+#CloseButton {
+    margin-right: 10px;
+}
 
 
 

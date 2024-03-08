@@ -29,6 +29,7 @@ $(document).ready(function () {
                 </select>
 
                 <span id="EnterMessage${qualificationCount}" style="display: none;" class ="EnterMessage">Please enter your qualification field below</span>
+                 <label id="LableOther${qualificationCount}" for="qualificationOther${qualificationCount}" style="display: none;">Qualification Field <span class="MaybeRequiredQualification"></span></label>
                 <input type="text" id="qualificationOther${qualificationCount}" name="qualificationOther${qualificationCount}" class="input" style="display: none;" maxlength="100">
 
                 <ion-icon name="close-circle-outline" class="removeQualification remove" data-qualification="${qualificationCount}"></ion-icon>   

@@ -535,6 +535,20 @@ h2{
     letter-spacing:1px;
 }
 
+#Edit{
+    text-decoration: none;
+    color: #085399ba;
+    margin-top: 10px;
+    margin-left: 28%;
+    font-size: 18px;
+}
+
+.button-date-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 
 /*Form buttons*/
 .cancel_button{
@@ -553,6 +567,7 @@ h2{
 	box-shadow: 0 0 15px #8b8c8c6b;
     transform: translate3d(0, -2px, 0);
 }
+
 
 /*Notification*/
 #NotificationCircle{
@@ -710,25 +725,6 @@ h2{
 	border: 2px solid #555555;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-}
-
-
-#Edit{
-    text-decoration: none;
-    color: #085399;
-    margin-top: 10px;
-    margin-left: 28%;
-    font-size: 20px;
-}
-.button-date-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-#CloseButton {
-    margin-right: 10px;
 }
 
 

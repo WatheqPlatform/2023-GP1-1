@@ -141,7 +141,7 @@
                                
                                 echo "</div>";
                                 echo "<p id='Description'>" . preg_replace('/\s+/', ' ', $offer['JobDescription']) . "</p>";
-echo "<div class='button-date-container'>";
+                                echo "<div class='button-date-container'>";
                                 echo "<p id='PostDate'>Posted On {$offer['Date']}</p>";
                                 if ($status === 'Active') {
                                     echo "<button type='button' onclick='closeOffer({$offer['OfferID']}, \"{$offer['JobTitle']}\")' id='CloseButton'>Close Offer</button>";

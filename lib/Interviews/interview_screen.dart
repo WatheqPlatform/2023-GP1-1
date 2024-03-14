@@ -113,7 +113,7 @@ class _Interviews extends State<Interviews> {
       int nextQIndex = python.indexOf('"', firstQIndex + 1);
 
       String question = python.substring(firstQIndex + 1, nextQIndex);
-      question = question.replaceAll('\n ', '');
+      question = question.replaceAll('\\n', '\n');
 
       setState(() {
         messages.removeWhere((msg) => msg.isTyping);

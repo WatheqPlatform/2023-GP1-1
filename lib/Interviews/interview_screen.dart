@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:watheq/database_connection/connection.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class Interviews extends StatefulWidget {
   final String offerID;
@@ -32,7 +33,25 @@ class _Interviews extends State<Interviews> {
   @override
   void initState() {
     super.initState();
-    startInterview(null);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showInstructionsDialog();
+    });
+  }
+
+  void showInstructionsDialog() {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.noHeader,
+      animType: AnimType.BOTTOMSLIDE,
+      title: 'Interview Instructions',
+      desc:
+          'Please read the following instructions carefully to ensure a successful interview simulation.',
+      btnOkColor: Color(0xFF024A8D),
+      btnOkOnPress: () {
+        startInterview(
+            null); // Start the interview after the user closes the dialog
+      },
+    )..show();
   }
 
   Future<void> startInterview(String? text) async {

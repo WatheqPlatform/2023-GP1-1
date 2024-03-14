@@ -4,28 +4,134 @@ import 'package:watheq/interviews/widget/new_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:watheq/database_connection/connection.dart';
 
 class Interviews extends StatefulWidget {
-  const Interviews({super.key});
+  final String offerID;
+  final String email;
+
+  // Constructor
+  const Interviews({required this.offerID, required this.email});
 
   @override
   _Interviews createState() => _Interviews();
 }
 
 class _Interviews extends State<Interviews> {
+  List<String> questions = [];
+  List<String> answers = [];
+
+  int questionIndex = 0;
+  var thread_id;
+
   //List of Messages
-  List<Message> messages = [
-    Message(
-      text: 'Yes sure!',
-      date: DateTime.now().subtract(const Duration(minutes: 1)),
+  List<Message> messages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    startInterview(null);
+  }
+
+  Future<void> startInterview(String? text) async {
+    final typingMessage = Message(
+      text: '', // No text needed for typing indicator
+      date: DateTime.now(),
       isSentByMe: false,
-    ),
-    Message(
-      text: 'Do you have time tomorrow?',
-      date: DateTime.now().subtract(const Duration(minutes: 2)),
-      isSentByMe: true,
-    ),
-  ].reversed.toList();
+      isTyping: true,
+    );
+    setState(() {
+      messages.add(typingMessage);
+    });
+
+    var url = Uri.parse(Connection.Interview);
+    var response;
+    var status = 'start';
+
+    if (questionIndex == 0) {
+      status = "start";
+    } else if (questionIndex == 10) {
+      status = "last";
+    } else {
+      status = "next";
+    }
+    if (questionIndex == 0) {
+      response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          'status': status,
+          'offerId': widget.offerID,
+          'email': widget.email
+        }),
+      );
+    } else {
+      response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode({
+          "status": status,
+          "answer": text,
+          "thread_id": thread_id, // Send the user's answer
+        }),
+      );
+    }
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      print(data);
+
+      var python = data["result"];
+
+      print(python);
+
+      int questionIndexx = python.indexOf('"question"');
+
+      int firstQIndex =
+          python.indexOf('"', questionIndexx + '"question"'.length);
+      int nextQIndex = python.indexOf('"', firstQIndex + 1);
+
+      String question = python.substring(firstQIndex + 1, nextQIndex);
+      question = question.replaceAll('\n ', '');
+
+      setState(() {
+        messages.removeWhere((msg) => msg.isTyping);
+        messages.add(
+          Message(
+            text: question,
+            date: DateTime.now().subtract(const Duration(minutes: 1)),
+            isSentByMe: false,
+          ),
+        );
+      });
+
+      int threadIdIndex = python.indexOf('"thread_id"');
+
+      int firstQuotationIndex =
+          python.indexOf('"', threadIdIndex + '"thread_id"'.length);
+
+      int nextQuotationIndex = python.indexOf('"', firstQuotationIndex + 1);
+
+      String threadId =
+          python.substring(firstQuotationIndex + 1, nextQuotationIndex);
+      print(threadId);
+
+      print(question);
+      if (question.isNotEmpty) {
+        setState(() {
+          print(questionIndex);
+          questions.add(question);
+          thread_id = threadId;
+        });
+      }
+    } else {
+      setState(() {
+        questions.add("Error: Status code ${response.statusCode}");
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -122,10 +228,16 @@ class _Interviews extends State<Interviews> {
                       date: DateTime.now(),
                       isSentByMe: true,
                     );
-
                     // Adding the message to the list
-                    setState(() => messages.add(message));
+                    setState(() {
+                      messages.add(message);
+                      if (questionIndex != 10) {
+                        questionIndex++;
+                      }
+                    });
+                    startInterview(text);
                   },
+                  isEnabled: questionIndex < 10,
                 ),
               ),
             )

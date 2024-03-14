@@ -37,4 +37,6 @@ class Connection {
   static const checkForUnseenNotifications =
       "$hostConnect/Data/checkNotification.php";
   static const getProfile = "$hostConnect/Data/getProfile.php";
+
+  static const Interview = "$hostConnect/Interviews/api.php";
 }

@@ -1003,7 +1003,10 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 OutlinedButton(
                                   onPressed: () {
                                     // Navigate to InterviewScreen using Get.to
-                                    Get.to(() => Interviews());
+                                    Get.to(() => Interviews(
+                                          offerID: widget.offerID,
+                                          email: widget.email,
+                                        ));
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(
@@ -1094,7 +1097,10 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 OutlinedButton(
                                   onPressed: () {
                                     // Navigate to InterviewScreen using Get.to
-                                    Get.to(() => Interviews());
+                                    Get.to(() => Interviews(
+                                          offerID: widget.offerID,
+                                          email: widget.email,
+                                        ));
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(
@@ -1155,7 +1161,10 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 OutlinedButton(
                                   onPressed: () {
                                     // Navigate to InterviewScreen using Get.to
-                                    Get.to(() => Interviews());
+                                    Get.to(() => Interviews(
+                                          offerID: widget.offerID,
+                                          email: widget.email,
+                                        ));
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(

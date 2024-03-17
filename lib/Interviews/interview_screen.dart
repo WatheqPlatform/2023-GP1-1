@@ -43,6 +43,7 @@ class _Interviews extends State<Interviews> {
   }
 
   void showInstructionsDialog() {
+     startInterview(''); // Start the interview
     AwesomeDialog(
       context: context,
       dialogType: DialogType.noHeader,
@@ -50,8 +51,8 @@ class _Interviews extends State<Interviews> {
       dismissOnTouchOutside: false,
       title: 'Interview Instructions',
       btnOkOnPress: () {
-        startInterview(
-            null); // Start the interview after the user closes the dialog
+        // startInterview(
+        //     null); // Start the interview after the user closes the dialog
       },
       btnOkColor: Color(0xFF024A8D),
       body: Padding(
@@ -110,6 +111,7 @@ class _Interviews extends State<Interviews> {
   }
 
   Future<void> startInterview(String? text) async {
+
     final typingMessage = Message(
       text: '', // No text needed for typing indicator
       date: DateTime.now(),

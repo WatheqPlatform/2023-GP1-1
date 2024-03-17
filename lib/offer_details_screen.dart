@@ -578,18 +578,19 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
 
                             buildContactInfoItem(
                                 FontAwesomeIcons.linkedinIn,
-                                profileList[0]["Linkedin"],
-                                "https://" +
-                                    profileList[0]["Linkedin"].toString()),
+                                profileList[0]["Linkedin"]
+                                    .replaceAll('https://', ''),
+                                profileList[0]["Linkedin"].toString()),
                             buildContactInfoItem(
                                 FontAwesomeIcons.xTwitter,
-                                profileList[0]["Twitter"],
-                                "https://" +
-                                    profileList[0]["Twitter"].toString()),
+                                profileList[0]["Twitter"]
+                                    .replaceAll('https://', ''),
+                                profileList[0]["Twitter"].toString()),
                             buildContactInfoItem(
                                 FontAwesomeIcons.link,
-                                profileList[0]["Link"],
-                                "https://" + profileList[0]["Link"].toString()),
+                                profileList[0]["Link"]
+                                    .replaceAll('https://', ''),
+                                profileList[0]["Link"].toString()),
                           ],
                         )
                       : Padding(

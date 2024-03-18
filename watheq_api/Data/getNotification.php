@@ -8,7 +8,7 @@ $sql = $conn->prepare("SELECT n.Details, n.Date, jp.CompanyName, n.isSeen, n.JPE
                        FROM notification AS n
                        JOIN jobseeker AS js ON n.JSEMAIL = js.JobSeekerEmail
                        JOIN jobprovider AS jp ON n.JPEmail = jp.JobProviderEmail
-                       WHERE js.JobSeekerEmail = ?");
+                       WHERE js.JobSeekerEmail = ? AND n.Details LIKE '%:%'");
 
 $sql->bind_param("s", $email);
 $sql->execute();

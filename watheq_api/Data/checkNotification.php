@@ -9,7 +9,7 @@ $response = ['success' => false, 'unseen_count' => 0];
 
 if (!empty($email)) {
     // Prepare the SQL statement to count unseen notifications
-    $sql = "SELECT COUNT(*) as unseen_count FROM notification WHERE JSEMAIL = ? AND isSeen = 0";
+    $sql = "SELECT COUNT(*) as unseen_count FROM notification WHERE JSEMAIL = ? AND isSeen = 0 AND Details LIKE '%:%'";
 
     if ($stmt = $conn->prepare($sql)) {
         // Bind variables to the prepared statement as parameters

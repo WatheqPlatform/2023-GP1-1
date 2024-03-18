@@ -1211,3 +1211,91 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php on line 39
+[02-Mar-2024 05:52:49 America/Boise] PHP Warning:  Undefined variable $stmtProfile in /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php on line 39
+[02-Mar-2024 05:52:49 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php:39
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php on line 39
+[02-Mar-2024 05:53:19 America/Boise] PHP Warning:  Undefined variable $stmtProfile in /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php on line 39
+[02-Mar-2024 05:53:19 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php:39
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php on line 39
+[14-Mar-2024 10:37:15 America/Boise] PHP Warning:  Undefined array key "experiences" in /home4/csfrybmy/public_html/watheq_api/Data/getCv.php on line 120
+[14-Mar-2024 10:37:15 America/Boise] PHP Fatal error:  Uncaught TypeError: array_filter(): Argument #1 ($array) must be of type array, null given in /home4/csfrybmy/public_html/watheq_api/Data/getCv.php:120
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Data/getCv.php(120): array_filter(NULL, Object(Closure))
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Data/getCv.php on line 120
+[15-Mar-2024 20:20:48 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/Data/getdetaildata.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:20:48 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:37:50 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/Data/getfilters.php(2): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:37:59 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:41:31 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php(2): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:46:59 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/Data/getdetaildata.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:46:59 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/Data/getProfile.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[16-Mar-2024 23:46:08 America/Boise] PHP Warning:  Undefined variable $sql in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:46:08 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Query was empty in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php:13
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php(13): mysqli->prepare('')
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:46:58 America/Boise] PHP Warning:  Undefined variable $sql in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:46:58 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Query was empty in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php:13
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php(13): mysqli->prepare('')
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:47:02 America/Boise] PHP Warning:  Undefined variable $sql in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:47:02 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Query was empty in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php:13
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php(13): mysqli->prepare('')
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:47:10 America/Boise] PHP Warning:  Undefined variable $sql in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:47:10 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Query was empty in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php:13
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php(13): mysqli->prepare('')
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:47:52 America/Boise] PHP Warning:  Undefined variable $sql in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13
+[16-Mar-2024 23:47:52 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Query was empty in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php:13
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php(13): mysqli->prepare('')
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Data/checkNotification.php on line 13

@@ -18,3 +18,142 @@
 [26-Jan-2024 05:13:22 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
 [26-Jan-2024 05:13:27 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
 [01-Feb-2024 07:52:28 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 12:26:09 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 12:26:23 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 12:26:33 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 12:26:40 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 15:12:33 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 15:47:59 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 15:48:19 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 15:48:31 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 15:48:49 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[03-Feb-2024 15:49:02 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[04-Feb-2024 08:21:57 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[04-Feb-2024 10:45:17 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[04-Feb-2024 10:45:39 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[04-Feb-2024 11:14:37 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[04-Feb-2024 11:14:50 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[05-Feb-2024 07:16:49 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Feb-2024 05:34:09 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[11-Mar-2024 05:15:15 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:22:56 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:23:13 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:24:12 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/validation.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:24:21 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/sign_up.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:24:30 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:24:32 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:24:55 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:25:01 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:25:03 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:25:06 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:27:06 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:27:08 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:28:08 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:28:10 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:29:42 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:29:44 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:29:53 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:31:43 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:31:48 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:33:35 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/sign_up.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:33:40 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/sign_up.php(4): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:37:34 America/Boise] PHP Warning:  Trying to access array offset on value of type null in /home4/csfrybmy/public_html/watheq_api/authentication/log_in.php on line 25
+[15-Mar-2024 20:40:52 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/validation.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:40:55 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/validation.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:40:58 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/validation.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:41:01 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/authentication/validation.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10
+[15-Mar-2024 20:41:02 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry 'sss@gmail.com' for key 'PRIMARY' in /home4/csfrybmy/public_html/watheq_api/authentication/sign_up.php:15
+Stack trace:
+#0 /home4/csfrybmy/public_html/watheq_api/authentication/sign_up.php(15): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/authentication/sign_up.php on line 15

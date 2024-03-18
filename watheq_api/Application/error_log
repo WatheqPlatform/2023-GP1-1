@@ -223,3 +223,24 @@ Stack trace:
 #0 /home4/csfrybmy/public_html/watheq_api/Application/apply.php(65): mysqli_stmt->close()
 #1 {main}
   thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 65
+[14-Mar-2024 11:00:24 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 64
+[14-Mar-2024 11:00:24 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:64
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 64
+[14-Mar-2024 12:01:17 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 64
+[14-Mar-2024 12:01:18 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:64
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 64
+[14-Mar-2024 19:18:27 America/Boise] PHP Warning:  Undefined variable $deleteStmt in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 64
+[14-Mar-2024 19:18:27 America/Boise] PHP Fatal error:  Uncaught Error: Call to a member function close() on null in /home4/csfrybmy/public_html/watheq_api/Application/apply.php:64
+Stack trace:
+#0 {main}
+  thrown in /home4/csfrybmy/public_html/watheq_api/Application/apply.php on line 64
+[15-Mar-2024 20:20:48 America/Boise] PHP Fatal error:  Uncaught mysqli_sql_exception: Too many connections in /home4/csfrybmy/public_html/dbConnection.php:10
+Stack trace:
+#0 /home4/csfrybmy/public_html/dbConnection.php(10): mysqli->__construct('localhost', 'csfrybmy_admin', Object(SensitiveParameterValue), 'csfrybmy_watheq...')
+#1 /home4/csfrybmy/public_html/watheq_api/Application/checkApplication.php(3): include('/home4/csfrybmy...')
+#2 {main}
+  thrown in /home4/csfrybmy/public_html/dbConnection.php on line 10

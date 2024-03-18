@@ -64,7 +64,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
         date.day == today.day) {
       return 'Today';
     } else {
-      return timeago.format(date);
+      String timeAgo = timeago.format(date);
+      // Remove 'ago' if it exists
+      return timeAgo.replaceAll(' ago', '');
     }
   }
 
@@ -208,148 +210,130 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       return Container();
                                     }
                                     return Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 2,
-                                          left: 15,
-                                          right: 15,
-                                          bottom: 5,
-                                        ),
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.to(JobOfferDetailScreen(
-                                              offerID:
-                                                  "${notification["OfferID"]}",
-                                              email: widget.email,
-                                            ));
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 15.0),
+                                      child: InkWell(
+                                        onTap: () {
+                                          Get.to(JobOfferDetailScreen(
+                                            offerID:
+                                                "${notification["OfferID"]}",
+                                            email: widget.email,
+                                          ));
 
-                                            setState(() {
-                                              notification["isSeen"] = 1;
-                                            });
-                                          },
-                                          child: Container(
-                                            width: screenWidth,
-                                            decoration: BoxDecoration(
-                                              border: index == list.length - 1
-                                                  ? Border.all(
-                                                      color: Colors.transparent)
-                                                  : Border(
-                                                      bottom: BorderSide(
-                                                        color: Color.fromARGB(
-                                                            169, 158, 158, 158),
-                                                        width: 0.5,
-                                                      ),
-                                                    ),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                top: 10,
-                                                bottom: 10,
-                                                left: 8,
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            right: 10),
-                                                    width: 12,
-                                                    height: 12,
-                                                    decoration: BoxDecoration(
-                                                      color: (notification[
-                                                                  "isSeen"] ==
-                                                              0)
-                                                          ? Colors.red
-                                                          : const Color(
-                                                                  0xFF14386E)
-                                                              .withOpacity(
-                                                              0.8,
-                                                            ),
-                                                      shape: BoxShape.circle,
+                                          setState(() {
+                                            notification["isSeen"] = 1;
+                                          });
+                                        },
+                                        child: Container(
+                                          width: screenWidth,
+                                          decoration: BoxDecoration(
+                                            border: index == list.length - 1
+                                                ? Border.all(
+                                                    color: Colors.transparent)
+                                                : Border(
+                                                    bottom: BorderSide(
+                                                      color: Color.fromARGB(
+                                                          169, 158, 158, 158),
+                                                      width: 0.5,
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: screenWidth * 0.80,
-                                                    child: Column(
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    right: 10, top: 7),
+                                                width: 12,
+                                                height: 12,
+                                                decoration: BoxDecoration(
+                                                  color: (notification[
+                                                              "isSeen"] ==
+                                                          0)
+                                                      ? Colors.red
+                                                      : const Color(0xFF14386E)
+                                                          .withOpacity(0.8),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                              .spaceBetween,
                                                       children: [
+                                                        Flexible(
+                                                          child: Text(
+                                                            content.title,
+                                                            style: TextStyle(
+                                                              color: (notification[
+                                                                          "isSeen"] ==
+                                                                      0)
+                                                                  ? Colors.red
+                                                                  : const Color(
+                                                                      0xFF14386E),
+                                                              fontSize: 18.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                          ),
+                                                        ),
                                                         Text(
-                                                          content.title,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF14386E),
-                                                            fontSize: 21.0,
+                                                          _displayTime(
+                                                              notification[
+                                                                  "Date"]),
+                                                          style:
+                                                              const TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    155,
+                                                                    155,
+                                                                    155),
+                                                            fontSize: 13.0,
                                                             fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  right: 15.0),
-                                                          child: Text(
-                                                            content.message,
-                                                            textAlign: TextAlign
-                                                                .justify,
-                                                            style:
-                                                                const TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      155,
-                                                                      155,
-                                                                      155),
-                                                              fontSize: 15.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 5,
-                                                        ),
-                                                        Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  bottom: 8),
-                                                          child: Text(
-                                                            _displayTime(
-                                                                notification[
-                                                                    "Date"]),
-                                                            //"
-                                                            style:
-                                                                const TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      155,
-                                                                      155,
-                                                                      155),
-                                                              fontSize: 13.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
-                                                ],
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 4.0,
+                                                              bottom: 14),
+                                                      child: Text(
+                                                          content.message,
+                                                          style:
+                                                              const TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    155,
+                                                                    155,
+                                                                    155),
+                                                            fontSize: 15.0,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.left),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ));
+                                        ),
+                                      ),
+                                    );
                                   },
                                 ),
                               ),

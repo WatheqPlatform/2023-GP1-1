@@ -30,6 +30,10 @@ class _Interviews extends State<Interviews> {
   //List of Messages
   List<Message> messages = [];
 
+  bool isInputEnabled = true;
+  bool isInputVisible = true;
+  String hintText = 'Type your answer here...';
+
   @override
   void initState() {
     super.initState();
@@ -39,22 +43,75 @@ class _Interviews extends State<Interviews> {
   }
 
   void showInstructionsDialog() {
+     startInterview(''); // Start the interview
     AwesomeDialog(
       context: context,
       dialogType: DialogType.noHeader,
-      animType: AnimType.BOTTOMSLIDE,
+      animType: AnimType.topSlide,
+      dismissOnTouchOutside: false,
       title: 'Interview Instructions',
-      desc:
-          'Please read the following instructions carefully to ensure a successful interview simulation.',
-      btnOkColor: Color(0xFF024A8D),
       btnOkOnPress: () {
-        startInterview(
-            null); // Start the interview after the user closes the dialog
+        // startInterview(
+        //     null); // Start the interview after the user closes the dialog
       },
+      btnOkColor: Color(0xFF024A8D),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0), // Adjust the padding as needed
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Interview Instructions',
+              style: TextStyle(
+                fontSize: 18, // Adjust the text style as needed
+              ),
+              textAlign: TextAlign.right,
+            ),
+            SizedBox(height: 12), // Spacing between title and instructions
+            Text(
+              'Welcome to your mock interview! Please note the following:\n\n'
+              '- The interview consists of 10 questions, and the AI will start the interview\n',
+
+              style: TextStyle(
+                fontSize: 16,
+              ), // Adjust the text style as needed
+            ),
+
+            SizedBox(height: 1), // Spacing between title and instructions
+            Text(
+              '- After each question, type your response and press the button to send it.\n',
+              style: TextStyle(
+                fontSize: 16,
+              ), // Adjust the text style as needed
+            ),
+
+            SizedBox(height: 1), // Spacing between title and instructions
+            Text(
+              '- It\'s best to complete all questions for the full experience.\n',
+              style: TextStyle(
+                fontSize: 16,
+              ), // Adjust the text style as needed
+            ),
+            SizedBox(height: 1), // Spacing between title and instructions
+            Text(
+              '- Remember, this is a learning experience designed to help you improve.\n',
+              style: TextStyle(
+                fontSize: 16,
+              ), // Adjust the text style as needed
+            ),
+            Text(
+              'Good luck!',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center, // Adjust the text style as needed
+            ),
+          ],
+        ),
+      ),
     )..show();
   }
 
   Future<void> startInterview(String? text) async {
+
     final typingMessage = Message(
       text: '', // No text needed for typing indicator
       date: DateTime.now(),
@@ -63,6 +120,8 @@ class _Interviews extends State<Interviews> {
     );
     setState(() {
       messages.add(typingMessage);
+      isInputEnabled = false;
+      hintText = 'Please wait for the response...';
     });
 
     var url = Uri.parse(Connection.Interview);
@@ -73,6 +132,9 @@ class _Interviews extends State<Interviews> {
       status = "start";
     } else if (questionIndex == 10) {
       status = "last";
+      setState(() {
+        isInputVisible = false; // Hide the input field after the final question
+      });
     } else {
       status = "next";
     }
@@ -113,7 +175,7 @@ class _Interviews extends State<Interviews> {
       int nextQIndex = python.indexOf('"', firstQIndex + 1);
 
       String question = python.substring(firstQIndex + 1, nextQIndex);
-      question = question.replaceAll('\n ', '');
+      question = question.replaceAll('\\n', '\n');
 
       setState(() {
         messages.removeWhere((msg) => msg.isTyping);
@@ -124,6 +186,10 @@ class _Interviews extends State<Interviews> {
             isSentByMe: false,
           ),
         );
+        if (questionIndex < 10) {
+          isInputEnabled = true; // Re-enable input for the next response
+          hintText = 'Type your answer here...'; // Reset hintText
+        }
       });
 
       int threadIdIndex = python.indexOf('"thread_id"');
@@ -182,7 +248,23 @@ class _Interviews extends State<Interviews> {
                         color: Color(0xFF024A8D),
                       ),
                       onPressed: () {
-                        Navigator.pop(context, true);
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.topSlide,
+                          showCloseIcon: true,
+                          title: 'Confirmation',
+                          desc:
+                              'Are you sure you want to end the interview? \n Your actions will not be saved.',
+                          btnCancelOnPress: () {},
+                          btnOkOnPress: () {
+                            Navigator.pop(context, true);
+                          },
+                          btnCancelColor: Colors.grey,
+                          btnOkColor: Color(0xFFD93D46),
+                          btnCancelText: 'NO',
+                          btnOkText: 'YES',
+                        )..show();
                       },
                     ),
                     SizedBox(
@@ -232,31 +314,35 @@ class _Interviews extends State<Interviews> {
             ),
 
             // The text field for adding new message by user
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 8.0,
-                  left: 7,
-                ),
-                child: NewMessageWidget(
-                  //Event listner
-                  onSubmitted: (text) {
-                    final message = Message(
-                      text: text,
-                      date: DateTime.now(),
-                      isSentByMe: true,
-                    );
-                    // Adding the message to the list
-                    setState(() {
-                      messages.add(message);
-                      if (questionIndex != 10) {
-                        questionIndex++;
-                      }
-                    });
-                    startInterview(text);
-                  },
-                  isEnabled: questionIndex < 10,
+            Visibility(
+              visible: isInputVisible,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 8.0,
+                    left: 7,
+                  ),
+                  child: NewMessageWidget(
+                    //Event listner
+                    onSubmitted: (text) {
+                      final message = Message(
+                        text: text,
+                        date: DateTime.now(),
+                        isSentByMe: true,
+                      );
+                      // Adding the message to the list
+                      setState(() {
+                        messages.add(message);
+                        if (questionIndex != 10) {
+                          questionIndex++;
+                        }
+                      });
+                      startInterview(text);
+                    },
+                    isEnabled: isInputEnabled,
+                    hintText: hintText,
+                  ),
                 ),
               ),
             )

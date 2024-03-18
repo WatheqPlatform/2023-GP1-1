@@ -37,7 +37,7 @@ class MessageBubble extends StatelessWidget {
                     100) // Adjust the width constraints for the typing indicator
             : BoxConstraints(maxWidth: maxWidth),
         child: Material(
-          borderRadius: BorderRadius.circular(50).copyWith(
+          borderRadius: BorderRadius.circular(45).copyWith(
             topLeft: !isMe ? const Radius.circular(0) : null,
             topRight: isMe ? const Radius.circular(0) : null,
           ),
@@ -51,7 +51,7 @@ class MessageBubble extends StatelessWidget {
                         MainAxisSize.min, // Use minimum space for the row
                     children: [
                       SpinKitThreeBounce(
-                        color: const Color.fromARGB(255, 218, 215, 215),
+                        color: Color(0xFF024A8D),
                         size: 20.0,
                       ),
                     ],

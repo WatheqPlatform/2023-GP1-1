@@ -43,61 +43,54 @@ class _Interviews extends State<Interviews> {
   }
 
   void showInstructionsDialog() {
-     startInterview(''); // Start the interview
+    startInterview(''); // Start the interview
     AwesomeDialog(
       context: context,
       dialogType: DialogType.noHeader,
       animType: AnimType.topSlide,
       dismissOnTouchOutside: false,
       title: 'Interview Instructions',
-      btnOkOnPress: () {
-        // startInterview(
-        //     null); // Start the interview after the user closes the dialog
-      },
-      btnOkColor: Color(0xFF024A8D),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0), // Adjust the padding as needed
+      btnOkOnPress: () {},
+      btnOkColor: const Color(0xFF024A8D),
+      body: const Padding(
+        padding: EdgeInsets.all(10.0), // Adjust the padding as needed
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'Interview Instructions',
               style: TextStyle(
-                fontSize: 18, // Adjust the text style as needed
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
               ),
-              textAlign: TextAlign.right,
             ),
-            SizedBox(height: 12), // Spacing between title and instructions
+            SizedBox(
+              height: 12,
+            ), // Spacing between title and instructions
             Text(
-              'Welcome to your mock interview! Please note the following:\n\n'
-              '- The interview consists of 10 questions, and the AI will start the interview\n',
-
+              'The interview consists of 10 questions, and the AI will start the interview.\n',
               style: TextStyle(
                 fontSize: 16,
-              ), // Adjust the text style as needed
+              ),
+              textAlign: TextAlign.center,
             ),
-
-            SizedBox(height: 1), // Spacing between title and instructions
+            SizedBox(
+              height: 1,
+            ), // Spacing between title and instructions
             Text(
-              '- After each question, type your response and press the button to send it.\n',
+              'It\'s best to complete all questions for the full experience.\n',
               style: TextStyle(
                 fontSize: 16,
-              ), // Adjust the text style as needed
-            ),
-
-            SizedBox(height: 1), // Spacing between title and instructions
-            Text(
-              '- It\'s best to complete all questions for the full experience.\n',
-              style: TextStyle(
-                fontSize: 16,
-              ), // Adjust the text style as needed
+              ),
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 1), // Spacing between title and instructions
             Text(
-              '- Remember, this is a learning experience designed to help you improve.\n',
+              'Remember, this is just a learning experience designed to help you improve.\n',
               style: TextStyle(
                 fontSize: 16,
-              ), // Adjust the text style as needed
+              ),
+              textAlign: TextAlign.center,
             ),
             Text(
               'Good luck!',
@@ -107,11 +100,10 @@ class _Interviews extends State<Interviews> {
           ],
         ),
       ),
-    )..show();
+    ).show();
   }
 
   Future<void> startInterview(String? text) async {
-
     final typingMessage = Message(
       text: '', // No text needed for typing indicator
       date: DateTime.now(),

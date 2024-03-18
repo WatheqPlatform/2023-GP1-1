@@ -37,7 +37,7 @@ class MessageBubble extends StatelessWidget {
                     100) // Adjust the width constraints for the typing indicator
             : BoxConstraints(maxWidth: maxWidth),
         child: Material(
-          borderRadius: BorderRadius.circular(45).copyWith(
+          borderRadius: BorderRadius.circular(35).copyWith(
             topLeft: !isMe ? const Radius.circular(0) : null,
             topRight: isMe ? const Radius.circular(0) : null,
           ),

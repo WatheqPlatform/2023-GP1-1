@@ -1,9 +1,11 @@
+
 import 'package:flutter/material.dart';
 
 class NewMessageWidget extends StatefulWidget {
   final ValueChanged<String> onSubmitted;
   final bool isEnabled;
   final String hintText;
+
   const NewMessageWidget({
     Key? key,
     required this.onSubmitted,
@@ -16,7 +18,7 @@ class NewMessageWidget extends StatefulWidget {
 }
 
 class _NewMessageWidgetState extends State<NewMessageWidget> {
-  final controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
 
   void sendMessage() {
     final text = controller.text.trim();
@@ -38,7 +40,6 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
                 elevation: 3,
                 child: TextField(
                   controller: controller,
-                  onSubmitted: widget.onSubmitted,
                   decoration: InputDecoration(
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 8, horizontal: 24),
@@ -47,6 +48,8 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
                     border: InputBorder.none,
                   ),
                   enabled: widget.isEnabled,
+                  textInputAction: TextInputAction.newline,
+                  onEditingComplete: sendMessage, // Send message on Enter
                 ),
               ),
             ),
@@ -59,13 +62,18 @@ class _NewMessageWidgetState extends State<NewMessageWidget> {
               child: MaterialButton(
                 shape: const CircleBorder(),
                 color: Theme.of(context).colorScheme.primary,
-                onPressed: () {
-                  sendMessage();
-                },
+                onPressed: sendMessage,
                 child: const Icon(Icons.send, color: Colors.white),
               ),
             ),
           ],
         ),
       );
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 }
+

@@ -452,28 +452,32 @@ while ($experienceRow = $experienceResult->fetch_assoc()) {
                             </div>
 
 
+                           
                             <!--Third Form-->
                             <!-- All non required fields-->
                             <div class="form_3 data_info" style="display: none;">
                                 <h2>Required Skills</h2>
 
                                 <div class="form_container" id="skillsContainer">
-                                    <div class="input_wrap Multiable" id="skill0">
+                                    <div class="input_wrap Multiable" id="skill0">                                                    
                                         <h4> Skill 1: </h4>
-                                        <input type="text" name="skills[0]" class="input" id="skillInput" maxlength= "50" <?php echo isset($firstSkill) ? 'value="' . $firstSkill . '"' : ''; ?>>              
+                                        <input type="text" name="skills[0]" class="input" id="skillInput" maxlength= "50" value = "<?php echo isset($firstSkill) ? $firstSkill : '' ;?>" >              
                                     </div> 
                                 </div>
                                 <ion-icon name="add-circle-outline" id="addSkill" class="AddingExtraButton"></ion-icon>           
                             </div>
+                                                      
+
 
                             <!--Fourth Form-->
+
                             <!-- All non required fields-->
                             <div class="form_4 data_info" style="display: none;">
                                 <h2>Required Qualifications</h2>
                                 <div class="form_container" id="qualificationFields">
                                     <?php if (empty($qualificationDetailsResult)): ?>
 
-                                        <div class="input_wrap Multiable" id="qualification<?php echo $index; ?>">
+                                        <div class="input_wrap Multiable" id="qualification0">
                                             <h4> Qualification 1: </h4>
                                             <label for="degreeLevel0">Degree Level</label>   
                                             <select name="degreeLevel0" id="degreeLevel0" class="input select" onchange="handleDegreeLevelChange(event, 0)">
@@ -496,7 +500,7 @@ while ($experienceRow = $experienceResult->fetch_assoc()) {
                                                     echo '<option> </option>';
                                                     while ($row = $result3->fetch_assoc()) {
 
-                                                        echo '<option value="' . $row["Field"] . '">' . $row["Field"] . '</option>';
+                                                        echo '<option value="'.$row["Field"].'">' . $row["Field"] . '</option>';
                                                     }
                                                     echo '<option value="Other"> Other </option>';
                                                 } else {
@@ -525,7 +529,6 @@ while ($experienceRow = $experienceResult->fetch_assoc()) {
                                                     <option value="Doctorate" <?php echo ($qualification['DegreeLevel'] === 'Doctorate') ? 'selected' : ''; ?>>Doctorate</option>
                                                     <option value="Post-Doctorate" <?php echo ($qualification['DegreeLevel'] === 'Post-Doctorate') ? 'selected' : ''; ?>>Post Doctorate</option>
                                                 </select>
-                                                <!-- if -->
                                                 <label id="DegreeFieldLabel<?php echo $index; ?>" for="degreeField<?php echo $index; ?>" <?php if ($qualification['DegreeLevel'] === 'Pre-high school') echo 'style="display: none;"' ?>>Degree Field <span class="MaybeRequiredQualification"></span></label>
                                                 <select name="degree[<?php echo $index; ?>][field]" id="degreeField<?php echo $index; ?>" <?php if ($qualification['DegreeLevel'] === 'Pre-high school') echo 'style="display: none;"' ?> class="input select" onchange="handleDegreeFieldChange(event, <?php echo $index; ?>)">
                                                     <?php
@@ -536,7 +539,9 @@ while ($experienceRow = $experienceResult->fetch_assoc()) {
                                                             $fieldname = $row["Field"];
                                                             $field = $qualification['Field'];
                                                             $selected = ($fieldname == $field) ? 'selected' : '';
-                                                            echo '<option value="' . $fieldname . '" ' . $selected . '>' . $fieldname . '</option>';
+//                                                            echo '<option value="' . $fieldname . '" ' . $selected . '>' . $fieldname . '</option>';
+                                                            echo '<option value="' . $row["Field"]. '" ' . $selected . '>' . $row["Field"]. '</option>';
+
                                                         }
                                                         $selectedFlag = ($qualification['FieldFlag'] == 1) ? 'selected' : '';
                                                         echo '<option value="Other"' . $selectedFlag . '> Other </option>';
@@ -546,23 +551,27 @@ while ($experienceRow = $experienceResult->fetch_assoc()) {
                                                     ?>
 
                                                 </select>
-                                                <!-- end if -->
 
 
                                                 <span class ="EnterMessage" id="EnterMessage<?php echo $index; ?>" style="display: none;">Please enter your qualification field below</span>
                                                 <label id="LableOther<?php echo $index; ?>" for="qualificationOther<?php echo $index; ?>" <?php if ($qualification['FieldFlag'] != 1) echo 'style="display: none;"' ?>">Qualification Field <span class="MaybeRequiredQualification"></span></label>
-                                                <input class="input" type="text" id="qualificationOther<?php echo $index; ?>" name="qualificationOther<?php echo $index; ?>" <?php if ($qualification['FieldFlag'] != 1) echo 'style="display: none;"'; ?> maxlength="100" <?php if ($qualification['FieldFlag'] == 1) echo 'value="' . $qualification["Field"] . '"'; ?>>                                            <?php if ($index > 0): ?>
+                                                <input class="input" type="text" id="qualificationOther<?php echo $index; ?>" name="qualificationOther<?php echo $index; ?>" <?php if ($qualification['FieldFlag'] != 1) {echo 'style="display: none;"';} ?> maxlength="100" <?php if ($qualification['FieldFlag'] == 1) {echo 'value="' . $qualification["Field"] . '"';} ?>>                                          
                                                     <?php if ($index > 0): ?>
                                                         <ion-icon name="close-circle-outline" class="removeQualification remove" data-qualification="<?php echo $index; ?>"></ion-icon>
-                                                    <?php endif; ?>
-                                                <?php endif; ?>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <ion-icon name="add-circle-outline" id="addQualification" class="AddingExtraButton"></ion-icon>
-                                <?php endif; ?>
+                                                    <?php endif; ?> 
+                                                         
+                                                </div>
+                                   
 
-                            </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    
+                                </div>
+                                <ion-icon name="add-circle-outline" id="addQualification" class="AddingExtraButton"></ion-icon>
+                            </div>       
+                             
+
+
 
                             <!--Fifth Form-->
                             <!-- All non required fields-->
@@ -630,7 +639,9 @@ while ($experienceRow = $experienceResult->fetch_assoc()) {
                                                 <?php if ($index > 0): ?>
                                                     <ion-icon name="close-circle-outline" class="removeExperience remove" data-experience="<?php echo $index; ?>"></ion-icon>
                                                 <?php endif; ?>
+
                                             </div>
+                                    
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </div>

@@ -806,6 +806,7 @@ input[type=button]:hover{
 
 .style-4::-webkit-scrollbar
 {
+    display: block;
 	width: 8px;
 	background-color: #F5F5F5;
     border-top-right-radius: 10px;

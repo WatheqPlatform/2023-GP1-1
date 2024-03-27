@@ -78,6 +78,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
 
   bool isClosed = false;
 
+  bool hasCV = false;
+
   Future<void> getdata() async {
     var res = await http.post(
       Uri.parse(Connection.jobDetailData),
@@ -493,7 +495,6 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
 
     if (res.statusCode == 200) {
       var red = jsonDecode(res.body);
-      print(red);
 
       setState(() {
         profileList = red.toList();
@@ -672,6 +673,37 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     final Uri url = Uri.parse(urlString);
     if (!await launchUrl(url)) {
       throw 'Could not launch $urlString';
+    }
+  }
+
+  Future checkCV() async {
+    try {
+      var response = await http.post(
+        Uri.parse(Connection.checkCV),
+        body: {
+          "JobSeekerEmail": widget.email,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var result = json.decode(response.body);
+
+        if (result.toString().contains("1")) {
+          setState(() {
+            hasCV = true;
+          });
+        } else {
+          setState(() {
+            hasCV = false;
+          });
+        }
+      } else {
+        // Handle non-200 responses if needed
+        print("Failed to check CV: ${response.statusCode}");
+      }
+    } catch (e) {
+      // Handle exceptions by logging or other means
+      print("Exception while checking CV: $e");
     }
   }
 
@@ -1003,11 +1035,23 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 const SizedBox(height: 10),
                                 OutlinedButton(
                                   onPressed: () {
-                                    // Navigate to InterviewScreen using Get.to
-                                    Get.to(() => Interviews(
-                                          offerID: widget.offerID,
-                                          email: widget.email,
-                                        ));
+                                    checkCV();
+                                    if (hasCV) {
+                                      // Navigate to InterviewScreen using Get.to
+                                      Get.to(() => Interviews(
+                                            offerID: widget.offerID,
+                                            email: widget.email,
+                                          ));
+                                    } else {
+                                      ErrorMessage.show(
+                                          context,
+                                          "Error",
+                                          18,
+                                          "Please fill in the CV first to mock an interview.",
+                                          ContentType.failure,
+                                          const Color.fromARGB(
+                                              255, 209, 24, 24));
+                                    }
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(
@@ -1097,11 +1141,23 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 const SizedBox(height: 10),
                                 OutlinedButton(
                                   onPressed: () {
-                                    // Navigate to InterviewScreen using Get.to
-                                    Get.to(() => Interviews(
-                                          offerID: widget.offerID,
-                                          email: widget.email,
-                                        ));
+                                    checkCV();
+                                    if (hasCV) {
+                                      // Navigate to InterviewScreen using Get.to
+                                      Get.to(() => Interviews(
+                                            offerID: widget.offerID,
+                                            email: widget.email,
+                                          ));
+                                    } else {
+                                      ErrorMessage.show(
+                                          context,
+                                          "Error",
+                                          18,
+                                          "Please fill in the CV first to mock an interview.",
+                                          ContentType.failure,
+                                          const Color.fromARGB(
+                                              255, 209, 24, 24));
+                                    }
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(
@@ -1161,11 +1217,24 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 const SizedBox(height: 10),
                                 OutlinedButton(
                                   onPressed: () {
+                                    checkCV();
                                     // Navigate to InterviewScreen using Get.to
-                                    Get.to(() => Interviews(
-                                          offerID: widget.offerID,
-                                          email: widget.email,
-                                        ));
+                                    if (hasCV) {
+                                      // Navigate to InterviewScreen using Get.to
+                                      Get.to(() => Interviews(
+                                            offerID: widget.offerID,
+                                            email: widget.email,
+                                          ));
+                                    } else {
+                                      ErrorMessage.show(
+                                          context,
+                                          "Error",
+                                          18,
+                                          "Please fill in the CV first to mock an interview.",
+                                          ContentType.failure,
+                                          const Color.fromARGB(
+                                              255, 209, 24, 24));
+                                    }
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: const BorderSide(

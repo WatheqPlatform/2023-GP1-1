@@ -78,12 +78,23 @@ class _Interviews extends State<Interviews> {
               height: 1,
             ), // Spacing between title and instructions
             Text(
+              'Please send the answer in one message.\n',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 1,
+            ), // Spacing between title and instructions
+            Text(
               'It\'s best to complete all questions for the full experience.\n',
               style: TextStyle(
                 fontSize: 16,
               ),
               textAlign: TextAlign.center,
             ),
+
             SizedBox(height: 1), // Spacing between title and instructions
             Text(
               'Remember, this is just a learning experience designed to help you improve.\n',
@@ -154,11 +165,8 @@ class _Interviews extends State<Interviews> {
 
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-      print(data);
 
       var python = data["result"];
-
-      print(python);
 
       int questionIndexx = python.indexOf('"question"');
 
@@ -193,12 +201,9 @@ class _Interviews extends State<Interviews> {
 
       String threadId =
           python.substring(firstQuotationIndex + 1, nextQuotationIndex);
-      print(threadId);
 
-      print(question);
       if (question.isNotEmpty) {
         setState(() {
-          print(questionIndex);
           questions.add(question);
           thread_id = threadId;
         });

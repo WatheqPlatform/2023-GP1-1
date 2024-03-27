@@ -39,4 +39,5 @@ class Connection {
   static const getProfile = "$hostConnect/Data/getProfile.php";
 
   static const Interview = "$hostConnect/Interviews/api.php";
+  static const checkCV = "$hostConnect/Data/checkCV.php";
 }

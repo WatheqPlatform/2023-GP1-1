@@ -676,7 +676,21 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     }
   }
 
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: Color(0xFF024A8D),
+          ),
+        );
+      },
+    );
+  }
+
   Future checkCV() async {
+    _showLoadingDialog();
     try {
       var response = await http.post(
         Uri.parse(Connection.checkCV),
@@ -704,6 +718,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
     } catch (e) {
       // Handle exceptions by logging or other means
       print("Exception while checking CV: $e");
+    } finally {
+      Navigator.of(context).pop(); // Hide the loading dialog
     }
   }
 
@@ -1034,8 +1050,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 ),
                                 const SizedBox(height: 10),
                                 OutlinedButton(
-                                  onPressed: () {
-                                    checkCV();
+                                  onPressed: () async {
+                                    await checkCV();
                                     if (hasCV) {
                                       // Navigate to InterviewScreen using Get.to
                                       Get.to(() => Interviews(
@@ -1140,8 +1156,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 ),
                                 const SizedBox(height: 10),
                                 OutlinedButton(
-                                  onPressed: () {
-                                    checkCV();
+                                  onPressed: () async {
+                                    await checkCV();
                                     if (hasCV) {
                                       // Navigate to InterviewScreen using Get.to
                                       Get.to(() => Interviews(
@@ -1216,8 +1232,8 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                                 ),
                                 const SizedBox(height: 10),
                                 OutlinedButton(
-                                  onPressed: () {
-                                    checkCV();
+                                  onPressed: () async {
+                                    await checkCV();
                                     // Navigate to InterviewScreen using Get.to
                                     if (hasCV) {
                                       // Navigate to InterviewScreen using Get.to

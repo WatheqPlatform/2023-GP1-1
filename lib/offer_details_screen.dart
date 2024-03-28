@@ -391,6 +391,7 @@ class _StateJobOfferDetailScreen extends State<JobOfferDetailScreen> {
                 .replaceAll("}", " Degree\n")
                 .replaceAll("Field:", "")
                 .replaceAll(", ", "\n")
+                .replaceAll("None\n", "")
                 .replaceAll("DegreeLevel:", "  "),
             style: const TextStyle(
               fontSize: 16,
